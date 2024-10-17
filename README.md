@@ -4,7 +4,7 @@ Write a shell
 
 ## Program name : minisell
 
-### :basecamp:Description des fonctions pratiques et exemples d'utilisation:
+### **Description des fonctions pratiques et exemples d'utilisation**
 
 - readline (GNU Library)
 
@@ -54,7 +54,7 @@ int main(void)
 
 
 > [!NOTE]
-> cette fonction it une ligne de texte depuis l'entrée standard (**stdin**) jusqu'à ce qu'un caractère de fin de ligne (généralement \n) soit rencontré, ou que l'utilisateur termine l'entrée avec EOF (Ctrl+D dans la plupart des systèmes Unix). Elle offre aussi la possibilité de naviguer dans l'historique des lignes tapées et d'éditer la ligne en cours.
+> cette fonction lit une ligne de texte depuis l'entrée standard (**stdin**) jusqu'à ce qu'un caractère de fin de ligne (généralement \n) soit rencontré, ou que l'utilisateur termine l'entrée avec EOF (Ctrl+D dans la plupart des systèmes Unix). Elle offre aussi la possibilité de naviguer dans l'historique des lignes tapées et d'éditer la ligne en cours.
 
 
 
