@@ -41,7 +41,7 @@ Write a shell
   - env sans options ni arguments
   - exit sans options
 
-> [!INFO]
+> [!IMPORTANT]
 > La fonction readline() peut provoquer des fuites de mémoire. Vous n'êtes pas obligé de les corriger. Cependant, cela ne signifie pas que votre propre code, oui, le code que vous avez écrit, ne peut pas avoir de fuites de mémoire.
 
 - Vous devriez vous limiter à la description du sujet. Tout ce qui n'est pas demandé n'est pas requis. Si vous avez le moindre doute sur une exigence, prenez bash comme référence.
