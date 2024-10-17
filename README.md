@@ -17,11 +17,13 @@ Write a shell
 - Gérer le caractère " (guillemet double) qui doit empêcher le shell d'interpréter les métacaractères dans la séquence entre guillemets, à l'exception du $ (signe dollar).
 
 - Implémentez les redirections :
+```shell
   - < : doit rediriger l'entrée.
   - > : doit rediriger la sortie.
   - << : doit recevoir un délimiteur, puis lire l'entrée jusqu'à ce qu'une ligne contenant le délimiteur soit rencontrée. Cependant, cela ne doit pas mettre à jour l'historique !
   - >> : doit rediriger la sortie en mode ajout (append).
-    
+```
+
 - Implémentez les pipes (caractère |). La sortie de chaque commande dans le pipeline est connectée à l'entrée de la commande suivante via un pipe.
   - Gérer les variables d'environnement (commençant par $ suivies d'une séquence de caractères) qui doivent être étendues à leurs valeurs.
   - Gérer $? qui doit être étendu à l'état de sortie du dernier pipeline exécuté en premier plan.
