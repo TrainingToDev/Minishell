@@ -20,7 +20,8 @@ Write a shell
 ```shell
   - < : doit rediriger l'entrée.
   - > : doit rediriger la sortie.
-  - << : doit recevoir un délimiteur, puis lire l'entrée jusqu'à ce qu'une ligne contenant le délimiteur soit rencontrée. Cependant, cela ne doit pas mettre à jour l'historique !
+  - << : doit recevoir un délimiteur, puis lire l'entrée jusqu'à ce qu'une ligne contenant le délimiteur soit rencontrée.
+Cependant, cela ne doit pas mettre à jour l'historique !
   - >> : doit rediriger la sortie en mode ajout (append).
 ```
 
