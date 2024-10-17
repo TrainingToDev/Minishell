@@ -10,7 +10,7 @@ Write a shell
 
   - Prototype :
 
-         ** char *readline(const char *prompt);**
+         char *readline(const char *prompt);
 
   - Description
     - prompt: Une chaîne de caractères affichée avant de lire l'entrée utilisateur (comme une invite de commande).
