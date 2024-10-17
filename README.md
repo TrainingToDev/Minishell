@@ -92,7 +92,7 @@ int main(void) {
 }
 
 ```
-``C
+```C
 //Gestion des signaux
 
 // Ctrl+C (SIGINT) pour interrompre l'exécution d'une commande.
