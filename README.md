@@ -12,6 +12,46 @@ Write a shell
 > [!WARNING]
 > Soyez prudent. Cette variable globale ne peut fournir aucune autre information ou accès aux données que le numéro d'un signal reçu. Par conséquent, l'utilisation de structures de type "norme" dans le scope global est interdite.
 
+- Ne pas interpréter les guillemets non fermés ou les caractères spéciaux qui ne sont pas requis par le sujet, tels que \ (barre oblique inversée) ou ; (point-virgule).
+- Gérer le caractère ’ (guillemet simple) qui doit empêcher le shell d'interpréter les métacaractères dans la séquence entre guillemets.
+- Gérer le caractère " (guillemet double) qui doit empêcher le shell d'interpréter les métacaractères dans la séquence entre guillemets, à l'exception du $ (signe dollar).
+
+- Implémentez les redirections :
+  - < : doit rediriger l'entrée.
+  - > : doit rediriger la sortie.
+  - << : doit recevoir un délimiteur, puis lire l'entrée jusqu'à ce qu'une ligne contenant le délimiteur soit rencontrée. Cependant, cela ne doit pas mettre à jour l'historique !
+  - >> : doit rediriger la sortie en mode ajout (append).
+    
+- Implémentez les pipes (caractère |). La sortie de chaque commande dans le pipeline est connectée à l'entrée de la commande suivante via un pipe.
+  - Gérer les variables d'environnement (commençant par $ suivies d'une séquence de caractères) qui doivent être étendues à leurs valeurs.
+  - Gérer $? qui doit être étendu à l'état de sortie du dernier pipeline exécuté en premier plan.
+  - Gérer les combinaisons de touches ctrl-C, ctrl-D et ctrl-\ qui doivent se comporter comme dans bash.
+
+- En mode interactif :
+  - ctrl-C : affiche un nouvel invite sur une nouvelle ligne.
+  - ctrl-D : quitte le shell.
+  - *ctrl-* : ne fait rien.
+
+- Votre shell doit implémenter les built-ins suivants :
+  - echo avec l'option -n
+  - cd avec uniquement un chemin relatif ou absolu
+  - pwd sans options
+  - export sans options
+  - unset sans options
+  - env sans options ni arguments
+  - exit sans options
+
+> [!INFO]
+> La fonction readline() peut provoquer des fuites de mémoire. Vous n'êtes pas obligé de les corriger. Cependant, cela ne signifie pas que votre propre code, oui, le code que vous avez écrit, ne peut pas avoir de fuites de mémoire.
+
+- Vous devriez vous limiter à la description du sujet. Tout ce qui n'est pas demandé n'est pas requis. Si vous avez le moindre doute sur une exigence, prenez bash comme référence.
+
+# Bonus part
+
+Votre programme doit implémenter :
+
+  - && et || avec des parenthèses pour les priorités.
+  - Les jokers * doivent fonctionner pour le répertoire de travail actuel.
 
 
 ## Program name : minisell
