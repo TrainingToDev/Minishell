@@ -9,7 +9,7 @@ Write a shell
   - Rechercher et lancer l'exécutable approprié (en fonction de la variable PATH ou en utilisant un chemin relatif ou absolu).
   - Éviter d'utiliser plus d'une variable globale pour indiquer un signal reçu. Considérez les implications : cette approche garantit que votre gestionnaire de signal n'accédera pas à vos structures de données principales.
 
-> [!WARNING}
+> [!WARNING]
 > Soyez prudent. Cette variable globale ne peut fournir aucune autre information ou accès aux données que le numéro d'un signal reçu. Par conséquent, l'utilisation de structures de type "norme" dans le scope global est interdite.
 
 
