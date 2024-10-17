@@ -57,7 +57,7 @@ Votre programme doit implémenter :
   - Les jokers * doivent fonctionner pour le répertoire de travail actuel.
 
 
-## Program name : minishell
+## :green_square:Program name : minishell:green_square:
 
 ### **Description des fonctions pratiques et exemples d'utilisation**
 _________________________________________________________________________________________________________________________________________________
