@@ -2,6 +2,18 @@
 As beautifull as a shell
 Write a shell
 
+# Mandatory:
+- Votre shell devrait :
+  - Afficher un invite lorsque vous attendez une nouvelle commande.
+  - Avoir un historique fonctionnel.
+  - Rechercher et lancer l'exécutable approprié (en fonction de la variable PATH ou en utilisant un chemin relatif ou absolu).
+  - Éviter d'utiliser plus d'une variable globale pour indiquer un signal reçu. Considérez les implications : cette approche garantit que votre gestionnaire de signal n'accédera pas à vos structures de données principales.
+
+> [!WARNING}
+> Soyez prudent. Cette variable globale ne peut fournir aucune autre information ou accès aux données que le numéro d'un signal reçu. Par conséquent, l'utilisation de structures de type "norme" dans le scope global est interdite.
+
+
+
 ## Program name : minisell
 
 ### **Description des fonctions pratiques et exemples d'utilisation**
