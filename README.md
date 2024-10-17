@@ -18,12 +18,12 @@ Write a shell
   
   - Quand utiliser **readline()** :
 
-Pour des applications interactives : si vous développez une application interactive qui nécessite des entrées fréquentes de l'utilisateur (comme un shell ou un interpréteur).
+:diamond_shape_with_a_dot_inside:Pour des applications interactives : si vous développez une application interactive qui nécessite des entrées fréquentes de l'utilisateur (comme un shell ou un interpréteur).
 
-Si vous avez besoin d'édition de ligne avancée : l'utilisation de la bibliothèque GNU Readline offre des fonctionnalités d'édition de ligne très pratiques (navigation dans l'historique, autocomplétion, etc.).
+:diamond_shape_with_a_dot_inside:Si vous avez besoin d'édition de ligne avancée : l'utilisation de la bibliothèque GNU Readline offre des fonctionnalités d'édition de ligne très pratiques (navigation dans l'historique, autocomplétion, etc.).
 
 
-:octocat:EXEMPLE D'UTILISATION:octocat:
+:octocat:**EXEMPLE D'UTILISATION**:octocat:
 
 ```C
 #include <stdio.h>
