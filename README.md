@@ -23,7 +23,7 @@ Write a shell
 :diamond_shape_with_a_dot_inside:Si vous avez besoin d'édition de ligne avancée : l'utilisation de la bibliothèque GNU Readline offre des fonctionnalités d'édition de ligne très pratiques (navigation dans l'historique, autocomplétion, etc.).
 
 
-:octocat:**EXEMPLE D'UTILISATION**:octocat:
+:octocat:**EXEMPLES D'UTILISATION**:octocat:
 
 ```C
 #include <stdio.h>
@@ -49,7 +49,46 @@ int main(void)
 }
 
 ```
+```C
+// Gérer les entrées utilisateur
+// Lire les commandes tapées par l'utilisateur
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <unistd.h>  // pour fork, exec, etc.
+
+int main(void) {
+    char *input;
+    
+    while (1) {
+        // Lire la commande de l'utilisateur avec une invite personnalisée
+        input = readline("minishell> ");
+        
+        // Si l'utilisateur entre "Ctrl+D" ou une erreur survient
+        if (input == NULL) {
+            printf("exit\n");
+            break;
+        }
+        
+        // Si l'utilisateur n'a pas entré de commande vide
+        if (*input != '\0') {
+            // Ajouter la commande à l'historique
+            add_history(input);
+            
+            // Ici, on pourrait forker un processus et utiliser exec pour exécuter la commande
+            printf("Commande reçue: %s\n", input);
+        }
+        
+        // Libérer la mémoire allouée pour la ligne lue
+        free(input);
+    }
+
+    return 0;
+}
+
+```
 
 
 
