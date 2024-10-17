@@ -6,7 +6,7 @@ Write a shell
 
 ### **Description des fonctions pratiques et exemples d'utilisation**
 _________________________________________________________________________________________________________________________________________________
-#### readline (GNU Library)
+1) **readline (GNU Library)**
 
 > [!NOTE]
 > cette fonction lit une ligne de texte depuis l'entrée standard (**stdin**) jusqu'à ce qu'un caractère de fin de ligne (généralement \n) soit rencontré, ou que l'utilisateur termine l'entrée avec EOF (Ctrl+D dans la plupart des systèmes Unix). Elle offre aussi la possibilité de naviguer dans l'historique des lignes tapées et d'éditer la ligne en cours.
