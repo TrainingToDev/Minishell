@@ -57,7 +57,7 @@ Votre programme doit implémenter :
   - Les jokers * doivent fonctionner pour le répertoire de travail actuel.
 
 
-## Program name : minisell
+## Program name : minishell
 
 ### **Description des fonctions pratiques et exemples d'utilisation**
 _________________________________________________________________________________________________________________________________________________
