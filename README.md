@@ -3,25 +3,25 @@ As beautifull as a shell
 Write a shell
 
 # DOC
-[GNU Bash manual](https://www.gnu.org/savannah-checkouts/gnu/bash/manual)
-[Explain Shell](https://explainshell.com/)
-[Tutorial - Write a Shell in C](https://brennan.io/2015/01/16/write-a-shell-in-c)
-[Shell Command Language](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html)
-[How to Use "Here Documents" in Bash on Linux](https://www.howtogeek.com/719058/how-to-use-here-documents-in-bash-on-linux)
-[Writing a Unix Shell - Part I](https://indradhanush.github.io/blog/writing-a-unix-shell-part-1)
-[Writing a Unix Shell - Part II](https://indradhanush.github.io/blog/writing-a-unix-shell-part-2)
-[Writing a Unix Shell - Part III](https://indradhanush.github.io/blog/writing-a-unix-shell-part-3)
-[Tiny Shell - Case Study](http://www.cems.uwe.ac.uk/~irjohnso/coursenotes/lrc/system/shell/)
-[42Cursus-Minishell](https://achrafbelarif.medium.com/42cursus-minishell-29cd25f972e6)
-[Writing Your Own Shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
+[GNU Bash manual](https://www.gnu.org/savannah-checkouts/gnu/bash/manual)<br>
+[Explain Shell](https://explainshell.com/)<br>
+[Tutorial - Write a Shell in C](https://brennan.io/2015/01/16/write-a-shell-in-c)<br>
+[Shell Command Language](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html)<br>
+[How to Use "Here Documents" in Bash on Linux](https://www.howtogeek.com/719058/how-to-use-here-documents-in-bash-on-linux)<br>
+[Writing a Unix Shell - Part I](https://indradhanush.github.io/blog/writing-a-unix-shell-part-1)<br>
+[Writing a Unix Shell - Part II](https://indradhanush.github.io/blog/writing-a-unix-shell-part-2)<br>
+[Writing a Unix Shell - Part III](https://indradhanush.github.io/blog/writing-a-unix-shell-part-3)<br>
+[Tiny Shell - Case Study](http://www.cems.uwe.ac.uk/~irjohnso/coursenotes/lrc/system/shell/)<br>
+[42Cursus-Minishell](https://achrafbelarif.medium.com/42cursus-minishell-29cd25f972e6)<br>
+[Writing Your Own Shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)<br>
 
 # Tuto
-[Unix Processes in C](https://youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY&si=HT0Zjn8jon9jTXhs)
-[Shell Program Explained](https://youtu.be/ubt-UjcQUYg)
+[Unix Processes in C](https://youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY&si=HT0Zjn8jon9jTXhs)<br>
+[Shell Program Explained](https://youtu.be/ubt-UjcQUYg)<br>
 
 # TESTER
-[42_minishell_tester](https://github.com/zstenger93/42_minishell_tester)
-[minishell_tester](https://github.com/thallard/minishell_tester)
+[42_minishell_tester](https://github.com/zstenger93/42_minishell_tester)<br>
+[minishell_tester](https://github.com/thallard/minishell_tester)<br>
 
 
 
