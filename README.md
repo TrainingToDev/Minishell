@@ -63,12 +63,9 @@ Write a shell
 10- Gestion de la mémoire : Tout espace alloué dynamiquement doit être libéré de manière appropriée, et aucun « double free » ni fuite de mémoire n'est autorisé.
 
 
-
-
-
 # Bonus part
 
-Votre programme doit implémenter :
+implémenter :
 
   - && et || avec des parenthèses pour les priorités.
   - Les jokers * doivent fonctionner pour le répertoire de travail actuel.
