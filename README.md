@@ -39,10 +39,10 @@ Write a shell
 
 5- Redirections d'entrée et de sortie :
 
-- < : Redirection d'entrée.
-- > : Redirection de sortie.
-- << : Ici-documents (ou "here-documents").
-- >> : Redirection de sortie en mode append.
+- **<** : Redirection d'entrée.
+- **>** : Redirection de sortie.
+- **<<** : Ici-documents (ou "here-documents").
+- **>>** : Redirection de sortie en mode append.
 
 6- Pipes (|) : Enchaîner les commandes, où la sortie d’une commande devient l'entrée de la suivante.
 
