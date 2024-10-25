@@ -27,51 +27,44 @@ Write a shell
 
 
 # Mandatory:
-- Votre shell devrait :
-  - Afficher un invite lorsque vous attendez une nouvelle commande.
-  - Avoir un historique fonctionnel.
-  - Rechercher et lancer l'exécutable approprié (en fonction de la variable PATH ou en utilisant un chemin relatif ou absolu).
-  - Éviter d'utiliser plus d'une variable globale pour indiquer un signal reçu. Considérez les implications : cette approche garantit que votre gestionnaire de signal n'accédera pas à vos structures de données principales.
+## Principales Fonctionnalités à Implémenter :
 
-> [!WARNING]
-> Soyez prudent. Cette variable globale ne peut fournir aucune autre information ou accès aux données que le numéro d'un signal reçu. Par conséquent, l'utilisation de structures de type "norme" dans le scope global est interdite.
+1- Prompt d’attente et historique des commandes : Le shell doit afficher un prompt chaque fois qu’il attend une commande. Il doit aussi sauvegarder chaque commande dans l’historique.
 
-- Ne pas interpréter les guillemets non fermés ou les caractères spéciaux qui ne sont pas requis par le sujet, tels que \ (barre oblique inversée) ou ; (point-virgule).
-- Gérer le caractère ’ (guillemet simple) qui doit empêcher le shell d'interpréter les métacaractères dans la séquence entre guillemets.
-- Gérer le caractère " (guillemet double) qui doit empêcher le shell d'interpréter les métacaractères dans la séquence entre guillemets, à l'exception du $ (signe dollar).
+2- Exécution des commandes (basé sur PATH ou chemin absolu/relatif) : Le shell doit pouvoir exécuter des commandes en recherchant l’exécutable approprié dans le **PATH**.
 
-- Implémentez les redirections :
-```shell
-  - < : doit rediriger l'entrée.
-  - > : doit rediriger la sortie.
-  - << : doit recevoir un délimiteur, puis lire l'entrée jusqu'à ce qu'une ligne contenant le délimiteur soit rencontrée.
-Cependant, cela ne doit pas mettre à jour l'historique !
-  - >> : doit rediriger la sortie en mode ajout (append).
-```
+3- Gestion des signaux : Le shell doit capturer les signaux comme **ctrl-C**, **ctrl-D**, et **ctrl-\** pour imiter le comportement de Bash dans ces cas.
 
-- Implémentez les pipes (caractère |). La sortie de chaque commande dans le pipeline est connectée à l'entrée de la commande suivante via un pipe.
-  - Gérer les variables d'environnement (commençant par $ suivies d'une séquence de caractères) qui doivent être étendues à leurs valeurs.
-  - Gérer $? qui doit être étendu à l'état de sortie du dernier pipeline exécuté en premier plan.
-  - Gérer les combinaisons de touches ctrl-C, ctrl-D et ctrl-\ qui doivent se comporter comme dans bash.
+4- Gestion des citations et des métacaractères : Les citations simples **' '** désactivent l’interprétation des métacaractères, tandis que les citations doubles **" "** désactivent l'interprétation des métacaractères sauf pour **$**.
 
-- En mode interactif :
-  - ctrl-C : affiche un nouvel invite sur une nouvelle ligne.
-  - ctrl-D : quitte le shell.
-  - *ctrl-* : ne fait rien.
+5- Redirections d'entrée et de sortie :
 
-- Votre shell doit implémenter les built-ins suivants :
-  - echo avec l'option -n
-  - cd avec uniquement un chemin relatif ou absolu
-  - pwd sans options
-  - export sans options
-  - unset sans options
-  - env sans options ni arguments
-  - exit sans options
+> < : Redirection d'entrée.
+> > : Redirection de sortie.
+> << : Ici-documents (ou "here-documents").
+> >> : Redirection de sortie en mode append.
 
-> [!IMPORTANT]
-> La fonction readline() peut provoquer des fuites de mémoire. Vous n'êtes pas obligé de les corriger. Cependant, cela ne signifie pas que votre propre code, oui, le code que vous avez écrit, ne peut pas avoir de fuites de mémoire.
+6- Pipes (|) : Enchaîner les commandes, où la sortie d’une commande devient l'entrée de la suivante.
 
-- Vous devriez vous limiter à la description du sujet. Tout ce qui n'est pas demandé n'est pas requis. Si vous avez le moindre doute sur une exigence, prenez bash comme référence.
+7- Variables d’environnement ($VAR) : Le shell doit pouvoir interpréter et remplacer les variables d’environnement par leur valeur.
+
+8- Builtins : Implémentation des commandes intégrées suivantes :
+
+ - echo avec l'option -n
+ - cd avec un chemin relatif ou absolu
+ - pwd sans options
+ - export sans options
+ - unset sans options
+ - env sans options
+ - exit sans options
+
+9- Gestion de la sortie de la dernière commande : La variable $? doit afficher le code de sortie de la commande précédente.
+
+10- Gestion de la mémoire : Tout espace alloué dynamiquement doit être libéré de manière appropriée, et aucun « double free » ni fuite de mémoire n'est autorisé.
+
+
+
+
 
 # Bonus part
 
