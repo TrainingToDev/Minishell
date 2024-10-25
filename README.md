@@ -27,6 +27,7 @@ Write a shell
 
 
 # Mandatory:
+> Objectif général : Créer un shell qui lit des commandes entrées par l'utilisateur, analyse ces commandes, et les exécute tout en reproduisant un comportement proche de celui de Bash pour certaines commandes.
 ## Principales Fonctionnalités à Implémenter :
 
 1- Prompt d’attente et historique des commandes : Le shell doit afficher un prompt chaque fois qu’il attend une commande. Il doit aussi sauvegarder chaque commande dans l’historique.
