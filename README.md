@@ -19,6 +19,7 @@ Write a shell
 # Tuto
 [Unix Processes in C](https://youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY&si=HT0Zjn8jon9jTXhs)<br>
 [Shell Program Explained](https://youtu.be/ubt-UjcQUYg)<br>
+[Explainshell](https://explainshell.com/)
 
 # TESTER
 [42_minishell_tester](https://github.com/zstenger93/42_minishell_tester)<br>
