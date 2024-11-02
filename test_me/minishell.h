@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 09:24:34 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/01 10:45:18 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 11:10:57 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ typedef struct s_data_path
 	int		i;
 }			t_data_path;
 
-
+typedef struct s_cmd_list
+{
+	char *data;
+	int type;
+}		cmd_list;
 
 
 #endif

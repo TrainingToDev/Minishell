@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:37:41 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 08:29:38 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 11:14:51 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
             change_directory(path);
         } 
         else 
-            printf("Commande non reconnue : %s\n", input);
+            printf("Commande not found : %s\n", input);
         free(input);
     }
 
