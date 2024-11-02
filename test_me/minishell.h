@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 09:24:34 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 12:17:39 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:40:23 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,6 @@ void	free_split(char **split);
 void	ft_error(const char *message, int exit_code);
 void 	exit_cmd(char *input);
 void	print_error_message(char *shell, int errnum, char *filename);
+void	change_directory(const char *path);
+
 #endif
