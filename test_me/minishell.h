@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 09:24:34 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 13:16:31 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 16:21:59 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ typedef struct s_minishell
 
 typedef struct	s_cmd_list
 {
-	char		*data;
-	int			type;
-	t_minishell	cmd;
+	char				*data;
+	int					type;
+	struct s_cmd_list	*next;
 	
-}			cmd_list;
+}						t_cmd_list;
 
 
 // test function

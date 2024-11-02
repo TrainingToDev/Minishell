@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:53:04 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 13:02:43 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 14:28:38 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,7 @@ int main(int argc, char **argv, char **envp)
 		free(input);
 	}
 	return (0);
+
+
+    
 }
