@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:53:04 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 12:41:41 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 13:02:43 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int main(int argc, char **argv, char **envp)
 		else
 		{
 			cmd_path = get_command_path(input, envp);
+            printf("input cmd: %s\n", &cmd_path[0]);
             if (cmd_path)
             {
 				pid = fork();

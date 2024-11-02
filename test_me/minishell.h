@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 09:24:34 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 12:40:23 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 13:16:31 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define RUN 1
 # define CMD_NOT_FOUND 127
 
-
+// struture proposal
 typedef struct s_data_path
 {
 	char	**paths;
@@ -35,12 +35,24 @@ typedef struct s_data_path
 	int		i;
 }			t_data_path;
 
-typedef struct s_cmd_list
+typedef struct s_minishell
 {
-	char *data;
-	int type;
-}		cmd_list;
+	char *name;
+	char *option;
+	char *arg;
+}	t_minishell;
 
+
+typedef struct	s_cmd_list
+{
+	char		*data;
+	int			type;
+	t_minishell	cmd;
+	
+}			cmd_list;
+
+
+// test function
 char	*get_command_path(char *cmd, char **envp);
 void	free_split(char **split);
 void	ft_error(const char *message, int exit_code);

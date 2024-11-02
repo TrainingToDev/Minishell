@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:42:29 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 08:48:08 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 13:50:56 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 int parse_variable_assignment(const char *input, char *var, char *value)
 {
     const char *equals_sign;
-    size_t variable_length;
+    size_t var_len;
 
     equals_sign = ft_strchr(input, '=');
     if (equals_sign == NULL)
@@ -28,14 +28,14 @@ int parse_variable_assignment(const char *input, char *var, char *value)
         return (-1);
     }
     
-    variable_length = equals_sign - input;
-    if (variable_length >= MAX_VAR_LENGTH)
+    var_len = equals_sign - input;
+    if (var_len >= MAX_VAR_LENGTH)
     {
         printf("Error: Variable name too long\n");
         return (-1);
     }
-    ft_strlcpy(var, input, variable_length);
-    var[variable_length] = '\0';
+    ft_strlcpy(var, input, var_len);
+    var[var_len] = '\0';
 
     ft_strlcpy(value, equals_sign + 1, MAX_VAL_LENGTH - 1);
     value[MAX_VAL_LENGTH - 1] = '\0';
