@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:12:13 by miaandri          #+#    #+#             */
-/*   Updated: 2024/10/31 16:25:51 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 06:13:54 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,34 +61,57 @@ static char    *get_option(char *input)
 
 static char *get_param(char *input)
 {
-    
-}
-static int  get_len(char **split)
-{
+    int len;
     int i;
+    char    *param;
 
     i = 0;
-    while (split[i])
+    len = ft_strlen(input);
+    param = (char*)malloc(sizeof(char) * len + 1);
+    if (!param)
+        return (NULL);
+    while (input[i])
+    {
+        param[i] = input[i];
         i++;
-    return (i);
+    }
+    param[i] = '\0';
+    return (param);
+}
+static int  check_pipe(char *split)
+{
+    if (ft_strlen(split) == 1)
+    {
+        if (split[0] == '|')
+            return (1);
+    }
+    return (0);
 }
 
 t_parse  *get_struct(char *input)
 {
     char **splited;
     t_parse *data;
-    int len;
+    int i;
 
     data = (t_parse *)malloc(sizeof(t_parse));
     if (!data)
         return (NULL);
     splited = ft_split(input, ' ');
-    len = get_len(splited);
     data->command = get_command(*splited);
-    data->option = get_option(splited[2]);
+    data->option = get_option(splited[1]);
+    i = 1;
     if (data->option == NULL)
     {
-        
+       while (splited[i])
+       {
+        if (check_pipe(splited[i]) == 1)
+        {
+            data->param = get_param(splited[i]);//atao join ty en realites
+            break ;
+        }
+        i++;
+       } 
     }
-    
+    return (data);    
 }
