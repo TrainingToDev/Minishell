@@ -6,40 +6,25 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 09:21:52 by miaandri          #+#    #+#             */
-/*   Updated: 2024/10/31 13:17:02 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 10:38:45 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-void    echo_command(char *input)//atao int ity de miretourne 1 (vrai) et 0 (faux)
+int    echo_command(t_parse *data)
 {
-    char *command;
-    char *option;
-    char *string;
-
-    command = get_command(input);
-    option = get_option(input);
-    if (option == NULL)
+    if (right_command(data->command, "echo") != 1)
+        return (0);
+    if (right_command(data->option, "-n") != 1)
+        return (0);
+    if (data->param == NULL)
+        return (1);
+    else
     {
-        free(command);
-        free(input);
-        return ;
-    }   
-    string = get_string(input, (ft_strlen(command) - 1), (ft_strlen(option)));
-    if (!string)
-    {
-        free(command);
-        free(option);
-        free(input);
-        return ;
+        printf("%s", data->param);
+        return (1);   
     }
-    printf("%s", string);
-    free(command);
-    free(option);
-    free(string);
-    free(input);
+    return (0);
 }
 
