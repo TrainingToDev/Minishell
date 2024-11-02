@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:37:41 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 12:05:05 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:35:51 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,14 @@ void change_directory(const char *path)
 }
 
 
-// test main cd
+// test only for cmd
 int main(int argc, char **argv, char **envp) 
 {
-	char *input;
-	char *path;
+	char	*input;
+	char	*path;
+	char	*cmd_path;
+	int		status;
+	pid_t 	pid;
 
 	while (RUN)
 	{
@@ -132,95 +135,26 @@ int main(int argc, char **argv, char **envp)
 				path = input + 3;
 			change_directory(path);
 		}
-		else 
-			printf("Commande not found : %s\n", input);
+		else
+		{
+			cmd_path = get_command_path(input, envp);
+            if (cmd_path)
+            {
+				pid = fork();
+                if (pid == 0)
+                {
+                    execve(cmd_path, argv, envp);
+                    perror("Execution failed"); 
+                    exit(EXIT_FAILURE);
+                }
+                else if (pid > 0)
+                    waitpid(pid, &status, 0); 
+                free(cmd_path);
+            }
+            else
+                printf("Commande not found: %s\n", input);
+        }
 		free(input);
 	}
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

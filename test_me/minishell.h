@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 09:24:34 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 12:03:17 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:17:39 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 
 # include "libft/libft.h"
 # include <unistd.h>
+# include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
+#include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
