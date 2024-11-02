@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 09:24:34 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 11:43:41 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:03:17 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
+
+# define RUN 1
+# define CMD_NOT_FOUND 127
 
 
 typedef struct s_data_path
@@ -39,5 +43,5 @@ char	*get_command_path(char *cmd, char **envp);
 void	free_split(char **split);
 void	ft_error(const char *message, int exit_code);
 void 	exit_cmd(char *input);
-
+void	print_error_message(char *shell, int errnum, char *filename);
 #endif

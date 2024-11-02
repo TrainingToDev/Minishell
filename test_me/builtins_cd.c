@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:37:41 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 11:47:13 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:05:05 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,14 @@ void change_directory(const char *path)
 	}
 }
 
+
+// test main cd
 int main(int argc, char **argv, char **envp) 
 {
 	char *input;
+	char *path;
 
-	while (1)
+	while (RUN)
 	{
 		input = readline("Minishell> ");
 		
@@ -117,11 +120,14 @@ int main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(input);
-		exit_cmd(input);
-		break ;
+		if (ft_strcmp(input, "exit") == 0)
+		{
+			free(input);
+			break ;
+		}
 		if (ft_strncmp(input, "cd", 2) == 0)
 		{
-			char *path = NULL;
+			path = NULL;
 			if (ft_strlen(input) > 3)
 				path = input + 3;
 			change_directory(path);
@@ -130,9 +136,6 @@ int main(int argc, char **argv, char **envp)
 			printf("Commande not found : %s\n", input);
 		free(input);
 	}
-
-
-
 	return (0);
 }
 

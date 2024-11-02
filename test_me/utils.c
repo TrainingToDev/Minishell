@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:35:45 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/01 10:35:46 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:02:59 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,18 @@ void	ft_error(const char *message, int exit_code)
 	exit(exit_code);
 }
 
+void	print_error_message(char *shell, int errnum, char *filename)
+{
+	write(STDERR_FILENO, shell, ft_strlen(shell));
+	write(STDERR_FILENO, ": ", 2);
+	if (errnum == CMD_NOT_FOUND)
+		write(STDERR_FILENO, "command not found", 18);
+	else
+		write(STDERR_FILENO, strerror(errno), ft_strlen(strerror(errno)));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, filename, ft_strlen(filename));
+	write(STDERR_FILENO, "\n", 1);
+}
 
 void ft_realloc(void *ptr, size_t size)
 {
