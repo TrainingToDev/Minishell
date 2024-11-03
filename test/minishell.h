@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:50:28 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/02 11:57:00 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/02 20:00:08 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ int right_command(char *data, char *command);
 int is_alpha(int c);
 t_parse  *get_struct(char *input);
 int    echo_command(t_parse *data);
+int pwd_command(t_parse *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:12:13 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/02 16:23:27 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/03 05:48:09 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,31 @@ static char *get_params(char **splited, t_parse *data)
 }
 */
 
+static char *get_param(char *input, int len, int i)
+{
+    char *param;
+    int c;
+
+    c = 0;
+    param = (char*)malloc(sizeof(char) * len);
+    if (!param)
+        return (NULL);
+    while (input[i])
+    {
+        param[c] = input[i]
+        i++;
+        c++;
+    }
+    param[c] = '\0';
+    return (param);
+}
+
 t_parse  *get_struct(char *input)
 {
     t_parse *data;
     int i;
+    int len;
+    int a;
 
     data = (t_parse *)malloc(sizeof(t_parse));
     if (!data)
@@ -116,10 +137,18 @@ t_parse  *get_struct(char *input)
     {   
         i++;
     }
-    printf("::%i\n", i);
     data->option = get_option(input, i);
-
-    printf("command : %s -> option : %s\n", data->command , data->option);
+    if (data->option != NULL)
+        i = i + 2;
+    len = 0;
+    a = i;
+    while (input[i])
+    {
+        len++;
+        i++;
+    }
+    data->param = get_param(input, (len + 1), a);//afaka atao i - len ilay a io 
+    free (input);
     return (data);
 }
 

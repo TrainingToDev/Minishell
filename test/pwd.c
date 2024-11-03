@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 08:49:54 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/03 05:34:26 by miaandri         ###   ########.fr       */
+/*   Created: 2024/11/02 19:04:20 by miaandri          #+#    #+#             */
+/*   Updated: 2024/11/03 06:01:15 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-int main (void)
+int pwd_command(t_parse *data)
 {
-    char *input;
-    int state;//atao eo @ env iny ilay ?
-    t_parse *data;
-
-    while (1)
+    if (right_command(data->command, "pwd") != 1)
+        return (0);
+    if (data->option != NULL)
+        return (0);//error no valid option
+    else
     {
-        input = readline("minishell:");
-        data = get_struct(input);
-        if (echo_command(data) == 1)
-            state = 1;
-        else if (pwd_command(data) == 1)
-            state = 1;
-        
+        printf("%s\n", getcwd(NULL, 0));
+        return (1);
     }
-    free (input);
 }
