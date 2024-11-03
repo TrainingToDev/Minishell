@@ -6,13 +6,13 @@
 #    By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/31 13:54:57 by miaandri          #+#    #+#              #
-#    Updated: 2024/11/02 14:52:56 by miaandri         ###   ########.fr        #
+#    Updated: 2024/11/03 08:39:15 by miaandri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC = main.c echo.c get_struct.c utils.c
+SRC = main.c echo.c get_struct.c utils.c pwd.c
 
 CC = cc -g -Wall -Werror -Wextra 
 

@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:24:45 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/02 15:20:11 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/03 11:18:56 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,22 @@ void	ft_free(char **dest)
 	free(dest);
 }
 
-int right_command(char *data, char *command)
+int exact_command(char *data, char *command)
 {
-    int len;
+    int i;
 
-    len = ft_strlen(command);
-    while (len > 0)
+    i = 0;
+    if (ft_strlen(data) != ft_strlen(command))
     {
-        if (data[len] != command[len])
-            return (0);
-        len--;
+       // printf("%i->%i\n", (int)ft_strlen(data) , (int)ft_strlen(command));   
+        return (0);
     }
+    while (data[i])
+    {
+        if (data[i] != command[i])
+            return (0);
+        i++;
+    }    
     return (1);
 }
 

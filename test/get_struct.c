@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:12:13 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/03 05:48:09 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/03 09:46:21 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static char    *get_command(char *input, int len)
         i++;
     }
     command[i] = '\0';
-   // printf ("command : %s\n", command);
     return (command);
 }
 
@@ -51,55 +50,6 @@ static char    *get_option(char *input, int i)
     return (NULL);
 }
 
-/*
-static char *get_param(char *input)
-{
-    int len;
-    int i;
-    char    *param;
-
-    i = 0;
-    len = ft_strlen(input);
-    printf ("%i\n", len);
-    param = (char*)malloc(sizeof(char) * len + 1);
-    if (!param)
-        return (NULL);
-    while (input[i])
-    {
-        param[i] = input[i];
-        i++;
-    }
-    param[i] = '\0';
-    printf("param : %s\n", param);
-    return (param);
-}
-static int  check_pipe(char *split)
-{
-    if (ft_strlen(split) == 1)
-    {
-        if (split[0] == '|')
-            return (1);
-    }
-    return (0);
-}
-static char *get_params(char **splited, t_parse *data)
-{
-    int i;
-
-    i = 1;
-    if (data->option != NULL)
-        i = 2;
-    while (splited[i])
-    {
-        if (check_pipe(splited[i]) == 1)
-            return (data->param);
-        data->param = ft_strjoin(data->param, get_param(splited[i]));
-        i++;
-    }
-    return (data->param);
-}
-*/
-
 static char *get_param(char *input, int len, int i)
 {
     char *param;
@@ -111,7 +61,7 @@ static char *get_param(char *input, int len, int i)
         return (NULL);
     while (input[i])
     {
-        param[c] = input[i]
+        param[c] = input[i];
         i++;
         c++;
     }
@@ -124,30 +74,41 @@ t_parse  *get_struct(char *input)
     t_parse *data;
     int i;
     int len;
-    int a;
 
     data = (t_parse *)malloc(sizeof(t_parse));
     if (!data)
         return (NULL);
-            i = 0;
-    while (input[i] != ' ' || input[i] == '\t')
+    data->command = NULL;
+    data->option = NULL;
+    data->param = NULL;
+    i = 0;
+    while (input[i] && input[i] != ' ')
         i++;
-    data->command = get_command(input, (i + 1));
-    while (input[i] == ' ' || input[i] == '\t')
-    {   
-        i++;
+    data->command = get_command(input, (i));
+    if (input[i] == '\0')
+    {
+        free (input); 
+        return (data);
     }
+    while (input[i] == ' ' && input[i])
+        i++;
     data->option = get_option(input, i);
     if (data->option != NULL)
         i = i + 2;
+    if (input[i] == '\0')
+    {
+        free (input);
+        return (data);
+    }
     len = 0;
-    a = i;
+    while (input[i] == ' ')
+        i++;
     while (input[i])
     {
         len++;
         i++;
     }
-    data->param = get_param(input, (len + 1), a);//afaka atao i - len ilay a io 
+    data->param = get_param(input, (len + 1), (i - len)); 
     free (input);
     return (data);
 }
