@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:42:29 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/03 12:04:13 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/03 12:20:11 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,15 @@ int parse_variable_assignment(const char *input, char *var, char *value)
 {
     const char *equals_sign;
     size_t var_len;
+    int i = 0;
 
-    equals_sign = ft_strchr(input, '=');
+    if (ft_strchr(input, ' '))
+    {
+        i++;
+        return (-2);
+    }
+    if(i > 0)
+        equals_sign = ft_strchr(input, '=');
     if (equals_sign == NULL)
     {
         printf("Error: Invalid format. Usage: export VAR=value\n");

@@ -10,7 +10,8 @@
 # include <errno.h>
 
 # define RUN 1
-
+# define START 7
+# define END 14
 
 
 // time {for i in $(seq 1 5000); do echo coucou > /dev/null; done}
@@ -44,7 +45,6 @@ int main(int argc, char **argv, char **envp)
         printf("\n-------------\n");
         printf("%s", input);
 
-        
     }
     
 

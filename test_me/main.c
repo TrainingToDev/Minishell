@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:53:04 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 14:28:38 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/03 17:23:55 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,72 @@
 // compile with: 
 // gcc main.c builtins_cd.c builtins_exit.c utils.c libft/libft.a -lreadline
 
+
+// key_enter = \n 
+// $ = ls
+// export var=var_name
+/* 
+	minishell: name_cmd: -c: invalid option
+	name_cmd: usage: pwd
+	// sudo
+	Minishell: /usr/bin/sudo: Permission denied
+	ls <>: Minishell: syntax error near unexpected token `newline'
+
+ */
+
+/*
+	echo [-n] [arg …]
+	cd [directory] or cd -
+	exit [n]
+	export name[=value]...
+	pwd
+	unset [name]
+	env
+
+*/
+// cmd in "cmd"
+// error tapping cmd
+
+
+// resolve segfault with CTRL-D
+
+// prompt print :
+/* 
+	Minishell:~$
+
+*/
+
+/* 
+
+	Grammar symbols and quoting
+
+	DLESS : <<
+	DGREAT : >>
+	AND_IF: &&
+	OR_IF: ||
+	RLESS: <
+	RGREAT: >
+	PIPE: |
+	QDBL: ""
+	QSMP: ''
+	other: * ? [] # ~ = %
+	AMP: &
+	
+	
+ */
+
+
+//pipe and input/output Redirection
+// a | b | c | d > outfile < infile
+
+
+
+
+
+
+
+// tcsetattr(), tcgetattr(), tgetent()|tgetflag(), tgetnum(), tgetstr
+
 int main(int argc, char **argv, char **envp) 
 {
 	char	*input;
@@ -23,11 +89,18 @@ int main(int argc, char **argv, char **envp)
 	char	*cmd_path;
 	int		status;
 	pid_t 	pid;
+	// char	*data_cmd;
+	// int		i;
 
 	while (RUN)
 	{
 		input = readline("Minishell> ");
-		
+		// while(input[i])
+        // {
+        //     if(input[i] != '\0')
+        //         data_cmd[i] = input[i];
+        //     i++; 
+        // }
 		if (input == NULL || ft_strlen(input) == 0)
 		{
 			free(input);
@@ -69,7 +142,4 @@ int main(int argc, char **argv, char **envp)
 		free(input);
 	}
 	return (0);
-
-
-    
 }
