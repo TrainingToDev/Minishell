@@ -29,6 +29,7 @@ int main(int argc, char **argv, char **envp)
 
         input = readline("$");
        
+       add_history(input);
         
         while(input[i])
         {

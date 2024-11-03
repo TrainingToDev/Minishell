@@ -6,11 +6,27 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:42:29 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 13:50:56 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/03 12:04:13 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* 
+export var = 
+
+bash: export: `=': not a valid identifier
+export testy
+
+*/
+/*
+    valide syntax:
+   -> export
+   -> export var= 
+   export var=       test
+   
+    
+*/
 
 #define MAX_VAR_LENGTH 256
 #define MAX_VAL_LENGTH 256
@@ -43,7 +59,7 @@ int parse_variable_assignment(const char *input, char *var, char *value)
     return (0);
 }
 
-void set_env_variable(const char *var, const char *value) 
+void set_env_var(const char *var, const char *value) 
 {
     if (setenv(var, value, 1) != 0)
         perror("Error setting environment var");
@@ -58,7 +74,7 @@ void export_variable(const char *input)
 
     // Parse the input
     if (parse_variable_assignment(input, var, value) == 0)
-        set_env_variable(var, value);
+        set_env_var(var, value);
 }
 
 
