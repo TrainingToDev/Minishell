@@ -12,14 +12,6 @@
 
 #include "minishell.h"
 
-static void free_struct(t_parse *data)
-{
-    free(data->command);
-    free(data->option);
-    free(data->param);
-    free (data);
-}
-
 static void print_echo(char *string, int i)//mbola mila zaraina roa de + ilay variable ilay echo + message d'erreur @ ilay cas heredoc iny 
 {
     while (string[i])

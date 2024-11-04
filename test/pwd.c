@@ -12,15 +12,16 @@
 
 #include "minishell.h"
 
-int pwd_command(t_parse *data)
+int	pwd_command(t_parse *data)
 {
-    if (exact_command(data->command, "pwd") != 1)
-        return (0);
-    if (data->option != NULL)
-        return (-1);//error
-    else
-    {
-        printf("%s\n", getcwd(NULL, 0));
-        return (1);
-    }
+	if (exact_command(data->command, "pwd") != 1)
+		return (0);
+	if (data->option != NULL)
+		return (-1); // error
+	else
+	{
+		printf("%s\n", getcwd(NULL, 0));
+		free_struct(data);
+		return (1);
+	}
 }

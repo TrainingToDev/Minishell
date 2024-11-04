@@ -12,54 +12,55 @@
 
 #include "minishell.h"
 
-static int  get_len(char **dest)
+void free_struct(t_parse *data)
 {
-    int i;
-
-    i = 0;
-    while(dest[i])
-        i++;
-    return (i);
+    free(data->command);
+    free(data->option);
+    free(data->param);
+    free (data);
 }
 
-void	ft_free(char **dest)
+int	exact_command(char *data, char *command)
 {
-    int len;
-    
-	len = get_len(dest);
-    while (0 < len)
+	int	i;
+
+	i = 0;
+	if (ft_strlen(data) != ft_strlen(command))
 	{
-        if (*dest + len)
-        {
-    		free (*dest + len);
-        }
-		len--;
+		// printf("%i->%i\n", (int)ft_strlen(data) , (int)ft_strlen(command));
+		return (0);
 	}
-	free(dest);
+	while (data[i])
+	{
+		if (data[i] != command[i])
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-int exact_command(char *data, char *command)
+int	is_alpha(int c)
 {
-    int i;
-
-    i = 0;
-    if (ft_strlen(data) != ft_strlen(command))
-    {
-       // printf("%i->%i\n", (int)ft_strlen(data) , (int)ft_strlen(command));   
-        return (0);
-    }
-    while (data[i])
-    {
-        if (data[i] != command[i])
-            return (0);
-        i++;
-    }    
-    return (1);
+	if ((c <= 90 && c >= 65) || (c <= 122 && c >= 97))
+		return (1);
+	return (0);
 }
 
-int is_alpha(int c)
+int is_quote(char *string)
 {
-    if ((c <= 90 && c >= 65) || (c <= 122 && c >= 97))
-        return (1);
-    return (0);
+	int i;
+	int check;
+
+	i = 0;
+	check = 0;
+	while (string[i])
+	{
+		if (string[i] == '"' || string[i] == '\'')
+			check += 1;
+		i++;
+	}
+	if ((check % 2) == 0)
+		return (1);
+	else
+		return (0);
 }

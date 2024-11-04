@@ -12,34 +12,32 @@
 
 #include "minishell.h"
 
-
-int main (int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
-    char *input;
-    int state;//atao eo @ env iny ilay ?
-    t_parse *data;
-    int i;
+	char *input;
+	int state; // atao eo @ env iny ilay ?
+	t_parse *data;
+	t_env *env_list;
 
-    i = 0;
-    (void)argv;
-    if (argc == 1)
-    {
-        while (env[i])
-        {
-            printf("%s\n", env[i]);
-            i++;
-        }
-        while (1)
-        {
-            input = readline("minishell>");
-            data = get_struct(input);
-            if (echo_command(data) == 1)
-                state = 1;
-            else if (echo_without_option(data) == 1)
-                state = 1;
-            else if (pwd_command(data) == 1)
-                state = 1;
-        }
-    free (input);
-    }
+	(void)argv;
+	if (argc == 1)
+	{
+		env_list = get_env(env);
+		while (1)
+		{
+			input = readline((const char*)getcwd(NULL, 0));
+			data = get_struct(input);
+			if (echo_command(data) == 1)
+				state = 1;
+			else if (echo_without_option(data) == 1)
+				state = 1;
+			else if (pwd_command(data) == 1)
+				state = 1;
+			else if (env_command(env_list, data) == 1)
+				state = 1;
+			else if (export_command(env_list, data) == 1)
+				state = 1;
+		}
+		free(input);
+	}
 }

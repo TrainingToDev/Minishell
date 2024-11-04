@@ -12,7 +12,8 @@
 
 NAME = minishell
 
-SRC = main.c echo.c get_struct.c utils.c pwd.c
+SRC = main.c echo.c get_struct.c utils.c pwd.c get_env.c list_utils.c \
+		env.c
 
 CC = cc -g -Wall -Werror -Wextra 
 
