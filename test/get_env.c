@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 12:21:41 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/03 14:10:34 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/05 12:19:35 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_string(char *env, int i, int len, int c)
 	int		a;
 
 	if (c == '\0')
-		len = len + 2;
+		len = len + 1;
 	value = (char *)malloc(sizeof(char) * len + 1);
 	if (!value)
 		return (NULL);
@@ -38,7 +38,7 @@ char	*get_string(char *env, int i, int len, int c)
 	return (value);
 }
 
-static t_env	*new_env(char *env) ///malloc ato seulement ctl+D vao mifree
+t_env	*new_env(char *env) ///malloc ato seulement ctl+D vao mifree
 {
 	t_env *data;
 	int i;

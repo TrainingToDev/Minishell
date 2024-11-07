@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int is_variable(char *string)
+int is_variable(char *string)
 {
     int i;
 
@@ -31,7 +31,7 @@ static int is_variable(char *string)
     }
     return (0);
 }
-static t_env	*new_env(char *env)
+static t_env	*new_enve(char *env)
 {
 	t_env *data;
 	int i;
@@ -62,8 +62,8 @@ int export_command(t_env *env, t_parse *data)
         return (0);
     if (is_variable(data->param) != 1)
         return (0);
-    add_new_env(&env, new_env(data->param));
-        free_struct(data);
+    add_new_env(&env, new_enve(data->param));
+    free_struct(data);
     return (1);
 }
 

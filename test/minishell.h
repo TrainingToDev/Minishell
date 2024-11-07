@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:50:28 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/03 12:26:50 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/07 11:33:13 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,15 @@ void	add_new_env(t_env **lst, t_env *new);
 int exact_command(char *data, char *command);
 int is_alpha(int c);
 int is_quote(char *string);
+int is_variable(char *string);
+int list_size(t_env *env);
+int check_pipe(char *input);
 t_parse  *get_struct(char *input);
 t_env	*get_env(char **env);
-t_env *last_env(t_env *env);
+t_env	*new_env(char *env);
+t_env *local_variable(void);
 int    echo_command(t_parse *data);
+int add_new_var(t_parse *data, t_env *var);
 int echo_without_option(t_parse *data);
 int pwd_command(t_parse *data);
 int env_command(t_env *env, t_parse *data);

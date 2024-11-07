@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:24:45 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/03 11:18:56 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/07 11:27:40 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,21 @@ int is_quote(char *string)
 		return (1);
 	else
 		return (0);
+}
+
+int check_pipe(char *input)
+{
+	int i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '|')
+		{
+			if (input[i + 1] == ' ' && input[i - 1] == ' ')
+				return (1);//state with pipe
+		}
+		i++;
+	}
+	return (0);//state without pipe
 }
