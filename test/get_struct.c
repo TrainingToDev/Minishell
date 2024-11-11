@@ -6,12 +6,60 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:12:13 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/03 09:46:21 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:58:27 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//get_string copy and realloc
+
+static char *get_string(char *input, int end, int start)//end caractere de fin
+{
+	int i;
+	int a;
+	char *string;
+	
+	i = start;
+	while (input[i] && input[i] != end)
+		i++;
+	i = i - start;
+	string = (char *)malloc(sizeof(char) * i + 1);
+	if (!string)
+		return (NULL);
+	a = 0;
+	while (a < i)
+	{
+		string[a] = input[start];
+		start++;
+		a++;
+	}
+	string[a] = '\0';
+	return (string);
+}
+
+/*
+static char *get_input(char *input)
+{
+	int	i;
+	int len;
+	char *input;
+
+	i = 0;
+	input = NULL;
+	while (input[i])
+	{
+		if (input[i] == '>')
+		{
+			len = i;
+			while(input[len] && input[len] != ' ')
+				len++;
+			if (input != NULL)
+				
+		}
+		i++;
+	}
+}
 static char	*get_command(char *input, int len)
 {
 	int		i;
@@ -19,9 +67,9 @@ static char	*get_command(char *input, int len)
 	char	*command;
 
 	if (is_quote(input) == 1)
-		command = (char *)malloc(sizeof(char) * len - 2);
-	else
-		command = (char *)malloc(sizeof(char) * len);
+		len -= 2;
+	printf ("len : %i\n", len);
+	command = (char *)malloc(sizeof(char) * len);
 	if (!command)
 		return (NULL);
 	i = 0;
@@ -78,7 +126,8 @@ static char	*get_param(char *input, int len, int i)
 	return (param);
 }
 
-t_parse	*get_struct(char *input)
+*/
+t_parse	*	get_struct(char *input)//mbola mila zaraina ho roa
 {
 	t_parse	*data;
 	int		i;
@@ -88,8 +137,10 @@ t_parse	*get_struct(char *input)
 	if (!data)
 		return (NULL);
 	data->command = NULL;
-	data->option = NULL;
+	data->output = NULL;
 	data->param = NULL;
+	data->input = NULL;
+	data->pid = 0;
 	i = 0;
 	while (input[i] && input[i] != ' ')
 		i++;
@@ -118,6 +169,5 @@ t_parse	*get_struct(char *input)
 		i++;
 	}
 	data->param = get_param(input, (len + 1), (i - len));
-	free(input);
 	return (data);
 }

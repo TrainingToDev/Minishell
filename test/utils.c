@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:24:45 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/07 11:27:40 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:10:31 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void free_struct(t_parse *data)
 {
     free(data->command);
-    free(data->option);
+    free(data->output);
+	free(data->input);
     free(data->param);
     free (data);
 }
@@ -59,25 +60,38 @@ int is_quote(char *string)
 			check += 1;
 		i++;
 	}
-	if ((check % 2) == 0)
+	if (check == 0)
+		return (0);
+	if ((check % 2) == 0)//error reliee a la simple quote
 		return (1);
 	else
 		return (0);
 }
 
-int check_pipe(char *input)
+int check_pipe(char *input)//but : ahafantarana oe misy pile d'execution firy
 {
 	int i;
+	int proc;
 
 	i = 0;
+	proc = 1;
 	while (input[i])
 	{
-		if (input[i] == '|')
+		if (input[i] == '\'')
 		{
-			if (input[i + 1] == ' ' && input[i - 1] == ' ')
-				return (1);//state with pipe
+			i++;
+			while ((input[i] != '\'' && input[i] != '\0'))
+				i++;
 		}
+		if (input[i] == '"')
+		{
+			i++;
+			while ((input[i] != '"' && input[i] != '\0'))
+				i++;
+		}
+		if (input[i] == '|')
+			proc++;
 		i++;
 	}
-	return (0);//state without pipe
+	return (proc);
 }

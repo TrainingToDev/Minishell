@@ -6,17 +6,16 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:49:54 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/07 11:52:23 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/11 15:06:55 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 void	without_pipe(t_env *var, t_env *env, t_parse *data, char *input)
 {
 
 }
-
 
 int	main(int argc, char **argv, char **env)
 {
@@ -34,7 +33,7 @@ int	main(int argc, char **argv, char **env)
 		while (1)
 		{
 			input = readline((const char*)getcwd(NULL, 0));
-			if (check_pipe(input) == 0)
+			//if (check_pipe(input) == 0)
 			data = get_struct(input);
 			if (add_new_var(data, var) == 1)
 				state = 1;
@@ -53,5 +52,39 @@ int	main(int argc, char **argv, char **env)
 				state = 1;
 		}
 		free(input);
+	}
+}
+*/
+/*
+static void	proc_routine(t_env *env, t_env *var, t_parse *data)
+{
+	
+} 
+*/
+
+
+
+int main (int argc, char **argv, char **en)
+{
+	//t_env *var;
+	//t_env *env;
+	//t_parse **data;//tableau de data ity len isan'ny proc
+	char	*prompt;
+	char	*input;
+	
+	(void)argv;
+	(void)en;
+	if (argc != 1)
+		return (write(2, "wrong parameter\n", 15));
+	//var = local_variable();
+	//env = get_env(en);
+	while (1)
+	{
+		prompt = ft_strjoin(getcwd(NULL, 0), " ");
+		input = readline((const char *)prompt);
+		printf("%i\n", check_pipe(input));
+		//data = get_data(input, check_pipe(input));
+		free(prompt);
+		free (input);
 	}
 }
