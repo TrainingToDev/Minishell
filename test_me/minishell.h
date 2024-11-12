@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 09:24:34 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 04:00:11 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 04:58:41 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,18 @@ typedef struct s_minishell
 }   t_minishell;
 
 
+// prototype buildins
+
+int			is_builtin(const char *cmd_name);
+int			execute_builtin(t_minishell *shell, t_command *cmd);
+int         builtin_echo(t_minishell *shell, char **args);
+int         builtin_cd(t_minishell *shell, char **args);
+int         builtin_pwd(t_minishell *shell, char **args);
+int         builtin_export(t_minishell *shell, char **args);
+int         builtin_unset(t_minishell *shell, char **args);
+int         builtin_env(t_minishell *shell, char **args);
+int         builtin_exit(t_minishell *shell, char **args);
+
 
 // test function
 char	*get_command_path(char *cmd, char **envp);
@@ -140,5 +152,8 @@ void	ft_error(const char *message, int exit_code);
 void 	exit_cmd(char *input);
 void	print_error_message(char *shell, int errnum, char *filename);
 void	change_directory(const char *path);
+
+// implemetation function for minishell
+//...
 
 #endif

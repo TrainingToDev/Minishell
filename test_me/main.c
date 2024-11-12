@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:53:04 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/03 17:23:55 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 04:52:41 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,11 @@
 // a | b | c | d > outfile < infile
 
 
-
-
-
-
-
 // tcsetattr(), tcgetattr(), tgetent()|tgetflag(), tgetnum(), tgetstr
 
-int main(int argc, char **argv, char **envp) 
+
+// old main for test
+/* int main(int argc, char **argv, char **envp) 
 {
 	char	*input;
 	char	*path;
@@ -142,4 +139,27 @@ int main(int argc, char **argv, char **envp)
 		free(input);
 	}
 	return (0);
+}
+ */
+
+// ameliorate main
+
+// volatile sig_atomic_t g_signal_received = 0;
+
+int main(int argc, char **argv, char **envp)
+{
+    t_minishell shell;
+    int         status;
+
+    if (argc != 1)
+    {
+        ft_putstr_fd("Usage: ", STDERR_FILENO);
+        ft_putendl_fd(argv[1], STDERR_FILENO);
+        return (EXIT_FAILURE);
+    }
+    if (init_minishell(&shell, envp) != 0)
+        return (EXIT_FAILURE);
+    status = minishell_loop(&shell);
+    free_env_list(shell.env_list);
+    return (status);
 }
