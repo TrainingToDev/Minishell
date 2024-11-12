@@ -6,13 +6,101 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:42:29 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/03 12:20:11 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 04:17:48 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 
+// implementation ameliorate
+
+int is_valid_identifier(const char *str)
+{
+    int i;
+
+    if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+        return (0);
+    i = 1;
+    while (str[i] && str[i] != '=')
+    {
+        if (!ft_isalnum(str[i]) && str[i] != '_')
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+// for only cmd export
+void display_exported_vars(t_minishell *shell)
+{
+    t_env_var *current;
+
+    current = shell->env_list;
+    while (current)
+    {
+        ft_putstr_fd("declare -x ", STDOUT_FILENO);
+        ft_putstr_fd(current->key, STDOUT_FILENO);
+        if (current->value)
+        {
+            ft_putstr_fd("=\"", STDOUT_FILENO);
+            ft_putstr_fd(current->value, STDOUT_FILENO);
+            ft_putchar_fd('"', STDOUT_FILENO);
+        }
+        ft_putchar_fd('\n', STDOUT_FILENO);
+        current = current->next;
+    }
+}
+// function need refactoring
+int builtin_export(t_minishell *shell, char **args)
+{
+    int i;
+    int status = 0;
+    char *key;
+    char *value;
+    char *equal_sign;
+
+    if (!args[1])
+    {
+        display_exported_vars(shell);
+        return (0);
+    }
+    i = 1;
+    while (args[i])
+    {
+        equal_sign = ft_strchr(args[i], '=');
+        if (equal_sign)
+        {
+            key = ft_substr(args[i], 0, equal_sign - args[i]);
+            value = ft_strdup(equal_sign + 1);
+        }
+        else
+        {
+            key = ft_strdup(args[i]);
+            value = NULL;
+        }
+
+        if (!is_valid_identifier(key))
+        {
+            ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+            ft_putstr_fd(args[i], STDERR_FILENO);
+            ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+            status = 1;
+            free(key);
+            free(value);
+            i++;
+            continue;
+        }
+
+        update_env(shell, key, value);
+        free(key);
+        free(value);
+        i++;
+    }
+    return (status);
+}
+
+
+/* Analyse
 export var = 
 
 bash: export: `=': not a valid identifier
@@ -28,7 +116,8 @@ export testy
     
 */
 
-#define MAX_VAR_LENGTH 256
+// simple implementation
+/* #define MAX_VAR_LENGTH 256
 #define MAX_VAL_LENGTH 256
 
 
@@ -82,10 +171,10 @@ void export_variable(const char *input)
     // Parse the input
     if (parse_variable_assignment(input, var, value) == 0)
         set_env_var(var, value);
-}
+} */
 
 
-/* 
+/* simple test in main
 int main()
 {
     char *input;
