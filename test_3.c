@@ -6,7 +6,23 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 17:27:47 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/03 17:27:48 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:57:27 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
+
+int main(void)
+{
+    int a = 0;
+
+    if(!a)
+    {
+        perror("error");
+    }
+    else
+    {
+        printf("a\n");
+    }
+}

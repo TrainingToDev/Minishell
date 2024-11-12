@@ -6,16 +6,16 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 21:47:39 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 04:35:34 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 10:20:10 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // initialization for lexer tokenization
-t_token *create_token(t_token_type type, const char *value, int expand)
+t_token	*create_token(t_token_type type, const char *value, int expand)
 {
-	t_token *new_token;
+	t_token	*new_token;
 
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
@@ -36,7 +36,7 @@ t_token *create_token(t_token_type type, const char *value, int expand)
 	return (new_token);
 }
 
-void add_token(t_token **tokens, t_token *new_token)
+void	add_token(t_token **tokens, t_token *new_token)
 {
 	t_token	*current;
 
@@ -53,7 +53,7 @@ void add_token(t_token **tokens, t_token *new_token)
 	current->next = new_token;
 }
 
-void add_operator_token(t_token **tokens, const char *input, size_t *i)
+void	add_operator_token(t_token **tokens, const char *input, size_t *i)
 {
 	int		op_len;
 	t_token	*new_token;
@@ -76,12 +76,12 @@ void add_operator_token(t_token **tokens, const char *input, size_t *i)
 	{
 		free(value);
 		return ;
-	}   
+	}
 	add_token(tokens, new_token);
 	*i += op_len;
 }
 
-void add_quoted_token(t_token **tokens, const char *input, size_t *i)
+void	add_quoted_token(t_token **tokens, const char *input, size_t *i)
 {
 	char	*value;
 	t_token	*new_token;
@@ -98,7 +98,7 @@ void add_quoted_token(t_token **tokens, const char *input, size_t *i)
 	(*i)++;
 }
 
-void add_word_token(t_token **tokens, const char *input, size_t *i)
+void	add_word_token(t_token **tokens, const char *input, size_t *i)
 {
 	char	*value;
 	t_token	*new_token;

@@ -6,38 +6,38 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 19:48:29 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 04:37:34 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 10:12:58 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Method for tokenization, need big test
-t_token_type get_operator_token_type(const char *str)
+t_token_type	get_operator_token_type(const char *str)
 {
-    if (ft_strncmp(str, "&&", 2) == 0) //for bonus
-        return (TOKEN_AND);
-    else if (ft_strncmp(str, "||", 2) == 0) //for bonus
-        return (TOKEN_OR);
-    else if (ft_strncmp(str, ">>", 2) == 0)
-        return (TOKEN_APPEND);
-    else if (ft_strncmp(str, "<<", 2) == 0)
-        return (TOKEN_HEREDOC);
-    else if (*str == '>')
-        return (TOKEN_REDIRECT_OUT);
-    else if (*str == '<')
-        return (TOKEN_REDIRECT_IN);
-    else if (*str == '|')
-        return (TOKEN_PIPE);
-    else if (*str == '(') // for bonus
-        return (TOKEN_LPAREN);
-    else if (*str == ')') // for bonus
-        return (TOKEN_RPAREN);
-    else
-        return (TOKEN_UNKNOWN); // Cas d'erreur
+	if (ft_strncmp(str, "&&", 2) == 0) //for bonus
+		return (TOKEN_AND);
+	else if (ft_strncmp(str, "||", 2) == 0) //for bonus
+		return (TOKEN_OR);
+	else if (ft_strncmp(str, ">>", 2) == 0)
+		return (TOKEN_APPEND);
+	else if (ft_strncmp(str, "<<", 2) == 0)
+		return (TOKEN_HEREDOC);
+	else if (*str == '>')
+		return (TOKEN_REDIRECT_OUT);
+	else if (*str == '<')
+		return (TOKEN_REDIRECT_IN);
+	else if (*str == '|')
+		return (TOKEN_PIPE);
+	else if (*str == '(') // for bonus
+		return (TOKEN_LPAREN);
+	else if (*str == ')') // for bonus
+		return (TOKEN_RPAREN);
+	else
+		return (TOKEN_UNKNOWN); // Cas d'erreur
 }
 
-char *extract_quoted_value(const char *input, size_t *i, int *expand)
+char	*extract_quoted_value(const char *input, size_t *i, int *expand)
 {
 	char	quote_char;
 	size_t	start;
@@ -64,15 +64,15 @@ char *extract_quoted_value(const char *input, size_t *i, int *expand)
 	return (value);
 }
 
-char *extract_word_value(const char *input, size_t *i)
+char	*extract_word_value(const char *input, size_t *i)
 {
 	size_t	start;
 	char	*value;
 
 	start = *i;
-	while (input[*i] && !ft_isspace(input[*i]) 
-			&& !is_operator(&input[*i]) && input[*i] != '\'' 
-				&& input[*i] != '\"')
+	while (input[*i] && !ft_isspace(input[*i])
+		&& !is_operator(&input[*i]) && input[*i] != '\''
+		&& input[*i] != '\"')
 		(*i)++;
 	value = ft_substr(input, start, *i - start);
 	if (!value)
@@ -82,5 +82,3 @@ char *extract_word_value(const char *input, size_t *i)
 	}
 	return (value);
 }
-
-
