@@ -6,37 +6,12 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:12:13 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/11 16:58:27 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 15:12:47 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//get_string copy and realloc
-
-static char *get_string(char *input, int end, int start)//end caractere de fin
-{
-	int i;
-	int a;
-	char *string;
-	
-	i = start;
-	while (input[i] && input[i] != end)
-		i++;
-	i = i - start;
-	string = (char *)malloc(sizeof(char) * i + 1);
-	if (!string)
-		return (NULL);
-	a = 0;
-	while (a < i)
-	{
-		string[a] = input[start];
-		start++;
-		a++;
-	}
-	string[a] = '\0';
-	return (string);
-}
 
 /*
 static char *get_input(char *input)
@@ -127,11 +102,65 @@ static char	*get_param(char *input, int len, int i)
 }
 
 */
+//get_string copy and realloc
+
+/*
+
+static char *get_string(char *input, int end, int start)//end caractere de fin
+{
+	int i;
+	int a;
+	char *string;
+	
+	i = start;
+	while (input[i] && input[i] != end)
+		i++;
+	i = i - start;
+	string = (char *)malloc(sizeof(char) * i + 1);
+	if (!string)
+		return (NULL);
+	a = 0;
+	while (a < i)
+	{
+		string[a] = input[start];
+		start++;
+		a++;
+	}
+	string[a] = '\0';
+	return (string);
+}
+
+char *get_rest(char *input, char *non, int start)
+{
+	char	*rest;
+	int i;
+	int a;
+	int len;
+
+	len = (int)ft_strlen(input) - (int)ft_strlen(non);
+	rest = (char*)malloc(sizeof(char) * len + 1);
+	if (!rest)
+		return (NULL);
+	i = 0;
+	a = 0;
+	while (input[i])
+	{
+		if (i == start)
+		{
+			
+		}
+		a++;
+		i++;
+	}
+	
+}
+*/
+
 t_parse	*	get_struct(char *input)//mbola mila zaraina ho roa
 {
 	t_parse	*data;
-	int		i;
-	int		len;
+	//int		i;
+	//int		len;
 
 	data = (t_parse *)malloc(sizeof(t_parse));
 	if (!data)
@@ -141,7 +170,10 @@ t_parse	*	get_struct(char *input)//mbola mila zaraina ho roa
 	data->param = NULL;
 	data->input = NULL;
 	data->pid = 0;
-	i = 0;
+	//i = 0;
+	data->input = input_file(input);
+	data->output = output_file(input);
+	/*
 	while (input[i] && input[i] != ' ')
 		i++;
 	data->command = get_command(input, (i));
@@ -169,5 +201,6 @@ t_parse	*	get_struct(char *input)//mbola mila zaraina ho roa
 		i++;
 	}
 	data->param = get_param(input, (len + 1), (i - len));
+	*/
 	return (data);
 }

@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:50:28 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/11 16:07:12 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 14:58:48 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 typedef struct s_parse
 {
     char *command;
-    char *param;
-    char    *input;
-    char    *output;
+    char **param;
+    char    **input;
+    char    **output;
     int pid;
 }               t_parse;
 
@@ -48,7 +48,7 @@ t_parse **get_data(char *input, int len);
 t_env	*get_env(char **env);
 t_env	*new_env(char *env);
 t_env *local_variable(void);
-char	*get_string(char *env, int i, int len, int c);
+//char	*get_string(char *env, int i, int len, int c);
 
 //builtins
 
@@ -58,5 +58,13 @@ int echo_without_option(t_parse *data);
 int pwd_command(t_parse *data);
 int env_command(t_env *env, t_parse *data);
 int export_command(t_env *env, t_parse *data);
+
+
+
+//parsing
+
+int get_number_of(char *input, int c);
+char **input_file(char *input);
+char **output_file(char *input);
 
 #endif

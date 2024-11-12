@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antanana      +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 13:39:32 by miaandri          #+#    #+#             */
-/*   Updated: 2024/03/01 11:25:22 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:37:40 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isascii(int c)
 {
 	return (c >= 0 && c <= 127);
+}
+
+int ft_isspace(int c)
+{
+	if (c == ' ')
+		return (0);
+	return (-1);
 }
