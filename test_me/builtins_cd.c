@@ -6,13 +6,56 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:37:41 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 12:38:40 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 04:04:03 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//use global variable for test
+// implementation cd with struct
+
+int builtin_cd(t_minishell *shell, char **args)
+{
+    char *dir;
+    char *cwd;
+
+    (void)shell;
+    if (!args[1])
+    {
+        ft_putendl_fd("cd: missing argument", STDERR_FILENO);
+        return (1);
+    }
+    if (args[2])
+    {
+        ft_putendl_fd("cd: too many arguments", STDERR_FILENO);
+        return (1);
+    }
+    dir = args[1];
+    if (chdir(dir) != 0)
+    {
+        ft_putstr_fd("cd: ", STDERR_FILENO);
+        ft_putstr_fd(strerror(errno), STDERR_FILENO);
+        ft_putstr_fd(": ", STDERR_FILENO);
+        ft_putendl_fd(dir, STDERR_FILENO);
+        return (1);
+    }
+    cwd = getcwd(NULL, 0);
+    if (cwd)
+    {
+        update_env(shell, "PWD", cwd);
+        free(cwd);
+    }
+    else
+    {
+        perror("cd");
+        return (1);
+    }
+    return (0);
+}
+
+
+// test for cd
+/* //use global variable for test
 static char prev_dir[1024] = "";
 
 // get_HOME
@@ -102,3 +145,4 @@ void change_directory(const char *path)
 			perror("Error getcwd");
 	}
 }
+ */
