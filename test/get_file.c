@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:12:20 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/12 15:40:25 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 16:07:56 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static char **get_file(char **in_file, char *input, int num, int c)
         }
         i++;
     }
-    in_file[j] = "\0";
     return (in_file);
 }
 
