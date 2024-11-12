@@ -6,13 +6,15 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:35:45 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/02 12:02:59 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 08:38:25 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_command_path(char *cmd, char **envp)
+
+// test implementation
+/* char	*get_command_path(char *cmd, char **envp)
 {
 	t_data_path	vars;
 
@@ -39,9 +41,9 @@ char	*get_command_path(char *cmd, char **envp)
 	}
 	free_split(vars.paths);
 	return (NULL);
-}
+} */
 
-void	free_split(char **split)
+/* void	free_split(char **split)
 {
 	int	i;
 
@@ -52,7 +54,7 @@ void	free_split(char **split)
 		i++;
 	}
 	free(split);
-}
+} */
 
 void	ft_error(const char *message, int exit_code)
 {
@@ -60,7 +62,8 @@ void	ft_error(const char *message, int exit_code)
 	exit(exit_code);
 }
 
-void	print_error_message(char *shell, int errnum, char *filename)
+// test for pipe
+/* void	print_error_message(char *shell, int errnum, char *filename)
 {
 	write(STDERR_FILENO, shell, ft_strlen(shell));
 	write(STDERR_FILENO, ": ", 2);
@@ -71,9 +74,10 @@ void	print_error_message(char *shell, int errnum, char *filename)
 	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, filename, ft_strlen(filename));
 	write(STDERR_FILENO, "\n", 1);
-}
+} */
 
-void ft_realloc(void *ptr, size_t size)
+
+/* void ft_realloc(void *ptr, size_t size)
 {
-	
-}
+
+} */

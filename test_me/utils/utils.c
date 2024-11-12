@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 18:26:55 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 04:49:21 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 08:55:35 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,3 +73,6 @@ int is_quote(char c)
 {
     return (c == '\'' || c == '\"');
 }
+
+
+void echo(char **input)

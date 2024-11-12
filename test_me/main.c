@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 10:53:04 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 04:52:41 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 09:29:42 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,12 @@
 	return (0);
 }
  */
+// key=value manage variable shell
+
 
 // ameliorate main
 
-// volatile sig_atomic_t g_signal_received = 0;
+//volatile sig_atomic_t g_signal_received = 0;
 
 int main(int argc, char **argv, char **envp)
 {

@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 09:24:34 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 04:58:41 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/12 08:40:24 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,28 @@ void	print_error_message(char *shell, int errnum, char *filename);
 void	change_directory(const char *path);
 
 // implemetation function for minishell
+
+t_token	*create_token(t_token_type type, const char *value, int expand);
+void	add_token(t_token **tokens, t_token *new_token);
+void	add_operator_token(t_token **tokens, const char *input, size_t *i);
+void	add_quoted_token(t_token **tokens, const char *input, size_t *i);
+void	add_word_token(t_token **tokens, const char *input, size_t *i);
+
+t_token_type get_operator_token_type(const char *str);
+char		*extract_quoted_value(const char *input, size_t *i, int *expand);
+char		*extract_word_value(const char *input, size_t *i);
+
+//utils
+void add_to_history(const char *input);
+int init_minishell(t_minishell *shell, char **envp);
+int minishell_loop(t_minishell *shell);
+int is_operator(const char *str);
+int is_quote(char c);
+
+
+
 //...
+
+
 
 #endif
