@@ -6,13 +6,14 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:12:20 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/12 16:07:56 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:23:02 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int get_len(char *input, int c, int start)
+/*
+static int get_len(char *input, int c, int start)//sert a trouver la taille de file[i]
 {
     int i;
     int len;
@@ -24,21 +25,49 @@ static int get_len(char *input, int c, int start)
         if (input[i] == c)
         {
             i++;
-            while (input[i] == ' ')
-            {
-                i++;
-                len++;        
-            }
-            while (input[i] != ' ')
+            while (input[i] == ' ' && input[i] != '\0')
             {
                 i++;
                 len++;
+                printf("%c->%i\n", input[i], len);
+            }
+            while (input[i] != ' ' && input[i] != c && input[i] != '\0')
+            {
+                i++;
+                len++;
+                printf("%c->%i\n", input[i], len);
             }
             return (len);
         }
         i++;
     }
-    return (-1);
+    return (len);
+}
+*/
+
+static int get_len(char *input, int c, int start)
+{
+    int i;
+    int check;
+    int len;
+
+    i = start;
+    check = 0;
+    len = 0;
+    while (input[i])
+    {
+        if (input[i] == ' ' && check == 0)
+        {
+            len++;
+        }
+        if (input[i] != ' ' && input[i] != c)
+        {
+            check = 1;
+            len++;
+        }
+        i++;
+    }
+    return (len);
 }
 
 static char **get_file(char **in_file, char *input, int num, int c)
@@ -55,11 +84,18 @@ static char **get_file(char **in_file, char *input, int num, int c)
         {
             i++;
             len = get_len(input, c, i);
+            if (len == 0)
+            {
+                printf ("i'm here\n");
+                return (NULL);
+            }
             in_file[j] = ft_substr(input, i, len);
-            j++;            
+            printf ("%s\n", in_file[j]);
+            j++;
         }
         i++;
     }
+   // in_file[j] = NULL;
     return (in_file);
 }
 
@@ -76,7 +112,6 @@ char **input_file(char *input)//malloc a free a chaque commande
 	in_file = (char**)malloc(sizeof(char*) * num + 1);
 	if (!in_file)
 		return (NULL);
-    printf ("->%i\n", num);
     in_file = get_file(in_file, input, num, '>');
     return (in_file);
 }

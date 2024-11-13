@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:49:54 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/12 15:32:26 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:26:22 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,32 +68,26 @@ int main (int argc, char **argv, char **en)
 {
 	//t_env *var;
 	//t_env *env;
-	t_parse *data;//tableau de data ity len isan'ny proc
+	//t_parse *data;//tableau de data ity len isan'ny proc
 	char	*prompt;
 	char	*input;
-	int i;
 	
 	(void)argv;
 	(void)en;
 	if (argc != 1)
-		perror ("invalid argument\n");
-		//return (write(2, "wrong parameter\n", 15));
+		//perror ("invalid argument");
+		return (write(2, "wrong parameter\n", 15));
 	//var = local_variable();
 	//env = get_env(en);
 	while (1)
 	{
 		prompt = ft_strjoin(getcwd(NULL, 0), " ");
 		input = readline((const char *)prompt);
-		printf("%i\n", check_pipe(input));
-		data = get_struct(input);
+		//printf("%i\n", check_pipe(input));
+		//data = get_struct(input);//test fini
 		//data = get_data(input, check_pipe(input));
-		i = 0;
-		while (i < get_number_of(input, '>'))
-		{
-			printf (">%s\n", data->input[i]);
-			i++;
-		}
-		
+		//printf ("%i\n", get_number_of(input, '>'));
+		printf("%i\n", quote_number(input));
 		free(prompt);
 		free (input);
 	}

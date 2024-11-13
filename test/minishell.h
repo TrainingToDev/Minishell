@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:50:28 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/12 14:58:48 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:11:09 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,14 @@ int export_command(t_env *env, t_parse *data);
 
 //parsing
 
+typedef struct s_quote
+{
+    int lock;
+    int simple;
+    int duo;
+}               t_quote;
+
+int quote_number(char *argv);//number of quote in a 
 int get_number_of(char *input, int c);
 char **input_file(char *input);
 char **output_file(char *input);
