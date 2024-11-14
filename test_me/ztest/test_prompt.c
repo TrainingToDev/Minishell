@@ -55,7 +55,6 @@ char	*get_prompt()
 		return (NULL);
 	}
 	free(tmp);
-    // prompt = cwd;
 	return (prompt);
 }
 
