@@ -6,13 +6,13 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 00:11:50 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 04:48:32 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:35:23 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// prompt creativity, need amelioration and test for all input
+// prompt resolved
 
 char	*get_prompt(t_minishell *shell)
 {
@@ -27,12 +27,12 @@ char	*get_prompt(t_minishell *shell)
 		if (!cwd)
 			return (NULL);
 	}
-	prompt = ft_strjoin(COLOR_GREEN, cwd);
+	prompt = ft_strjoin("\001"COLOR_GREEN"\002", cwd);
 	free(cwd);
 	if (!prompt)
 		return (NULL);
 	tmp = prompt;
-	prompt = ft_strjoin(prompt, COLOR_RESET " $ ");
+	prompt = ft_strjoin(prompt, "\001"COLOR_RESET"002" " $ ");
 	if (!prompt)
 	{
 		free(tmp);
