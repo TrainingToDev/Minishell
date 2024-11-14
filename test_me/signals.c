@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:01:27 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 04:51:06 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:56:25 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // need amelioration
 
-
+volatile sig_atomic_t g_signal_received;
 /* 
 One global variable for signal
 

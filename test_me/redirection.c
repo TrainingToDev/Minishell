@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:00:19 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/14 13:27:24 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:33:03 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int handle_heredoc(t_redirection *redir)
     {
         line = readline("> ");
         if (!line || ft_strcmp(line, redir->filename) == 0)
-            break;
+            break ;
         ft_putendl_fd(line, fd[1]);
         free(line);
     }
