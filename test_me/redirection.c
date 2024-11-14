@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:00:19 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 04:24:23 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:27:24 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 
 int setup_redirections(t_command *cmd)
 {
-    t_redirection *redir = cmd->redirs;
+    t_redirection *redir;
     int fd;
 
+    redir = cmd->redirs;
     while (redir)
     {
         if (redir->type == REDIR_IN)

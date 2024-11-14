@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 23:57:47 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 04:25:26 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:28:44 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ int execute_pipeline(t_minishell *shell, t_ast *ast)
 	}
 	else if (pid == 0)
 	{
-		// Processus enfant : exécute la commande de gauche
-		close(pipe_fd[0]); // Ferme la lecture du pipe
+		// exec left cmd
+		close(pipe_fd[0]);
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
 		exit(execute_ast(shell, ast->left));
 	}
 	else
 	{
-		// Processus parent : exécute la commande de droite
-		close(pipe_fd[1]); // Ferme l'écriture du pipe
+		// exec right
+		close(pipe_fd[1]);
 		dup2(pipe_fd[0], STDIN_FILENO);
 		close(pipe_fd[0]);
 		status = execute_ast(shell, ast->right);
