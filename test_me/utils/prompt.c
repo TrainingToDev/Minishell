@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 00:11:50 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/14 11:35:23 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:50:37 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*get_prompt(t_minishell *shell)
 	char	*prompt;
 	char	*tmp;
 
+	(void) shell;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
