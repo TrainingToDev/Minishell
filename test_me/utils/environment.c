@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 18:21:25 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 09:28:06 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:54:16 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_env_var	*create_env_var(const char *input_env)
 	return (env_var);
 }
 
-void add_env_var(t_env_var **env_list, t_env_var *new_var)
+void	add_env_var(t_env_var **env_list, t_env_var *new_var)
 {
 	t_env_var	*current;
 
@@ -86,7 +86,7 @@ void add_env_var(t_env_var **env_list, t_env_var *new_var)
 	}
 }
 
-t_env_var *convert_envp_to_list(char **envp)
+t_env_var	*convert_envp_to_list(char **envp)
 {
 	t_env_var   *env_list;
 	t_env_var   *new_var;
