@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:49:54 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/13 16:26:22 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:41:08 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int main (int argc, char **argv, char **en)
 	//t_parse *data;//tableau de data ity len isan'ny proc
 	char	*prompt;
 	char	*input;
+	char   **data;
 	
 	(void)argv;
 	(void)en;
@@ -83,12 +84,13 @@ int main (int argc, char **argv, char **en)
 	{
 		prompt = ft_strjoin(getcwd(NULL, 0), " ");
 		input = readline((const char *)prompt);
-		//printf("%i\n", check_pipe(input));
+		printf("%i\n", check_pipe(input));
+		printf("%i\n", valid_pipe(input));
+		printf("%i\n", quote_number(input));
+		data = get_exec(input);
 		//data = get_struct(input);//test fini
 		//data = get_data(input, check_pipe(input));
 		//printf ("%i\n", get_number_of(input, '>'));
-		printf("%i\n", quote_number(input));
 		free(prompt);
-		free (input);
 	}
 }

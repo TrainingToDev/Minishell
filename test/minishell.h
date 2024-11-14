@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:50:28 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/13 16:11:09 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:09:24 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ typedef struct s_quote
     int duo;
 }               t_quote;
 
+int valid_pipe(char *input);//number of valid quote
 int quote_number(char *argv);//number of quote in a 
+char **get_pile(char *input);//get the pile of execution
+char **get_exec(char *input);//get_pile ihany
 int get_number_of(char *input, int c);
 char **input_file(char *input);
 char **output_file(char *input);

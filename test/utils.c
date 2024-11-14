@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:24:45 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/13 14:50:08 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/14 10:47:41 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,30 +47,3 @@ int	is_alpha(int c)
 	return (0);
 }
 
-int check_pipe(char *input)//but : ahafantarana oe misy pile d'execution firy
-{
-	int i;
-	int proc;
-
-	i = 0;
-	proc = 1;
-	while (input[i])
-	{
-		if (input[i] == '\'')
-		{
-			i++;
-			while ((input[i] != '\'' && input[i] != '\0'))
-				i++;
-		}
-		if (input[i] == '"')
-		{
-			i++;
-			while ((input[i] != '"' && input[i] != '\0'))
-				i++;
-		}
-		if (input[i] == '|')
-			proc++;
-		i++;
-	}
-	return (proc);
-}

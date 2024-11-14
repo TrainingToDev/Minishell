@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:30:15 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/13 16:03:59 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:33:26 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void state (t_quote *data, int i)
         if (data->duo % 2 == 0)
             data->lock = 0;
     }
-} 
+}
 
 int quote_number(char *argv)
 {
