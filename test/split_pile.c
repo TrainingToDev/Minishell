@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 13:14:35 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/14 17:20:44 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/15 08:39:32 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,14 @@ static char **get(char **data, char *input)
     
     j = 0;
     i = 0;
-    while (j <= valid_pipe(input) && input[i])
+    while (j < valid_pipe(input) && input[i])
     {
         len = get_len(input, i) - i;
         data[j] = ft_substr(input, i, len);
-        printf("%s->index data:%i->len:%i\n", data[j], j, len);
         j++;
         i += (len + 1);
     }
-    //data[j] = NULL;
+    data[j] = NULL;
     return (data);
 }
 

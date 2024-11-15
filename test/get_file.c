@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:12:20 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/13 13:23:02 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/15 09:14:56 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ char **input_file(char *input)//malloc a free a chaque commande
 	in_file = (char**)malloc(sizeof(char*) * num + 1);
 	if (!in_file)
 		return (NULL);
+    printf("i'm input\n");
     in_file = get_file(in_file, input, num, '>');
     return (in_file);
 }
@@ -129,6 +130,7 @@ char **output_file(char *input)//malloc a free a chaque commande
 	out_file = (char**)malloc(sizeof(char*) * num + 1);
 	if (!out_file)
 		return (NULL);
+    printf("i'm output");
     out_file = get_file(out_file, input, num, '<');
     return (out_file);
 }

@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:12:13 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/13 12:59:55 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/15 09:07:51 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,5 +202,20 @@ t_parse	*	get_struct(char *input)//mbola mila zaraina ho roa
 	}
 	data->param = get_param(input, (len + 1), (i - len));
 	*/
+	free(input);
 	return (data);
 }
+/*
+void	get_stuct(char **data, t_parse *contain)
+{
+	int i;
+
+	i = 0;
+	while (data[i])
+	{
+		get_struct()
+		i++;
+	}
+	
+}
+*/
