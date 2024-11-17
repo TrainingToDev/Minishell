@@ -1,0 +1,5 @@
+Erreur: Problème de connexion à la base de données
+Info: Connexion réussie
+Erreur: Échec de l'authentification de l'utilisateur
+Avertissement: Utilisation élevée de la mémoire
+Erreur: Temps d'attente dépassé pour la requête

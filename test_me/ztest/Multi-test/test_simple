@@ -1,0 +1,31 @@
+1) test for variable 
+
+name="Alice"
+echo "Bonjour, $name!"
+
+
+2) test for fun
+current_date=$(date)
+echo "Aujourd'hui, nous sommes le $current_date"
+
+3) Paramètres de script
+#!/bin/bash
+echo "Le premier paramètre est $1"
+echo "Le deuxième paramètre est $2"
+
+4) Récupération du PID du processus courant
+echo "Le PID du shell courant est $$"
+
+5) variable d'environnement
+echo "Votre répertoire home est $HOME"
+
+
+6) Paramètre spécial $?
+
+ls /nonexistent_directory
+echo "Le statut de sortie de la dernière commande est $?"
+
+7) Manage error for:
+echo "Nombre de paramètres passés au script : $#"
+echo "Tous les paramètres passés au script : $@"
+

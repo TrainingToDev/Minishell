@@ -1,0 +1,82 @@
+List of command
+
+1)
+cat log.txt | grep 'Erreur' | sort | uniq > erreurs_triees.txt
+
+2)
+cat data.csv | awk -F',' '{print $1+$2+$3}' | paste -sd+ - | bc
+
+3)
+cat students.txt | sort | uniq -c | sort -nr
+
+4)
+cat Plaintext | grep 'pattern' | cut -d',' -f1 | sort | uniq -c | awk '{print $2, $1}' | sort -nr | head -n 10 | tee top10.txt | less
+
+5)
+cat numbers.txt | tr ',' '\n' | sort -n | uniq | awk '{print $1 * 2}' | paste -sd+ | bc | tee sum.txt | xargs echo "The sum is:" | tee -a results.log | less
+
+
+6)
+echo "testing for redirection" > output.txt
+sort < input.txt
+echo "Another line" >> output.txt
+cat << EOF > output.txt
+grep 'pattern' < input.txt | sort > sorted_results.txt
+
+
+test error: not manage in project, for fun
+---------------------------------------
+ls non_existent_file 2> error.log
+
+command > output.log 2> error.log
+command > all_output.log 2>&1
+----------------------------------------
+
+7)
+echo "Logging and displaying" | tee output.log
+echo "Appending with tee" | tee -a output.log
+
+8) test complex: input.txt, append.txt, script.sh
+cat < input.txt | grep 'Ligne' | tee intermediate.txt | awk '{print $1 " modifiée"}' | tee modified.txt | sort | uniq > sorted.txt
+cat append.txt >> sorted.txt
+cat sorted.txt
+bash << EOF
+echo "Exécution de script.sh avec un here document"
+EOF
+bash script.sh
+
+9) test < au debut:
+< text.txt cat
+< text.txt sort
+< text.txt wc
+< text.txt grep 'mot'
+< data.csv cut -d',' -f1
+
+{data.csv
+Alice,24
+Bob,30
+Charlie,22
+}
+
+< numbers.txt paste -sd+ | bc
+
+
+< input.txt sort > sorted.txt
+< log.txt grep 'Error' > errors.txt | cat errors.txt
+< data.csv awk -F',' '{print $1}' | sort | uniq > names.txt
+< data.csv awk -F',' '{print $1}' | sort | uniq > names.txt
+
+< numbers.txt paste -sd+ | bc > sum.txt | cat sum.txt
+
+{
+1
+2
+3
+4
+5
+}
+
+< input.txt some_command > output.log 2> error.log
+
+
+
