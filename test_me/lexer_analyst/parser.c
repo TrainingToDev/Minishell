@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:59:23 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 11:41:28 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/17 13:49:52 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@
 
 t_ast	*parser(t_token **tokens)
 {
-	return parse_pipeline(tokens);
+	return (parse_pipeline(tokens));
 }
 
 t_ast	*parse_pipeline(t_token **tokens)
 {
-	t_ast	*left = parse_command(tokens);
+	t_ast	*left;
 	t_ast	*ast;
 
+	left = parse_command(tokens);
 	while (*tokens && (*tokens)->type == TOKEN_PIPE)
 	{
 		*tokens = (*tokens)->next;
@@ -44,9 +45,9 @@ t_ast	*parse_pipeline(t_token **tokens)
 t_ast	*parse_command(t_token **tokens)
 {
 	if (*tokens && (*tokens)->type == TOKEN_LPAREN)
-		return parse_subshell(tokens);
+		return (parse_subshell(tokens));
 	else
-		return parse_simple_command(tokens);
+		return (parse_simple_command(tokens));
 }
 
 t_ast	*parse_subshell(t_token **tokens)
@@ -77,9 +78,10 @@ t_ast	*parse_subshell(t_token **tokens)
 
 t_ast	*parse_simple_command(t_token **tokens)
 {
-	t_command *cmd = malloc(sizeof(t_command));
-	t_ast     *ast;
+	t_command	*cmd;
+	t_ast		*ast;
 
+	cmd = malloc(sizeof(t_command));
 	if (!cmd)
 		return (NULL);
 	cmd->argc = 0;
@@ -143,16 +145,15 @@ t_ast	*parse_input(const char *input)
 	return (ast);
 }
 
-t_ast *parse_expression(t_token **tokens)
+t_ast	*parse_expression(t_token **tokens)
 {
-	t_ast	*left;
-	t_ast	*ast;
-
+	t_ast			*left;
+	t_ast			*ast;
+	t_token_type	op_type;
+	
 	left = parse_term(tokens);
 	while (*tokens && ((*tokens)->type == TOKEN_OR))
 	{
-		t_token_type	op_type;
-		
 		op_type = (*tokens)->type;
 		*tokens = (*tokens)->next;
 		ast = malloc(sizeof(t_ast));
@@ -170,16 +171,15 @@ t_ast *parse_expression(t_token **tokens)
 	return (left);
 }
 
-t_ast *parse_term(t_token **tokens)
+t_ast	*parse_term(t_token **tokens)
 {
-	t_ast	*left;
-	t_ast	*ast;
+	t_ast			*left;
+	t_ast			*ast;
+	t_token_type	op_type;
 
 	left = parse_factor(tokens);
 	while (*tokens && ((*tokens)->type == TOKEN_AND))
 	{
-		t_token_type op_type;
-
 		op_type = (*tokens)->type;
 		*tokens = (*tokens)->next;
 		ast = malloc(sizeof(t_ast));
@@ -197,9 +197,10 @@ t_ast *parse_term(t_token **tokens)
 	return (left);
 }
 
-t_ast *parse_factor(t_token **tokens)
+t_ast	*parse_factor(t_token **tokens)
 {
 	t_ast	*ast;
+
 	if ((*tokens)->type == TOKEN_LPAREN)
 	{
 		*tokens = (*tokens)->next;
@@ -232,7 +233,13 @@ t_ast	*parse_and_or(t_token **tokens)
 	left = parse_pipeline(tokens);
 	while (*tokens && ((*tokens)->type == TOKEN_AND || (*tokens)->type == TOKEN_OR))
 	{
-		t_node_type op_type = (*tokens)->type == TOKEN_AND ? NODE_AND : NODE_OR;
+		t_node_type	op_type;
+		// t_node_type op_type = (*tokens)->type == TOKEN_AND ? NODE_AND : NODE_OR;
+
+		if ((*tokens)->type == TOKEN_AND)
+			op_type == NODE_AND;
+		else
+			op_type == NODE_OR;
 		*tokens = (*tokens)->next;
 		ast = malloc(sizeof(t_ast));
 		if (!ast)
