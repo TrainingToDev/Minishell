@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 11:55:48 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/17 13:35:33 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/17 13:37:17 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ char	*get_prompt()
 int main(void)
 {
     char *input;
-    // char *prompt = get_prompt();
-    // if (!prompt)
-    //     return (-1);
-
+ 
     while(1)
     {
         input = readline(get_prompt());
