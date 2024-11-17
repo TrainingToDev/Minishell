@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 11:55:48 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/14 11:55:49 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/17 13:35:33 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,6 @@
 # define COLOR_GREEN "\033[32m"
 
 // version with test basic
-
-int get_display_length(const char *str) 
-{
-    int len = 0;
-    while (*str) {
-        if (*str == '\033')
-        {
-            while (*str && *str != 'm')
-                str++;
-        } 
-        else
-        {
-            len++;
-        }
-        str++;
-    }
-    return len;
-}
-
 
 char	*get_prompt()
 {
