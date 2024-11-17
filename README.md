@@ -1,7 +1,6 @@
 # Minishell
 As beautifull as a shell
 Write a shell
-############
 
 # DOC
 [GNU Bash manual](https://www.gnu.org/savannah-checkouts/gnu/bash/manual)<br>
