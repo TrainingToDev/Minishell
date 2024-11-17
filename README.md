@@ -26,6 +26,18 @@ Write a shell
 [42_minishell_tester](https://github.com/zstenger93/42_minishell_tester)<br>
 [minishell_tester](https://github.com/thallard/minishell_tester)<br>
 
+# info
+
+-> Tube anonymes (|),
+-> Tube nommés
+
+
+
+
+
+
+
+
 
 
 # Mandatory:

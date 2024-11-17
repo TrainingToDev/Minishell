@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 13:31:54 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/14 13:52:26 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/17 11:42:49 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 t_ast execute_command()
 {
-    
+    // need test
 }
 
 t_ast execute_pipeline()
 {
-    
+    // need test
 }
 
 t_ast execute_logical()
 {
-    
+    // need test
 }
   
 t_ast execute_subshell()
 {
-    
+    // need test
 }

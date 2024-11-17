@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 09:39:06 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/17 09:43:48 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/17 13:31:27 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,15 @@ t_ast	*parse_simple_command(t_token **tokens)
 	return (ast);
 }
 
+// main for test
+
+int main (void)
+{
+	
 
 
-
+	
+}
 
 
 

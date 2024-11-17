@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 04:21:55 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/14 13:41:13 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/17 11:41:45 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // first implementation for unset
 
-int is_valid_identifier_unset(const char *str)
+int	is_valid_identifier_unset(const char *str)
 {
 	int i;
 
@@ -30,7 +30,7 @@ int is_valid_identifier_unset(const char *str)
 	return (1);
 }
 
-void remove_env_var(t_minishell *shell, const char *key)
+void	remove_env_var(t_minishell *shell, const char *key)
 {
 	t_env_var   *current;
 	t_env_var   *prev;
@@ -48,14 +48,14 @@ void remove_env_var(t_minishell *shell, const char *key)
 			free(current->key);
 			free(current->value);
 			free(current);
-			return;
+			return ;
 		}
 		prev = current;
 		current = current->next;
 	}
 }
 
-int builtin_unset(t_minishell *shell, char **args)
+int	builtin_unset(t_minishell *shell, char **args)
 {
 	int i;
 	int status = 0;
@@ -70,7 +70,7 @@ int builtin_unset(t_minishell *shell, char **args)
 			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 			status = 1;
 			i++;
-			continue;
+			continue ;
 		}
 		remove_env_var(shell, args[i]);
 		i++;

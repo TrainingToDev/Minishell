@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 18:14:06 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 04:31:58 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/17 11:53:31 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ int execute_external(t_minishell *shell, t_command *cmd)
 	pid = fork();
 	if (pid == 0)
 	{
-		envp = env_list_to_envp(shell->env_list);
+		envp = env_list_to_envp(shell->env_list); // ...
 		path = find_executable(cmd->argv[0], shell);
 		if (!path)
 		{
-			perror("command not found"); //test
+			perror("command not found");
 			exit(127); // test code
 		}
 		execve(path, cmd->argv, envp);
