@@ -12,9 +12,9 @@
 
 NAME = minishell
 
-SRC = main.c get_struct.c utils.c list_utils.c parse_utils.c get_file.c\
-		quote_utils.c pipe_utils.c split_pile.c
-
+SRC = main.c pipe_utils.c quote_utils.c split_pile.c manage_array.c\
+		get_token.c token_utils.c get_state.c quote_error.c utils.c
+		
 CC = cc -g -Wall -Werror -Wextra 
 
 RM = rm -f

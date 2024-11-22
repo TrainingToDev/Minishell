@@ -48,7 +48,7 @@ int    echo_command(t_parse *data)
 {
     if (exact_command(data->command, "echo") != 1)
         return (0);
-    if (exact_command(data->option, "-n") != 1)  
+  //  if (exact_command(data->option, "-n") != 1)  
         return (0);
     if (data->param == NULL)
     {

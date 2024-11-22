@@ -80,19 +80,5 @@ int quote_number(char *argv)
         }
         i++;
     }
-    return (num/2);
+    return (num%2);
 }
-/*
-char *reform(char *arg)//reformuler les chars avec des quotes
-{
-    int i;
-    int state;
-    char *
-    
-    i = 0;
-    state = is_quote(arg);
-    if (state == 0)
-        return (arg);
-    
-}
-*/

@@ -58,7 +58,7 @@ int export_command(t_env *env, t_parse *data)
 {
     if (exact_command(data->command, "export") != 1)
         return (0);
-    if (data->option != NULL)
+   // if (data->option != NULL)
         return (0);
     if (is_variable(data->param) != 1)
         return (0);
@@ -71,7 +71,7 @@ int env_command(t_env *env, t_parse *data)
 {
     if (exact_command(data->command, "env") != 1)
         return (0);
-    if (data->option != NULL)
+   // if (data->option != NULL)
         return (0);
     if (data->param != NULL)
         return (0);

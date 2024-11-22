@@ -12,23 +12,6 @@
 
 #include "minishell.h"
 
-static int quote_case(char *input, int i)
-{
-    if (input[i] == '\'')
-	{
-		i++;
-		while ((input[i] != '\'' && input[i] != '\0'))
-			i++;
-	}
-	if (input[i] == '"')
-	{
-		i++;
-		while ((input[i] != '"' && input[i] != '\0'))
-			i++;
-	}
-    return (i);
-}
-
 static int get_len(char *input, int start)
 {
     int i;
@@ -57,6 +40,7 @@ static char **get(char **data, char *input)
     {
         len = get_len(input, i) - i;
         data[j] = ft_substr(input, i, len);
+        printf("exec : %s\n", data[j]);
         j++;
         i += (len + 1);
     }
@@ -65,7 +49,7 @@ static char **get(char **data, char *input)
 }
 
 
-char **get_pile(char *input)
+char **get_pile(char *input)//splited by "|"                                                            
 {
     char **data;
     
@@ -75,5 +59,6 @@ char **get_pile(char *input)
     if (!data)
         return (NULL);
     data = get(data, input);
+    free(input);
     return (data);
 }

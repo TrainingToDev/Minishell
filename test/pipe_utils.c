@@ -6,13 +6,13 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:47:13 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/14 16:40:53 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:10:21 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int quote_case(char *input, int i)
+int quote_case(char *input, int i)
 {
     if (input[i] == '\'')
 	{
@@ -26,6 +26,8 @@ static int quote_case(char *input, int i)
 		while ((input[i] != '"' && input[i] != '\0'))
 			i++;
 	}
+    if (input[i] == '\0')
+        return (i - 1);
     return (i);
 }
 
@@ -78,18 +80,64 @@ int valid_pipe(char *input)//laisee passer les espaces apres pipe
     return (num);
 }
 
-char **get_exec(char *input)
+static int void_pipe(char  *input, int i)
 {
-    char **data;
-    
-    if (valid_pipe(input) != check_pipe(input))
+    int cpy;
+
+    cpy = i;
+    while (i > 0)
     {
-        free(input);
-        write (2, "NO VALID PIPE\n", 14);
-        return (NULL);
+        i--;
+        if (is_alpha(input[i]) == 1)
+            return (1);
     }
-    else 
-        data = get_pile(input);
-    free(input);
-    return (data);
+    i = cpy + 1; 
+    while (input[i] != '|' && input[i])
+    {
+        if (is_alpha(input[i]) == 1)
+            return (1);
+        i++;
+    }
+    write (2, "syntax error near unexpected token `|'\n",40);
+    return (-1);
 }
+int pipe_void(char *input)
+{
+    int i;
+
+    i = 0;
+    while (input[i])
+    {
+        i = quote_case(input, i);
+        if (input[i] == '|')
+        {
+            if (void_pipe(input, i) == -1)
+                return (-1);
+        }
+        i++;
+    }
+    return (0);
+}
+
+int check_redir(char *input)
+{
+    int i;
+
+    i = 0;
+    while (input[i])
+    {
+        if (input[i] == '"' || input[i] == '\'')
+            i = quote_case(input, i);
+        else if (input[i] == '>' || input[i] == '>')
+        {
+            if (test4(input, i) == -1 )//|| test1(input, i) == -1 ||
+                //test3(input, i) == -1 || test2(input, i)  == -1)
+                    return (-1);
+        }
+        i++;
+    }
+    return (0);
+}
+
+
+
