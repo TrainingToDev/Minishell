@@ -21,36 +21,39 @@ echo "testing for redirection" > output.txt (OK)
 sort < input.txt (ok)
 echo "Another line" >> output.txt (ok)
 cat << EOF > output.txt (ok)
-grep 'pattern' < input.txt | sort > sorted_results.txt
+grep 'pattern' < input.txt | sort > sorted_results.txt (ok)
 
-
+*******************************************
 test error: not manage in project, for fun
 ---------------------------------------
+not be leak for this redirection (2>)
+
 ls non_existent_file 2> error.log // to manage 2>
 
 command > output.log 2> error.log // to manage
 command > all_output.log 2>&1 
 ----------------------------------------
+*******************************************
 
 7)
-echo "Logging and displaying" | tee output.log
-echo "Appending with tee" | tee -a output.log
+echo "Logging and displaying" | tee output.log (ok)
+echo "Appending with tee" | tee -a output.log (ok)
 
 8) test complex: input.txt, append.txt, script.sh
-cat < input.txt | grep 'Ligne' | tee intermediate.txt | awk '{print $1 " modifiée"}' | tee modified.txt | sort | uniq > sorted.txt
+cat < input.txt | grep 'Ligne' | tee intermediate.txt | awk '{print $1 " modifiée"}' | tee modified.txt | sort | uniq > sorted.txt (ok)
 cat append.txt >> sorted.txt
-cat sorted.txt
-bash << EOF
+cat sorted.txt (ok)
+bash << EOF (pre-ok)
 echo "Exécution de script.sh avec un here document"
 EOF
 bash script.sh
 
 9) test < au debut:
-< text.txt cat
-< text.txt sort
-< text.txt wc
-< text.txt grep 'mot'
-< data.csv cut -d',' -f1
+< text.txt cat (ok)
+< text.txt sort (ok)
+< text.txt wc (ok)
+< text.txt grep 'mot' (ok)
+< data.csv cut -d',' -f1 (ok)
 
 {data.csv
 Alice,24
@@ -58,12 +61,75 @@ Bob,30
 Charlie,22
 }
 
-< numbers.txt paste -sd+ | bc //review for test
+< numbers.txt paste -sd+ | bc (ok)
 
 
-< input.txt sort > sorted.txt // need parsing in project
-< log.txt grep 'Error' > errors.txt | cat errors.txt
-< data.csv awk -F',' '{print $1}' | sort | uniq > names.txt
+< input.txt sort > sorted.txt (failed)
+
+****************test***************
+Test> < input.txt sort > sorted.txt
+Token type: 2, value: '<'
+Token type: 0, value: 'input.txt'
+Token type: 0, value: 'sort'
+Token type: 3, value: '>'
+Token type: 0, value: 'sorted.txt'
+Abstract Syntax Tree (AST):
+NODE_COMMAND: [ sort ]
+  REDIR_OUT: sorted.txt
+  
+not manage: REDIR_IN: input.txt
+***********************************
+
+< log.txt grep 'Error' > errors.txt | cat errors.txt (failed)
+
+****************test***************
+Test> < log.txt grep 'Error' > errors.txt | cat errors.txt
+Token type: 2, value: '<'
+Token type: 0, value: 'log.txt'
+Token type: 0, value: 'grep'
+Token type: 0, value: 'Error'
+Token type: 3, value: '>'
+Token type: 0, value: 'errors.txt'
+Token type: 1, value: '|'
+Token type: 0, value: 'cat'
+Token type: 0, value: 'errors.txt'
+Abstract Syntax Tree (AST):
+NODE_PIPE: 
+  NODE_COMMAND: [ grep Error ]
+    REDIR_OUT: errors.txt
+  NODE_COMMAND: [ cat errors.txt ]
+  
+ not manage: REDIR_IN: log.txt
+***********************************
+
+
+< data.csv awk -F',' '{print $1}' | sort | uniq > names.txt (failed)
+***********************************
+Test> < data.csv awk -F',' '{print $1}' | sort | uniq > names.txt
+Token type: 2, value: '<'
+Token type: 0, value: 'data.csv'
+Token type: 0, value: 'awk'
+Token type: 0, value: '-F'
+Token type: 0, value: ','
+Token type: 0, value: '{print $1}'
+Token type: 1, value: '|'
+Token type: 0, value: 'sort'
+Token type: 1, value: '|'
+Token type: 0, value: 'uniq'
+Token type: 3, value: '>'
+Token type: 0, value: 'names.txt'
+Abstract Syntax Tree (AST):
+NODE_PIPE: 
+  NODE_PIPE: 
+    NODE_COMMAND: [ awk -F , {print $1} ]
+      REDIR_IN: data.csv
+    NODE_COMMAND: [ sort ]
+  NODE_COMMAND: [ uniq ]
+    REDIR_OUT: names.txt
+
+***********************************
+
+
 < data.csv awk -F',' '{print $1}' | sort | uniq > names.txt
 
 < numbers.txt paste -sd+ | bc > sum.txt | cat sum.txt //test ok
@@ -76,7 +142,8 @@ Charlie,22
 5
 }
 
-< input.txt some_command > output.log 2> error.log
+< input.txt some_command > output.log 2> error.log  (not manage in subject but must be an message error if check 2>)
+
 
 
 
