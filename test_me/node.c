@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 02:01:33 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/23 11:16:45 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/23 11:20:44 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void traverse_ast(t_ast *node, void (*callback)(t_ast *))
 }
 
 //test for execution
-int evaluate_ast(t_ast *node)
+/* int evaluate_ast(t_ast *node)
 {
     if (!node)
         return (0);
@@ -98,7 +98,7 @@ int evaluate_ast(t_ast *node)
         return (execute_subshell(node->left));
     display_error("Unknown AST node type");
     return (-1);
-}
+} */
 
 //test for parsing
 int validate_ast(t_ast *node)
