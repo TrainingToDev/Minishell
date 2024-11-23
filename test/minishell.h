@@ -100,16 +100,27 @@ int check_redir(char *input);
 //test_token
 //1:command
 //2:fichier de redirection sans le signe de redirection
+//-20:fichier de redirection (avec le signe de redirection)avec autes redirection dans le token 
+//20:fichier de redirection (sans le signe de redirection)avec autes redirection dans le token
 //-2:fichier de redirection avec le signe de redirection
-//3:eof de heredoc sans signe de heredoc 
+//3:eof de heredoc sans signe de heredoc
+//30:eof de heredoc avec d'autres caracteres de redirection (sans le signe de heredoc)
+//-30:eof de heredoc avec d'autres caracteres de redirection (avec le signe de heredoc)
 //-3:eof de heredoc avec signe de heredoc
 //4:input sans signe
+//40:input avec d'autres caracteres de redirection (sans le signe de input)
+//-40:input avec d'autres caracteres de redirection (avec le signe de input)
 //-4:input avec signe
+//5:output sans signe
+//50:output avec d'autres caracteres de redirection (sans le signe de output)
+//-50:output avec d'autres caracteres de redirection (avec le signe de output)
+//-5:output avec signe
 //-1:error
 void    get_all_state(t_token **all);
 void command (t_token **tok);
 void  is_redir(t_token **tok);
 void    is_heredoc(t_token **tok);
 void    is_input_file(t_token **tok);
+void    is_output_file(t_token **tok);
 
 #endif

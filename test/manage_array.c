@@ -82,6 +82,7 @@ void    get_all_state(t_token **all)
             is_redir(&all[i]);
             is_heredoc(&all[i]);
             is_input_file(&all[i]);
+            is_output_file(&all[i]);
             command(&all[i]);
             printf("the new state is : %i for the token : %s\n", all[i]->state, all[i]->token);
             if (all[i]->next != NULL)
@@ -92,6 +93,7 @@ void    get_all_state(t_token **all)
             is_redir(&all[i]);
             is_heredoc(&all[i]);
             is_input_file(&all[i]);
+            is_output_file(&all[i]);
             command(&all[i]);
             printf("the new state is : %i for the token : %s\n", all[i]->state, all[i]->token);
         }

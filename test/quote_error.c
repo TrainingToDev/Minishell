@@ -70,31 +70,26 @@ int test3(char *input, int i)
 
 int test4(char *input, int i)
 {
-    int check;
-
-    check = 0;
     if (input[i] == '>' || input[i] == '<')
     {
-        i++;
-        while (input[i] && (input[i] != '>' || input[i] != '<'))
+        if (input[i + 1])
         {
-            if (input[i] != ' ')
-            {
-                printf ("%c : here\n", input[i]);
-                 return (0);
-            }
+            if (input[i + 1] == '>' || input[i + 1] == '<')
+                i += 2;
+            else
+                i++;
+        }
+        while (input[i] && input[i] != '>' && input[i] != '<')
+        {
+            if (is_alpha(input[i]) == 1)
+                return (0);
             i++;
         }
         if (input[i] == '\0')
-        {
             error(0);
-            return (-1);
-        }
-        else if (input[i] == '>' || input[i] == '<')
-        {
-            error(1);
-            return (-1);
-        }
+        if (input[i] == '>' || input[i] == '<')
+            error (1);
+        return (-1);
     }
     return (0);
 }

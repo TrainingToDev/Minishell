@@ -130,8 +130,8 @@ int check_redir(char *input)
             i = quote_case(input, i);
         else if (input[i] == '>' || input[i] == '>')
         {
-            if (test4(input, i) == -1 )//|| test1(input, i) == -1 ||
-                //test3(input, i) == -1 || test2(input, i)  == -1)
+            if (test4(input, i) == -1 || test1(input, i) == -1 ||
+                test3(input, i) == -1 || test2(input, i)  == -1)
                     return (-1);
         }
         i++;
