@@ -1,26 +1,26 @@
 List of command
 
 1)
-cat log.txt | grep 'Erreur' | sort | uniq > erreurs_triees.txt
+cat log.txt | grep 'Erreur' | sort | uniq > erreurs_triees.txt (ok)
 
 2)
-cat data.csv | awk -F',' '{print $1+$2+$3}' | paste -sd+ - | bc
+cat data.csv | awk -F',' '{print $1+$2+$3}' | paste -sd+ - | bc (ok)
 
 3)
-cat students.txt | sort | uniq -c | sort -nr
+cat students.txt | sort | uniq -c | sort -nr (ok)
 
 4)
-cat Plaintext | grep 'pattern' | cut -d',' -f1 | sort | uniq -c | awk '{print $2, $1}' | sort -nr | head -n 10 | tee top10.txt | less
+cat Plaintext | grep 'pattern' | cut -d',' -f1 | sort | uniq -c | awk '{print $2, $1}' | sort -nr | head -n 10 | tee top10.txt | less (ok)
 
 5)
-cat numbers.txt | tr ',' '\n' | sort -n | uniq | awk '{print $1 * 2}' | paste -sd+ | bc | tee sum.txt | xargs echo "The sum is:" | tee -a results.log | less
+cat numbers.txt | tr ',' '\n' | sort -n | uniq | awk '{print $1 * 2}' | paste -sd+ | bc | tee sum.txt | xargs echo "The sum is:" | tee -a results.log | less (ok)
 
 
 6)
-echo "testing for redirection" > output.txt
-sort < input.txt
-echo "Another line" >> output.txt
-cat << EOF > output.txt
+echo "testing for redirection" > output.txt (OK)
+sort < input.txt (ok)
+echo "Another line" >> output.txt (ok)
+cat << EOF > output.txt (ok)
 grep 'pattern' < input.txt | sort > sorted_results.txt
 
 
