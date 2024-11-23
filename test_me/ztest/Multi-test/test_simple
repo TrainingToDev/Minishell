@@ -1,11 +1,11 @@
-1) test for variable 
+1) test for variable
 
-name="Alice"
-echo "Bonjour, $name!"
+name="Alice" // failed in my tester: expanded ([ name= Alice ])
+echo "Bonjour, $name!" // failed in my tester: ([ echo Bonjour, $name! ])
 
 
 2) test for fun
-current_date=$(date)
+current_date=$(date) // Manage
 echo "Aujourd'hui, nous sommes le $current_date"
 
 3) Paramètres de script

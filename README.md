@@ -3,6 +3,23 @@ As beautifull as a shell
 Write a shell
 
 # Test
+- testing a redirection in bash:
+
+>$ > echo hello > file.txt
+
+Error output:
+
+```
+Command 'hello' not found, but can be installed with:
+snap install hello              # version 2.10, or
+apt  install hello              # version 2.10-2ubuntu4
+apt  install hello-traditional  # version 2.10-5
+See 'snap info hello' for additional versions.
+```
+
+
+>$ 
+
 
 # DOC
 [GNU Bash manual](https://www.gnu.org/savannah-checkouts/gnu/bash/manual)<br>
@@ -31,14 +48,6 @@ Write a shell
 
 -> Tube anonymes (|),
 -> Tube nommés
-
-
-
-
-
-
-
-
 
 
 # Mandatory:

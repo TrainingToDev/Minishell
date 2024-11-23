@@ -26,10 +26,10 @@ grep 'pattern' < input.txt | sort > sorted_results.txt
 
 test error: not manage in project, for fun
 ---------------------------------------
-ls non_existent_file 2> error.log
+ls non_existent_file 2> error.log // to manage 2>
 
-command > output.log 2> error.log
-command > all_output.log 2>&1
+command > output.log 2> error.log // to manage
+command > all_output.log 2>&1 
 ----------------------------------------
 
 7)
@@ -58,15 +58,15 @@ Bob,30
 Charlie,22
 }
 
-< numbers.txt paste -sd+ | bc
+< numbers.txt paste -sd+ | bc //review for test
 
 
-< input.txt sort > sorted.txt
+< input.txt sort > sorted.txt // need parsing in project
 < log.txt grep 'Error' > errors.txt | cat errors.txt
 < data.csv awk -F',' '{print $1}' | sort | uniq > names.txt
 < data.csv awk -F',' '{print $1}' | sort | uniq > names.txt
 
-< numbers.txt paste -sd+ | bc > sum.txt | cat sum.txt
+< numbers.txt paste -sd+ | bc > sum.txt | cat sum.txt //test ok
 
 {
 1
