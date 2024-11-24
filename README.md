@@ -50,6 +50,7 @@ See 'snap info hello' for additional versions.
 [minitester](https://github.com/LucasKuhn/minishell_tester) <br>
 .[eval](https://hackmd.io/@ep5KljplTku1JOdkIKLI3A/H1TY3jqfj) <br>
 [tets](https://github-wiki-see.page/m/vladou-hopscott/minishell/wiki/Testing-commands)
+[gist](https://giters.com/topics/minishell)
 
 # info
 
