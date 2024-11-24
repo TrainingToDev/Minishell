@@ -32,6 +32,13 @@ ls non_existent_file 2> error.log // to manage 2>
 
 command > output.log 2> error.log // to manage
 command > all_output.log 2>&1 
+
+command 2>&1
+command >& output.log
+command < input.txt > output.txt 2> error.log
+command >> append.log 2>&1
+
+
 ----------------------------------------
 *******************************************
 
