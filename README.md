@@ -34,6 +34,7 @@ See 'snap info hello' for additional versions.
 [42Cursus-Minishell](https://achrafbelarif.medium.com/42cursus-minishell-29cd25f972e6)<br>
 [Writing Your Own Shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)<br>
 [guide]https://42-cursus.gitbook.io/guide/rank-03/minishell<br>
+[doc](https://www.emertxe.com/embedded-systems/linux-internals/li-projects/mini-shell/)
 
 # Tuto
 [Unix Processes in C](https://youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY&si=HT0Zjn8jon9jTXhs)<br>
