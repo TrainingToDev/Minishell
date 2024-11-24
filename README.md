@@ -48,6 +48,7 @@ See 'snap info hello' for additional versions.
 [minishell_test](https://pypi.org/project/minishell-test/)<br>
 [minitester](https://github.com/LucasKuhn/minishell_tester) <br>
 .[eval](https://hackmd.io/@ep5KljplTku1JOdkIKLI3A/H1TY3jqfj) <br>
+[tets](https://github-wiki-see.page/m/vladou-hopscott/minishell/wiki/Testing-commands)
 
 # info
 
