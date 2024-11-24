@@ -44,7 +44,8 @@ See 'snap info hello' for additional versions.
 [42_minishell_tester](https://github.com/zstenger93/42_minishell_tester)<br>
 [minishell_tester](https://github.com/thallard/minishell_tester)<br>
 [minishell_test](https://pypi.org/project/minishell-test/)<br>
-[minitester](https://github.com/LucasKuhn/minishell_tester)
+[minitester](https://github.com/LucasKuhn/minishell_tester) <br>
+.[eval](https://hackmd.io/@ep5KljplTku1JOdkIKLI3A/H1TY3jqfj) <br>
 
 # info
 
