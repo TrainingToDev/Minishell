@@ -24,7 +24,7 @@ cat << EOF > output.txt (ok)
 grep 'pattern' < input.txt | sort > sorted_results.txt (ok)
 
 *******************************************
-test error: not manage in project, for fun
+test error: not manage in project, for fun (Failed)
 ---------------------------------------
 not be leak for this redirection (2>)
 
