@@ -70,6 +70,9 @@ Charlie,22
 
 < numbers.txt paste -sd+ | bc (ok)
 
+(test for leaks)
+< input < input < input < input < input < input < input < input < input < input < input < input < input
+
 
 < input.txt sort > sorted.txt (failed)
 
