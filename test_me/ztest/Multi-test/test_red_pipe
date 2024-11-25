@@ -38,7 +38,8 @@ command >& output.log
 command < input.txt > output.txt 2> error.log
 command >> append.log 2>&1
 
-
+msg for 2>
+bash: syntax error near unexpected token '2>'
 ----------------------------------------
 *******************************************
 
