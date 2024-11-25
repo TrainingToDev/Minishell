@@ -20,6 +20,12 @@
 #include <signal.h>
 #include "libft/libft.h"
 
+typedef struct s_expand//used at the expand function
+{
+    int start;
+    int len;
+}               t_expand;
+
 typedef struct s_token
 {
     char *token;
@@ -43,6 +49,15 @@ typedef struct s_env
     char *value;
     struct s_env *next;
 }               t_env;
+
+typedef struct s_export
+{
+    char *proto;
+    char *var;
+    char *value;
+    struct s_export *next;
+}               t_export;
+
 
 void    free_struct(t_parse *data);
 void	add_new_env(t_env **lst, t_env *new);

@@ -63,12 +63,15 @@ t_token **get_all_token(char **data, int len)
     free(data);
     return (array);
 }
-/*
-void    attribute_state(t_token *tok)
-{
 
+static void    attribute_state(t_token **tok)
+{
+    is_redir(tok);
+    is_heredoc(tok);
+    is_input_file(tok);
+    is_output_file(tok);
+    command(tok);
 }
-*/
 
 void    get_all_state(t_token **all)
 {
@@ -79,22 +82,14 @@ void    get_all_state(t_token **all)
     {
         while (all[i]->next)
         {
-            is_redir(&all[i]);
-            is_heredoc(&all[i]);
-            is_input_file(&all[i]);
-            is_output_file(&all[i]);
-            command(&all[i]);
+            attribute_state(&all[i]);
             printf("the new state is : %i for the token : %s\n", all[i]->state, all[i]->token);
             if (all[i]->next != NULL)
                 all[i] = all[i]->next;
         }
         if (all[i] != NULL)
         {
-            is_redir(&all[i]);
-            is_heredoc(&all[i]);
-            is_input_file(&all[i]);
-            is_output_file(&all[i]);
-            command(&all[i]);
+            attribute_state(&all[i]);
             printf("the new state is : %i for the token : %s\n", all[i]->state, all[i]->token);
         }
         i++;
