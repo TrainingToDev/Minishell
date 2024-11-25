@@ -73,6 +73,9 @@ Charlie,22
 (test for leaks)
 < input < input < input < input < input < input < input < input < input < input < input < input < input
 
+< input < input < input < input < input < input < input < input < input < input < input < input < input grep "test"
+
+
 
 < input.txt sort > sorted.txt (failed)
 
