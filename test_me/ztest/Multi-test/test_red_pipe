@@ -4,7 +4,7 @@ List of command
 cat log.txt | grep 'Erreur' | sort | uniq > erreurs_triees.txt (ok)
 
 2)
-cat data.csv | awk -F',' '{print $1+$2+$3}' | paste -sd+ - | bc (ok)
+cat log.txt | grep 'Erreur' | sort | uniq > erreurs_triees.txt (ok)
 
 3)
 cat students.txt | sort | uniq -c | sort -nr (ok)
@@ -78,7 +78,7 @@ Charlie,22
 
 
 
-< input.txt sort > sorted.txt (failed)
+< input.txt sort > sorted.txt (Ok)
 
 ****************test***************
 Test> < input.txt sort > sorted.txt
@@ -89,12 +89,11 @@ Token type: 3, value: '>'
 Token type: 0, value: 'sorted.txt'
 Abstract Syntax Tree (AST):
 NODE_COMMAND: [ sort ]
+  REDIR_IN: input.txt
   REDIR_OUT: sorted.txt
-  
-not manage: REDIR_IN: input.txt
 ***********************************
 
-< log.txt grep 'Error' > errors.txt | cat errors.txt (failed)
+< log.txt grep 'Error' > errors.txt | cat errors.txt (ok)
 
 ****************test***************
 Test> < log.txt grep 'Error' > errors.txt | cat errors.txt
@@ -110,14 +109,13 @@ Token type: 0, value: 'errors.txt'
 Abstract Syntax Tree (AST):
 NODE_PIPE: 
   NODE_COMMAND: [ grep Error ]
+    REDIR_IN: log.txt
     REDIR_OUT: errors.txt
   NODE_COMMAND: [ cat errors.txt ]
-  
- not manage: REDIR_IN: log.txt
 ***********************************
 
 
-< data.csv awk -F',' '{print $1}' | sort | uniq > names.txt (failed)
+< data.csv awk -F',' '{print $1}' | sort | uniq > names.txt (ok)
 ***********************************
 Test> < data.csv awk -F',' '{print $1}' | sort | uniq > names.txt
 Token type: 2, value: '<'
@@ -144,7 +142,7 @@ NODE_PIPE:
 ***********************************
 
 
-< data.csv awk -F',' '{print $1}' | sort | uniq > names.txt
+< data.csv awk -F',' '{print $1}' | sort | uniq > names.txt (ok)
 
 < numbers.txt paste -sd+ | bc > sum.txt | cat sum.txt //test ok
 
