@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
 int	ft_memcmp(const void *s1, const void *s2, unsigned int n)
 {
 	unsigned char	*str1;
@@ -25,5 +27,12 @@ int	ft_memcmp(const void *s1, const void *s2, unsigned int n)
 			return (str1[i] - str2[i]);
 		i++;
 	}
-	return (0);
+	/*
+	if (str1[i] == '\0' && str2[i]== '\0')
+	{
+		free(s1);
+		return (0);
+	}
+	*/
+	return (-1);
 }

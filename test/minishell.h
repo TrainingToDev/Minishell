@@ -97,12 +97,14 @@ char **get_pile(char *input);//get the pile of execution
 int get_number_of(char *input, int c);
 char **input_file(char *input);
 char **output_file(char *input);
+char **split_expand(char *input);
 
 //get_token
 char **tokening(char *input);
 void    add_new_token(t_token **tok, t_token *new);
 t_token *g_token(char *token);
 t_token **get_all_token(char **data, int len);
+int is_alphanum(int c);
 int quote_case(char *input, int i);
 int pipe_void(char *input);
 int test2(char *input, int i);

@@ -67,10 +67,13 @@ int main (int argc, char **argv, char **en)
         	len = valid_pipe(input);
 			if (input_checking(input) == -1)
 				;
+			split_expand(input);
+			/*
 			else
 			{
 				get_all_state(get_all_token(get_pile(input), len));
 			}
+			*/	
 			free (prompt);
 		}
 		else

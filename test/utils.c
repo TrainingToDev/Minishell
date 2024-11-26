@@ -39,6 +39,32 @@ int	exact_command(char *data, char *command)
 	}
 	return (1);
 }
+int is_alphanum(int c)
+{
+	if (c <= 57 && c >= 48)
+		return (1);
+	else if (c <= 122 && c >= 97)
+		return (1);
+	else if (c <= 90 && c >= 65)
+		return (1);
+	else if (c == '_')
+		return (1);
+	return (0);
+}
+
+int is_var(char *token, int start , int len)
+{
+	int i;
+
+	i = start;
+	while (token[i] && i < len)
+	{
+		if (token[i] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 int	is_alpha(int c)
 {
