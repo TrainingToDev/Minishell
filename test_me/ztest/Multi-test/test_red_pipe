@@ -159,3 +159,16 @@ NODE_PIPE:
 
 
 
+Others test:
+- < input.txt > output.log >> append.log (ok)
+- < input.txt > output.log (ok)
+- sort < input.txt > sorted.txt (ok)
+- < input.txt sort > sorted.txt | uniq > unique.txt (Ok)
+- cat << EOF > output.log (Ok)
+- 
+
+
+
+
+
+
