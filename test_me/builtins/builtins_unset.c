@@ -14,7 +14,7 @@
 
 // first implementation for unset
 
-int	is_valid_identifier_unset(const char *str)
+int	is_valid_id_unset(const char *str)
 {
 	int i;
 
@@ -63,7 +63,7 @@ int	builtin_unset(t_minishell *shell, char **args)
 	i = 1;
 	while (args[i])
 	{
-		if (!is_valid_identifier_unset(args[i]))
+		if (!is_valid_id_unset(args[i]))
 		{
 			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
 			ft_putstr_fd(args[i], STDERR_FILENO);

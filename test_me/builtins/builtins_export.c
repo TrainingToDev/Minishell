@@ -14,7 +14,7 @@
 
 // implementation ameliorate
 
-int is_valid_identifier(const char *str)
+int is_valid_id(const char *str)
 {
 	int i;
 
@@ -31,7 +31,7 @@ int is_valid_identifier(const char *str)
 }
 
 // for only cmd export
-void display_exported_vars(t_minishell *shell)
+void print_exported_vars(t_minishell *shell)
 {
 	t_env_var *current;
 
@@ -61,7 +61,7 @@ int builtin_export(t_minishell *shell, char **args)
 
 	if (!args[1])
 	{
-		display_exported_vars(shell);
+		print_exported_vars(shell);
 		return (0);
 	}
 	i = 1;
@@ -79,7 +79,7 @@ int builtin_export(t_minishell *shell, char **args)
 			value = NULL;
 		}
 
-		if (!is_valid_identifier(key))
+		if (!is_valid_id(key))
 		{
 			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 			ft_putstr_fd(args[i], STDERR_FILENO);
