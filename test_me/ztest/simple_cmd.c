@@ -8,8 +8,7 @@
 #include "../srcs/utils/utils.c"
 #include "../srcs/utils/prints.c"
 
-// Prototypes des fonctions utiles
-// t_token *lexer(const char *input);
+
 void free_tokens(t_token *tokens);
 void free_ast(t_ast *ast);
 void print_ast(t_ast *ast, int depth);
