@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 21:47:39 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/12 10:20:10 by herandri         ###   ########.fr       */
+/*   Updated: 2024/11/27 10:27:46 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	add_quoted_token(t_token **tokens, const char *input, size_t *i)
 	(*i)++;
 }
 
+// heredoc lexer not manage
 void	add_word_token(t_token **tokens, const char *input, size_t *i)
 {
 	char	*value;
