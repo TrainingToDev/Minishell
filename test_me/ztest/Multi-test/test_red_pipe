@@ -1,5 +1,5 @@
 List of command
-
+error: /, *, -, + etc...
 1)
 cat log.txt | grep 'Erreur' | sort | uniq > erreurs_triees.txt (ok)
 
