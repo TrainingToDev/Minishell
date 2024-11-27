@@ -37,6 +37,26 @@ t_token_type	get_operator_token_type(const char *str)
 		return (TOKEN_UNKNOWN); // Cas d'erreur
 }
 
+t_token_type unsupported_redir(const char *input)
+{
+    if (ft_strncmp(input, "2>", 2) == 0)
+        return TOKEN_UNKNOWN;
+    if (ft_strncmp(input, "2>>", 3) == 0)
+        return TOKEN_UNKNOWN;
+    if (ft_strncmp(input, "&>", 2) == 0)
+        return TOKEN_UNKNOWN;
+    if (ft_strncmp(input, "&>>", 3) == 0)
+        return TOKEN_UNKNOWN;
+    if (ft_strncmp(input, "<<<", 3) == 0)
+        return TOKEN_UNKNOWN;
+    if (isdigit(input[0]) && input[1] == '>')
+        return TOKEN_UNKNOWN;
+    if (isdigit(input[0]) && input[1] == '>' 
+        && input[2] == '&' && input[3] == '-')
+        return TOKEN_UNKNOWN;
+    return TOKEN_WORD;
+}
+
 char	*extract_quoted_value(const char *input, size_t *i, int *expand)
 {
 	char	quote_char;
