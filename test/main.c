@@ -48,6 +48,7 @@ int main (int argc, char **argv, char **en)
 	//t_parse *data;//tableau de data ity len isan'ny proc
 	char	*prompt;
 	char	*input;
+	t_token **token;
 	int	len;
     
 	(void)argv;
@@ -67,13 +68,13 @@ int main (int argc, char **argv, char **en)
         	len = valid_pipe(input);
 			if (input_checking(input) == -1)
 				;
-			split_expand(input);
-			/*
+			//split_expand(input);
 			else
 			{
-				get_all_state(get_all_token(get_pile(input), len));
-			}
-			*/	
+				token =get_all_token(get_pile(input), len);
+				get_all_state(token);
+				create_fils(token, count_pipe(token));
+			}	
 			free (prompt);
 		}
 		else

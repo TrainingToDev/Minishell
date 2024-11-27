@@ -17,6 +17,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <signal.h>
 #include "libft/libft.h"
 
@@ -139,5 +142,10 @@ void  is_redir(t_token **tok);
 void    is_heredoc(t_token **tok);
 void    is_input_file(t_token **tok);
 void    is_output_file(t_token **tok);
+
+
+//PIPE
+void    create_fils(t_token **all, int pipe_nbr);
+int count_pipe(t_token **all);
 
 #endif
