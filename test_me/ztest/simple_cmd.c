@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "minishell.h"
-#include "../srcs/lexer/lexer.c"
-#include "../srcs/lexer/init_token.c"
-#include "../srcs/lexer/manage_token.c"
-#include "../srcs/utils/utils.c"
-#include "../srcs/utils/prints.c"
+#include "../lexer/lexer.c"
+#include "../lexer/init_token.c"
+#include "../lexer/manage_token.c"
+#include "../utils/utils.c"
+#include "../utils/prints.c"
 
 
 void free_tokens(t_token *tokens);
