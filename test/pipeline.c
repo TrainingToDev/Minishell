@@ -23,46 +23,94 @@ int count_pipe(t_token **all)
         return (0);
     return (i);
 }
-
-void routine_test(int i)
+/*
+void routine_test(t_token *token)
 {
-    printf("i ' m :%i\n", i);
     usleep(20);
 }
+*/
 
 
 void    create_fils(t_token **all, int pipe_nbr)
 {
-    pid_t   pid;
-    int i;
+    pid_t   pid[2];
+    int pipe_fd[2];
+  //  int i;
 
-    i = 0;
+    //i = 0;
     (void)all;
-    printf ("here %i\n", pipe_nbr);
     if (pipe_nbr == 0)
     {
         printf ("one proc\n");
         return;
     }
+    /*
     while (i < pipe_nbr)
     {
-        printf("in\n");
-        pid = fork();
-        printf("pid : %i\n", (int)pid);
-        if (pid == -1)
+        pid[0] = fork();
+        pid[1] = fork();
+        printf("pid : %i\n", (int)pid[0]);
+        printf("pid : %i\n", (int)pid[0]);
+        kill(pid[1], SIGKILL);
+        kill(pid[0], SIGKILL);
+       if (pid[0] > 0)
         {
-            perror("pipe");
+
+        }
+      i++;
+    }
+    */
+   /*
+
+    pid_t   pid[nb_command];
+    int pipe_fd[nb_command - 1][2];
+    [
+        [0,1],
+        [0,1],
+        [0,1]
+    ]
+   */
+  i = ++;
+   else
+   {
+        /*
+        pipe_fd 1
+        */
+        pid[i] = fork();
+        /*
+            comm : pipe_fd 1
+        */
+
+        pid[i + 1] = fork();
+        /*
+            comm : pipe_fd 1
+        */
+
+        printf("pid : %i\n", (int)pid[0]);
+        printf("pid : %i\n", (int)pid[0]);
+        if (pipe(pipe_fd) == -1)
+        {
+            printf ("error pipe\n");
             return ;
         }
-        else if (pid > 0)
+        printf ("fd : %i\n", pipe_fd[0]);
+        printf ("fd1 : %i\n", pipe_fd[1]);
+        if (pipe(pipe_fd) == -1)
         {
-            printf("here2\n");
-            printf("pid in: %i\n", (int)pid);
-            routine_test(i);
+            printf ("error pipe\n");
+            return ;
         }
-        kill(pid, SIGKILL);
-        i++;
-    }
-        
+        printf ("fd2 : %i\n", pipe_fd[0]);
+        printf ("fd2 : %i\n", pipe_fd[1]);
+        /*
+        if (pid[0] > 0 && pid[1] > 0)
+        {
+
+        }
+        */
+        kill(pid[1], SIGKILL);
+        kill(pid[0], SIGKILL);
+   }
+
 
 }

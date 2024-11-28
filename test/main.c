@@ -72,7 +72,7 @@ int main (int argc, char **argv, char **en)
 			else
 			{
 				token =get_all_token(get_pile(input), len);
-				get_all_state(token);
+				//get_all_state(token);
 				create_fils(token, count_pipe(token));
 			}	
 			free (prompt);
