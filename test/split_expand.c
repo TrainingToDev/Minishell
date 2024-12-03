@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int count_exp(char *input)
+static int count_exp(char *input)//count chaine separer par les $ et "" et ''
 {
     int i;
     int count;
@@ -28,6 +28,7 @@ static int count_exp(char *input)
             count++;
         i++;
     }
+    //printf ("count : %i\n", count);
     return(count);
 }
 
@@ -36,22 +37,25 @@ static int len(char *input, int start)
     int i;
 
     i = start;
+    printf("start : %i\n", i);
     while (input[i])
     {
         if (input[i] == '$')
             return (i);
-        if (input[i] == '\'' || input[i] == '"')
+        else if (input[i] == '\'' )
         {
             i = quote_case(input, i);
-            if (input[i + 1])
-                i++;
-            while (input[i] && input[i] != '$' && input[i] != '\'' && input[i] != '"')
-                i++;
-            return (i);
+            return (i + 1);
         }
-        i++;
+        else if (input[i] == '"')
+        {
+            i = quote_case(input, i);
+            return (i + 1);
+        }
+        else
+            i++;
     }
-    return (-1);
+    return (i);
 }
 static char **split_exp(char **expand, char *input)
 {
@@ -63,14 +67,14 @@ static char **split_exp(char **expand, char *input)
     j = 0;
     while (j < count_exp(input) && input[i])
     {
-        printf ("char : %c\n", input[i]);
-        lenght = len(input, i) - i  + 1;
-        if (i != 0)
-            expand[j] = ft_substr(input, i, lenght);
+        lenght = len(input, i) - i;
+        printf("len : %i\n", lenght);
         if (i == 0)
             expand[j] = ft_substr(input, i, lenght);
-        printf("splitted : %s -> len : %i\n", expand[j], lenght);
-        i += lenght;
+        else
+            expand[j] = ft_substr(input, i - 1, lenght + 1);
+        printf("->: %s\n", expand[j]);
+        i += lenght + 1;
         j++;
     }
     expand[j] = "\0";

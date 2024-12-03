@@ -67,7 +67,7 @@ static char **split_token(char *input, char **token)
         {
             len = get_len(input, i);
             token[j] = ft_substr(input, i, len);
-            printf("token: %i->%s\n",  j, token[j]);
+           // printf("token: %i->%s\n",  j, token[j]);
             j++;
             i += len + 1;
         }
@@ -82,7 +82,7 @@ char **tokening(char *input)//split par espace a chaque de chaque pile d'exec
 
     if (!input)
         return (NULL);
-    printf("number token: %i\n", number_token(input));
+    //printf("number token: %i\n", number_token(input));
     token = (char**)malloc(sizeof(char*) * (number_token(input) + 1));
     if (!token)
         return (NULL);

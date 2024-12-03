@@ -44,20 +44,28 @@ static int input_checking(char *input)
 int main (int argc, char **argv, char **en)
 {
 	//t_env *var;
-	//t_env *env;
+	t_env *env;
 	//t_parse *data;//tableau de data ity len isan'ny proc
 	char	*prompt;
 	char	*input;
-	t_token **token;
+	//t_token **token;
 	int	len;
     
 	(void)argv;
-	(void)en;
+	//(void)en;
 	if (argc != 1)
 		//perror ("invalid argument");
 		return (write(2, "wrong parameter\n", 15));
 	//var = local_variable();
-	//env = get_env(en);
+	env = get_env(en);
+	/*
+	while (env)
+	{
+		printf("var : %s\n", env->var);
+		printf("value : %s\n", env->value);
+		env = env->next;
+	}
+	*/
 	while (1)
 	{
 		prompt = ft_strjoin(getcwd(NULL, 0), " ");
@@ -68,14 +76,16 @@ int main (int argc, char **argv, char **en)
         	len = valid_pipe(input);
 			if (input_checking(input) == -1)
 				;
-			//split_expand(input);
+			split_expand(input);
+			/*
 			else
 			{
 				token =get_all_token(get_pile(input), len);
-				//get_all_state(token);
-				create_fils(token, count_pipe(token));
+				get_all_state(token);
+				pipe_implementation(token, count_pipe(token));
 			}	
 			free (prompt);
+			*/
 		}
 		else
 		{

@@ -145,7 +145,8 @@ void    is_output_file(t_token **tok);
 
 
 //PIPE
-void    create_fils(t_token **all, int pipe_nbr);
+//void    create_fils(t_token **all, int pipe_nbr);
+void pipe_implementation(t_token **all, int number_exec);
 int count_pipe(t_token **all);
 
 #endif

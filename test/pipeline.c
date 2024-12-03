@@ -30,7 +30,7 @@ void routine_test(t_token *token)
 }
 */
 
-
+/*
 void    create_fils(t_token **all, int pipe_nbr)
 {
     pid_t   pid[2];
@@ -44,7 +44,6 @@ void    create_fils(t_token **all, int pipe_nbr)
         printf ("one proc\n");
         return;
     }
-    /*
     while (i < pipe_nbr)
     {
         pid[0] = fork();
@@ -59,8 +58,7 @@ void    create_fils(t_token **all, int pipe_nbr)
         }
       i++;
     }
-    */
-   /*
+
 
     pid_t   pid[nb_command];
     int pipe_fd[nb_command - 1][2];
@@ -69,22 +67,18 @@ void    create_fils(t_token **all, int pipe_nbr)
         [0,1],
         [0,1]
     ]
-   */
+
   i = ++;
    else
    {
-        /*
         pipe_fd 1
-        */
+        
         pid[i] = fork();
-        /*
+    
             comm : pipe_fd 1
-        */
 
         pid[i + 1] = fork();
-        /*
             comm : pipe_fd 1
-        */
 
         printf("pid : %i\n", (int)pid[0]);
         printf("pid : %i\n", (int)pid[0]);
@@ -102,15 +96,53 @@ void    create_fils(t_token **all, int pipe_nbr)
         }
         printf ("fd2 : %i\n", pipe_fd[0]);
         printf ("fd2 : %i\n", pipe_fd[1]);
-        /*
         if (pid[0] > 0 && pid[1] > 0)
         {
 
         }
-        */
         kill(pid[1], SIGKILL);
         kill(pid[0], SIGKILL);
    }
 
 
+}
+*/
+
+void routine_test(t_token *token)
+{
+    int temp;
+    int pipe_fd[2];
+
+    temp = 0;
+    while (token)
+    {
+        pipe(pipe_fd);
+        //dup2(pipe_fd[0], );
+        token = token->next;        
+    }
+}
+
+void pipe_implementation(t_token **all, int number_exec)
+{
+    int i;
+    pid_t pid;
+    int temp;
+    int pipe_fd[2];
+
+    i = 0;
+    temp = 0;
+    if (number_exec == 0)
+        return ;
+    while (i < number_exec)
+    {
+        pid = fork();
+        if (pid > 0)
+        {
+            routine_test(all[i]);
+            temp = pipe_fd[0];
+            close (pipe_fd[1]);
+        }
+        i++;
+        kill(pid, SIGKILL);
+    }
 }
