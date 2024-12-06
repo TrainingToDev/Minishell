@@ -56,7 +56,7 @@ void command (t_token **tok)
     int i;
 
     i = 0;
-    if ((*tok)->state != 0)
+    if ((*tok)->state != 0 || (*tok)->check != 0)
         return ;
     while ((*tok)->token[i])
     {
@@ -65,6 +65,7 @@ void command (t_token **tok)
         i++;
     }
         (*tok)->state = 1;
+        (*tok)->check = 1;
 }
 
 void  is_redir(t_token **tok)
@@ -123,7 +124,7 @@ void    is_input_file(t_token **tok)
 {
     if ((*tok)->state != 0)
         return ;
-    if (ft_strnstr((*tok)->token, ">", ft_strlen((*tok)->token)) != NULL && ft_strlen((*tok)->token) == 1)
+    if (ft_strnstr((*tok)->token, "<", ft_strlen((*tok)->token)) != NULL && ft_strlen((*tok)->token) == 1)
     {
         if ((*tok)->next != NULL)
         {
@@ -136,7 +137,7 @@ void    is_input_file(t_token **tok)
         else
             (*tok)->state = -1;
     }
-    else if (ft_strnstr((*tok)->token, ">", ft_strlen((*tok)->token)) != NULL)
+    else if (ft_strnstr((*tok)->token, "<", ft_strlen((*tok)->token)) != NULL)
     {
         if (check2((*tok)->token) == 0)
             (*tok)->state = -4;
@@ -149,7 +150,7 @@ void    is_output_file(t_token **tok)
 {
     if ((*tok)->state != 0)
         return ;
-    if (ft_strnstr((*tok)->token, "<", ft_strlen((*tok)->token)) != NULL && ft_strlen((*tok)->token) == 1)
+    if (ft_strnstr((*tok)->token, ">", ft_strlen((*tok)->token)) != NULL && ft_strlen((*tok)->token) == 1)
     {
         if ((*tok)->next != NULL)
         {
@@ -162,11 +163,19 @@ void    is_output_file(t_token **tok)
         else
             (*tok)->state = -1;
     }
-    else if (ft_strnstr((*tok)->token, "<", ft_strlen((*tok)->token)) != NULL)
+    else if (ft_strnstr((*tok)->token, ">", ft_strlen((*tok)->token)) != NULL)
     {
         if (check2((*tok)->token) == 0)
             (*tok)->state = -5;
         else if (check2((*tok)->token) == 1)
             (*tok)->state = -50;
     }
+}
+
+void    is_argument(t_token **tok)
+{
+    if ((*tok)->state != 0)
+        return ;
+    else
+        (*tok)->state = 6;
 }

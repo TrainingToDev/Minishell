@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antanana      +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananarivo.mg>  #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/04 12:18:36 by miaandri          #+#    #+#             */
-/*   Updated: 2024/03/04 13:06:32 by miaandri         ###   ########.fr       */
+/*   Created: 2024-12-06 09:45:57 by miaandri          #+#    #+#             */
+/*   Updated: 2024-12-06 09:45:57 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void signal_handler1(int signal)
 {
-	size_t	i;
-
-	i = 0;
-	while (n-- && s2[i] && s1[i])
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return (0);
+    if (signal == EOF)
+    {
+ //       exit(EXIT_FAILURE);
+    }
+    if (signal == )
 }

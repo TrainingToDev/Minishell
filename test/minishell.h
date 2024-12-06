@@ -33,6 +33,7 @@ typedef struct s_token
 {
     char *token;
     int state;
+    int check;
     struct s_token *next;
 }               t_token;
 
@@ -61,7 +62,7 @@ typedef struct s_export
     struct s_export *next;
 }               t_export;
 
-
+extern int g_sign;
 void    free_struct(t_parse *data);
 void	add_new_env(t_env **lst, t_env *new);
 int exact_command(char *data, char *command);
@@ -98,6 +99,7 @@ int valid_pipe(char *input);//number of valid quote
 int quote_number(char *argv);//number of quote in a 
 char **get_pile(char *input);//get the pile of execution
 int get_number_of(char *input, int c);
+char *change(char *input);//manala ilay espace @ redirection
 char **input_file(char *input);
 char **output_file(char *input);
 char **split_expand(char *input);
@@ -136,17 +138,21 @@ int check_redir(char *input);
 //-50:output avec d'autres caracteres de redirection (avec le signe de output)
 //-5:output avec signe
 //-1:error
-void    get_all_state(t_token **all);
-void command (t_token **tok);
-void  is_redir(t_token **tok);
+//6:argument
+t_token    **get_all_state(t_token **all);
+void    command (t_token **tok);
+void    is_redir(t_token **tok);
 void    is_heredoc(t_token **tok);
 void    is_input_file(t_token **tok);
 void    is_output_file(t_token **tok);
+void    is_argument(t_token **tok);
 
 
-//PIPE
+//PIPE AND EXEC
 //void    create_fils(t_token **all, int pipe_nbr);
 void pipe_implementation(t_token **all, int number_exec);
 int count_pipe(t_token **all);
+t_list *get_all_builtins();
+void state_command(t_token **token, int pipe, t_list *built);
 
 #endif

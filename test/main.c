@@ -40,15 +40,18 @@ static int input_checking(char *input)
         return (1);
     return (0);
 }
+int g_sign = 0;
 
 int main (int argc, char **argv, char **en)
 {
 	//t_env *var;
 	t_env *env;
+	t_list *list;
+	int nbr_pipe;
 	//t_parse *data;//tableau de data ity len isan'ny proc
 	char	*prompt;
 	char	*input;
-	//t_token **token;
+	t_token **token;
 	int	len;
     
 	(void)argv;
@@ -58,6 +61,7 @@ int main (int argc, char **argv, char **en)
 		return (write(2, "wrong parameter\n", 15));
 	//var = local_variable();
 	env = get_env(en);
+	list = get_all_builtins();
 	/*
 	while (env)
 	{
@@ -71,21 +75,23 @@ int main (int argc, char **argv, char **en)
 		prompt = ft_strjoin(getcwd(NULL, 0), " ");
 		input = readline((const char *)prompt);
 		add_history(input);
+		nbr_pipe = check_pipe(input);
 		if (input[0] != '\0')
 		{
         	len = valid_pipe(input);
 			if (input_checking(input) == -1)
 				;
-			split_expand(input);
-			/*
+			
+			//split_expand(input);
 			else
 			{
-				token =get_all_token(get_pile(input), len);
-				get_all_state(token);
-				pipe_implementation(token, count_pipe(token));
-			}	
+				input = change(input);
+				token = get_all_token(get_pile(input), len);
+				token = get_all_state(token);
+				state_command(token, nbr_pipe, list);
+				//pipe_implementation(token, count_pipe(token));
+			}
 			free (prompt);
-			*/
 		}
 		else
 		{

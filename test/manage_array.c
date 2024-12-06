@@ -71,13 +71,16 @@ static void    attribute_state(t_token **tok)
     is_input_file(tok);
     is_output_file(tok);
     command(tok);
+    is_argument(tok);
 }
 
-void    get_all_state(t_token **all)
+t_token    **get_all_state(t_token **all)
 {
     int i;
+    t_token **tok;
 
     i = 0;
+    tok = &all;
     while (all[i])
     {
         while (all[i]->next)
@@ -85,7 +88,11 @@ void    get_all_state(t_token **all)
             attribute_state(&all[i]);
             printf("the new state is : %i for the token : %s\n", all[i]->state, all[i]->token);
             if (all[i]->next != NULL)
+            {
+                if (all[i]->check != 0)
+                    all[i]->next->check = 1;
                 all[i] = all[i]->next;
+            }
         }
         if (all[i] != NULL)
         {
@@ -94,4 +101,5 @@ void    get_all_state(t_token **all)
         }
         i++;
     }
+    return (tok);
 }
