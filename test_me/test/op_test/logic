@@ -1,0 +1,6 @@
+
+mkdir new_folder && cd new_folder
+
+mkdir new_folder || echo "Le dossier existe déjà"
+
+mkdir test && echo "folder created" || echo "fail creation folder"

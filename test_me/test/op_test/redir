@@ -1,0 +1,17 @@
+
+cat < file
+
+echo "Hello world ! ! !" > output
+
+echo "New line" >> output
+
+
+cat << EOF
+This example of
+text multiline.
+EOF
+
+
+ls -l | grep "txt"
+
+
