@@ -465,7 +465,7 @@ void add_word_token(t_token **tokens, char *input, size_t *i)
 	if (!value)
 	{
 		free_token_list(*tokens);
-		exit(EXIT_FAILURE);
+		return ;
 	}
 	new_token = create_token(TOKEN_WORD, value, expand);
 	free(value);
@@ -485,7 +485,7 @@ void add_word_token(t_token **tokens, char *input, size_t *i)
 // error lexer
 
 // step 1
-
+// not manage
 
 int validate_input(char *input)
 {
@@ -535,15 +535,16 @@ int validate_syntax(t_token *tokens)
     {
         if (current->type == TOKEN_PIPE)
         {
-            if (!prev || !current->next || prev->type == TOKEN_PIPE || prev->type == TOKEN_AND || prev->type == TOKEN_OR)
+            if (!prev || !current->next || prev->type == TOKEN_PIPE 
+				|| prev->type == TOKEN_AND || prev->type == TOKEN_OR)
             {
                 print_error(E_SYNTAX, "|", 10);
                 return (-1);
             }
         }
 
-        if (current->type == TOKEN_REDIRECT_IN || current->type == TOKEN_REDIRECT_OUT ||
-            current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC)
+        if (current->type == TOKEN_REDIRECT_IN || current->type == TOKEN_REDIRECT_OUT 
+			|| current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC)
         {
             if (!current->next || current->next->type != TOKEN_WORD)
             {
@@ -571,7 +572,8 @@ int validate_syntax(t_token *tokens)
         }
         if (current->type == TOKEN_RPAREN)
         {
-            if (!prev || prev->type == TOKEN_PIPE || prev->type == TOKEN_AND || prev->type == TOKEN_OR)
+            if (!prev || prev->type == TOKEN_PIPE || prev->type == TOKEN_AND 
+				|| prev->type == TOKEN_OR)
             {
                 print_error(E_SYNTAX, ")", 10);
                 return (-1);
@@ -582,7 +584,8 @@ int validate_syntax(t_token *tokens)
         current = current->next;
     }
 
-    if (prev && (prev->type == TOKEN_PIPE || prev->type == TOKEN_AND || prev->type == TOKEN_OR))
+    if (prev && (prev->type == TOKEN_PIPE || prev->type == TOKEN_AND 
+		|| prev->type == TOKEN_OR))
     {
         print_error(E_SYNTAX, prev->value, 258);
         return (-1);
@@ -648,7 +651,9 @@ t_token	*lexer(char *input)
 			add_operator_token(&tokens, input, &i);
 		}
 		else
+		{
 			add_word_token(&tokens, input, &i);
+		}	
 	}
 
 //step 3: validation syntax
@@ -657,11 +662,9 @@ t_token	*lexer(char *input)
         free_token_list(tokens);
         return (NULL);
     }
-		
-
 	if (!check_tokens(tokens))
 	{
-		free_token_list(tokens);
+		free_token(tokens);
 		return (NULL);
 	}
 
@@ -965,7 +968,6 @@ void	free_ast(t_ast *ast)
 
 
 
-
 t_ast	*create_ast_node(t_node_type type, t_command *cmd)
 {
 	t_ast	*node;
@@ -1043,7 +1045,7 @@ int add_redirection(t_redirection **redirs, t_token *token)
 {
     if (!token || !token->next || token->next->type != TOKEN_WORD)
     {
-        print_error(E_SYNTAX, token->value, 258);
+        print_error(E_SYNTAX, token->value, 10);
         return (0);
     }
 
@@ -1067,12 +1069,24 @@ int add_redirection(t_redirection **redirs, t_token *token)
     return (1);
 }
 
+
+
+
+
+
+
+
+
 t_ast *parse_command(t_token **tokens)
 {
+	t_command		*command ;
+	t_redirection	*redir;
+	t_ast			*node;
+
     if (!tokens || !*tokens)
         return (NULL);
 
-    t_command *command = init_command();
+    command = init_command();
     if (!command)
         return (NULL);
 
@@ -1097,7 +1111,9 @@ t_ast *parse_command(t_token **tokens)
     //redir
     while (*tokens && ((*tokens)->type >= TOKEN_REDIRECT_IN && (*tokens)->type <= TOKEN_HEREDOC))
     {
-        t_redirection *redir = init_redir((*tokens)->type);
+        
+	
+		redir = init_redir((*tokens)->type);
         if (!redir)
         {
             free_command(command);
@@ -1109,7 +1125,7 @@ t_ast *parse_command(t_token **tokens)
         {
             free(redir);
             free_command(command);
-            print_error(E_SYNTAX, (*tokens)->value, 258);
+            print_error(E_SYNTAX, (*tokens)->value, 10);
             return (NULL);
         }
 
@@ -1127,7 +1143,7 @@ t_ast *parse_command(t_token **tokens)
         *tokens = (*tokens)->next->next;
     }
 
-    t_ast *node = create_ast_node(NODE_COMMAND, command);
+	node = create_ast_node(NODE_COMMAND, command);
     if (!node)
     {
         free_command(command);
@@ -1135,19 +1151,23 @@ t_ast *parse_command(t_token **tokens)
         return (NULL);
     }
 
-    return node;
+    return (node);
 }
 
 t_ast *parse_pipeline(t_token **tokens)
 {
-    t_ast *left = parse_command(tokens);
+    t_ast *left;
+	t_ast *right;
+
+	left = parse_command(tokens);
     if (!left)
         return (NULL);
 
     while (*tokens && (*tokens)->type == TOKEN_PIPE)
     {
         *tokens = (*tokens)->next; // Consommer token `|`
-        t_ast *right = parse_command(tokens);
+        
+		right = parse_command(tokens);
         if (!right)
         {
             free_ast(left);
@@ -1194,15 +1214,81 @@ t_ast *parse_subshell(t_token **tokens)
 
 t_ast *parse_tokens(t_token **tokens)
 {
-    if (!tokens || !*tokens)
-        return (NULL);
+	 t_ast *ast;
 
-    t_ast *ast = parse_pipeline(tokens);
-    if (!ast)
-        print_error(E_SYNTAX, "Invalid syntax", 10);
-
-    return ast;
+	if (!tokens || !*tokens)
+		return (NULL);
+	ast = parse_pipeline(tokens);
+	if (!ast)
+		print_error(E_SYNTAX, "Invalid syntax", 10);
+    return (ast);
 }
+
+
+//logical cmd implementation
+
+void    print_ast(t_ast *ast, int depth)
+{
+	int i;
+
+	if (!ast)
+		return;
+	i = 0;
+	while(i < depth)
+	{
+		printf("  ");
+		i++;
+	}
+	if (ast->type == NODE_COMMAND)
+		printf("NODE_COMMAND: ");
+	else if (ast->type == NODE_PIPE)
+		printf("NODE_PIPE: ");
+	else if (ast->type == NODE_AND)
+		printf("NODE_AND: ");
+	else if (ast->type == NODE_OR)
+		printf("NODE_OR: ");
+	else if (ast->type == NODE_SUBSHELL)
+		printf("NODE_SUBSHELL: ");
+	else
+		printf("UNKNOWN NODE: ");
+	if (ast->type == NODE_COMMAND && ast->command)
+	{
+		printf("[ ");
+		int i = 0;
+		while ( i < ast->command->argc)
+		{
+			printf("%s ", ast->command->argv[i]);
+			i++;
+		}
+		printf("]\n");
+
+		t_redirection *redir = ast->command->redirs;
+		while (redir)
+		{
+			int i = 0;
+			while ( i < depth + 1)
+			{
+				printf("  ");
+				i++;
+			}
+			if (redir->type == REDIR_IN)
+				printf("REDIR_IN: %s\n", redir->filename);
+			else if (redir->type == REDIR_OUT)
+				printf("REDIR_OUT: %s\n", redir->filename);
+			else if (redir->type == REDIR_APPEND)
+				printf("REDIR_APPEND: %s\n", redir->filename);
+			else if (redir->type == REDIR_HEREDOC)
+				printf("REDIR_HEREDOC: %s\n", redir->filename);
+			redir = redir->next;
+		}
+	}
+	else
+		printf("\n");
+	print_ast(ast->left, depth + 1);
+	print_ast(ast->right, depth + 1);
+}
+
+
 
 
 
@@ -1230,9 +1316,10 @@ t_ast *parse_tokens(t_token **tokens)
 
 int main(int argc, char **argv, char **envp)
 {
-	char *input;
-	char *prompt;
+	char	*input;
+	char	*prompt;
 	t_token	*tokens;
+	t_ast	*ast;
 
 	(void)envp;
 	check_args(argc, argv);
@@ -1250,31 +1337,47 @@ int main(int argc, char **argv, char **envp)
 		if (!input) // Gestion de CTRL-D(EOF)
 		{
 			free (prompt);
+			
 			handle_eof();
 		}
 		if (*input)
 			add_history(input);
 
 		// Token && parsing
-
 		tokens = lexer(input);
 		if(!tokens)
 		{
 			status_manager(258, STATUS_WRITE);
+				free_token_list(tokens);
 			free(input);
 			continue;
 		}
 		print_tokens(tokens);
-
-	
 		process_heredoc(tokens, input);
-		
+
+
+		ast = parse_tokens(&tokens);
 		free_token_list(tokens);
+		if (!ast)
+		{
+			printf("Parser error: Unable to create AST.\n");
+			free_token_list(tokens);
+			free(input);
+			continue;
+		}
+		printf("Abstract Syntax Tree (AST):\n");
+		free_token_list(tokens);
+
+		print_ast(ast, 0);
+
+		
+		free_ast(ast);
+		
 		free(input);
 	}
 
 	free(prompt);
-	rl_clear_history();
+	// rl_clear_history();
 	return (0);
 }
 

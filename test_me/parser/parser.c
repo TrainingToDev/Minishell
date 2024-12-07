@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 13:31:54 by herandri          #+#    #+#             */
-/*   Updated: 2024/11/17 11:42:49 by herandri         ###   ########.fr       */
+/*   Updated: 2024/12/07 13:42:45 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int parse_all_redirections(t_token **tokens, t_command *cmd)
 
 t_ast *parse_simple_command(t_token **tokens)
 {
-	t_command *cmd;
-	t_ast *ast;
+	t_command	*cmd;
+	t_ast		*ast;
 
 	cmd = init_command();
 	if (!cmd)
