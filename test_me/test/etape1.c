@@ -468,7 +468,12 @@ void add_word_token(t_token **tokens, char *input, size_t *i)
 		return ;
 	}
 	new_token = create_token(TOKEN_WORD, value, expand);
+	printf("1- value=%p - value=%s\n", value, value);
+	printf("2- new_token=%p - token=%s\n", new_token, new_token->value);
 	free(value);
+	value = NULL;
+	printf("1- value=%p - value=%s\n", value, value);
+	printf("2- new_token=%p - token=%s\n", new_token, new_token->value);
 	if (!new_token)
 	{
 		print_error(E_NOMEM, NULL, 11);
@@ -1043,19 +1048,19 @@ void	add_redir(t_redirection **current, t_redirection *redir)
 
 int add_redirection(t_redirection **redirs, t_token *token)
 {
+	t_redirection	*redir;
+
     if (!token || !token->next || token->next->type != TOKEN_WORD)
     {
         print_error(E_SYNTAX, token->value, 10);
         return (0);
     }
-
-    t_redirection *redir = init_redir(token->type);
+    redir = init_redir(token->type);
     if (!redir)
     {
         print_error(E_NOMEM, NULL, 11);
         return (0);
     }
-
     redir->filename = ft_strdup(token->next->value);
     if (!redir->filename)
     {
@@ -1063,9 +1068,7 @@ int add_redirection(t_redirection **redirs, t_token *token)
         print_error(E_NOMEM, NULL, 11);
         return (0);
     }
-
     add_redir(redirs, redir);
-
     return (1);
 }
 
@@ -1191,12 +1194,13 @@ t_ast *parse_pipeline(t_token **tokens)
 
 t_ast *parse_subshell(t_token **tokens)
 {
+	t_ast	*subshell;
+
     if (!tokens || !*tokens || (*tokens)->type != TOKEN_LPAREN)
         return (NULL);
 
     *tokens = (*tokens)->next; // Consommer '('
-
-    t_ast *subshell = parse_pipeline(tokens);
+	subshell = parse_pipeline(tokens);
     if (!subshell || !*tokens || (*tokens)->type != TOKEN_RPAREN)
     {
         free_ast(subshell);
@@ -1230,6 +1234,7 @@ t_ast *parse_tokens(t_token **tokens)
 void    print_ast(t_ast *ast, int depth)
 {
 	int i;
+	t_redirection *redir;
 
 	if (!ast)
 		return;
@@ -1261,8 +1266,7 @@ void    print_ast(t_ast *ast, int depth)
 			i++;
 		}
 		printf("]\n");
-
-		t_redirection *redir = ast->command->redirs;
+		redir = ast->command->redirs;
 		while (redir)
 		{
 			int i = 0;
@@ -1357,21 +1361,27 @@ int main(int argc, char **argv, char **envp)
 
 
 		ast = parse_tokens(&tokens);
-		free_token_list(tokens);
+		// free_token_list(tokens);
 		if (!ast)
 		{
 			printf("Parser error: Unable to create AST.\n");
+			free_ast(ast);
 			free_token_list(tokens);
 			free(input);
 			continue;
 		}
 		printf("Abstract Syntax Tree (AST):\n");
-		free_token_list(tokens);
+		free_token(tokens);
+		tokens = NULL;
 
 		print_ast(ast, 0);
 
-		
+		printf("ast: %p\n", ast->command->argv);
+		printf("ast: %p\n", ast->command->argv);
 		free_ast(ast);
+		ast = NULL;
+		printf("ast: %p\n", ast);
+		printf("ast: %p\n", ast);
 		
 		free(input);
 	}
