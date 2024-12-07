@@ -101,10 +101,8 @@ static char *copy(char *input, char *reform)
 
 char *change(char *input)
 {
-    int i;
     char    *reform;
 
-    i = 0;
     if (check_specific_case(input) == 0)
     {
         printf("str : %s\n", input);

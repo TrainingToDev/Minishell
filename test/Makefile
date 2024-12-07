@@ -6,7 +6,7 @@
 #    By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/31 13:54:57 by miaandri          #+#    #+#              #
-#    Updated: 2024/11/14 16:00:28 by miaandri         ###   ########.fr        #
+#    Updated: 2024/12/07 03:30:30 by miaandri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 SRC = main.c pipe_utils.c quote_utils.c split_pile.c manage_array.c\
 		get_token.c token_utils.c get_state.c quote_error.c utils.c\
-		split_expand.c pipeline.c get_env.c list_utils.c specific_case.c\
+		split_expand.c  get_env.c list_utils.c specific_case.c\
 		exec.c
 		
 CC = cc -g -Wall -Werror -Wextra 

@@ -12,36 +12,33 @@
 
 #include "minishell.h"
 
-int check_var(char *str)
+static int change(char *splitted)
 {
     int i;
-    int count;
 
     i = 0;
-    count = 0;
-    while (str[i])
+    while(splitted[i])
     {
-        if (str[i] == '$')
-            count++;
+        i = case_quote(input, i);
+        if (splitted[i] == '$')
+            return(1);
         i++;
     }
-    return (count);
-}
+    return (0);
+} 
 
-char *new_var(char *old_var, t_env *env)
+
+char *expand(char **splitted, char input)
 {
+    char *exp;
     int i;
 
     i = 0;
-    while (/* condition */)
+    while(splitted[i])
     {
-        /* code */
+        //function maka ilay $de manova azy
+        i++;
     }
-    
-}
-
-
-char *input(char **splitted, t_env *env)
-{
-
+    exp = ;//join splitted
+    free(input);
 }

@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:50:28 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/18 14:30:15 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/12/07 04:39:14 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,10 @@ int get_number_of(char *input, int c);
 char *change(char *input);//manala ilay espace @ redirection
 char **input_file(char *input);
 char **output_file(char *input);
+
+//expand
 char **split_expand(char *input);
+int case_quote(char *input, int i)
 
 //get_token
 char **tokening(char *input);

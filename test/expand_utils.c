@@ -12,70 +12,90 @@
 
 #include "minishell.h"
 
-static int count_div(char *old_var)
+static int count(char *split)
 {
     int i;
-    int count;
+    int len;
 
     i = 0;
-    count = 1;
-    while (old_var[i])
+    len = 0;
+    while(split[i])
     {
-        while (old_var[i] == '$' && old_var[i])
+        if (split[i] != '$' && i = 0)
+        {
+            while(split[i] && split[i] != '$')
+                i++;
+            len++;
+        }
+        else if (split[i] == '$')
+        {
             i++;
-        if (old_var[i - 1] == '$' && is_alphanum(old_var[i]) ==  1)
-            count++;
-        i++;
+            while(split[i] && is_alphanum(split[i]) != 0)
+                i++;
+            len++;
+        }
+        else if (split[i] != '$')
+        {
+            while(split[i] && split[i] != '$')
+                i++;
+            len++;
+        }
     }
-    return (count);
+    printf("len : %i\n", len);
+    return(len);
 }
-
-static int count_len(char *str,  int start)
+static int get_len(char *split, int start)
 {
     int i;
 
     i = start;
-    while (str[i])
+    while(split[i])
     {
-        if (str[i] == '$' && i != start)
-            return (i);
-        else if (str[i] == '$' && i == start)
+        if (i == start && split[i] == '$')
         {
-            while (is_alphanum(str[i]) == 1 && str[i])
+            i++;
+            while(split[i] && is_alphanum(split[i]) != 0)
                 i++;
             return (i);
         }
         else
-            i++;
+        {
+            while(split[i] && split[i] != '$')
+                i++;
+            if (split[i] == '$')
+                return (i - 1);
+            else
+                return (i);
+        }
     }
-    return (i);
+    return (0);
 }
-
-static char **split_secund(char *str, char **split, int count)
+static char **split_secund(char **new, char *split, t_env *env)//eto no manova zay ovaina rehetra
 {
     int i;
     int j;
+    int len;
 
     i = 0;
     j = 0;
-    while (str[i] && j < count)
+    while (split[i])
     {
-        
+        len = get_len(split, i) - i;
+        new[j] = ft_substr(input, i, len);
+        printf("secund split : %s\n", new[j]);
         j++;
+        i += len;
     }
-    
+    new[j] = NULL;
+    return (new);
 }
 
-char *secund_split(char *str)
+char **secund_split(char *split)//de avy eo eto atao join voalohany 
 {
-    char **split;
-    char *result;
+    char **new;
 
-    split = (char **)malloc(sizeof(char *) * count_div(str) + 1);
-    if (!split)
+    new = (char**)malloc(sizeof(char*) * count(split) + 1);
+    if (!new)
         return (NULL);
-    split = ;//replace
-    result = ;//join after replace
-    free(split);
-    return (result);
+    new = split_secund(new, input)
 }

@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 07:31:15 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/18 13:00:50 by miaandri         ###   ########.fr       */
+/*   Updated: 2024/12/07 03:40:40 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int g_sign = 0;
 int main (int argc, char **argv, char **en)
 {
 	//t_env *var;
-	t_env *env;
-	t_list *list;
-	int nbr_pipe;
+	//t_env *env;
+	//t_list *list;
+	//int nbr_pipe;
 	//t_parse *data;//tableau de data ity len isan'ny proc
 	char	*prompt;
 	char	*input;
@@ -55,13 +55,13 @@ int main (int argc, char **argv, char **en)
 	int	len;
     
 	(void)argv;
-	//(void)en;
+	(void)en;
 	if (argc != 1)
 		//perror ("invalid argument");
 		return (write(2, "wrong parameter\n", 15));
 	//var = local_variable();
-	env = get_env(en);
-	list = get_all_builtins();
+	//env = get_env(en);
+	//list = get_all_builtins();
 	/*
 	while (env)
 	{
@@ -75,20 +75,19 @@ int main (int argc, char **argv, char **en)
 		prompt = ft_strjoin(getcwd(NULL, 0), " ");
 		input = readline((const char *)prompt);
 		add_history(input);
-		nbr_pipe = check_pipe(input);
+	//	nbr_pipe = check_pipe(input);
 		if (input[0] != '\0')
 		{
         	len = valid_pipe(input);
 			if (input_checking(input) == -1)
 				;
-			
-			//split_expand(input);
 			else
 			{
 				input = change(input);
+				split_expand(input);
 				token = get_all_token(get_pile(input), len);
 				token = get_all_state(token);
-				state_command(token, nbr_pipe, list);
+				//state_command(token, nbr_pipe, list);
 				//pipe_implementation(token, count_pipe(token));
 			}
 			free (prompt);

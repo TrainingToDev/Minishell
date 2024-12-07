@@ -12,11 +12,13 @@
 
 #include "minishell.h"
 
-void signal_handler1(int signal)
+void signal_handler1(int signal, siginfo_t *info, void *content)
 {
+    (void)content;
+    if (signal == SIGINT)
+        g_sign = 1;
     if (signal == EOF)
-    {
- //       exit(EXIT_FAILURE);
-    }
+        g_sign = 2;
     if (signal == )
+        g_sign = 3;
 }

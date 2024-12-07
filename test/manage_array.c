@@ -77,10 +77,10 @@ static void    attribute_state(t_token **tok)
 t_token    **get_all_state(t_token **all)
 {
     int i;
-    t_token **tok;
+    //t_token **tok;
 
     i = 0;
-    tok = &all;
+    //tok = &all;
     while (all[i])
     {
         while (all[i]->next)
@@ -101,5 +101,6 @@ t_token    **get_all_state(t_token **all)
         }
         i++;
     }
-    return (tok);
+    return (all);
+//    return (tok);
 }
