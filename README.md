@@ -42,6 +42,8 @@ See 'snap info hello' for additional versions.
 ![42-Minishell](https://www.youtube.com/watch?v=ubt-UjcQUYg&list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW&index=4) <br>
 [explain](https://carlagoeshacking.wordpress.com/wp-content/uploads/2017/01/minisheel.pdf)<br>
 [info](https://ocw.cs.pub.ro/courses/sde2/teme/tema_fr_3)
+[BASH](https://github.com/awesome-lists/awesome-bash?tab=readme-ov-file)
+
 
 # TESTER
 [42_minishell_tester](https://github.com/zstenger93/42_minishell_tester)<br>
