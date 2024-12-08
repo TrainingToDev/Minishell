@@ -201,15 +201,19 @@ void    display_error(const char *message)
 // lexer
 
 
-t_token *create_token(t_token_type type, const char *value, int expand)
+t_token	*create_token(t_token_type type, const char *value, int expand)
 {
-	t_token *new_token;
+	t_token	*new_token;
 
 	if (!value)
 		return (NULL);
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
+	{
+		display_error("error create token");
 		return (NULL);
+	}
+		
 	new_token->value = ft_strdup(value);
 	if (!new_token->value)
 	{
@@ -464,22 +468,24 @@ void add_word_token(t_token **tokens, char *input, size_t *i)
 	value = extract_word_value(input, i, &expand);
 	if (!value)
 	{
-		free_token_list(*tokens);
 		return ;
 	}
 	new_token = create_token(TOKEN_WORD, value, expand);
 	printf("1- value=%p - value=%s\n", value, value);
 	printf("2- new_token=%p - token=%s\n", new_token, new_token->value);
-	free(value);
-	value = NULL;
-	printf("1- value=%p - value=%s\n", value, value);
-	printf("2- new_token=%p - token=%s\n", new_token, new_token->value);
+	
 	if (!new_token)
 	{
+	printf("error add!\n");
+		free(value);
 		print_error(E_NOMEM, NULL, 11);
 		free_token_list(*tokens);
 		exit(EXIT_FAILURE);
 	}
+	printf("add out!!!\n");
+	free(value);
+	value = NULL;
+	printf("value = %p\n", value);
 	add_token(tokens, new_token);
 }
 
@@ -1072,95 +1078,128 @@ int add_redirection(t_redirection **redirs, t_token *token)
     return (1);
 }
 
-
-
-
-
-
-
-
-
-t_ast *parse_command(t_token **tokens)
+int handle_arguments(t_command *command, t_token **tokens) 
 {
-	t_command		*command ;
-	t_redirection	*redir;
-	t_ast			*node;
+	char	**new_argv;
+    int		i;
+
+    while (*tokens && (*tokens)->type == TOKEN_WORD)
+	{
+        new_argv = malloc(sizeof(char *) * (command->argc + 2));
+        if (!new_argv)
+		{
+            free_command(command);
+            print_error(E_NOMEM, NULL, 11);
+            return (-1);
+        }
+        i = 0;
+        while (i < command->argc)
+		{
+            new_argv[i] = command->argv[i];
+            i++;
+        }
+        free(command->argv);
+        command->argv = new_argv;
+        command->argv[command->argc] = ft_strdup((*tokens)->value);
+        if (!command->argv[command->argc])
+		{
+            free_command(command);
+            print_error(E_NOMEM, NULL, 11);
+            return (-1);
+        }
+        command->argv[++command->argc] = NULL;
+        *tokens = (*tokens)->next;
+    }
+    return (0);
+}
+
+int handle_redirections(t_command *command, t_token **tokens)
+{
+    t_redirection	*redir;
+
+    while (*tokens && ((*tokens)->type >= TOKEN_REDIRECT_IN 
+			&& (*tokens)->type <= TOKEN_HEREDOC))
+		{
+        	redir = init_redir((*tokens)->type);
+        	if (!redir)
+			{
+            	free_command(command);
+            	print_error(E_NOMEM, NULL, 11);
+            	return (-1);
+        	}
+        	if (!(*tokens)->next || (*tokens)->next->type != TOKEN_WORD)
+			{
+            	free(redir);
+            	free_command(command);
+            	print_error(E_SYNTAX, (*tokens)->value, 10);
+            	return (-1);
+        	}
+        	redir->filename = ft_strdup((*tokens)->next->value);
+        	if (!redir->filename)
+			{
+            	free(redir);
+            	free_command(command);
+            	print_error(E_NOMEM, NULL, 11);
+            	return (-1);
+        	}
+        	add_redir(&command->redirs, redir);
+        	*tokens = (*tokens)->next->next;
+    	}
+    return (0);
+}
+
+t_ast	*create_cmd_node(t_command *command)
+{
+	t_ast	*node;
+
+    node = create_ast_node(NODE_COMMAND, command);
+    if (!node)
+	{
+		free_command(command);
+		print_error(E_NOMEM, NULL, 11);
+		return (NULL);
+    }
+	return (node);
+}
+
+
+t_ast	*parse_command(t_token **tokens)
+{
+    t_command	*command;
+    t_ast		*node;
 
     if (!tokens || !*tokens)
         return (NULL);
-
     command = init_command();
     if (!command)
         return (NULL);
-
-    // arg
-    while (*tokens && (*tokens)->type == TOKEN_WORD)
-    {
-        char **new_argv = realloc(command->argv, sizeof(char *) * (command->argc + 2));
-        if (!new_argv)
-        {
-            free_command(command);
-            print_error(E_NOMEM, NULL, 11);
-            return (NULL);
-        }
-
-        command->argv = new_argv;
-        command->argv[command->argc] = ft_strdup((*tokens)->value);
-        command->argv[++command->argc] = NULL;
-
-        *tokens = (*tokens)->next;
-    }
-
-    //redir
-    while (*tokens && ((*tokens)->type >= TOKEN_REDIRECT_IN && (*tokens)->type <= TOKEN_HEREDOC))
-    {
-        
-	
-		redir = init_redir((*tokens)->type);
-        if (!redir)
-        {
-            free_command(command);
-            print_error(E_NOMEM, NULL, 11);
-            return (NULL);
-        }
-
-        if (!(*tokens)->next || (*tokens)->next->type != TOKEN_WORD)
-        {
-            free(redir);
-            free_command(command);
-            print_error(E_SYNTAX, (*tokens)->value, 10);
-            return (NULL);
-        }
-
-        redir->filename = ft_strdup((*tokens)->next->value);
-        if (!redir->filename)
-        {
-            free(redir);
-            free_command(command);
-            print_error(E_NOMEM, NULL, 11);
-            return (NULL);
-        }
-
-        add_redir(&command->redirs, redir);
-
-        *tokens = (*tokens)->next->next;
-    }
-
-	node = create_ast_node(NODE_COMMAND, command);
-    if (!node)
-    {
-        free_command(command);
-        print_error(E_NOMEM, NULL, 11);
+    if (handle_arguments(command, tokens) == -1)
         return (NULL);
-    }
-
+    if (handle_redirections(command, tokens) == -1)
+        return (NULL);
+    node = create_cmd_node(command);
     return (node);
 }
 
-t_ast *parse_pipeline(t_token **tokens)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+t_ast	*parse_pipeline(t_token **tokens)
 {
-    t_ast *left;
-	t_ast *right;
+    t_ast	*left;
+	t_ast	*right;
 
 	left = parse_command(tokens);
     if (!left)
@@ -1186,7 +1225,7 @@ t_ast *parse_pipeline(t_token **tokens)
         }
     }
 
-    return left;
+    return (left);
 }
 
 
@@ -1216,9 +1255,9 @@ t_ast *parse_subshell(t_token **tokens)
 
 
 
-t_ast *parse_tokens(t_token **tokens)
+t_ast	*parse_tokens(t_token **tokens)
 {
-	 t_ast *ast;
+	t_ast	*ast;
 
 	if (!tokens || !*tokens)
 		return (NULL);
@@ -1341,7 +1380,6 @@ int main(int argc, char **argv, char **envp)
 		if (!input) // Gestion de CTRL-D(EOF)
 		{
 			free (prompt);
-			
 			handle_eof();
 		}
 		if (*input)
@@ -1354,19 +1392,20 @@ int main(int argc, char **argv, char **envp)
 			status_manager(258, STATUS_WRITE);
 				free_token_list(tokens);
 			free(input);
-			continue;
+			continue ;
 		}
+
 		print_tokens(tokens);
 		process_heredoc(tokens, input);
 
+		// end lexer
 
 		ast = parse_tokens(&tokens);
-		// free_token_list(tokens);
 		if (!ast)
 		{
 			printf("Parser error: Unable to create AST.\n");
-			free_ast(ast);
 			free_token_list(tokens);
+			free_ast(ast);
 			free(input);
 			continue;
 		}
@@ -1376,12 +1415,9 @@ int main(int argc, char **argv, char **envp)
 
 		print_ast(ast, 0);
 
-		printf("ast: %p\n", ast->command->argv);
+		 printf("ast: %p\n", ast->command->argv);
 		printf("ast: %p\n", ast->command->argv);
 		free_ast(ast);
-		ast = NULL;
-		printf("ast: %p\n", ast);
-		printf("ast: %p\n", ast);
 		
 		free(input);
 	}
