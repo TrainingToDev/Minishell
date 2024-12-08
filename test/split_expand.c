@@ -39,6 +39,7 @@ static int count_exp(char *input)//count chaine separer par les $ et "" et ''
             count++;
         i++;
     }
+    printf ("expand array : %i\n", count);
     //printf ("count : %i\n", count);
     return(count);
 }
@@ -48,7 +49,6 @@ static int len(char *input, int start)
     int i;
 
     i = start;
-    //printf("start : %i\n", i);
     while (input[i])
     {
         if (input[i] == '$')
@@ -58,13 +58,6 @@ static int len(char *input, int start)
             i = case_quote(input, i);
             return (i + 1);
         }
-        /*
-        else if (input[i] == '"')
-        {
-            i = quote_case(input, i);
-            return (i + 1);
-        }
-        */
         else
             i++;
     }
@@ -78,23 +71,44 @@ static char **split_exp(char **expand, char *input)
 
     i = 0;
     j = 0;
-    while (j < count_exp(input) && input[i])
+    while (input[i])
     {
         lenght = len(input, i) - i;
-        //printf("len : %i\n", lenght);
+        printf("len : %i\n", lenght);
         if (i == 0)
             expand[j] = ft_substr(input, i, lenght);
         else
             expand[j] = ft_substr(input, i - 1, lenght + 1);
-        printf("splitted: %s\n", expand[j]);
+        printf("splitted: %s(fin)\n", expand[j]);
         i += lenght + 1;
         j++;
     }
-    expand[j] = "\0";
+    printf ("nulled : %i\n", j);
+    expand[j] = NULL;
     return (expand);
 }
 
 
+/*
+int count_exp(char *input)
+{
+    int i;
+    int count;
+
+    i = 0;
+    count = 0;
+    while (input[i])
+    {
+        if (input[i] == '"')
+        {
+            i = quote_case(input, i);
+            count++;
+        }
+    }
+    
+}
+
+*/
 char **split_expand(char *input)
 {
     char **expand;
@@ -105,3 +119,5 @@ char **split_expand(char *input)
     expand = split_exp(expand, input);
     return (expand);
 }
+
+

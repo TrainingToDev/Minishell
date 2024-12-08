@@ -12,33 +12,42 @@
 
 #include "minishell.h"
 
-static int change(char *splitted)
+int change2(char *splitted)
 {
     int i;
 
     i = 0;
     while(splitted[i])
     {
-        i = case_quote(input, i);
+        i = case_quote(splitted, i);
         if (splitted[i] == '$')
+        {
+            //printf("with\n");
             return(1);
+        }
         i++;
     }
     return (0);
 } 
 
-
-char *expand(char **splitted, char input)
+char *expand(char **splitted)
 {
-    char *exp;
+    //char *exp;
     int i;
 
     i = 0;
     while(splitted[i])
     {
         //function maka ilay $de manova azy
+        if (change2(splitted[i]) == 1)
+        {
+            printf ("%s\n", splitted[i]);
+            printf ("-----here secund split-----");
+            secund_split(splitted[i], NULL);
+        }
         i++;
     }
-    exp = ;//join splitted
-    free(input);
+    //exp = ;//join splitted
+    //free(input);
+    return (NULL);
 }

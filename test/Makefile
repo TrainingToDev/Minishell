@@ -15,7 +15,7 @@ NAME = minishell
 SRC = main.c pipe_utils.c quote_utils.c split_pile.c manage_array.c\
 		get_token.c token_utils.c get_state.c quote_error.c utils.c\
 		split_expand.c  get_env.c list_utils.c specific_case.c\
-		exec.c
+		exec.c expand.c expand_utils.c get_off_quote.c
 		
 CC = cc -g -Wall -Werror -Wextra 
 

@@ -77,12 +77,12 @@ static void    attribute_state(t_token **tok)
 t_token    **get_all_state(t_token **all)
 {
     int i;
-    //t_token **tok;
+    t_token *tok;
 
     i = 0;
-    //tok = &all;
     while (all[i])
     {
+        tok = all[i];
         while (all[i]->next)
         {
             attribute_state(&all[i]);
@@ -99,6 +99,7 @@ t_token    **get_all_state(t_token **all)
             attribute_state(&all[i]);
             printf("the new state is : %i for the token : %s\n", all[i]->state, all[i]->token);
         }
+        all[i] = tok;
         i++;
     }
     return (all);

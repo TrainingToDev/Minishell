@@ -45,9 +45,9 @@ int g_sign = 0;
 int main (int argc, char **argv, char **en)
 {
 	//t_env *var;
-	//t_env *env;
-	//t_list *list;
-	//int nbr_pipe;
+	t_env *env;
+	t_list *list;
+	int nbr_pipe;
 	//t_parse *data;//tableau de data ity len isan'ny proc
 	char	*prompt;
 	char	*input;
@@ -60,8 +60,8 @@ int main (int argc, char **argv, char **en)
 		//perror ("invalid argument");
 		return (write(2, "wrong parameter\n", 15));
 	//var = local_variable();
-	//env = get_env(en);
-	//list = get_all_builtins();
+	env = get_env(en);
+	list = get_all_builtins();
 	/*
 	while (env)
 	{
@@ -70,12 +70,14 @@ int main (int argc, char **argv, char **en)
 		env = env->next;
 	}
 	*/
+//int i = 0;
+//char **test;
 	while (1)
 	{
 		prompt = ft_strjoin(getcwd(NULL, 0), " ");
 		input = readline((const char *)prompt);
 		add_history(input);
-	//	nbr_pipe = check_pipe(input);
+		nbr_pipe = check_pipe(input);
 		if (input[0] != '\0')
 		{
         	len = valid_pipe(input);
@@ -84,7 +86,16 @@ int main (int argc, char **argv, char **en)
 			else
 			{
 				input = change(input);
-				split_expand(input);
+				//test = split_expand(input);
+/*
+				while (test[i])
+				{
+					printf("secund split number : %i -> str:%s\n", i, test[i]);
+					secund_split(test[i], env);
+					i++;
+				}
+*/
+				//expand(test);
 				token = get_all_token(get_pile(input), len);
 				token = get_all_state(token);
 				//state_command(token, nbr_pipe, list);

@@ -58,14 +58,21 @@ void command (t_token **tok)
     i = 0;
     if ((*tok)->state != 0 || (*tok)->check != 0)
         return ;
+    /*
     while ((*tok)->token[i])
     {
-        if (is_alpha((*tok)->token[i]) == 0)
+        if (is_alphasymb((*tok)->token[i]) != 1)
             return ;
         i++;
     }
-        (*tok)->state = 1;
-        (*tok)->check = 1;
+    */
+    (*tok)->state = 1;
+    (*tok)->check = 1;
+    if (count_quote((*tok)->token) != 0)
+    {
+        (*tok)->token = get_off_quote((*tok)->token, count_quote((*tok)->token));
+        printf ("new command : %s\n", (*tok)->token);
+    }
 }
 
 void  is_redir(t_token **tok)

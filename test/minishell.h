@@ -67,6 +67,7 @@ void    free_struct(t_parse *data);
 void	add_new_env(t_env **lst, t_env *new);
 int exact_command(char *data, char *command);
 int is_alpha(int c);
+int is_alphasymb(int c);
 int is_variable(char *string);
 int list_size(t_env *env);
 int check_pipe(char *input);
@@ -105,7 +106,11 @@ char **output_file(char *input);
 
 //expand
 char **split_expand(char *input);
-int case_quote(char *input, int i)
+int case_quote(char *input, int i);
+char **secund_split(char *split, t_env *env);
+char *expand(char **splitted);
+int change2(char *splitted);
+int count(char *split);
 
 //get_token
 char **tokening(char *input);
@@ -158,4 +163,7 @@ int count_pipe(t_token **all);
 t_list *get_all_builtins();
 void state_command(t_token **token, int pipe, t_list *built);
 
+//get_off_quote
+int count_quote(char *command);
+char *get_off_quote(char *old, int count);
 #endif

@@ -66,6 +66,13 @@ int is_var(char *token, int start , int len)
 	return (0);
 }
 
+int is_alphasymb(int c)
+{
+	if (c <= '9' && c >= '0')
+		return (0);
+	return (1);
+}
+
 int	is_alpha(int c)
 {
 	if ((c <= 90 && c >= 65) || (c <= 122 && c >= 97))

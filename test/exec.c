@@ -52,7 +52,7 @@ void state_command(t_token **token, int pipe, t_list *built)
         if(is_builtins(token, built) == 1)
         {
             //function exec_builtings
-            printf("exec builtings");
+            printf("exec builtings\n");
         }
         else
         {

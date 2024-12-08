@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int count(char *split)
+int count(char *split)
 {
     int i;
     int len;
@@ -21,7 +21,7 @@ static int count(char *split)
     len = 0;
     while(split[i])
     {
-        if (split[i] != '$' && i = 0)
+        if(i == 0 && split[i] != '$')
         {
             while(split[i] && split[i] != '$')
                 i++;
@@ -40,10 +40,12 @@ static int count(char *split)
                 i++;
             len++;
         }
+        i++;
     }
-    printf("len : %i\n", len);
+    printf("nbr len : %i\n", len);
     return(len);
 }
+
 static int get_len(char *split, int start)
 {
     int i;
@@ -70,6 +72,8 @@ static int get_len(char *split, int start)
     }
     return (0);
 }
+
+
 static char **split_secund(char **new, char *split, t_env *env)//eto no manova zay ovaina rehetra
 {
     int i;
@@ -78,11 +82,13 @@ static char **split_secund(char **new, char *split, t_env *env)//eto no manova z
 
     i = 0;
     j = 0;
+    (void)env;
     while (split[i])
     {
         len = get_len(split, i) - i;
-        new[j] = ft_substr(input, i, len);
-        printf("secund split : %s\n", new[j]);
+        new[j] = ft_substr(split, i, len);
+        printf("-------for index %i----------\n", j);
+        printf("secund split : %s(fin)\n", new[j]);
         j++;
         i += len;
     }
@@ -90,12 +96,17 @@ static char **split_secund(char **new, char *split, t_env *env)//eto no manova z
     return (new);
 }
 
-char **secund_split(char *split)//de avy eo eto atao join voalohany 
+char **secund_split(char *split, t_env *env)//mahazo tableau milsy an'ilay expand tsotra
 {
     char **new;
 
+    (void)env; 
     new = (char**)malloc(sizeof(char*) * count(split) + 1);
     if (!new)
+    {
+        printf("null\n");
         return (NULL);
-    new = split_secund(new, input)
+    }
+    new = split_secund(new, split, env);
+    return (new);
 }
