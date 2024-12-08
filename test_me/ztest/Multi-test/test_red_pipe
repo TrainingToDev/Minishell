@@ -167,6 +167,32 @@ Others test:
 - cat << EOF > output.log (Ok)
 - 
 
+Expansion (variables)
+  example="Hello world"
+
+$example	    Hello world	  2
+"$example"	  Hello world	  1
+\$example     $example	    1
+'$example'	  $example	    1
+
+
+# INCORRECT 1
+example = Hello
+
+# INCORRECT 2
+example= Hello
+
+# INCORRECT 3
+example =Hello
+
+
+# CORRECT 1
+example=Hello
+
+# CORRECT 2
+example=" Hello"
+
+
 
 
 
