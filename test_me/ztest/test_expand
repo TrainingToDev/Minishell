@@ -1,1 +1,6 @@
+cmd
+
+current_date=$(date) K.O => free_parser
+ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+
 
