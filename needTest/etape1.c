@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:21:30 by herandri          #+#    #+#             */
-/*   Updated: 2024/12/21 07:07:10 by herandri         ###   ########.fr       */
+/*   Updated: 2024/12/21 13:10:08 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,38 +26,6 @@ int	check_args(int argc, char **argv)
 	}
 	return (EXIT_SUCCESS);
 }
-// Gestion de prompt
-/* char	*get_default_prompt()
-{
-	char	*cwd;
-	char	*prompt;
-	char	*tmp;
-	char	*path;
-
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		cwd = ft_strdup("minishell$:");
-	if (!cwd)
-		return (NULL);
-	tmp = ft_strjoin("\001"COLOR_GREEN"\002", "minishell:");
-	path = ft_strjoin("\001"COLOR_BLUE"\002", cwd);
-	free(cwd);
-	if (!tmp || !path)
-	{
-		free(tmp);
-		free(path);
-		return (NULL);
-	}
-	prompt = ft_strjoin(tmp, path);
-	free(tmp);
-	free(path);
-	if (!prompt)
-		return (NULL);
-	tmp = prompt;
-	prompt = ft_strjoin(prompt, "\001"COLOR_RESET"\002$ ");
-	free(tmp);
-	return (prompt);
-} */
 
 char	*format_prompt(void)
 {
@@ -634,7 +602,7 @@ t_token_type invalid_redir(const char *input)
 {
     if (is_unsup_simple_redir(input)) // Cas simples comme `>&`, `&>`, `<<<`
         return (TOKEN_UNKNOWN);
-    if (is_unsup_descriptor_redir(input)) // Cas avancés comme `n>&m`, `n<&m`, etc.
+    if (is_unsup_descriptor_redir(input)) // Cas avances comme `n>&m`, `n<&m`, etc.
         return (TOKEN_UNKNOWN);
     return (TOKEN_WORD);
 }
@@ -784,7 +752,7 @@ int check_parentheses(t_token *tokens)
     if (count != 0)
     {
         print_error(E_SYNTAX, "unmatched parenthesis", 258);
-        return (0); // Parenthèses déséquilibrées
+        return (0);
     }
     return (1);
 }
@@ -1248,7 +1216,7 @@ t_ast   *create_pipe_node(t_ast *left, t_ast *right)
 	
 	if (!left || !right)
     {
-        fprintf(stderr, "Warning: NULL\n");
+        fprintf(stderr, "Warning: NULL\n"); // need amelioration
     }
     return (node);
 }
@@ -1778,8 +1746,8 @@ void    print_ast(t_ast *ast, int depth)
 
 
 
-// gcc -Wall -Wextra etape1.c ../libft/libft.a -lreadline
-// gcc -g -Wall -Wextra etape1.c ../libft/libft.a -lreadline
+// gcc -Wall -Wextra etape1.c ./libft.a -lreadline
+// gcc -g -Wall -Wextra etape1.c ../libft.a -lreadline
 // valgrind --leak-check=full ./a.out
 
 
