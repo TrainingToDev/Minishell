@@ -1,27 +1,27 @@
 List of command
 error: /, *, -, + etc...
 1)
-cat log.txt | grep 'Erreur' | sort | uniq > erreurs_triees.txt (ok)
+cat log | grep 'Erreur' | sort | uniq > erreurs_triees.txt (ok)
 
 2)
-cat log.txt | grep 'Erreur' | sort | uniq > erreurs_triees.txt (ok)
+cat log | grep 'Erreur' | sort | uniq > erreurs_triees.txt (ok)
 
 3)
-cat students.txt | sort | uniq -c | sort -nr (ok)
+cat students | sort | uniq -c | sort -nr (ok)
 
 4)
-cat Plaintext | grep 'pattern' | cut -d',' -f1 | sort | uniq -c | awk '{print $2, $1}' | sort -nr | head -n 10 | tee top10.txt | less (ok)
+cat Plaintext | grep 'pattern' | cut -d',' -f1 | sort | uniq -c | awk '{print $2, $1}' | sort -nr | head -n 10 | tee top10 | less (ok)
 
 5)
-cat numbers.txt | tr ',' '\n' | sort -n | uniq | awk '{print $1 * 2}' | paste -sd+ | bc | tee sum.txt | xargs echo "The sum is:" | tee -a results.log | less (ok)
+cat numbers | tr ',' '\n' | sort -n | uniq | awk '{print $1 * 2}' | paste -sd+ | bc | tee sum | xargs echo "The sum is:" | tee -a results | less (ok)
 
 
 6)
-echo "testing for redirection" > output.txt (OK)
-sort < input.txt (ok)
-echo "Another line" >> output.txt (ok)
+echo "testing for redirection" > output (OK)
+sort < input (ok)
+echo "Another line" >> output (ok)
 cat << EOF > output.txt (ok)
-grep 'pattern' < input.txt | sort > sorted_results.txt (ok)
+grep 'pattern' < input.txt | sort > sorted_results (ok)
 
 *******************************************
 test error: not manage in project, for fun (Failed)
@@ -44,13 +44,13 @@ bash: syntax error near unexpected token '2>'
 *******************************************
 
 7)
-echo "Logging and displaying" | tee output.log (ok)
-echo "Appending with tee" | tee -a output.log (ok)
+echo "Logging and displaying" | tee output (ok)
+echo "Appending with tee" | tee -a output (ok)
 
 8) test complex: input.txt, append.txt, script.sh
 cat < input.txt | grep 'Ligne' | tee intermediate.txt | awk '{print $1 " modifiée"}' | tee modified.txt | sort | uniq > sorted.txt (ok)
-cat append.txt >> sorted.txt
-cat sorted.txt (ok)
+cat append >> sorted
+cat sorted (ok)
 bash << EOF (pre-ok)
 echo "Exécution de script.sh avec un here document"
 EOF
@@ -78,40 +78,40 @@ Charlie,22
 
 
 
-< input.txt sort > sorted.txt (Ok)
+< input.txt sort > sorted (Ok)
 
 ****************test***************
-Test> < input.txt sort > sorted.txt
+Test> < input sort > sorted
 Token type: 2, value: '<'
 Token type: 0, value: 'input.txt'
 Token type: 0, value: 'sort'
 Token type: 3, value: '>'
-Token type: 0, value: 'sorted.txt'
+Token type: 0, value: 'sorted'
 Abstract Syntax Tree (AST):
 NODE_COMMAND: [ sort ]
   REDIR_IN: input.txt
   REDIR_OUT: sorted.txt
 ***********************************
 
-< log.txt grep 'Error' > errors.txt | cat errors.txt (ok)
+< log grep 'Error' > errors | cat errors (ok)
 
 ****************test***************
-Test> < log.txt grep 'Error' > errors.txt | cat errors.txt
+Test> < log.txt grep 'Error' > errors | cat errors
 Token type: 2, value: '<'
-Token type: 0, value: 'log.txt'
+Token type: 0, value: 'log'
 Token type: 0, value: 'grep'
 Token type: 0, value: 'Error'
 Token type: 3, value: '>'
-Token type: 0, value: 'errors.txt'
+Token type: 0, value: 'errors'
 Token type: 1, value: '|'
 Token type: 0, value: 'cat'
-Token type: 0, value: 'errors.txt'
+Token type: 0, value: 'errors'
 Abstract Syntax Tree (AST):
 NODE_PIPE: 
   NODE_COMMAND: [ grep Error ]
     REDIR_IN: log.txt
     REDIR_OUT: errors.txt
-  NODE_COMMAND: [ cat errors.txt ]
+  NODE_COMMAND: [ cat errors ]
 ***********************************
 
 
