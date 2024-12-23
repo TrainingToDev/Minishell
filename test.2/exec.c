@@ -16,17 +16,20 @@ t_list *get_all_builtins()
 {
     t_list *built;
 
-    built = ft_lstnew("echo");
-    ft_lstadd_back(&built, ft_lstnew("export"));
-    ft_lstadd_back(&built, ft_lstnew("unset"));
-    ft_lstadd_back(&built, ft_lstnew("cd"));
-    ft_lstadd_back(&built, ft_lstnew("pwd"));
-    ft_lstadd_back(&built, ft_lstnew("exit"));
-    ft_lstadd_back(&built, ft_lstnew("env"));
+    built = ft_lstnew("echo");//1
+    ft_lstadd_back(&built, ft_lstnew("export"));//2
+    ft_lstadd_back(&built, ft_lstnew("unset"));//3
+    ft_lstadd_back(&built, ft_lstnew("cd"));//4
+    ft_lstadd_back(&built, ft_lstnew("pwd"));//5
+    ft_lstadd_back(&built, ft_lstnew("exit"));//6
+    ft_lstadd_back(&built, ft_lstnew("env"));//7
     return (built);
 }
 static int is_builtins(t_token **tok, t_list *built)
 {
+    int count;
+
+    count = 1; 
     while ((*tok) && (*tok)->state != 1)
     {
         printf("here : %s -> %i\n", (*tok)->token, (*tok)->state);
@@ -36,28 +39,52 @@ static int is_builtins(t_token **tok, t_list *built)
     {
         if (ft_strncmp((*tok)->token, built->content, ft_strlen((*tok)->token)) == 0)
         {
-            return (1);
+            return (count);
             printf ("builtins\n");
         }
+        count++;
         built = built->next;
     }
     return (0);
 }
 
-
-void state_command(t_token **token, int pipe, t_list *built)
+static void exact_builtin(t_token **token, t_env *env, int command_id)
 {
+    if (command_id == 1)
+        //echo function;
+    else if (command_id == 2)
+        //export function;
+    else if (command_id == 3)
+        //unset function;
+    else if (command_id == 4)
+        //cd function;
+    else if (command_id == 5)
+        //pwd function;
+    else if (command_id == 6)
+        //exit function;
+    else if (command_id == 7)
+        //env function;
+}
+
+void state_command(t_token **token, int pipe, t_list *built, t_env *env)
+{
+    int command_id;
+ 
     if (pipe == 1)
     {
-        if(is_builtins(token, built) == 1)
+        command_id = is_builtins(token, built);
+        if(command_id != 0)
         {
-            //function exec_builtings
             printf("exec builtings\n");
+            //function handle all the quotes
+            exact_builtin(token, env, command_id);
+            //free all struct + handle signals
         }
         else
         {
-            //function exec_all
             printf("fork and exec with execve\n");
+            //function that reformulate all the param (quote and form of param)
+            //execve and recuperate the return of $? and  handle signals
         }
     }
     else
