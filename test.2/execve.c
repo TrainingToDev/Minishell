@@ -52,7 +52,7 @@ char **get_all_path(t_env *env)
     free (input);
     return (path);
 }
-
+/*
 void new_proc(t_token **tok, t_env *env)
 {
     pid_t pid;
@@ -67,3 +67,4 @@ void new_proc(t_token **tok, t_env *env)
         //waitpid(pid , );
     }
 }
+*/
