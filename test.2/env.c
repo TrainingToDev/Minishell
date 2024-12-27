@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 int is_variable(char *string)
 {
     int i;
@@ -53,7 +53,8 @@ static t_env	*new_enve(char *env)
     free(env);
 	return (data);
 }
-
+*/
+/*
 int export_command(t_env *env, t_parse *data)
 {
     if (exact_command(data->command, "export") != 1)
@@ -62,25 +63,36 @@ int export_command(t_env *env, t_parse *data)
         return (0);
     if (is_variable(data->param) != 1)
         return (0);
-    add_new_env(&env, new_enve(data->param));
+    add_new_env(&env, int add_new_var(t_parse *data, t_env *var);new_enve(data->param));
     free_struct(data);
     return (1);
 }
+*/
 
-int env_command(t_env *env, t_parse *data)
+//one thing confusing no option no argument so with option should be an error ?
+
+int env_command(t_env *env, t_token **token)
 {
-    if (exact_command(data->command, "env") != 1)
-        return (0);
-   // if (data->option != NULL)
-        return (0);
-    if (data->param != NULL)
-        return (0);
-    while (env)
-	{
-		printf("%s", env->var);
-		printf("%s\n", env->value);
-		env = env->next;
-	}
-    free_struct(data);
-    return (1);
+    t_env   *temp;
+
+    temp = env;
+    if (checking_redir((*token)) == 1)
+        printf ("need redirection function\n");//function redirection 
+    while ((*token))
+    {
+        if ((*token)->state == 6)
+        {
+            write (2,"No argument is tolerated\n", 27);
+            //function de free ending command program
+            return (-1);//valeur de retour $? (mbola tsy hay)
+        }
+        (*token) = (*token)->next;
+    }
+    while (temp)
+    {
+        printf("%s", temp->var);
+        printf("%s\n", temp->value);
+        temp = temp->next;
+    }
+    return (0);//valeur de retour $?
 }

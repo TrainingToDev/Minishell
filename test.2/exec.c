@@ -37,25 +37,25 @@ static int is_builtins(t_token **tok, t_list *built)
     }
     while (built)
     {
-        if (ft_strncmp((*tok)->token, built->content, ft_strlen((*tok)->token)) == 0)
+        if (ft_strncmp((*tok)->token, built->content, ft_strlen(built->content)) == 0)
         {
             return (count);
-            printf ("builtins\n");
+            //printf ("builtins\n");
         }
         count++;
         built = built->next;
     }
     return (0);
 }
-
 static void exact_builtin(t_token **token, t_env *env, int command_id)
 {
     if (command_id == 1)
-        //echo function;
-    else if (command_id == 2)
-        //export function;
-    else if (command_id == 3)
-        //unset function;
+        echo_command(token);
+    else if (command_id == 7)
+        env_command(env, token);
+    else if (command_id == 5)
+        pwd_command(token);
+        /*
     else if (command_id == 4)
         //cd function;
     else if (command_id == 5)
@@ -63,26 +63,29 @@ static void exact_builtin(t_token **token, t_env *env, int command_id)
     else if (command_id == 6)
         //exit function;
     else if (command_id == 7)
+        */
         //env function;
 }
 
 void state_command(t_token **token, int pipe, t_list *built, t_env *env)
 {
     int command_id;
+    (void)env;
  
     if (pipe == 1)
     {
         command_id = is_builtins(token, built);
         if(command_id != 0)
         {
+            take_all_quote(token);
             printf("exec builtings\n");
-            //function handle all the quotes
             exact_builtin(token, env, command_id);
             //free all struct + handle signals
         }
         else
         {
             printf("fork and exec with execve\n");
+            get_all_path(env);
             //function that reformulate all the param (quote and form of param)
             //execve and recuperate the return of $? and  handle signals
         }

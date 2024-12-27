@@ -26,12 +26,16 @@ int count_quote(char *command)
 			i++;
 			while (command[i] && command[i] != '\'')
 				i++;
+			if (command[i] == '\'')
+				i++;
 			count++;
 		}
 		else if (command[i] == '"')
 		{
 			i++;
 			while (command[i] && command[i] != '"')
+				i++;
+			if (command[i] == '"')
 				i++;
 			count++;
 		}
@@ -40,6 +44,7 @@ int count_quote(char *command)
 	}
 	return(count);
 }
+
 static char *copy(char *new, char *old)
 {
 	int i;

@@ -98,7 +98,7 @@ int main (int argc, char **argv, char **en)
 				//expand(test);
 				token = get_all_token(get_pile(input), len);
 				token = get_all_state(token);
-				//state_command(token, nbr_pipe, list);
+				state_command(token, nbr_pipe, list, env);
 				//pipe_implementation(token, count_pipe(token));
 			}
 			free (prompt);

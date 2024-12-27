@@ -12,15 +12,6 @@
 
 #include "minishell.h"
 
-void free_struct(t_parse *data)
-{
-    free(data->command);
-    free(data->output);
-	free(data->input);
-    free(data->param);
-    free (data);
-}
-
 int	exact_command(char *data, char *command)
 {
 	int	i;

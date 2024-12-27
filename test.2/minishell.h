@@ -17,6 +17,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdlib.h>
+#include <dirent.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -37,15 +38,6 @@ typedef struct s_token
     struct s_token *next;
 }               t_token;
 
-typedef struct s_parse
-{
-    char *command;
-    char **param;
-    char    **input;
-    char    **output;
-    int pid;
-    struct s_parse *next;
-}               t_parse;
 
 typedef struct s_env
 {
@@ -57,13 +49,10 @@ typedef struct s_env
 typedef struct s_export
 {
     char *proto;
-    char *var;
-    char *value;
-    struct s_export *next;
+    t_env *env;
 }               t_export;
 
 extern int g_sign;
-void    free_struct(t_parse *data);
 void	add_new_env(t_env **lst, t_env *new);
 int exact_command(char *data, char *command);
 int is_alpha(int c);
@@ -71,21 +60,16 @@ int is_alphasymb(int c);
 int is_variable(char *string);
 int list_size(t_env *env);
 int check_pipe(char *input);
-t_parse  *get_struct(char *input);
-t_parse **get_data(char *input, int len);
 t_env	*get_env(char **env);
 t_env	*new_env(char *env);
-t_env *local_variable(void);
 //char	*get_string(char *env, int i, int len, int c);
 
 //builtins
 
-int    echo_command(t_parse *data);
-int add_new_var(t_parse *data, t_env *var);
-int echo_without_option(t_parse *data);
-int pwd_command(t_parse *data);
-int env_command(t_env *env, t_parse *data);
-int export_command(t_env *env, t_parse *data);
+int echo_command(t_token **token);
+int env_command(t_env *env, t_token **token);
+int pwd_command(t_token **token);
+
 
 //parsing
 
@@ -161,9 +145,18 @@ void    is_argument(t_token **tok);
 void pipe_implementation(t_token **all, int number_exec);
 int count_pipe(t_token **all);
 t_list *get_all_builtins();
-void state_command(t_token **token, int pipe, t_list *built);
+void state_command(t_token **token, int pipe, t_list *built, t_env *env);
 
 //get_off_quote
 int count_quote(char *command);
 char *get_off_quote(char *old, int count);
+
+//builtins utils
+void take_all_quote(t_token **tok);
+int checking_redir(t_token *temp);
+
+//execve utils
+char **get_all_path(t_env *env);
+
+
 #endif

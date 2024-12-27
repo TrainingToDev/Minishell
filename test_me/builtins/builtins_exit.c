@@ -44,7 +44,7 @@ int	builtin_exit(t_minishell *shell, char **args)
 	int	exit_status;
 
 	ft_putendl_fd("exit", STDERR_FILENO);
-
+	
 	if (!args[1])
 	{
 		// not argument : use status for prec cmd
