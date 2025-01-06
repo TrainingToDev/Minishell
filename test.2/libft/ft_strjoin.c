@@ -42,3 +42,68 @@ char	*ft_strjoin(char *s1, char *s2)
 	dest[i] = '\0';
 	return (dest);
 }
+
+char	*ft_strjoin_free(char *s1, char *s2)
+{
+	size_t	i;
+	size_t	len1;
+	size_t	len2;
+	char	*dest;
+
+	i = 0;
+	len1 = 0;
+	len2 = 0;
+	if (s1)
+		len1 = ft_strlen(s1);
+	if (s2)
+		len2 = ft_strlen(s2);
+	dest = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
+	if (!dest)
+		return (0);
+	while (i < len1)
+	{
+		dest[i] = ((char *)s1)[i];
+		i++;
+	}
+	while (i - len1 < len2)
+	{
+		dest[i] = ((char *)s2)[i - len1];
+		i++;
+	}
+	dest[i] = '\0';
+	free(s1);
+	free(s2);
+	return (dest);
+}
+
+char	*ft_strjoin_f(char *s1, char *s2)
+{
+	size_t	i;
+	size_t	len1;
+	size_t	len2;
+	char	*dest;
+
+	i = 0;
+	len1 = 0;
+	len2 = 0;
+	if (s1)
+		len1 = ft_strlen(s1);
+	if (s2)
+		len2 = ft_strlen(s2);
+	dest = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
+	if (!dest)
+		return (0);
+	while (i < len1)
+	{
+		dest[i] = ((char *)s1)[i];
+		i++;
+	}
+	while (i - len1 < len2)
+	{
+		dest[i] = ((char *)s2)[i - len1];
+		i++;
+	}
+	dest[i] = '\0';
+	free(s1);
+	return (dest);
+}

@@ -38,7 +38,26 @@ char	*get_string(char *env, int i, int len, int c)
 	return (value);
 }
 
-t_env	*new_env(char *env) ///malloc ato seulement ctl+D vao mifree
+static t_env *last_env(t_env *env)
+{
+    if (!env)
+        return (NULL);
+    while (env->next != NULL)
+        env = env->next;
+    return (env);
+}
+
+void	add_new_env(t_env **lst, t_env *new)
+{
+	if (!lst || !new)
+		return ;
+	if (*lst)
+		last_env(*lst)->next = new;
+	else
+		(*lst) = new;
+}
+
+static t_env	*new_env(char *env) ///malloc ato seulement ctl+D vao mifree
 {
 	t_env *data;
 	int i;
@@ -48,7 +67,7 @@ t_env	*new_env(char *env) ///malloc ato seulement ctl+D vao mifree
 	if (!data)
 		return (NULL);
 	i = 0;
-	while (env[i] != '=')
+	while (env[i] != '=' && env[i])
 		i++;
 	data->var = get_string(env, 0, i, '=');
 	i++;

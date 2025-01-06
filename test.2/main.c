@@ -46,6 +46,7 @@ int main (int argc, char **argv, char **en)
 {
 	//t_env *var;
 	t_env *env;
+	t_export *exp;
 	t_list *list;
 	int nbr_pipe;
 	//t_parse *data;//tableau de data ity len isan'ny proc
@@ -61,6 +62,7 @@ int main (int argc, char **argv, char **en)
 		return (write(2, "wrong parameter\n", 15));
 	//var = local_variable();
 	env = get_env(en);
+	exp = get_export_list(en);
 	list = get_all_builtins();
 	/*
 	while (env)
@@ -95,7 +97,8 @@ int main (int argc, char **argv, char **en)
 					i++;
 				}
 */
-				//expand(test);
+				input = new_expand(input, env);
+				printf ("after expand : %s\n", input);
 				token = get_all_token(get_pile(input), len);
 				token = get_all_state(token);
 				state_command(token, nbr_pipe, list, env);
@@ -113,3 +116,11 @@ int main (int argc, char **argv, char **en)
 		//printf ("%i\n", get_number_of(input, '>'));
 	}
 }
+
+/*
+cat << t
+rl_unix_word_rubout
+raise
+rl_directory_completion_hook
+t
+*/

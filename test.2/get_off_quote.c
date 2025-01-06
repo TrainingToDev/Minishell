@@ -76,7 +76,7 @@ static char *copy(char *new, char *old)
 }
 
 
-char *get_off_quote(char *old, int count)
+char *get_off_quote(char *old, int count)//count==count_quote;
 {
 	char *new;
 

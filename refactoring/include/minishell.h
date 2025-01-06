@@ -167,6 +167,8 @@ int				add_line(t_hdc *content, const char *line);
 void			print_tokens(t_token *tokens);
 
 
+char *compare(char *var, t_env *env);
+
 
 #endif
 

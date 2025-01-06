@@ -46,7 +46,7 @@ int echo_command(t_token **token)
 
     temp = (*token);
     if (checking_redir((*token)) == 1)
-        printf("need redirection function\n");//function redirection 
+        printf("need redirection function\n");//function redirection
     while((*token))
     {
         if ((*token)->state == 6)

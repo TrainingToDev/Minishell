@@ -49,6 +49,7 @@ int run_shell(void)
 				free(input);
 				continue ;
 			}
+			tokens->value = compare(tokens->value, env);
 			print_tokens(tokens);
 			free_token_list(tokens);
 			tokens = NULL;

@@ -26,7 +26,7 @@
 
 typedef struct s_expand//used at the expand function
 {
-    int start;
+    char *var;
     int len;
 }               t_expand;
 
@@ -38,7 +38,6 @@ typedef struct s_token
     struct s_token *next;
 }               t_token;
 
-
 typedef struct s_env
 {
     char *var;
@@ -49,20 +48,23 @@ typedef struct s_env
 typedef struct s_export
 {
     char *proto;
-    t_env *env;
+    char *var;
+    char *value;
+    struct s_export *next;
 }               t_export;
 
 extern int g_sign;
+
+void    add_new_exp(t_export **lst, t_export *new);
 void	add_new_env(t_env **lst, t_env *new);
 int exact_command(char *data, char *command);
 int is_alpha(int c);
 int is_alphasymb(int c);
-int is_variable(char *string);
-int list_size(t_env *env);
 int check_pipe(char *input);
 t_env	*get_env(char **env);
-t_env	*new_env(char *env);
-//char	*get_string(char *env, int i, int len, int c);
+t_export    *get_export_list(char **env);
+//t_env	*new_env(char *env);
+char	*get_string(char *env, int i, int len, int c);
 
 //builtins
 
@@ -91,10 +93,7 @@ char **output_file(char *input);
 //expand
 char **split_expand(char *input);
 int case_quote(char *input, int i);
-char **secund_split(char *split, t_env *env);
-char *expand(char **splitted);
-int change2(char *splitted);
-int count(char *split);
+char *new_expand(char *input, t_env *env);
 
 //get_token
 char **tokening(char *input);
