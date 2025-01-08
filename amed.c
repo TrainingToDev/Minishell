@@ -1892,22 +1892,102 @@ int execute_ast(t_ast *ast, t_env *env)
     }
 }
 
+// redirection test:
 
+int apply_redirections(t_redir *redirs)
+{
+    int fd;
+
+    while (redirs)
+    {
+        if (redirs->type == REDIR_OUT)
+        {
+            fd = open(redirs->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+            if (fd == -1)
+            {
+                perror("minishell");
+                return (-1);
+            }
+            if (dup2(fd, STDOUT_FILENO) == -1)
+            {
+                perror("minishell");
+                close(fd);
+                return (-1);
+            }
+            close(fd);
+        }
+        else if (redirs->type == REDIR_APPEND)
+        {
+            fd = open(redirs->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
+            if (fd == -1)
+            {
+                perror("minishell");
+                return (-1);
+            }
+            if (dup2(fd, STDOUT_FILENO) == -1)
+            {
+                perror("minishell");
+                close(fd);
+                return (-1);
+            }
+            close(fd);
+        }
+        else if (redirs->type == REDIR_IN)
+        {
+            fd = open(redirs->filename, O_RDONLY);
+            if (fd == -1)
+            {
+                perror("minishell");
+                return (-1);
+            }
+            if (dup2(fd, STDIN_FILENO) == -1)
+            {
+                perror("minishell");
+                close(fd);
+                return (-1);
+            }
+            close(fd);
+        }
+        else if (redirs->type == REDIR_HEREDOC)
+        {
+            int pipe_fds[2];
+            if (pipe(pipe_fds) == -1)
+            {
+                perror("minishell");
+                return (-1);
+            }
+            write(pipe_fds[1], redirs->content->lines, strlen(redirs->content->lines));
+            close(pipe_fds[1]);
+            if (dup2(pipe_fds[0], STDIN_FILENO) == -1)
+            {
+                perror("minishell");
+                close(pipe_fds[0]);
+                return (-1);
+            }
+            close(pipe_fds[0]);
+        }
+        redirs = redirs->next;
+    }
+    return (0);
+}
 
 
 //int is_builtin(const char *cmd)
 
 // int execute_builtin(t_command *cmd, t_env *env)
 
-int execute_command_node(t_command *cmd, t_env *env)
+int execute_command_node(t_command *command, t_env *env)
 {
-    if (!cmd || !cmd->argv || !cmd->argv[0])
+    if (!command)
         return (EXIT_FAILURE);
 
-    if (is_builtin(cmd->argv[0]))
-        return (execute_builtin(cmd, env));
+    if (apply_redirections(command->redirs) == -1)
+        return (EXIT_FAILURE);
 
-    return (execute_external(cmd, env));
+    if (is_builtin(command->argv[0]))
+        return execute_builtin(command, env);
+
+    return execute_external_command(command, env);
 }
 
 
