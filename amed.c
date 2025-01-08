@@ -1712,6 +1712,47 @@ void update_ast_quotes(t_ast *ast)
     update_ast_quotes(ast->right);
 }
 
+// expand
+
+void expand_env_vars_in_node(t_ast *node, t_env *env)
+{
+    t_command *cmd;
+    char      *expanded_value;
+    int       i;
+
+    if (!node || node->type != NODE_COMMAND || !node->command)
+        return;
+
+    cmd = node->command;
+    i = 0;
+    while (i < cmd->argc)
+    {
+        if (cmd->argv[i] && cmd->argv[i][0] == '$' && ft_strlen(cmd->argv[i]) > 1)
+        {
+            
+            expanded_value = compare(ft_strdup(cmd->argv[i]), env);
+            if (expanded_value)
+            {
+                free(cmd->argv[i]);
+                cmd->argv[i] = expanded_value;
+            }
+        }
+        i++;
+    }
+}
+
+void expand_env_vars_in_ast(t_ast *ast, t_env *env)
+{
+    if (!ast)
+        return;
+
+    expand_env_vars_in_node(ast, env);
+
+    expand_env_vars_in_ast(ast->left, env);
+    expand_env_vars_in_ast(ast->right, env);
+}
+
+
 // -------PRINT-------------
 
 void print_indentation(int depth)
