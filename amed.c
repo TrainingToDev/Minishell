@@ -1676,6 +1676,41 @@ t_ast *parse_tokens(t_token **tokens, const char *input)
     return (ast);
 }
 
+//quote
+void remove_quotes_from_node(t_ast *node)
+{
+    if (!node || node->type != NODE_COMMAND || !node->command || !node->command->argv)
+        return;
+
+    char	*original;
+    size_t	len;
+     char *updated;
+
+    original = node->command->argv[0];
+	len = ft_strlen(original);
+    if ((original[0] == '"' || original[0] == '\'') &&
+        (original[len - 1] == '"' || original[len - 1] == '\''))
+    {
+        updated = ft_substr(original, 1, len - 2);
+        if (updated)
+        {
+            free(original);
+            node->command->argv[0] = updated;
+        }
+    }
+}
+
+void update_ast_quotes(t_ast *ast)
+{
+    if (!ast)
+        return;
+
+    if (ast->type == NODE_COMMAND)
+        remove_quotes_from_node(ast);
+
+    update_ast_quotes(ast->left);
+    update_ast_quotes(ast->right);
+}
 
 // -------PRINT-------------
 
@@ -1849,7 +1884,7 @@ int run_shell(void)
 		   printf("\nLOG: Before parse_tokens, tokens at %p\n", (void *)tokens);
 			
 			ast = parse_tokens(&tokens, input);
-
+			update_ast_quotes(ast);
 			
 
 			printf("LOG: After parse_tokens, tokens at %p\n", (void *)tokens);
