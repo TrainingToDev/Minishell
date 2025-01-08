@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+//that ' s why we should put expand before get state 
+//miaandri@c1r11s7:~/milestone_3/Minishell/test.2$ export test="cho test"
+//miaandri@c1r11s7:~/milestone_3/Minishell/test.2$ e$test 
+//test
+
 int case_quote(char *input, int i)
 {
     if (input[i] == '\'')
@@ -33,7 +38,7 @@ char *compare(char *var, t_env *env)
         if (ft_strncmp(var, temp->var, ft_strlen(var)) == 0)
         {
             free(var);
-            var = ft_substr(env->value, 1, ft_strlen(env->value) - 1);
+            var = ft_substr(temp->value, 1, ft_strlen(temp->value) - 1);
             return (var);
         }
         temp = temp->next;

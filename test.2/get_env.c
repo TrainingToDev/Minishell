@@ -31,10 +31,12 @@ char	*get_string(char *env, int i, int len, int c)
 	while (env[i] != c && env[i] != '\0')
 	{
 		value[a] = env[i];
+		//printf("test : %c ->%c\n", value[a] , env[i]);
 		a++;
 		i++;
 	}
 	value[a] = '\0';
+	//free(env);
 	return (value);
 }
 
@@ -57,7 +59,7 @@ void	add_new_env(t_env **lst, t_env *new)
 		(*lst) = new;
 }
 
-static t_env	*new_env(char *env) ///malloc ato seulement ctl+D vao mifree
+t_env	*new_env(char *env) ///malloc ato seulement ctl+D vao mifree
 {
 	t_env *data;
 	int i;

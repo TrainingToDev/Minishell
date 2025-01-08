@@ -47,7 +47,7 @@ static int is_builtins(t_token **tok, t_list *built)
     }
     return (0);
 }
-static void exact_builtin(t_token **token, t_env *env, int command_id)
+static void exact_builtin(t_token **token, t_env *env, t_export *exp, int command_id)
 {
     if (command_id == 1)
         echo_command(token);
@@ -55,9 +55,9 @@ static void exact_builtin(t_token **token, t_env *env, int command_id)
         env_command(env, token);
     else if (command_id == 5)
         pwd_command(token);
+    else if (command_id == 2)
+        export_command(env, token, exp);
         /*
-    else if (command_id == 4)
-        //cd function;
     else if (command_id == 5)
         //pwd function;
     else if (command_id == 6)
@@ -67,10 +67,9 @@ static void exact_builtin(t_token **token, t_env *env, int command_id)
         //env function;
 }
 
-void state_command(t_token **token, int pipe, t_list *built, t_env *env)
+void state_command(t_token **token, int pipe, t_list *built, t_env *env, t_export *exp)
 {
     int command_id;
-    (void)env;
  
     if (pipe == 1)
     {
@@ -79,7 +78,7 @@ void state_command(t_token **token, int pipe, t_list *built, t_env *env)
         {
             take_all_quote(token);
             printf("exec builtings\n");
-            exact_builtin(token, env, command_id);
+            exact_builtin(token, env, exp,command_id);
             //free all struct + handle signals
         }
         else

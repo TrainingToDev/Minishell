@@ -76,6 +76,7 @@ int main (int argc, char **argv, char **en)
 //char **test;
 	while (1)
 	{
+//| hola : should give error
 		prompt = ft_strjoin(getcwd(NULL, 0), " ");
 		input = readline((const char *)prompt);
 		add_history(input);
@@ -101,7 +102,7 @@ int main (int argc, char **argv, char **en)
 				printf ("after expand : %s\n", input);
 				token = get_all_token(get_pile(input), len);
 				token = get_all_state(token);
-				state_command(token, nbr_pipe, list, env);
+				state_command(token, nbr_pipe, list, env, exp);
 				//pipe_implementation(token, count_pipe(token));
 			}
 			free (prompt);
@@ -116,6 +117,7 @@ int main (int argc, char **argv, char **en)
 		//printf ("%i\n", get_number_of(input, '>'));
 	}
 }
+
 
 /*
 cat << t

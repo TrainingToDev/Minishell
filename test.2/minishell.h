@@ -55,6 +55,8 @@ typedef struct s_export
 
 extern int g_sign;
 
+//for the env_list && exp_list
+
 void    add_new_exp(t_export **lst, t_export *new);
 void	add_new_env(t_env **lst, t_env *new);
 int exact_command(char *data, char *command);
@@ -63,14 +65,17 @@ int is_alphasymb(int c);
 int check_pipe(char *input);
 t_env	*get_env(char **env);
 t_export    *get_export_list(char **env);
-//t_env	*new_env(char *env);
+t_export    *new_export(char *env);
+t_env	*new_env(char *env);
 char	*get_string(char *env, int i, int len, int c);
+char    *reform(char *old);
 
 //builtins
 
 int echo_command(t_token **token);
 int env_command(t_env *env, t_token **token);
 int pwd_command(t_token **token);
+int export_command(t_env *env, t_token **token, t_export *exp);
 
 
 //parsing
@@ -144,7 +149,7 @@ void    is_argument(t_token **tok);
 void pipe_implementation(t_token **all, int number_exec);
 int count_pipe(t_token **all);
 t_list *get_all_builtins();
-void state_command(t_token **token, int pipe, t_list *built, t_env *env);
+void state_command(t_token **token, int pipe, t_list *built, t_env *env, t_export *exp);
 
 //get_off_quote
 int count_quote(char *command);

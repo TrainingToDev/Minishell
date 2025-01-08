@@ -84,7 +84,7 @@ int env_command(t_env *env, t_token **token)
         {
             write (2,"No argument is tolerated\n", 27);
             //function de free ending command program
-            return (-1);//valeur de retour $? (mbola tsy hay)
+            return (2);//$? = 2 when the option don ' t exist
         }
         (*token) = (*token)->next;
     }

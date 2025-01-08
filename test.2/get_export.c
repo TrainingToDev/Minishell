@@ -12,26 +12,31 @@
 
 #include "minishell.h"
 
-static t_export *new_export(char *env)
+t_export *new_export(char *en)
 {
     t_export *exp;
+    char *env;
     int i;
     int a;
 
+    exp = NULL;
     exp = (t_export*)malloc(sizeof(t_export));
     if (!exp)
         return (NULL);
     i = 0;
+    env = reform(en);
     exp->proto = ft_strdup("declare -x ");
     while (env[i] != '=' && env[i])
         i++;
     exp->var = get_string(env, 0, i, '=');
-    i++;
+    if (env[i + 1])
+        i++;
     a = i;
     while (env[i])
         i++;
     exp->value = get_string(env, a, (i - a), '\0');
     exp->next = NULL;
+    // free(env);
     return (exp);
 }
 static t_export *last_exp(t_export *exp)
