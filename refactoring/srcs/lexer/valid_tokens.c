@@ -14,6 +14,13 @@ static int check_tokens_validity(t_token *tokens)
 	return (1);
 }
 
+
+
+
+
+
+
+
 int validate_syntax(t_token *tokens)
 {
 	if (!tokens)

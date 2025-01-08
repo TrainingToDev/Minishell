@@ -49,7 +49,7 @@ int run_shell(void)
 				free(input);
 				continue ;
 			}
-			tokens->value = compare(tokens->value, env);
+			// tokens->value = compare(tokens->value, env);
 			print_tokens(tokens);
 			free_token_list(tokens);
 			tokens = NULL;
@@ -67,3 +67,7 @@ int main(int argc, char **argv)
 
 	return (EXIT_SUCCESS);
 }
+
+
+// check
+echo <> p

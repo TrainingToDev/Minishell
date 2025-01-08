@@ -134,6 +134,13 @@ enum	e_mini_error
 	E_WARNING = 14        // Avertissement général
 };
 
+
+typedef enum s_bool
+{
+	FALSE,
+	TRUE
+} t_bool;
+
 t_token			*lexer(char *input);
 char			*extract_word_value(char *input, size_t *i, int *expand);
 char			*extract_quoted_value(char *input, size_t *i, int *expand);
@@ -166,8 +173,21 @@ int				add_line(t_hdc *content, const char *line);
 
 void			print_tokens(t_token *tokens);
 
+// t_bool match(t_token_type expected, t_token **tokens);
 
-char *compare(char *var, t_env *env);
+t_ast *parse_logical_expression(t_token **tokens, const char *input);
+
+
+
+
+
+
+
+
+
+
+
+// char *compare(char *var, t_env *env);
 
 
 #endif

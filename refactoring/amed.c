@@ -6,11 +6,11 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:21:30 by herandri          #+#    #+#             */
-/*   Updated: 2025/01/08 15:07:00 by herandri         ###   ########.fr       */
+/*   Updated: 2025/01/08 15:26:26 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "min.h"
+#include "include/minishell.h"
 
 // Gestion de l'argument du programme
 int	check_args(int argc, char **argv)
@@ -1715,7 +1715,7 @@ void update_ast_quotes(t_ast *ast)
 
 // expand
 
-void expand_env_vars_in_node(t_ast *node, t_env *env)
+/* void expand_env_vars_in_node(t_ast *node, t_env *env)
 {
     t_command *cmd;
     char      *expanded_value;
@@ -1891,11 +1891,11 @@ int execute_ast(t_ast *ast, t_env *env)
         printf("Unsupported AST node type.\n");
         return (EXIT_FAILURE);
     }
-}
+} */
 
 // redirection test:
 
-int apply_redirections(t_redir *redirs)
+/* int apply_redirections(t_redir *redirs)
 {
     int fd;
 
@@ -1970,14 +1970,14 @@ int apply_redirections(t_redir *redirs)
         redirs = redirs->next;
     }
     return (0);
-}
+} */
 
 
 //int is_builtin(const char *cmd)
 
 // int execute_builtin(t_command *cmd, t_env *env)
 
-int execute_command_node(t_command *command, t_env *env)
+/* int execute_command_node(t_command *command, t_env *env)
 {
     if (!command)
         return (EXIT_FAILURE);
@@ -1989,7 +1989,7 @@ int execute_command_node(t_command *command, t_env *env)
         return execute_builtin(command, env);
 
     return execute_external_command(command, env);
-}
+} */
 
 
 
