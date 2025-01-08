@@ -1753,6 +1753,166 @@ void expand_env_vars_in_ast(t_ast *ast, t_env *env)
 }
 
 
+//execution extern
+
+int execute_command_node(t_command *cmd, t_env *env)
+{
+    pid_t pid;
+    int status;
+    char **envp;
+
+    if (!cmd || !cmd->argv || !cmd->argv[0])
+        return (EXIT_FAILURE);
+
+    pid = fork();
+    if (pid < 0)
+    {
+        perror("fork");
+        return (EXIT_FAILURE);
+    }
+    else if (pid == 0)
+    {
+        envp = env_to_envp(env);
+        execvp(cmd->argv[0], cmd->argv);
+        perror(cmd->argv[0]);
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+            return WEXITSTATUS(status);
+        else
+            return (EXIT_FAILURE);
+    }
+}
+
+
+int execute_pipe(t_ast *ast, t_env *env)
+{
+    int pipe_fd[2];
+    pid_t pid;
+
+    if (pipe(pipe_fd) == -1)
+    {
+        perror("pipe");
+        return (EXIT_FAILURE);
+    }
+
+    pid = fork();
+    if (pid < 0)
+    {
+        perror("fork");
+        return (EXIT_FAILURE);
+    }
+    else if (pid == 0)
+    {
+        close(pipe_fd[0]);
+        dup2(pipe_fd[1], STDOUT_FILENO);
+        close(pipe_fd[1]);
+        exit(execute_ast(ast->left, env));
+    }
+    else
+    {
+        close(pipe_fd[1]);
+        dup2(pipe_fd[0], STDIN_FILENO);
+        close(pipe_fd[0]);
+        return execute_ast(ast->right, env);
+    }
+}
+
+int execute_and(t_ast *ast, t_env *env)
+{
+    int status;
+
+    status = execute_ast(ast->left, env);
+    if (status == EXIT_SUCCESS)
+        return execute_ast(ast->right, env);
+    return status;
+}
+
+
+int execute_or(t_ast *ast, t_env *env)
+{
+    int status;
+
+    status = execute_ast(ast->left, env);
+    if (status != EXIT_SUCCESS)
+        return execute_ast(ast->right, env);
+    return status;
+}
+
+
+int execute_subshell(t_ast *ast, t_env *env)
+{
+    pid_t pid;
+    int status;
+
+    pid = fork();
+    if (pid < 0)
+    {
+        perror("fork");
+        return (EXIT_FAILURE);
+    }
+    else if (pid == 0)
+    {
+        exit(execute_ast(ast->left, env));
+    }
+    else
+    {
+        waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+            return WEXITSTATUS(status);
+        else
+            return (EXIT_FAILURE);
+    }
+}
+
+
+
+int execute_ast(t_ast *ast, t_env *env)
+{
+    if (!ast)
+        return (EXIT_FAILURE);
+
+    if (ast->type == NODE_COMMAND)
+        return execute_command_node(ast->command, env);
+    else if (ast->type == NODE_PIPE)
+        return execute_pipe(ast, env);
+    else if (ast->type == NODE_AND)
+        return execute_and(ast, env);
+    else if (ast->type == NODE_OR)
+        return execute_or(ast, env);
+    else if (ast->type == NODE_SUBSHELL)
+        return execute_subshell(ast, env);
+    else
+    {
+        printf("Unsupported AST node type.\n");
+        return (EXIT_FAILURE);
+    }
+}
+
+
+
+
+//int is_builtin(const char *cmd)
+
+// int execute_builtin(t_command *cmd, t_env *env)
+
+int execute_command_node(t_command *cmd, t_env *env)
+{
+    if (!cmd || !cmd->argv || !cmd->argv[0])
+        return (EXIT_FAILURE);
+
+    if (is_builtin(cmd->argv[0]))
+        return (execute_builtin(cmd, env));
+
+    return (execute_external(cmd, env));
+}
+
+
+
+
 // -------PRINT-------------
 
 void print_indentation(int depth)
