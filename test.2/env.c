@@ -82,7 +82,7 @@ int env_command(t_env *env, t_token **token)
     {
         if ((*token)->state == 6)
         {
-            write (2,"No argument is tolerated\n", 27);
+            write (2,"No argument is tolerated\n", 25); // update
             //function de free ending command program
             return (2);//$? = 2 when the option don ' t exist
         }

@@ -47,8 +47,8 @@ static int is_env(char *arg)
     }
     return (0);
 }
-
-static char *copy_with_quote(char *old, char *new)
+// add size
+static char *copy_with_quote(char *old, char *new, int size)
 {
     int i;
     int j;
@@ -59,8 +59,12 @@ static char *copy_with_quote(char *old, char *new)
     check = 0;
     while (old[i])
     {
+        if (j >= size - 1) // check overflow j
+            break ;
         if (old[i] == '=' && old[i + 1] != '"')
         {
+            if (j + 2 >= size - 1) // check '=' and '"'
+                break ;
             new[j++] = old[i++];
             new[j++] = '"';
             check = 1;
@@ -68,7 +72,7 @@ static char *copy_with_quote(char *old, char *new)
         else
             new[j++] = old[i++];
     }
-    if (check == 1)
+    if (check == 1 && j < size - 1) // check overflow j
         new[j++] = '"';
     new[j] = '\0';
     return (new);
@@ -76,20 +80,19 @@ static char *copy_with_quote(char *old, char *new)
 
 char *reform(char *old)//get_on the quote
 {
-    int i;
-    int j;
-    int check;
+    // int i = 0;
+    // int j = 0;
+    // int check = 0;
     char *dest;
+    int size;
 
-    i = 0;
-    j = 0;
-    check = 0;
+    size = ft_strlen(old) + 3;
     dest = NULL;
-    dest = (char*)malloc(sizeof(char) * ft_strlen(old) + 3);
+    dest = (char*)malloc(sizeof(char) * size);
     if (!dest)
         return (NULL);
-    dest = copy_with_quote(old, dest);
-    printf("dest : %s -> %i -> %i\n", dest, (int)ft_strlen(dest), (int)ft_strlen(old));
+    dest = copy_with_quote(old, dest, size); // add size to param
+    // printf("dest : %s -> %i -> %i\n", dest, (int)ft_strlen(dest), (int)ft_strlen(old));
     return (dest);
 }
 
@@ -118,7 +121,7 @@ int export_command(t_env *env, t_token **token, t_export *exp)
     {
         if ((*token)->state == 6 && is_option((*token)->token) == 1)
         {
-            write (2,"No argument is tolerated\n", 27);
+            write (2,"No argument is tolerated\n", 25); // update
             return (2);////$? = 2 when the option don ' t exist
         }
         else if ((*token)->state == 6)

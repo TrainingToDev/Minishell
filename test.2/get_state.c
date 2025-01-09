@@ -53,9 +53,9 @@ static int check2(char *token)
 
 void command (t_token **tok)
 {
-    int i;
+    // int i;
 
-    i = 0;
+    // i = 0;
     if ((*tok)->state != 0 || (*tok)->check != 0)
         return ;
     (*tok)->state = 1;

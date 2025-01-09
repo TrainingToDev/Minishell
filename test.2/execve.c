@@ -38,9 +38,9 @@ char **get_all_path(t_env *env)
     char *input;
     char **path;
     t_env *temp;
-    int i;
+    // int i;
 
-    i = 0;
+    // i = 0;
     temp = env;
     while (temp)
     {

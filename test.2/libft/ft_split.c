@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antanana      +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 08:38:39 by miaandri          #+#    #+#             */
-/*   Updated: 2024/03/01 11:45:34 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/01/09 12:36:30 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	**ft_array(char **dest, const char *s, char c)
 		while (*(s + i) && *(s + i) == c)
 			i++;
 		*(dest + j) = ft_substr(s, i, count_len(s, c, i));
-		if (!(dest + j))
+		if (!(dest[j]))
 		{
 			ft_free(dest, j);
 		}

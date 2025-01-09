@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 12:21:41 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/05 12:19:35 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/01/09 12:34:04 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_string(char *env, int i, int len, int c)
 		value[a] = '=';
 		a++; 
 	}
-	while (env[i] != c && env[i] != '\0')
+	while (env[i] != c && env[i] != '\0' && a < len) // check overflow env
 	{
 		value[a] = env[i];
 		//printf("test : %c ->%c\n", value[a] , env[i]);

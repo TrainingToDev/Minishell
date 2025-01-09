@@ -36,7 +36,7 @@ t_export *new_export(char *en)
         i++;
     exp->value = get_string(env, a, (i - a), '\0');
     exp->next = NULL;
-    // free(env);
+    free(env); // add
     return (exp);
 }
 static t_export *last_exp(t_export *exp)
