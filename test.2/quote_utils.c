@@ -55,7 +55,7 @@ static void state (t_quote *data, int i)
     }
 }
 
-int quote_number(char *argv)
+int quote_number(char *argv)//unclosed quote function 
 {
     int i;
     int num;

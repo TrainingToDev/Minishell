@@ -12,23 +12,32 @@
 
 #include "minishell.h"
 
-int	exact_command(char *data, char *command)
+int is_space (int c)
 {
-	int	i;
+	if (c == 32)
+		return (1);
+	else if (c == '\t')
+		return (1);
+	return (0);
+}
 
-	i = 0;
-	if (ft_strlen(data) != ft_strlen(command))
+int quote_case(char *input, int i)
+{
+    if (input[i] == '\'')
 	{
-		// printf("%i->%i\n", (int)ft_strlen(data) , (int)ft_strlen(command));
-		return (0);
-	}
-	while (data[i])
-	{
-		if (data[i] != command[i])
-			return (0);
 		i++;
+		while ((input[i] != '\'' && input[i] != '\0'))
+			i++;
 	}
-	return (1);
+	if (input[i] == '"')
+	{
+		i++;
+		while ((input[i] != '"' && input[i] != '\0'))
+			i++;
+	}
+    if (input[i] == '\0')
+        return (i - 1);
+    return (i);
 }
 int is_alphanum(int c)
 {

@@ -28,7 +28,6 @@ static char *get_path(char *path)
         new_path[j++] = path[i++]; 
     }
     new_path[j] = '\0';
-    printf("new path : %s\n", new_path);
     return(new_path);
 }
 
@@ -38,9 +37,9 @@ char **get_all_path(t_env *env)
     char *input;
     char **path;
     t_env *temp;
-    // int i;
+     int i;
 
-    // i = 0;
+     i = 0;
     temp = env;
     while (temp)
     {
@@ -51,6 +50,30 @@ char **get_all_path(t_env *env)
     path = ft_split(input, ':');
     free (input);
     return (path);
+}
+static void free_path(char **path, int len)
+{
+    while (len >= 0)
+    {
+        free(path[len]);
+        len--;
+    }
+    free(path);
+}
+
+
+char *real_dir(char **path)
+{
+    int i;
+
+    i = 0;
+    while (path[i])
+    {
+        
+        i++;
+    }
+    
+
 }
 /*
 void new_proc(t_token **tok, t_env *env)

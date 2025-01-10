@@ -36,8 +36,6 @@ static int input_checking(char *input)
         write (2, "unclosed quote\n", 15);
         return (-1);
     }
-    else if (quote_number(input) == 0)
-        return (1);
     return (0);
 }
 int g_sign = 0;
@@ -48,7 +46,6 @@ int main (int argc, char **argv, char **en)
 	t_env *env;
 	t_export *exp;
 	t_list *list;
-	int nbr_pipe;
 	//t_parse *data;//tableau de data ity len isan'ny proc
 	char	*prompt;
 	char	*input;
@@ -80,12 +77,12 @@ int main (int argc, char **argv, char **en)
 		prompt = ft_strjoin(getcwd(NULL, 0), " ");
 		input = readline((const char *)prompt);
 		add_history(input);
-		nbr_pipe = check_pipe(input);
+		len = check_pipe(input);
 		if (input[0] != '\0')
 		{
-        	len = valid_pipe(input);
 			if (input_checking(input) == -1)
 				;
+			
 			else
 			{
 				input = change(input);
@@ -102,7 +99,7 @@ int main (int argc, char **argv, char **en)
 				printf ("after expand : %s\n", input);
 				token = get_all_token(get_pile(input), len);
 				token = get_all_state(token);
-				state_command(token, nbr_pipe, list, env, exp);
+				state_command(token, len, list, env, exp);
 				//pipe_implementation(token, count_pipe(token));
 			}
 			free (prompt);

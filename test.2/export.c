@@ -107,6 +107,61 @@ static int export(t_export *exp)//export without option and argument
     }
     return (0);
 }
+/*
+static int export_existing(t_export *env, t_export *new)
+{
+    t_export *temp;
+
+    temp = env;
+    while (temp)
+    {
+        if (ft_strncmp(temp->var, new->var, ft_strlen(new->var)) == 0)
+        {
+            free (temp->value);
+            temp->value = new->value;
+            free(new->proto);
+            free(new->var);
+            free(new->value);
+            free(new->next);
+            free(new);
+            return (1);
+        }
+        temp = temp->next;
+    }
+    free(new->proto);
+    free(new->var);
+    free(new->value);
+    free(new->next);
+    free(new);
+    return (0);
+}
+
+static int env_existing(t_env *env, t_env *new)
+{
+    t_env *temp;
+
+    temp = env;
+    while (temp)
+    {
+        if (ft_strncmp(temp->var, new->var, ft_strlen(new->var)) == 0)
+        {
+            free (temp->value);
+            temp->value = new->value;
+            free(new->var);
+            free(new->value);
+            free(new->next);
+            free(new);
+            return (1);
+        }
+        temp = temp->next;
+    }
+    free(new->var);
+    free(new->value);
+    free(new->next);
+    free(new);
+    return (0);
+}
+*/
 
 int export_command(t_env *env, t_token **token, t_export *exp)
 {
@@ -126,10 +181,11 @@ int export_command(t_env *env, t_token **token, t_export *exp)
         }
         else if ((*token)->state == 6)
         {
-            add_new_exp(&exp, new_export(reform((*token)->token)));
-            if(is_env((*token)->token) == 1)
+//            if (export_existing(exp, new_export(reform((*token)->token))) == 0)
+                add_new_exp(&exp, new_export(reform((*token)->token)));
+            if(is_env((*token)->token) == 1)// && env_existing(env, new_env((*token)->token)) == 0)//can add to env
                 add_new_env(&env, new_env((*token)->token));
-            if(is_env((*token)->token) == 2)
+            if(is_env((*token)->token) == 2)//&& env_existing(env, new_env((*token)->token)) == 0)//can add to env but the value is null
                 add_new_env(&env, new_env(reform((*token)->token)));
         }
         (*token) = (*token)->next;

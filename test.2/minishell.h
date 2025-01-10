@@ -59,7 +59,7 @@ extern int g_sign;
 
 void    add_new_exp(t_export **lst, t_export *new);
 void	add_new_env(t_env **lst, t_env *new);
-int exact_command(char *data, char *command);
+int is_space (int c);
 int is_alpha(int c);
 int is_alphasymb(int c);
 int check_pipe(char *input);
