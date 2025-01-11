@@ -107,67 +107,125 @@ static int export(t_export *exp)//export without option and argument
     }
     return (0);
 }
-/*
-static int export_existing(t_export *env, t_export *new)
+
+static int existing(char *var, t_export *exp)
+{
+    t_export *temp;
+    int i;
+
+    i = 0;
+    temp = exp;
+    while(temp)
+    {
+        if (ft_strncmp(var, temp->var, ft_strlen(var)) == 0)
+        {
+            free(var);
+            return (i);
+        }
+        i++;
+        temp = temp->next;
+    }
+    free (var);
+    return (-1);//don't exist state
+}
+
+static char *get_var(char *tok, int c)
+{
+    int i;
+    char *var;
+
+    var = NULL;
+    i = 0;
+    while(tok[i])
+    {
+        if (tok[i] == c)
+        {
+            var = get_string(tok, 0, i, '=');
+            return (var);   
+        }
+        i++;
+    }
+    return (var);
+}
+
+static void ft_free(char **splitted, int len)
+{
+    while(len >= 0)
+    {
+        free(splitted[len]);
+        len--;
+    }
+    free (splitted);
+}
+
+
+static char *reform_value(char *value)
+{
+    char *tmp;
+    char *reformed;
+
+    if (value[0] == '"')
+    {
+        reformed = ft_strjoin("=", value);
+    }
+    else
+    {
+        tmp = ft_strjoin("=\"", value);
+        reformed = ft_strjoin(tmp, "\"");
+        free (tmp);
+    }
+    free (value);
+    return (reformed);
+}
+static char *get_value(char *tok)
+{
+    char **splitted;
+    char *value;
+    int a;
+    int i;
+
+    i = 0;
+    a = 1;
+    value = "";
+    splitted = ft_split(tok, '=');
+    while(splitted[i])
+        i++;
+    if (i != 1)
+    {
+        while(splitted[a])
+        {
+            value = ft_strjoin(value, splitted[a]);
+            a++;
+        }
+    }
+    else
+        value = ft_strdup(splitted[1]);
+    ft_free (splitted, i);
+    value = reform_value(value);
+    return (value);
+}
+
+static void remplace(t_export **exp, char *token, int i)
 {
     t_export *temp;
 
-    temp = env;
-    while (temp)
+    temp = (*exp);
+    while(i > 0)
     {
-        if (ft_strncmp(temp->var, new->var, ft_strlen(new->var)) == 0)
-        {
-            free (temp->value);
-            temp->value = new->value;
-            free(new->proto);
-            free(new->var);
-            free(new->value);
-            free(new->next);
-            free(new);
-            return (1);
-        }
+        i--;
         temp = temp->next;
     }
-    free(new->proto);
-    free(new->var);
-    free(new->value);
-    free(new->next);
-    free(new);
-    return (0);
+    free(temp->value);
+    temp->value = get_value(token);
 }
-
-static int env_existing(t_env *env, t_env *new)
-{
-    t_env *temp;
-
-    temp = env;
-    while (temp)
-    {
-        if (ft_strncmp(temp->var, new->var, ft_strlen(new->var)) == 0)
-        {
-            free (temp->value);
-            temp->value = new->value;
-            free(new->var);
-            free(new->value);
-            free(new->next);
-            free(new);
-            return (1);
-        }
-        temp = temp->next;
-    }
-    free(new->var);
-    free(new->value);
-    free(new->next);
-    free(new);
-    return (0);
-}
-*/
 
 int export_command(t_env *env, t_token **token, t_export *exp)
 {
     t_export *temp2;
+    int state;
 
     temp2 = exp;
+    state = 0;
     if (checking_redir((*token)) == 1)
         printf("need redirection function\n");
     if ((*token)->next == NULL)
@@ -181,12 +239,20 @@ int export_command(t_env *env, t_token **token, t_export *exp)
         }
         else if ((*token)->state == 6)
         {
-//            if (export_existing(exp, new_export(reform((*token)->token))) == 0)
+            state = existing(get_var((*token)->token, '='), exp); 
+            if (state >= 0)
+            {
+                printf("exp state : %i\n", state);
+                remplace(&exp, (*token)->token, state);
+            }
+            else
+            {
                 add_new_exp(&exp, new_export(reform((*token)->token)));
-            if(is_env((*token)->token) == 1)// && env_existing(env, new_env((*token)->token)) == 0)//can add to env
-                add_new_env(&env, new_env((*token)->token));
-            if(is_env((*token)->token) == 2)//&& env_existing(env, new_env((*token)->token)) == 0)//can add to env but the value is null
-                add_new_env(&env, new_env(reform((*token)->token)));
+                if(is_env((*token)->token) == 1)
+                    add_new_env(&env, new_env((*token)->token));
+                if(is_env((*token)->token) == 2)
+                    add_new_env(&env, new_env(reform((*token)->token)));
+            }
         }
         (*token) = (*token)->next;
     }
