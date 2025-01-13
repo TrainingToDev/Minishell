@@ -17,7 +17,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdlib.h>
-#include <dirent.h>
+#include "sys/stat.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -158,9 +158,19 @@ char *get_off_quote(char *old, int count);
 //builtins utils
 void take_all_quote(t_token **tok);
 int checking_redir(t_token *temp);
+char *get_var(char *tok);
+char *get_value(char *tok);
+int existing(char *var, t_export *exp);
+int exist_env(char *var, t_env *exp);
+int is_option(char *arg);
+int all_num(char *in);
 
 //execve utils
 char **get_all_path(t_env *env);
+char *real_dir(char **path, char *cmd);
+
+//free_function 
+void ft_free(char **splitted, int len);
 
 
 #endif

@@ -51,43 +51,57 @@ char **get_all_path(t_env *env)
     free (input);
     return (path);
 }
-static void free_path(char **path, int len)
-{
-    while (len >= 0)
-    {
-        free(path[len]);
-        len--;
-    }
-    free(path);
-}
 
-
-char *real_dir(char **path)
+char *real_dir(char **path, char *cmd)
 {
     int i;
+    char *dir;
+    struct stat buf;
 
     i = 0;
+    dir = NULL;
     while (path[i])
     {
-        
+        dir = ft_strjoin(path[i], cmd);//cmd = /command
+        if (stat(dir, &buf) == 0)
+        {
+            if (S_ISREG(buf.st_mode) == 1)
+            {
+                printf ("the path : %s\n", dir);
+                return (dir);
+            }
+        }
+        free(dir);
         i++;
     }
-    
-
+    printf ("path not found\n");
+    return (NULL);
 }
-/*
+
+static int len_arg(t_token *tok)//count the arg we will add to execve function
+{
+    int i;
+    t_token * tmp;
+
+    tmp = tok;
+    i = 0;
+    while (tmp)
+    {
+        if (tmp->state != 1)
+            i++;
+        tmp = tmp->next;
+    }
+    return (i);
+}
+
 void new_proc(t_token **tok, t_env *env)
 {
     pid_t pid;
+    char *path;
 
     pid = fork();
     if (pid > 0)
     {
-
-    }
-    if (pid == 0)
-    {
-        //waitpid(pid , );
+        
     }
 }
-*/

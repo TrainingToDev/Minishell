@@ -12,23 +12,9 @@
 
 #include "minishell.h"
 
-int is_option(char *arg)
-{
-    int i;
-    
-    i = 0;
-    while (arg[i])
-    {
-        if (arg[i] == '-' && i == 0)
-        {
-            i++;
-            if (is_alpha(arg[i]) == 1)
-                return (1);
-        }
-        i++;
-    }
-    return (0);
-}
+//should handle numeric argument == OK 
+//if export u=i + export u -> "u=i" 
+// export u -> "u"
 
 static int is_env(char *arg)
 {
@@ -47,54 +33,6 @@ static int is_env(char *arg)
     }
     return (0);
 }
-// add size
-static char *copy_with_quote(char *old, char *new, int size)
-{
-    int i;
-    int j;
-    int check;
-    
-    i = 0;
-    j = 0;
-    check = 0;
-    while (old[i])
-    {
-        if (j >= size - 1) // check overflow j
-            break ;
-        if (old[i] == '=' && old[i + 1] != '"')
-        {
-            if (j + 2 >= size - 1) // check '=' and '"'
-                break ;
-            new[j++] = old[i++];
-            new[j++] = '"';
-            check = 1;
-        }
-        else
-            new[j++] = old[i++];
-    }
-    if (check == 1 && j < size - 1) // check overflow j
-        new[j++] = '"';
-    new[j] = '\0';
-    return (new);
-}
-
-char *reform(char *old)//get_on the quote
-{
-    // int i = 0;
-    // int j = 0;
-    // int check = 0;
-    char *dest;
-    int size;
-
-    size = ft_strlen(old) + 3;
-    dest = NULL;
-    dest = (char*)malloc(sizeof(char) * size);
-    if (!dest)
-        return (NULL);
-    dest = copy_with_quote(old, dest, size); // add size to param
-    // printf("dest : %s -> %i -> %i\n", dest, (int)ft_strlen(dest), (int)ft_strlen(old));
-    return (dest);
-}
 
 static int export(t_export *exp)//export without option and argument
 {
@@ -108,104 +46,7 @@ static int export(t_export *exp)//export without option and argument
     return (0);
 }
 
-static int existing(char *var, t_export *exp)
-{
-    t_export *temp;
-    int i;
-
-    i = 0;
-    temp = exp;
-    while(temp)
-    {
-        if (ft_strncmp(var, temp->var, ft_strlen(var)) == 0)
-        {
-            free(var);
-            return (i);
-        }
-        i++;
-        temp = temp->next;
-    }
-    free (var);
-    return (-1);//don't exist state
-}
-
-static char *get_var(char *tok, int c)
-{
-    int i;
-    char *var;
-
-    var = NULL;
-    i = 0;
-    while(tok[i])
-    {
-        if (tok[i] == c)
-        {
-            var = get_string(tok, 0, i, '=');
-            return (var);   
-        }
-        i++;
-    }
-    return (var);
-}
-
-static void ft_free(char **splitted, int len)
-{
-    while(len >= 0)
-    {
-        free(splitted[len]);
-        len--;
-    }
-    free (splitted);
-}
-
-
-static char *reform_value(char *value)
-{
-    char *tmp;
-    char *reformed;
-
-    if (value[0] == '"')
-    {
-        reformed = ft_strjoin("=", value);
-    }
-    else
-    {
-        tmp = ft_strjoin("=\"", value);
-        reformed = ft_strjoin(tmp, "\"");
-        free (tmp);
-    }
-    free (value);
-    return (reformed);
-}
-static char *get_value(char *tok)
-{
-    char **splitted;
-    char *value;
-    int a;
-    int i;
-
-    i = 0;
-    a = 1;
-    value = "";
-    splitted = ft_split(tok, '=');
-    while(splitted[i])
-        i++;
-    if (i != 1)
-    {
-        while(splitted[a])
-        {
-            value = ft_strjoin(value, splitted[a]);
-            a++;
-        }
-    }
-    else
-        value = ft_strdup(splitted[1]);
-    ft_free (splitted, i);
-    value = reform_value(value);
-    return (value);
-}
-
-static void remplace(t_export **exp, char *token, int i)
+static void remplace(t_export **exp, char *token, int i)//rempace the exp->value 
 {
     t_export *temp;
 
@@ -217,6 +58,48 @@ static void remplace(t_export **exp, char *token, int i)
     }
     free(temp->value);
     temp->value = get_value(token);
+}
+static void env_remplace(t_env **exp, char *token, int i)//rempace the env->value 
+{
+    t_env *temp;
+
+    temp = (*exp);
+    while(i > 0)
+    {
+        i--;
+        temp = temp->next;
+    }
+    free(temp->value);
+    temp->value = get_value(token);
+}
+
+static int command_export(t_env *env, char *token, t_export *exp)
+{
+    int state_exp;
+    int state_env;
+
+    state_exp = existing(get_var(token), exp);
+    state_env = exist_env(get_var(token), env);
+    token = get_off_quote(token, count_quote(token));
+    if (all_num(token) == 0)
+    {
+        write (2, "export `&token' : non valid identifier\n", (ft_strlen(token) + 33));
+        return (1);
+    }
+    if (state_exp >= 0)
+        remplace(&exp, token, state_exp);
+    if (state_env >= 0)
+        env_remplace(&env, token, state_env);
+    if (state_env < 0)
+    {
+        if(is_env(token) == 1)
+            add_new_env(&env, new_env(token));
+        if(is_env(token) == 2)
+            add_new_env(&env, new_env(reform(token)));
+    }
+    if (state_exp < 0)
+        add_new_exp(&exp, new_export(reform(token)));
+    return (0);
 }
 
 int export_command(t_env *env, t_token **token, t_export *exp)
@@ -239,22 +122,12 @@ int export_command(t_env *env, t_token **token, t_export *exp)
         }
         else if ((*token)->state == 6)
         {
-            state = existing(get_var((*token)->token, '='), exp); 
-            if (state >= 0)
-            {
-                printf("exp state : %i\n", state);
-                remplace(&exp, (*token)->token, state);
-            }
-            else
-            {
-                add_new_exp(&exp, new_export(reform((*token)->token)));
-                if(is_env((*token)->token) == 1)
-                    add_new_env(&env, new_env((*token)->token));
-                if(is_env((*token)->token) == 2)
-                    add_new_env(&env, new_env(reform((*token)->token)));
-            }
+            if (command_export(env, (*token)->token, exp) == 1)
+                state = 1;
         }
         (*token) = (*token)->next;
     }
+    if (state == 1)
+        return (1);//value of $? in case one of the error command
     return (0);
 }

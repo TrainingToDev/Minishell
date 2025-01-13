@@ -12,6 +12,24 @@
 
 #include "minishell.h"
 
+int is_option(char *arg)
+{
+    int i;
+    
+    i = 0;
+    while (arg[i])
+    {
+        if (arg[i] == '-' && i == 0)
+        {
+            i++;
+            if (is_alpha(arg[i]) == 1)
+                return (1);
+        }
+        i++;
+    }
+    return (0);
+}
+/*
 void list_get_off(t_env **env, char *find)
 {
     t_env *temp;
@@ -36,3 +54,4 @@ int unset_command(t_env *env, t_token **token)
         (*token) = (*token)->next;
     }
 }
+*/
