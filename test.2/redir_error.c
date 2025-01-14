@@ -118,10 +118,11 @@ static int test4_2(char *input, int i)
     {
         if (input[i + 1] == '\0')
         {
-            printf("here ");;
+            printf("here ");
             return (-1);
         }
-        if (input[i + 1] && input[i + 1] == '<')
+        i++;
+        if (input[i] && input[i] == '<')
             i++;
         while (input[i])
         {
@@ -146,41 +147,40 @@ int test4(char *input , int i)//test after redir there nothing else than space
             error(0);
             return (-1);
         }
-        if (input[i + 1] && (input[i + 1] == '>'))
+        i++;
+        if (input[i] && (input[i] == '>'))
             i++;
         while (input[i])
         {
-            if (is_space(input[i]) != 1)
+            if (is_space(input[i]) == 0)
                 return (0);
             i++;
         }
-    }
-    error(0);
-    return (-1);
-}
-
-int test1(char *input, int i)
-{
-    int temp;
-
-    temp = 0;
-    while (input[i])
-    {
-        i++;
-        if (input[i] == '|')
-            return (write (2, "Our shell don't handle that\n", 28));
-        while (input[i] && is_space(input[i]) == 1)
-        {
-            i++;
-            temp = i;
-        }
-        if (temp == i && (input[i] == '>' || input[i] == '<'))
-            return ( write (2, "syntax error near unexpected token `< or >'\n", 46));
-        if (temp == i && input[i] == '|')
-            return (write (2, "Our shell don't handle that\n", 28));
-        temp = 0;
-        i++;
+        error(0);
+        return (-1);
     }
     return (0);
+
 }
 
+int test1(char *input, int i)//test for pipe and redirection successive or separated by space
+{
+    i++;
+    if (input[i] == '|')
+        return (write (2, "Our shell don't handle that\n", 28));
+    if (input[i] == '>' || input[i] == '<')
+        i++;
+    while (input[i] && input[i] != '>' && input[i] != '<' && input[i] != '|')
+    {
+        if (is_space(input[i]) == 0)
+            return (0);
+        i++;
+    }
+    if (input[i] == '\0')
+        return (0);
+    if (input[i] == '<' || input[i] == '>')
+        return ( write (2, "syntax error near unexpected token `< or >'\n", 46));
+    if (input[i] == '|')
+        return (write (2, "Our shell don't handle that\n", 28));
+    return (0);
+}

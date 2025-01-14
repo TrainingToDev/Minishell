@@ -12,8 +12,13 @@
 
 # include "minishell.h"
 
-void ft_free(char **splitted, int len)
+void ft_free(char **splitted)
 {
+    int len;
+
+    len = 0;
+    while (splitted[len])
+        len++;
     while(len >= 0)
     {
         free(splitted[len]);

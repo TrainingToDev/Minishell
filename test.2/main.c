@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+//| hola : should give error
+//cat < gdfgdgdf < main.c << end mande aloa ilay heredoc zay vao mande ilay erreur @ fichier voalohany
+//<<"gg" ->expand <<gg ->don't expand
+
 static int input_checking(char *input)
 {
 	if (pipe_void(input) == -1)
@@ -42,11 +46,9 @@ int g_sign = 0;
 
 int main (int argc, char **argv, char **en)
 {
-	//t_env *var;
 	t_env *env;
 	t_export *exp;
 	t_list *list;
-	//t_parse *data;//tableau de data ity len isan'ny proc
 	char	*prompt;
 	char	*input;
 	t_token **token;
@@ -57,7 +59,6 @@ int main (int argc, char **argv, char **en)
 	if (argc != 1)
 		//perror ("invalid argument");
 		return (write(2, "wrong parameter\n", 15));
-	//var = local_variable();
 	env = get_env(en);
 	exp = get_export_list(en);
 	list = get_all_builtins();
@@ -69,11 +70,8 @@ int main (int argc, char **argv, char **en)
 		env = env->next;
 	}
 	*/
-//int i = 0;
-//char **test;
 	while (1)
 	{
-//| hola : should give error
 		prompt = ft_strjoin(getcwd(NULL, 0), " ");
 		input = readline((const char *)prompt);
 		add_history(input);
@@ -81,20 +79,11 @@ int main (int argc, char **argv, char **en)
 		if (input[0] != '\0')
 		{
 			if (input_checking(input) == -1)
-				;
-			
+				;		
 			else
 			{
-				input = change(input);
+				input = change(input);   
 				//test = split_expand(input);
-/*
-				while (test[i])
-				{
-					printf("secund split number : %i -> str:%s\n", i, test[i]);
-					secund_split(test[i], env);
-					i++;
-				}
-*/
 				input = new_expand(input, env);
 				printf ("after expand : %s\n", input);
 				token = get_all_token(get_pile(input), len);

@@ -89,14 +89,26 @@ int check_redir(char *input)
             i = quote_case(input, i);
         else if (input[i] == '>' || input[i] == '<')
         {
-            if (test2(input, i) != 0)
-                return (-1);
-            if (test3(input, i) != 0)
-                return (-1);
             if (test4(input, i) != 0)
+            {
+                //printf ("test 4\n");
                 return (-1);
+            }
+            if (test2(input, i) != 0)
+            {
+                //printf ("i'm in test2\n");
+                return (-1);
+            }
+            if (test3(input, i) != 0)
+            {
+                //printf ("i'm in test3\n");
+                return (-1);
+            }
             if (test1(input, i) != 0)
+            {
+                //printf ("i'm in test1\n");
                 return (-1);
+            }
         }
         i++;
     }

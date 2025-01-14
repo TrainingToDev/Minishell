@@ -16,15 +16,11 @@ char *get_var(char *tok)
 {
     char *var;
     char **va;
-    int i;
 
     var = NULL;
-    i = 0;
     va = ft_split(tok, '=');
     var = ft_strdup(va[0]);
-    while (va[i])
-        i++;
-    ft_free(va, i);
+    ft_free(va);
     return (var);
 }
 
@@ -72,7 +68,7 @@ char *get_value(char *tok)
     }
     else
         value = ft_strjoin("=", reform_value(ft_strdup(splitted[1])));
-    ft_free (splitted, i);
+    ft_free (splitted);
     return (value);
 }
 

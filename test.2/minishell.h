@@ -168,9 +168,12 @@ int all_num(char *in);
 //execve utils
 char **get_all_path(t_env *env);
 char *real_dir(char **path, char *cmd);
+char **get_arg(t_token *tok, int len);
+int len_arg(t_token *tok);
+int new_proc(t_token **tok, t_env *env);
 
 //free_function 
-void ft_free(char **splitted, int len);
+void ft_free(char **splitted);
 
 
 #endif

@@ -67,10 +67,11 @@ static void exact_builtin(t_token **token, t_env *env, t_export *exp, int comman
         //env function;
 }
 
+
+
 void state_command(t_token **token, int pipe, t_list *built, t_env *env, t_export *exp)
 {
     int command_id;
-    t_token *tmp;
  
     if (pipe == 1)
     {
@@ -84,12 +85,8 @@ void state_command(t_token **token, int pipe, t_list *built, t_env *env, t_expor
         }
         else
         {
-            tmp = (*token);
             printf("fork and exec with execve\n");
-            while (tmp->state != 1)
-                tmp = tmp->next;
-            if (tmp->state == 1)
-                real_dir(get_all_path(env), ft_strjoin("/", tmp->token));
+            new_proc(token, env);
             //function that reformulate all the param (quote and form of param)
             //execve and recuperate the return of $? and  handle signals
         }

@@ -14,7 +14,7 @@
 
 int is_space (int c)
 {
-	if (c == 32)
+	if (c == ' ')
 		return (1);
 	else if (c == '\t')
 		return (1);

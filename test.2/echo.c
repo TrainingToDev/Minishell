@@ -52,7 +52,7 @@ int echo_command(t_token **token)
         if ((*token)->state == 6)
         {
             if (ft_strncmp((*token)->token, "-n", ft_strlen("-n")) != 0)
-                printf("%s ", (*token)->token);//ilay space @farany 
+                printf("%s ", (*token)->token);//ilay space @farany mbola mila reglena
         }
         (*token) = (*token)->next;
     }

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int name(int c)
+static int name(int c)//this function decide quel caractere supporte les redirections return 0:refa tsy supporteny 
 {
     if (c == '>' || c == '<')
         return (2);
@@ -21,6 +21,8 @@ static int name(int c)
     if (c <= 'Z' && c >= 'A')
         return (1);
     if (c <= '9' && c >= '0')
+        return (1);
+    if (c == '"')
         return (1);
     return (0);
 }
