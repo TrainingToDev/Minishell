@@ -22,9 +22,7 @@ t_token *g_token(char *token)
     if (!list)
         return (NULL);
     list->token = ft_strdup(token);
-    //printf ("token : %s -> ", list->token);
     list->state = 0;
-    //printf ("state : %i\n", list->state);
     list->check = 0;
     list->next = NULL;
     return (list);

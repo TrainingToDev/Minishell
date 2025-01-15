@@ -72,7 +72,8 @@ int main (int argc, char **argv, char **en)
 	*/
 	while (1)
 	{
-		prompt = ft_strjoin(getcwd(NULL, 0), " ");
+		//prompt = ft_strjoin(getcwd(NULL, 0), " ");//miteraka error
+		prompt = "MINISHELL>";
 		input = readline((const char *)prompt);
 		add_history(input);
 		len = check_pipe(input);
@@ -82,21 +83,21 @@ int main (int argc, char **argv, char **en)
 				;		
 			else
 			{
-				input = change(input);   
+				input = change(input);
+				printf ("change : %s\n", input);  
 				//test = split_expand(input);
 				input = new_expand(input, env);
 				printf ("after expand : %s\n", input);
 				token = get_all_token(get_pile(input), len);
 				token = get_all_state(token);
-				state_command(token, len, list, env, exp);
+				pipe_implemantations(token, len, list, env, exp);
+				free (token);
 				//pipe_implementation(token, count_pipe(token));
 			}
-			free (prompt);
 		}
 		else
 		{
 			free (input);
-			free (prompt);
 		}
 		//data = get_struct(input);//test fini
 		//data = get_data(input, check_pipe(input));

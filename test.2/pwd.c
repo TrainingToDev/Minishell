@@ -12,10 +12,22 @@
 
 #include "minishell.h"
 
-int pwd_command(t_token **token)
+int pwd_command(t_token **tok)
 {
-	if (checking_redir((*token)) == 1)
+	t_token *token;
+
+	token = *tok;
+	if (checking_redir(token) == 1)
 		printf("need redirection function");//redirection function
+	while (token)
+	{
+		if (is_option(token->token) == 1 && token->state == 6)
+		{
+			write (2,"No option is tolerated\n", 23); // update
+            return (2);////$? = 2 when the option don ' t exist
+		}
+		token = token->next;
+	}
 	printf("%s\n", getcwd(NULL, 0));
 	return (0);//valeur de retour $?
 }

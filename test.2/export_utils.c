@@ -44,30 +44,43 @@ char *get_value(char *tok)
 {
     char **splitted;
     char *value;
+    char *val;
     int a;
     int i;
 
     i = 0;
     a = 1;
-    value = "";
     splitted = ft_split(tok, '=');
+    if (!splitted)
+    {
+        printf ("none splitted \n");
+        value = ft_strdup("=""");
+        return (value);
+    }
     if (ft_strncmp(tok, splitted[0], ft_strlen(tok)) == 0)
         return (ft_strdup(""));
     while(splitted[i])
         i++;
     if (i != 2)
     {
+        value = ft_strdup(splitted[a]);
+        a++;
         while(splitted[a])
         {
-            value = ft_strjoin(value, splitted[a]);
-            if (a < i)
-                value = ft_strjoin("=", splitted[a]);
+            val = ft_strjoin(value, "=");
+            free (value);
+            value = ft_strjoin(val ,splitted[a]);
             a++;
+            free (val);
         }
         value = reform_value(value);
     }
     else
-        value = ft_strjoin("=", reform_value(ft_strdup(splitted[1])));
+    {
+        val = reform_value(ft_strdup(splitted[1]));
+        value = ft_strjoin("=", val);
+        free (val);
+    }
     ft_free (splitted);
     return (value);
 }

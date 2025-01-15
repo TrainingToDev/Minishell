@@ -54,13 +54,7 @@ t_token **get_all_token(char **data, int len)
         i++;
     }
     array[i] = NULL;
-    while (i > 0)
-    {
-        if (data[i])
-            free(data[i]);
-        i--;
-    }
-    free(data);
+    ft_free(data);
     return (array);
 }
 

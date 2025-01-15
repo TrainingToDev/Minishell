@@ -12,113 +12,95 @@
 
 #include "minishell.h"
 
-static int name(int c)//this function decide quel caractere supporte les redirections return 0:refa tsy supporteny 
+static char *copy_after(char *input, int i, int len)
 {
-    if (c == '>' || c == '<')
-        return (2);
-    if (c <= 'z' && c >= 'a')
-        return (1);
-    if (c <= 'Z' && c >= 'A')
-        return (1);
-    if (c <= '9' && c >= '0')
-        return (1);
-    if (c == '"')
-        return (1);
-    return (0);
-}
+    int j;
+    int k;
+    char *new;
 
-static int check_specific_case(char *input)
-{
-    int i;
-
-    i = 0;
-    while (input[i])
+    j = 0;
+    k = 0;
+    new = (char*)malloc(sizeof(char) * (ft_strlen(input) - len + 1));
+    if (!new)
+        return (NULL);
+    while (input[k])
     {
-        if (input[i] == '>' || input[i] == '<')
+        if (k == i && len > 0)
         {
-            if (input[i - 1] != ' ' && input[i - 1] != '\t' && input[i - 1] != '>' && input[i - 1] != '<' && i != 0)
-                return (1);
-            if (name(input[i + 1]) == 0)
-                return (1);
+            new[j++] = input[k++];
+            while (len-- > 0)
+                k++;
         }
-        i++;
+        else
+            new[j++] = input[k++];
     }
-    return (0);
+    new[j] = '\0';
+    free(input);
+    return (new);
 }
-
-static int get_new_len(char *input)
+static int get_space_len(char *input, int i)
 {
-    int i;
     int len;
 
-    i = 0;
     len = 0;
-    while (input[i])
+    i++;
+    while (input[i] && is_space(input[i]) == 1)
     {
-        if (input[i] == '>' || input[i] == '<')
-        {
-            i++;
-            len++;
-            if (input[i - 1] != ' ' && input[i - 1] != '\t' && input[i - 1] != '>' && input[i - 1] != '<' && i != 0)
-                len++;
-            while(name(input[i]) == 0)
-                i++;
-        }
-        else
-        {
-            len++;
-            i++;
-        }
+        len++;
+        i++;
     }
-    //printf ("len : %i\n", len);
     return (len);
 }
-static char *copy(char *input, char *reform)
+static char *copy_before(char *str, int i)
 {
-    int i;
+    char *new;
     int j;
+    int k;
 
-    i = 0;
+    k = 0;
     j = 0;
-    while (input[i] && j < get_new_len(input))
+    new = (char*)malloc(sizeof(char) * ft_strlen(str) + 2);
+    if (!new)
+        return (NULL);
+    while (str[k])
     {
-        if (input[i] == '>' || input[i] == '<')
+        if (i == j)
         {
-            if (input[i - 1] != ' ' && input[i - 1] != '\t' && input[i - 1] != '>' && input[i - 1] != '<' && i != 0)
-            {
-                reform[j] = ' ';
-                j++;
-            }
-            reform[j++] = input[i++];
-            while (name(input[i]) == 0)
-                i++;
+            new[j] = ' ';
+            j++;
         }
         else
-            reform[j++] = input[i++];
+            new[j++] = str[k++]; 
     }
-    printf ("g : %i\n", g_sign);
-    reform[j] = '\0';
-    return (reform);
+    new[j] = '\0';
+    free (str);
+    return (new);
 }
+
 
 char *change(char *input)
 {
-    char    *reform;
+    int i;
 
-    if (check_specific_case(input) == 0)
+    i = 0;
+    while (input[i])
     {
-        printf("str : %s\n", input);
-        return (input);
+        if (input[i] == '>' || input[i] == '<')
+        {
+            if (i != 0 && is_space(input[i - 1]) == 0 && input[i -1] != '>' && input[i - 1] != '<')
+                input = copy_before(input, i);
+        }
+        i++;
     }
-    else
+    i = 0;
+    while (input[i])
     {
-        reform = (char*)malloc(sizeof(char) * get_new_len(input)+ 1);
-        if (!reform)
-            return (NULL);
-        reform = copy(input, reform);
-        free(input);
-        printf("str : %s\n", reform);
-        return (reform);
+        if (input[i] == '>' || input[i] == '<')
+        {
+            if (input[i + 1] && is_space(input[i + 1]) == 1)
+                input = copy_after(input, i, get_space_len(input, i));
+        }
+        i++;
     }
-    return (NULL);
+    return (input);    
 }

@@ -12,8 +12,11 @@
 
 #include "minishell.h"
 
-static int check_option(t_token *temp)//state 1 : option exist
+static int check_option(t_token *tok)//state 1 : option exist
 {
+    t_token *temp;
+
+    temp = tok; 
     while(temp)
     {
         if (ft_strncmp(temp->token, "-n", ft_strlen("-n")) == 0)
@@ -45,18 +48,18 @@ int echo_command(t_token **token)
     t_token *temp;
 
     temp = (*token);
-    if (checking_redir((*token)) == 1)
+    if (checking_redir((temp)) == 1)
         printf("need redirection function\n");//function redirection
-    while((*token))
+    while((temp))
     {
-        if ((*token)->state == 6)
+        if ((temp)->state == 6)
         {
-            if (ft_strncmp((*token)->token, "-n", ft_strlen("-n")) != 0)
-                printf("%s ", (*token)->token);//ilay space @farany mbola mila reglena
+            if (ft_strncmp((temp)->token, "-n", ft_strlen("-n")) != 0)
+                printf("%s ", (temp)->token);//ilay space @farany mbola mila reglena
         }
-        (*token) = (*token)->next;
+        (temp) = (temp)->next;
     }
-    if (check_option(temp) == 0)
+    if (check_option((*token)) == 0)
         printf("\n");
     return(0);//valeur de retour ny $?
 }

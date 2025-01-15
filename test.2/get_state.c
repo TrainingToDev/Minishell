@@ -12,21 +12,6 @@
 
 # include "minishell.h"
 
-static int check(char *token)
-{
-    int i;
-
-    i = 0;
-    while (token[i])
-    {
-        i = quote_case(token, i);
-        if (token[i] == '>' || token[i] == '<')
-            return (1);
-        i++;
-    }
-    return (0);
-}
-
 static int check2(char *token)
 {
     int i;
@@ -53,9 +38,6 @@ static int check2(char *token)
 
 void command (t_token **tok)
 {
-    // int i;
-
-    // i = 0;
     if ((*tok)->state != 0 || (*tok)->check != 0)
         return ;
     (*tok)->state = 1;
@@ -71,19 +53,13 @@ void  is_redir(t_token **tok)
 {
     if ((*tok)->state != 0)
         return ;
-    if (ft_strnstr((*tok)->token, ">>", ft_strlen((*tok)->token)) != NULL && ft_strlen((*tok)->token) == 2)
-    {
-        if ((*tok)->next != NULL)
-        {
-            (*tok) = (*tok)->next;
-            if (check((*tok)->token) == 0)
-                (*tok)->state = 2;
-        }
-    }
-    else if (ft_strnstr((*tok)->token, ">>", ft_strlen((*tok)->token)) != NULL)
+    if (ft_strnstr((*tok)->token, ">>", ft_strlen((*tok)->token)) != NULL)
     {
         if (check2((*tok)->token) == 0)
-            (*tok)->state = -2;
+        {
+            (*tok)->token = reform_double((*tok)->token);
+            (*tok)->state = 2;
+        }
     }
 }
 
@@ -91,19 +67,13 @@ void    is_heredoc(t_token **tok)
 {
     if ((*tok)->state != 0)
         return ;
-    if (ft_strnstr((*tok)->token, "<<", ft_strlen((*tok)->token)) != NULL && ft_strlen((*tok)->token) == 2)
-    {
-        if ((*tok)->next != NULL)
-        {
-            (*tok) = (*tok)->next;
-        if (check((*tok)->token) == 0)
-            (*tok)->state = 3;
-        }
-    }
-    else if (ft_strnstr((*tok)->token, "<<", ft_strlen((*tok)->token)) != NULL)
+    if (ft_strnstr((*tok)->token, "<<", ft_strlen((*tok)->token)) != NULL)
     {
         if (check2((*tok)->token) == 0)
-            (*tok)->state = -3;
+        {
+            (*tok)->state = 3;
+            (*tok)->token = reform_double((*tok)->token);
+        }
     }
 }
 
@@ -111,19 +81,13 @@ void    is_input_file(t_token **tok)
 {
     if ((*tok)->state != 0)
         return ;
-    if (ft_strnstr((*tok)->token, "<", ft_strlen((*tok)->token)) != NULL && ft_strlen((*tok)->token) == 1)
-    {
-        if ((*tok)->next != NULL)
-        {
-            (*tok) = (*tok)->next;
-            if (check((*tok)->token) == 0)
-                (*tok)->state = 4;
-        }
-    }
-    else if (ft_strnstr((*tok)->token, "<", ft_strlen((*tok)->token)) != NULL)
+    if (ft_strnstr((*tok)->token, "<", ft_strlen((*tok)->token)) != NULL)
     {
         if (check2((*tok)->token) == 0)
-            (*tok)->state = -4;
+        {
+            (*tok)->token = reform_simple((*tok)->token);
+            (*tok)->state = 4;
+        }
     }
 }
 
@@ -131,19 +95,13 @@ void    is_output_file(t_token **tok)
 {
     if ((*tok)->state != 0)
         return ;
-    if (ft_strnstr((*tok)->token, ">", ft_strlen((*tok)->token)) != NULL && ft_strlen((*tok)->token) == 1)
-    {
-        if ((*tok)->next != NULL)
-        {
-            (*tok) = (*tok)->next;
-            if (check((*tok)->token) == 0)
-                (*tok)->state = 5;
-        }
-    }
-    else if (ft_strnstr((*tok)->token, ">", ft_strlen((*tok)->token)) != NULL)
+    if (ft_strnstr((*tok)->token, ">", ft_strlen((*tok)->token)) != NULL)
     {
         if (check2((*tok)->token) == 0)
-            (*tok)->state = -5;
+        {
+            (*tok)->token = reform_simple((*tok)->token);
+            (*tok)->state = 5;
+        }
     }
 }
 

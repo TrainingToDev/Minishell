@@ -65,8 +65,8 @@ int is_alphasymb(int c);
 int check_pipe(char *input);
 t_env	*get_env(char **env);
 t_export    *get_export_list(char **env);
-t_export    *new_export(char *env);
-t_env	*new_env(char *env);
+t_export    *new_export(char *env, int i);
+t_env	*new_env(char *env, int state);
 char	*get_string(char *env, int i, int len, int c);
 char    *reform(char *old);
 
@@ -96,7 +96,6 @@ char **input_file(char *input);
 char **output_file(char *input);
 
 //expand
-char **split_expand(char *input);
 int case_quote(char *input, int i);
 char *new_expand(char *input, t_env *env);
 
@@ -113,28 +112,18 @@ int test1(char *input, int i);
 int test3(char *input, int i);
 int test4(char *input, int i);
 int check_redir(char *input);
+char *reform_simple(char *tok);
+char *reform_double(char *tok);
 
-
-//test_token
-//1:command
-//2:fichier de redirection sans le signe de redirection
-//-20:fichier de redirection (avec le signe de redirection)avec autes redirection dans le token 
-//20:fichier de redirection (sans le signe de redirection)avec autes redirection dans le token
-//-2:fichier de redirection avec le signe de redirection
-//3:eof de heredoc sans signe de heredoc
-//30:eof de heredoc avec d'autres caracteres de redirection (sans le signe de heredoc)
-//-30:eof de heredoc avec d'autres caracteres de redirection (avec le signe de heredoc)
-//-3:eof de heredoc avec signe de heredoc
-//4:input sans signe
-//40:input avec d'autres caracteres de redirection (sans le signe de input)
-//-40:input avec d'autres caracteres de redirection (avec le signe de input)
-//-4:input avec signe
-//5:output sans signe
-//50:output avec d'autres caracteres de redirection (sans le signe de output)
-//-50:output avec d'autres caracteres de redirection (avec le signe de output)
-//-5:output avec signe
+//token_state 
 //-1:error
+//1:command
+//2:redirection file
+//3:eof de heredoc
+//4:input file
+//5:output file
 //6:argument
+
 t_token    **get_all_state(t_token **all);
 void    command (t_token **tok);
 void    is_redir(t_token **tok);
@@ -149,7 +138,8 @@ void    is_argument(t_token **tok);
 void pipe_implementation(t_token **all, int number_exec);
 int count_pipe(t_token **all);
 t_list *get_all_builtins();
-void state_command(t_token **token, int pipe, t_list *built, t_env *env, t_export *exp);
+void state_command(t_token *token, t_list *built, t_env *env, t_export *exp);
+void pipe_implemantations(t_token **tok, int nbr_exc, t_list *built, t_env *env, t_export *exp);
 
 //get_off_quote
 int count_quote(char *command);
@@ -174,6 +164,7 @@ int new_proc(t_token **tok, t_env *env);
 
 //free_function 
 void ft_free(char **splitted);
-
+void free_token (t_token *tok);
+void free_env(t_env *env);
 
 #endif

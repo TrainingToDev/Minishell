@@ -59,7 +59,7 @@ void	add_new_env(t_env **lst, t_env *new)
 		(*lst) = new;
 }
 
-t_env	*new_env(char *env) ///malloc ato seulement ctl+D vao mifree
+t_env	*new_env(char *env, int state) ///malloc ato seulement ctl+D vao mifree
 {
 	t_env *data;
 	int i;
@@ -78,6 +78,8 @@ t_env	*new_env(char *env) ///malloc ato seulement ctl+D vao mifree
 		i++;
 	data->value = get_string(env, a, (i - a), '\0');
 	data->next = NULL;
+	if (state == 1)
+		free(env);
 	return (data);
 }
 
@@ -86,11 +88,11 @@ t_env	*get_env(char **env)
 	int	i;
 	t_env *list;
 
-	list = new_env(env[0]);
+	list = new_env(env[0], 0);
 	i = 1;
 	while (env[i])
 	{
-		add_new_env(&list, new_env(env[i]));
+		add_new_env(&list, new_env(env[i], 0));
 		i++;
 	}
 	return (list);

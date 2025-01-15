@@ -39,6 +39,7 @@ static char **get(char **data, char *input)
     while (j < valid_pipe(input) && input[i])
     {
         len = get_len(input, i) - i;
+        printf ("len : %i -> index : %i \n", len, j);
         data[j] = ft_substr(input, i, len);
         printf("exec : %s\n", data[j]);
         j++;

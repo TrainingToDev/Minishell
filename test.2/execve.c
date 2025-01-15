@@ -97,20 +97,20 @@ char **form_env(t_env *env, int len)
 
     tmp = env;
     i = 0;
-    en = (char **)malloc(sizeof(char*) * len + 2);
+    en = (char **)malloc(sizeof(char*) * (len + 1));
     if (!en)
         return (NULL);
     while (i < len)
     {
         en[i] = ft_strjoin(tmp->var, tmp->value);
-        printf ("env : %s\n", en[i]);
         i++;
         tmp = tmp->next;
     }
-    en[i] = "\0";
+    en[i] = NULL;
     return (en);
 }
-
+//if pid == 0: process parent
+//if pid != 0: process child
 int new_proc(t_token **tok, t_env *env)//+ free t_token + free t_env
 {
     pid_t pid;
@@ -118,19 +118,33 @@ int new_proc(t_token **tok, t_env *env)//+ free t_token + free t_env
     char **arg;
     char **en;
 
-    pid = fork();
-    if (pid > 0)
+    path = get_path(tok, env);
+    arg = get_arg((*tok), len_arg(*tok));
+    en = form_env(env, env_len(env));
+    printf ("%s\n", path);
+    if (path == NULL)
     {
-        path = get_path(tok, env);
-        printf ("%s\n", path);
-        if (path == NULL)
-        {
-            write(2, "command not found\n", 18);
-            return (127);//$? command not found
-        }
-        arg = get_arg((*tok), len_arg(*tok));
-        en = form_env(env, env_len(env));
-        kill(pid, SIGKILL);//temporary
+        write(2, "command not found\n", 18);
+        // kill(pid, SIGKILL);//$? = 127 : command not found //
+        return (0);
+    }
+    pid = fork();
+    if (pid == 0)
+    {
+        //free_token((*tok));
+        //free_env(env);
+        //free_export + free_input + free list
+        if (execve(path, arg, en) < 0)
+            exit(0);
+    }
+    waitpid(pid, NULL, 0);
+    if (pid != 0)
+    {
+        free (path);
+        ft_free(arg);
+        ft_free(en);
+        free_token((*tok));
+        free_env(env);
     }
     return (0);
 }

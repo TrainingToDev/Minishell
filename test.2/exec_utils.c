@@ -41,7 +41,7 @@ char **get_arg(t_token *t, int len)
     i = 0;
     while (tok)
     {
-        if (tok->state == 6)
+        if (tok->state != 1)
         {
             arg[i] = ft_strdup(tok->token);
             printf ("arg : %s\n", arg[i]);
@@ -49,7 +49,7 @@ char **get_arg(t_token *t, int len)
         }
         tok = tok->next;
     }
-    arg[i] = "\0";
+    arg[i] = NULL;
     return (arg);
 }
 

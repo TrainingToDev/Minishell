@@ -84,7 +84,7 @@ static char	**ft_array(char **dest, const char *s, char c)
 char	**ft_split(char const *s, char c)
 {
 	char	**dest;
-
+	
 	if (!s)
 	{
 		dest = (char **)malloc(sizeof(char));

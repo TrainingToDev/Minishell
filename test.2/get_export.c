@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_export *new_export(char *env)
+t_export *new_export(char *env, int state)
 {
     t_export *exp;
 
@@ -24,6 +24,8 @@ t_export *new_export(char *env)
     exp->var = get_var(env);
     exp->value = get_value(env);
     exp->next = NULL;
+    if (state == 1)
+        free(env);
     return (exp);
 }
 static t_export *last_exp(t_export *exp)
@@ -50,11 +52,11 @@ t_export *get_export_list(char **env)
     int i;
     t_export *exp;
 
-    exp =  new_export(env[0]);
+    exp =  new_export(env[0], 0);
     i = 1;
     while (env[i])
     {
-        add_new_exp(&exp, new_export(env[i]));
+        add_new_exp(&exp, new_export(env[i], 0));
         i++;
     }
     return (exp);

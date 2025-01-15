@@ -71,22 +71,24 @@ int export_command(t_env *env, t_parse *data)
 
 //one thing confusing no option no argument so with option should be an error ?
 
-int env_command(t_env *env, t_token **token)
+int env_command(t_env *env, t_token **tok)
 {
+    t_token *token;
     t_env   *temp;
 
     temp = env;
-    if (checking_redir((*token)) == 1)
+    token = *tok;
+    if (checking_redir(token) == 1)
         printf ("need redirection function\n");//function redirection 
-    while ((*token))
+    while (token)
     {
-        if ((*token)->state == 6)
+        if (token->state == 6)
         {
             write (2,"No argument is tolerated\n", 25); // update
             //function de free ending command program
             return (2);//$? = 2 when the option don ' t exist
         }
-        (*token) = (*token)->next;
+        token = token->next;
     }
     while (temp)
     {

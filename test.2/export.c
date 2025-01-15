@@ -93,39 +93,41 @@ static int command_export(t_env *env, char *token, t_export *exp)
     if (state_env < 0)
     {
         if(is_env(token) == 1)
-            add_new_env(&env, new_env(token));
+            add_new_env(&env, new_env(token, 1));
         if(is_env(token) == 2)
-            add_new_env(&env, new_env(reform(token)));
+            add_new_env(&env, new_env(reform(token), 1));
     }
     if (state_exp < 0)
-        add_new_exp(&exp, new_export(reform(token)));
+        add_new_exp(&exp, new_export(reform(token), 1));
     return (0);
 }
 
-int export_command(t_env *env, t_token **token, t_export *exp)
+int export_command(t_env *env, t_token **tok, t_export *exp)
 {
     t_export *temp2;
+    t_token *token;
     int state;
 
     temp2 = exp;
     state = 0;
-    if (checking_redir((*token)) == 1)
+    token = *tok;
+    if (checking_redir(token) == 1)
         printf("need redirection function\n");
-    if ((*token)->next == NULL)
+    if (token->next == NULL)
         return (export(temp2));
-    while ((*token))
+    while (token)
     {
-        if ((*token)->state == 6 && is_option((*token)->token) == 1)
+        if (token->state == 6 && is_option(token->token) == 1)
         {
-            write (2,"No argument is tolerated\n", 25); // update
+            write (2,"No option is tolerated\n", 23); // update
             return (2);////$? = 2 when the option don ' t exist
         }
-        else if ((*token)->state == 6)
+        else if (token->state == 6)
         {
-            if (command_export(env, (*token)->token, exp) == 1)
+            if (command_export(env, token->token, exp) == 1)
                 state = 1;
         }
-        (*token) = (*token)->next;
+        token = token->next;
     }
     if (state == 1)
         return (1);//value of $? in case one of the error command
