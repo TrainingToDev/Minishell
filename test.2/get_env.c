@@ -79,7 +79,8 @@ t_env	*new_env(char *env, int state) ///malloc ato seulement ctl+D vao mifree
 	data->value = get_string(env, a, (i - a), '\0');
 	data->next = NULL;
 	if (state == 1)
-		free(env);
+		printf ("state 1\n");
+		//free(env);//bizzare truc 
 	return (data);
 }
 

@@ -29,29 +29,44 @@ int is_option(char *arg)
     }
     return (0);
 }
-/*
-void list_get_off(t_env **env, char *find)
+
+void list_get_off(t_env *env, char *find)
 {
     t_env *temp;
     t_env *lst;
 
-    temp = (*env);
-
-
-
+    temp = env;
+    while (temp)
+    {
+        if (ft_strncmp(find, temp->var, ft_strlen(find)) == 0)
+        {
+            lst = temp->next;
+        }
+        temp = temp->next;
+    }
 }
 
 int unset_command(t_env *env, t_token **token)
 {
     t_env *temp;
+    t_token *tok;
 
     temp = env;
+    tok = (*token);
     if (checking_redir((*token)) == 1)
         printf("need redirection function\n");
-    while ((*token))
+    while (tok)
     {
+        if (tok->state == 6 && is_option(tok->token) == 1)
+        {
+            write (2,"No option is tolerated\n", 23); // update
+            return (2);////$? = 2 when the option don ' t exist   
+        }
+        else if (tok->state == 6)
+        {
 
-        (*token) = (*token)->next;
+        }
+        tok = tok->next;
     }
+    return (0);
 }
-*/

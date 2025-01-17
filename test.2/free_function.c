@@ -38,7 +38,7 @@ void free_token (t_token *tok)//free on token list but not the array of token
         free (tok);
         tok = tmp;
         tmp = tmp->next;
-    }   
+    }
 }
 
 void free_env(t_env *env)

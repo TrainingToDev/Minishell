@@ -25,20 +25,20 @@ void take_all_quote(t_token **tok)
     }
 }
 
-int checking_redir(t_token *temp)
+int checking_redir(t_token *temp)//redir cheching
 {
     t_token *tok;
 
     tok = temp;
     while (tok)
     {
-        if (tok->state == 2 || tok->state == -2)
+        if (tok->state == 2)
             return (1);
-        else if (tok->state == 3 || tok->state == -3)
+        else if (tok->state == 3)
             return (1);
-        else if (tok->state == 4 || tok->state == -4)
+        else if (tok->state == 4)
             return (1);
-        else if (tok->state == 5 || tok->state == -5)
+        else if (tok->state == 5)
             return (1);
         tok = tok->next;
     }

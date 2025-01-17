@@ -69,9 +69,9 @@ static void exact_builtin(t_token **token, t_env *env, t_export *exp, int comman
 
 void pipe_implemantations(t_token **tok, int nbr_exc, t_list *built, t_env *env, t_export *exp)
 {
-    int i;
+    //int i;
 
-    i = 0;
+    //i = 0;
     if (nbr_exc == 1)
         state_command(tok[0], built, env, exp);
     else

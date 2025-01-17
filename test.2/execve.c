@@ -109,8 +109,8 @@ char **form_env(t_env *env, int len)
     en[i] = NULL;
     return (en);
 }
-//if pid == 0: process parent
-//if pid != 0: process child
+//if pid != 0: process parent
+//if pid == 0: process child
 int new_proc(t_token **tok, t_env *env)//+ free t_token + free t_env
 {
     pid_t pid;
@@ -125,6 +125,9 @@ int new_proc(t_token **tok, t_env *env)//+ free t_token + free t_env
     if (path == NULL)
     {
         write(2, "command not found\n", 18);
+        ft_free(arg);
+        ft_free(en);
+        free_token((*tok));
         // kill(pid, SIGKILL);//$? = 127 : command not found //
         return (0);
     }
@@ -135,7 +138,14 @@ int new_proc(t_token **tok, t_env *env)//+ free t_token + free t_env
         //free_env(env);
         //free_export + free_input + free list
         if (execve(path, arg, en) < 0)
+        {
+            perror("execve:");
+            ft_free(arg);
+            ft_free(en);
+            free_token((*tok));
+            free_env(env);
             exit(0);
+        }
     }
     waitpid(pid, NULL, 0);
     if (pid != 0)
@@ -144,7 +154,6 @@ int new_proc(t_token **tok, t_env *env)//+ free t_token + free t_env
         ft_free(arg);
         ft_free(en);
         free_token((*tok));
-        free_env(env);
     }
     return (0);
 }

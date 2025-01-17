@@ -61,7 +61,7 @@ void dup_for_kids(int **fd, int index)
     }
 }
 
-void create_fork(t_token **tok, int **fd, int nbr_pipe, t_list *list)
+void create_fork(t_token **tok, int **fd, int nbr_pipe, t_list *list, t_export *exp)
 {
     int i;
     int *pid;
@@ -76,7 +76,7 @@ void create_fork(t_token **tok, int **fd, int nbr_pipe, t_list *list)
         if (pid[i] == 0)
         {
             dup_for_kids(fd, i);
-            state_command(&tok[i], nbr_pipe, list);
+            state_command(&tok[i], nbr_pipe, list, exp);
             //fils routine
         }
         else if (pid[i] > 0)

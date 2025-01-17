@@ -104,6 +104,6 @@ char	*ft_strjoin_f(char *s1, char *s2)
 		i++;
 	}
 	dest[i] = '\0';
-	free(s1);
+	free(s2);
 	return (dest);
 }

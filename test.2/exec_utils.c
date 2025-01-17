@@ -21,8 +21,7 @@ int len_arg(t_token *tok)//count the arg we will add to execve function
     i = 0;
     while (tmp)
     {
-        if (tmp->state != 1)
-            i++;
+        i++;
         tmp = tmp->next;
     }
     return (i);
@@ -41,12 +40,9 @@ char **get_arg(t_token *t, int len)
     i = 0;
     while (tok)
     {
-        if (tok->state != 1)
-        {
-            arg[i] = ft_strdup(tok->token);
-            printf ("arg : %s\n", arg[i]);
-            i++;
-        }
+        arg[i] = ft_strdup(tok->token);
+        printf ("arg : %s\n", arg[i]);
+        i++;
         tok = tok->next;
     }
     arg[i] = NULL;

@@ -19,6 +19,8 @@ int existing(char *var, t_export *exp)
 
     i = 0;
     temp = exp;
+    if (!var)
+        return (-1);
     while(temp)
     {
         if (ft_strncmp(var, temp->var, ft_strlen(var)) == 0)

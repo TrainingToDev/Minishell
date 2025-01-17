@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 //should handle numeric argument == OK 
-//if export u=i + export u -> "u=i" 
 // export u -> "u"
 
 static int is_env(char *arg)
@@ -21,6 +20,8 @@ static int is_env(char *arg)
     int i;
 
     i = 0;
+    if (!arg)
+        return (-1);
     while (arg[i])
     {
         if (arg[i] == '=')
@@ -80,7 +81,7 @@ static int command_export(t_env *env, char *token, t_export *exp)
 
     state_exp = existing(get_var(token), exp);
     state_env = exist_env(get_var(token), env);
-    token = get_off_quote(token, count_quote(token));
+    //token = get_off_quote(token, count_quote(token));
     if (all_num(token) == 0)
     {
         write (2, "export `&token' : non valid identifier\n", (ft_strlen(token) + 33));
