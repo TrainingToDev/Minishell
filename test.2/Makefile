@@ -17,7 +17,7 @@ SRC = main.c check_error.c quote_utils.c split_pile.c manage_array.c\
 		new_expand.c get_env.c get_export.c specific_case.c pipe_utils.c\
 		get_off_quote.c exec.c builtins_utils.c export.c unset.c export_util.c\
 		echo.c env.c pwd.c execve.c export_utils.c free_function.c unset_utils.c\
-		exec_utils.c exec_utils_2.c
+		exec_utils.c exec_utils_2.c pipe.c
 		
 CC = cc -g -Wall -Werror -Wextra 
 

@@ -25,7 +25,7 @@ t_list *get_all_builtins()
     ft_lstadd_back(&built, ft_lstnew("env"));//7
     return (built);
 }
-static int is_builtins(t_token **tok, t_list *built)
+int is_builtins(t_token **tok, t_list *built)
 {
     int count;
 
@@ -47,7 +47,7 @@ static int is_builtins(t_token **tok, t_list *built)
     }
     return (0);
 }
-static void exact_builtin(t_token **token, t_env *env, t_export *exp, int command_id)
+void exact_builtin(t_token **token, t_env *env, t_export *exp, int command_id)
 {
     if (command_id == 1)
         echo_command(token);
@@ -57,9 +57,9 @@ static void exact_builtin(t_token **token, t_env *env, t_export *exp, int comman
         pwd_command(token);
     else if (command_id == 2)
         export_command(env, token, exp);
+    else if (command_id == 3)
+        unset_command(env, exp, token);
         /*
-    else if (command_id == 5)
-        //pwd function;
     else if (command_id == 6)
         //exit function;
     else if (command_id == 7)
@@ -72,11 +72,13 @@ void pipe_implemantations(t_token **tok, int nbr_exc, t_list *built, t_env *env,
     //int i;
 
     //i = 0;
+    printf ("nbr_pipe : %i\n", nbr_exc);
     if (nbr_exc == 1)
         state_command(tok[0], built, env, exp);
     else
     {
         //pipe implementation
+        create_fork(tok, nbr_exc, built, exp, env);
         printf ("pipe\n");
     }
 }
@@ -98,7 +100,7 @@ void state_command(t_token *token, t_list *built, t_env *env, t_export *exp)
     else
     {
         printf("fork and exec with execve\n");
-        new_proc(&token, env);
+        new_proc(&token, env, exp);
         //function that reformulate all the param (quote and form of param)
         //execve and recuperate the return of $? and  handle signals
     }

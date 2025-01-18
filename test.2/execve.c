@@ -56,7 +56,7 @@ static int is_absolute(char *cmd)// 1 == absolute path + state
     return (0);
 }
 
-static char *get_path(t_token **token, t_env *env)
+char *get_path(t_token **token, t_env *env)
 {
     t_token *tmp;
     char **path;
@@ -111,7 +111,8 @@ char **form_env(t_env *env, int len)
 }
 //if pid != 0: process parent
 //if pid == 0: process child
-int new_proc(t_token **tok, t_env *env)//+ free t_token + free t_env
+
+int new_proc(t_token **tok, t_env *env, t_export *exp)//+ free t_token + free t_env
 {
     pid_t pid;
     char *path;
@@ -144,12 +145,13 @@ int new_proc(t_token **tok, t_env *env)//+ free t_token + free t_env
             ft_free(en);
             free_token((*tok));
             free_env(env);
-            exit(0);
+            free_exp(exp);
+            exit(1);
         }
     }
-    waitpid(pid, NULL, 0);
     if (pid != 0)
     {
+        waitpid(pid, NULL, 0);
         free (path);
         ft_free(arg);
         ft_free(en);

@@ -55,3 +55,32 @@ void free_env(t_env *env)
         tmp = tmp->next;
     }
 }
+
+void free_exp(t_export *env)
+{
+    t_export *tmp;
+
+    tmp = env->next;
+    while (tmp)
+    {
+        free(env->proto);
+        free(env->var);
+        free(env->value);
+        free(env);
+        env = tmp;
+        tmp = tmp->next;
+    }
+}
+
+void free_fd(int **fd)
+{
+    int i;
+
+    i = 1;
+    while (fd[i])
+    {
+        free(fd[i]);
+        i++;
+    }
+    free (fd);
+}

@@ -76,6 +76,7 @@ int echo_command(t_token **token);
 int env_command(t_env *env, t_token **token);
 int pwd_command(t_token **token);
 int export_command(t_env *env, t_token **token, t_export *exp);
+int unset_command(t_env *env, t_export *exp,t_token **token);
 
 
 //parsing
@@ -135,11 +136,13 @@ void    is_argument(t_token **tok);
 
 //PIPE AND EXEC
 //void    create_fils(t_token **all, int pipe_nbr);
-void pipe_implementation(t_token **all, int number_exec);
-int count_pipe(t_token **all);
+int is_builtins(t_token **tok, t_list *built);
 t_list *get_all_builtins();
 void state_command(t_token *token, t_list *built, t_env *env, t_export *exp);
+void create_fork(t_token **tok, int nbr_pipe, t_list *list, t_export *exp, t_env *env);
 void pipe_implemantations(t_token **tok, int nbr_exc, t_list *built, t_env *env, t_export *exp);
+void exact_builtin(t_token **token, t_env *env, t_export *exp, int command_id);
+char *get_path(t_token **token, t_env *env);
 
 //get_off_quote
 int count_quote(char *command);
@@ -160,11 +163,13 @@ char **get_all_path(t_env *env);
 char *real_dir(char **path, char *cmd);
 char **get_arg(t_token *tok, int len);
 int len_arg(t_token *tok);
-int new_proc(t_token **tok, t_env *env);
+int new_proc(t_token **tok, t_env *env, t_export *exp);
 
 //free_function 
 void ft_free(char **splitted);
 void free_token (t_token *tok);
 void free_env(t_env *env);
+void free_exp(t_export *env);
+void free_fd(int **fd);
 
 #endif

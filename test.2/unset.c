@@ -29,24 +29,77 @@ int is_option(char *arg)
     }
     return (0);
 }
-
-void list_get_off(t_env *env, char *find)
+static void del_one(t_env *env, t_export *exp,int state)
 {
-    t_env *temp;
-    t_env *lst;
-
-    temp = env;
-    while (temp)
+    if (state == 0)
     {
-        if (ft_strncmp(find, temp->var, ft_strlen(find)) == 0)
+        free(env->value);
+        free(env->var);
+        free(env);
+        return ;
+    }
+    if (state == 1)
+    {
+        free(exp->proto);
+        free(exp->value);
+        free(exp->var);
+        free(exp);
+    }
+}
+
+void exp_get_off(t_export **env, char *find)
+{
+    t_export *temp;
+    t_export *lst;
+
+    temp = *env;
+    if (ft_strncmp(temp->var, find, ft_strlen(find)) == 0)
+    {
+        (*env) = (*env)->next;
+        del_one(NULL, temp, 1);
+        return ; 
+    }
+    temp = *env;
+    while (temp && temp->next)
+    {
+        if (ft_strncmp(find, temp->next->var, ft_strlen(find)) == 0)
         {
             lst = temp->next;
+            temp->next = temp->next->next;
+            del_one(NULL, lst, 1);
+            return ;
         }
         temp = temp->next;
     }
 }
 
-int unset_command(t_env *env, t_token **token)
+void env_get_off(t_env **env, char *find)
+{
+    t_env *temp;
+    t_env *lst;
+
+    temp = *env;
+    if (ft_strncmp(temp->var, find, ft_strlen(find)) == 0)
+    {
+        (*env) = (*env)->next;
+        del_one(temp, NULL, 0);
+        return ; 
+    }
+    temp = *env;
+    while (temp && temp->next)
+    {
+        if (ft_strncmp(find, temp->next->var, ft_strlen(find)) == 0)
+        {
+            lst = temp->next;
+            temp->next = temp->next->next;
+            del_one(lst, NULL,0);
+            return ;
+        }
+        temp = temp->next;
+    }
+}
+
+int unset_command(t_env *env, t_export *exp,t_token **token)
 {
     t_env *temp;
     t_token *tok;
@@ -64,7 +117,8 @@ int unset_command(t_env *env, t_token **token)
         }
         else if (tok->state == 6)
         {
-
+            env_get_off(&env, tok->token);
+            exp_get_off(&exp, tok->token);
         }
         tok = tok->next;
     }
