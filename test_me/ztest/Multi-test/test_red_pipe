@@ -70,7 +70,7 @@ Bob,30
 Charlie,22
 }
 
-< numbers paste -sd+ | bc (ok)
+< number paste -sd+ | bc (ok)
 
 (test for leaks)
 < input < input < input < input < input < input < input < input < input < input < input < input < input
