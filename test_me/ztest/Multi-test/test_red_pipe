@@ -3,8 +3,8 @@ error: /, *, -, + etc...
 1)
 cat log | grep 'Error' | sort | uniq > erreurs_triees.txt (ok)
 
-2)
-
+2) 
+echo "Hello World" | grep "Hello" > output.txt && cat output.txt | wc -l ; export TEST_VAR=42 && echo $TEST_VAR
 
 3)
 cat students | sort | uniq -c | sort -nr (ok)
@@ -14,7 +14,6 @@ cat Plaintext | grep 'Pattern' | cut -d',' -f1 | sort | uniq -c | awk '{print $2
 
 5)
 cat numbers | tr ',' '\n' | sort -n | uniq | awk '{print $1 * 2}' | paste -sd+ | bc | tee sum | xargs echo "The sum is:" | tee -a results | less (ok)
-
 
 6)
 echo "testing for redirection" > output (OK)
