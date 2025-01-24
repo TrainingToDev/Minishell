@@ -22,7 +22,7 @@ echo "testing for redirection" > output (OK)
 sort < input (ok)
 echo "Another line" >> output (ok)
 cat << EOF > output.txt (O.K)
-grep 'pattern' < Pliantext | sort > sorted_results (ok)
+grep 'pattern' < Plaintext | sort > sorted_results (ok)
 
 *******************************************
 test error: not manage in project, for fun (Failed)
