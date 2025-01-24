@@ -58,10 +58,10 @@ EOF
 bash script.sh
 
 9) test < au debut:
-< text.txt cat (ok)
-< text.txt sort (ok)
-< text.txt wc (ok)
-< text.txt grep 'mot' (ok)
+< text cat (ok)
+< text sort (ok)
+< text wc (ok)
+< text grep 'mot' (ok)
 < data.csv cut -d',' -f1 (ok)
 
 {data.csv
