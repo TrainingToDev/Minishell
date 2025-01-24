@@ -4,7 +4,9 @@ error: /, *, -, + etc...
 cat log | grep 'Error' | sort | uniq > error_triees.txt (ok)
 
 2) 
-echo "Hello World" | grep "Hello" > output.txt && cat output.txt | wc -l ; export TEST_VAR=42 && echo $TEST_VAR
+echo "Hello World" | grep "Hello" > output.txt && cat output.txt | wc -l
+
+-> export TEST_VAR=42 && echo $TEST_VAR
 
 3)
 cat students | sort | uniq -c | sort -nr (ok)
