@@ -24,12 +24,6 @@
 #include <signal.h>
 #include "libft/libft.h"
 
-typedef struct s_expand//used at the expand function
-{
-    char *var;
-    int len;
-}               t_expand;
-
 typedef struct s_token
 {
     char *token;
@@ -53,7 +47,12 @@ typedef struct s_export
     struct s_export *next;
 }               t_export;
 
-extern int g_sign;
+typedef struct s_shell
+{
+    t_env *env;
+    t_export *exp;
+    t_list *built;
+}               t_shell;
 
 //for the env_list && exp_list
 
@@ -95,10 +94,11 @@ int get_number_of(char *input, int c);
 char *change(char *input);//manala ilay espace @ redirection
 char **input_file(char *input);
 char **output_file(char *input);
+int chech_space(char *input);
 
 //expand
 int case_quote(char *input, int i);
-char *new_expand(char *input, t_env *env);
+char *new_expand(char *input, t_shell *shell);
 
 //get_token
 char **tokening(char *input);
@@ -138,11 +138,14 @@ void    is_argument(t_token **tok);
 //void    create_fils(t_token **all, int pipe_nbr);
 int is_builtins(t_token **tok, t_list *built);
 t_list *get_all_builtins();
-void state_command(t_token *token, t_list *built, t_env *env, t_export *exp);
-void create_fork(t_token **tok, int nbr_pipe, t_list *list, t_export *exp, t_env *env);
-void pipe_implemantations(t_token **tok, int nbr_exc, t_list *built, t_env *env, t_export *exp);
-void exact_builtin(t_token **token, t_env *env, t_export *exp, int command_id);
+void state_command(t_token **token, t_shell *shell);
+void create_fork(t_token **tok, int nbr_pipe, t_shell *shell);
+void pipe_implemantations(t_token **tok, int nbr_exc,t_shell *shell);
+void exact_builtin(t_token **token,t_shell *shell, int command_id);
+void pipe_command(t_token **tok, t_shell *shell, int index, int **fd);
 char *get_path(t_token **token, t_env *env);
+char **form_env(t_env *env, int len);
+int env_len(t_env *env);
 
 //get_off_quote
 int count_quote(char *command);
@@ -161,9 +164,10 @@ int all_num(char *in);
 //execve utils
 char **get_all_path(t_env *env);
 char *real_dir(char **path, char *cmd);
+int env_len(t_env *env);
 char **get_arg(t_token *tok, int len);
 int len_arg(t_token *tok);
-int new_proc(t_token **tok, t_env *env, t_export *exp);
+int new_proc(t_token **tok, t_shell *shell);
 
 //free_function 
 void ft_free(char **splitted);
@@ -171,5 +175,8 @@ void free_token (t_token *tok);
 void free_env(t_env *env);
 void free_exp(t_export *env);
 void free_fd(int **fd);
+void free_exec(t_token **tok);
+void free_list(t_list *list);
+void free_ft(t_token **tok, t_shell *shell);
 
 #endif

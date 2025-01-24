@@ -101,7 +101,7 @@ char  *expand(char *input, int i, t_env *env)
     return (input);
 }
 
-char *new_expand(char *input, t_env *env)//expand en boucle
+char *new_expand(char *input, t_shell *shell)//expand en boucle
 {
     int i;
     int count;
@@ -120,7 +120,7 @@ char *new_expand(char *input, t_env *env)//expand en boucle
         }
         if (count != 0 && (count % 2) != 0)
         {
-            input = expand(input, i, env);
+            input = expand(input, i, shell->env);
             i = temp;
             while (input[i] && input[i] != ' ')
                 i++;

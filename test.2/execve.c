@@ -10,152 +10,61 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-char *real_dir(char **path, char *cmd)//if null command not found so->$? = 127
-{
-    int i;
-    char *dir;
-    struct stat buf;
-
-    i = 0;
-    while (path[i])
-    {
-        dir = ft_strjoin(path[i], cmd);//cmd = /command
-        if (stat(dir, &buf) == 0)
-        {
-            if (S_ISREG(buf.st_mode) == 1)
-            {
-                free(cmd);
-                ft_free(path);
-                return (dir);
-            }
-        }
-        free(dir);
-        i++;
-    }
-    free(cmd);    
-    ft_free(path);
-    return (NULL);
-}
-
-static int is_absolute(char *cmd)// 1 == absolute path + state
-{
-    struct stat buf;
-
-    if (ft_strchr(cmd, '/') != NULL)
-    {
-        if (stat(cmd, &buf) == 0)
-        {
-            if (S_ISREG(buf.st_mode) == 1)
-                return (1);
-        }
-        else
-            return (0);
-    }
-    return (0);
-}
-
-char *get_path(t_token **token, t_env *env)
-{
-    t_token *tmp;
-    char **path;
-    char *cmd;
-
-    tmp = (*token);
-    while (tmp->state != 1)
-        tmp = tmp->next;
-    if (is_absolute(tmp->token) == 1)
-    {
-        printf ("is_absolute command\n");
-        return (ft_strdup(tmp->token));
-    }
-    path = get_all_path(env);
-    cmd = ft_strjoin("/", tmp->token);
-    return (real_dir(path, cmd));
-}
-
-static int env_len(t_env *env)
-{
-    t_env *tmp;
-    int len;
-    
-    tmp = env;
-    len = 0;
-    while (tmp)
-    {
-        len++;
-        tmp = tmp->next;
-    }
-    return (len);
-}
-char **form_env(t_env *env, int len)
-{
-    t_env *tmp;
-    char **en;
-    int i;
-
-    tmp = env;
-    i = 0;
-    en = (char **)malloc(sizeof(char*) * (len + 1));
-    if (!en)
-        return (NULL);
-    while (i < len)
-    {
-        en[i] = ft_strjoin(tmp->var, tmp->value);
-        i++;
-        tmp = tmp->next;
-    }
-    en[i] = NULL;
-    return (en);
-}
 //if pid != 0: process parent
 //if pid == 0: process child
+#include "minishell.h"
 
-int new_proc(t_token **tok, t_env *env, t_export *exp)//+ free t_token + free t_env
+static int command_not_found(t_token **tok)
+{
+    write(2, "command not found\n", 18);
+    free_exec(tok);
+    return (127);//command not found
+}
+static void exec_free(char **en, char **arg, char *p)
+{
+    perror("execve:");
+    ft_free(en);
+    ft_free(arg);
+    free(p);
+    exit (1);
+}
+static void free_ex(t_token **t, t_shell *shell)
+{
+    free_exec(t);
+    free_env(shell->env);
+    free_exp(shell->exp);
+    free_list(shell->built);
+    free(shell);
+
+}
+
+static void new_proc2(t_token **tok, int pid, char *path)
+{
+    waitpid(pid, NULL, 0);
+    free (path);
+    free_exec(tok);
+}
+
+int new_proc(t_token **tok, t_shell *shell)//execve pour nbr de pile d'exec == 1
 {
     pid_t pid;
     char *path;
     char **arg;
     char **en;
 
-    path = get_path(tok, env);
-    arg = get_arg((*tok), len_arg(*tok));
-    en = form_env(env, env_len(env));
-    printf ("%s\n", path);
+    path = get_path(&tok[0], shell->env);
     if (path == NULL)
-    {
-        write(2, "command not found\n", 18);
-        ft_free(arg);
-        ft_free(en);
-        free_token((*tok));
-        // kill(pid, SIGKILL);//$? = 127 : command not found //
-        return (0);
-    }
+        return (command_not_found(&tok[0]));
     pid = fork();
     if (pid == 0)
     {
-        //free_token((*tok));
-        //free_env(env);
-        //free_export + free_input + free list
+        arg = get_arg((*tok), len_arg(*tok));
+        en = form_env(shell->env, env_len(shell->env));
+        free_ex(tok, shell);
         if (execve(path, arg, en) < 0)
-        {
-            perror("execve:");
-            ft_free(arg);
-            ft_free(en);
-            free_token((*tok));
-            free_env(env);
-            free_exp(exp);
-            exit(1);
-        }
+            exec_free(en, arg, path);
     }
-    if (pid != 0)
-    {
-        waitpid(pid, NULL, 0);
-        free (path);
-        ft_free(arg);
-        ft_free(en);
-        free_token((*tok));
-    }
+    if (pid > 0)
+        new_proc2(tok, pid, path);
     return (0);
 }

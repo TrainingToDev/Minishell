@@ -25,29 +25,14 @@ static int check_option(t_token *tok)//state 1 : option exist
     }
     return (0);
 }
-/*
-static char *find_redir(t_token *token)
-{
-    char *redir;
-    t_token *temp;
-
-    redir = NULL;
-    temp = token;
-    while(temp)
-    {
-        if (temp->state == -5)
-            redir = temp->token;
-        temp = temp->next;
-    }
-    return(redir);
-}
-*/
 
 int echo_command(t_token **token)
 {
     t_token *temp;
+    int i;
 
     temp = (*token);
+    i = 0;
     if (checking_redir((temp)) == 1)
         printf("need redirection function\n");//function redirection
     while((temp))
@@ -55,7 +40,12 @@ int echo_command(t_token **token)
         if ((temp)->state == 6)
         {
             if (ft_strncmp((temp)->token, "-n", ft_strlen("-n")) != 0)
-                printf("%s ", (temp)->token);//ilay space @farany mbola mila reglena
+            {
+                if (i != 0)
+                    printf(" ");
+                printf("%s", (temp)->token);
+                i++;
+            }
         }
         (temp) = (temp)->next;
     }

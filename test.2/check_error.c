@@ -115,5 +115,20 @@ int check_redir(char *input)
     return (0);
 }
 
+int chech_space(char *input)
+{
+    int i;
+
+    i = 0;
+    while (input[i])
+    {
+        if (is_space(input[i]) == 1)
+            i++;
+        else
+            return(0);
+    }
+    free(input);
+    return (1);
+}
 
 

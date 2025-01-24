@@ -79,7 +79,7 @@ int dup_out(int **fd, int index)
     return (state);
 }
 
-void child_routine(t_token *tok, int **fd, t_list *built, t_env *env, t_export *exp, int index)
+void child_routine(t_token **tok, int **fd, t_shell *shell, int index)
 {
     int fd1;
     int fd2;
@@ -88,23 +88,18 @@ void child_routine(t_token *tok, int **fd, t_list *built, t_env *env, t_export *
     fd2 = dup_out(fd, index);
     if (fd1 < 0 || fd2 < 0)
     {
-        free_fd(fd);
-        free_env(env);
-        free_exp(exp);
-        free_token(tok);
+        perror("fd pipe:");
+        free_ft(tok, shell);
         exit(1);
     }
-    state_command(tok, built, env, exp);
+    pipe_command(tok, shell, index, fd);
     if (fd1 == 1)
         close(fd[index][0]);
     if (fd2 == 1)
         close(fd[index + 1][1]);
-    free_env(env);
-    free_exp(exp);
-    //free_token(tok);
 }
 
-void create_fork(t_token **tok, int nbr_pipe, t_list *list, t_export *exp, t_env *env)
+void create_fork(t_token **tok, int nbr_pipe, t_shell *shell)
 {
     int i;
     int *pid;
@@ -120,17 +115,16 @@ void create_fork(t_token **tok, int nbr_pipe, t_list *list, t_export *exp, t_env
         pid[i] = fork();
         if (pid[i] == 0)
         {
-            child_routine(tok[i], fd, list, env, exp, i);
             free(pid);
+            child_routine(tok, fd, shell, i);
+            free_fd(fd);
             exit (0);
         }
         else if (pid[i] > 0)
-        {
             waitpid(pid[i], NULL, 0);
-            free_token(tok[i]);
-        }
         i++;
     }
+    free_exec(tok);
     free(pid);
     free_fd(fd);
 }

@@ -49,7 +49,7 @@ char **get_arg(t_token *t, int len)
     return (arg);
 }
 
-static char *get_path(char *path)//get of the '=' in the value 
+static char *get_p(char *path)//get of the '=' in the value 
 {
     char *new_path;
     int i;
@@ -81,7 +81,7 @@ char **get_all_path(t_env *env)
     while (temp)
     {
         if (ft_strncmp("PATH", temp->var, ft_strlen("PATH")) == 0)
-            input = get_path(temp->value);
+            input = get_p(temp->value);
         temp = temp->next;
     }
     path = ft_split(input, ':');

@@ -16,16 +16,43 @@
 
 //static void for_parent()
 
-int pipe_execve(t_token **tok, t_env *env)
+static void freee(t_shell *shell, t_token **tok, int **fd)
+{
+    free_fd(fd);
+    free_env(shell->env);
+    free_exp(shell->exp);
+    free_list(shell->built);
+    free(shell);
+    free_exec(tok);
+}
+static void execve_free(char **en, char **a, char *p)
+{
+    perror("execve");
+    ft_free(en);
+    ft_free(a);
+    free(p);
+    exit(1);
+} 
+
+static void for_parent(t_token **tok, t_shell *shell, int pid, char *p)
+{
+    waitpid(pid, NULL, 0);
+    free(p);
+    free_env(shell->env);
+    free_exp(shell->exp);
+    free_list(shell->built);
+    free(shell);
+    free_exec(tok);
+}
+
+int pipe_execve(t_token **tok,t_shell *shell, int id, int **fd)
 {
     pid_t pid;
     char    *path;
     char    **arg;
     char    **en;
 
-    path = get_path(tok, env);
-    arg = get_arg(tok, len_arg(*tok));
-    en = form_env(env, env_len(env));
+    path = get_path(&tok[id], shell->env);
     if (path == NULL)
         return(write(2, "command not found\n", 18));
     else
@@ -33,33 +60,33 @@ int pipe_execve(t_token **tok, t_env *env)
         pid = fork();
         if (pid == 0)
         {
+            en = form_env(shell->env, env_len(shell->env));
+            arg = get_arg(tok[id], len_arg(tok[id]));
+            freee(shell, tok, fd);
             if (execve(path, arg, en) < 0)
-            {
-                perror("execve:");
-                exit (1);
-            }
+                execve_free(en, arg, path);
         }
-        if (pid > 0)
-            
+        if ((pid > 0))
+            for_parent(tok, shell, pid, path);
     }
     return (0);
 }
 
-
-
-
-void pipe_command(t_token *tok, t_list *lst, t_env *env, t_export *exp)
+void pipe_command(t_token **tok, t_shell *shell, int index, int **fd)
 {
     int command_id;
 
-    command_id = is_builtins(&tok, lst);
+    command_id = is_builtins(&tok[index], shell->built);
     if (command_id != 0)
     {
-        take_all_quote(&tok);
-        exact_builtin(&tok, env, exp, command_id);
+        printf ("builtins\n");
+        take_all_quote(&tok[index]);
+        exact_builtin(&tok[index], shell,command_id);
+        free_ft(tok, shell);
     }
     else
     {
-
+        printf ("execve pipe\n");
+        pipe_execve(tok, shell, index, fd);
     }
 }

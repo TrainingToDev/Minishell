@@ -25,11 +25,13 @@ t_list *get_all_builtins()
     ft_lstadd_back(&built, ft_lstnew("env"));//7
     return (built);
 }
-int is_builtins(t_token **tok, t_list *built)
+int is_builtins(t_token **tok, t_list *b)
 {
     int count;
+    t_list *built;
 
     count = 1; 
+    built = b;
     while ((*tok) && (*tok)->state != 1)
     {
         printf("here : %s -> %i\n", (*tok)->token, (*tok)->state);
@@ -40,25 +42,24 @@ int is_builtins(t_token **tok, t_list *built)
         if (ft_strncmp((*tok)->token, built->content, ft_strlen(built->content)) == 0)
         {
             return (count);
-            //printf ("builtins\n");
         }
         count++;
         built = built->next;
     }
     return (0);
 }
-void exact_builtin(t_token **token, t_env *env, t_export *exp, int command_id)
+void exact_builtin(t_token **token,t_shell *shell, int command_id)
 {
     if (command_id == 1)
         echo_command(token);
     else if (command_id == 7)
-        env_command(env, token);
+        env_command(shell->env, token);
     else if (command_id == 5)
         pwd_command(token);
     else if (command_id == 2)
-        export_command(env, token, exp);
+        export_command(shell->env, token, shell->exp);
     else if (command_id == 3)
-        unset_command(env, exp, token);
+        unset_command(shell->env, shell->exp, token);
         /*
     else if (command_id == 6)
         //exit function;
@@ -67,40 +68,35 @@ void exact_builtin(t_token **token, t_env *env, t_export *exp, int command_id)
         //env function;
 }
 
-void pipe_implemantations(t_token **tok, int nbr_exc, t_list *built, t_env *env, t_export *exp)
+void pipe_implemantations(t_token **tok, int nbr_exc, t_shell *shell)
 {
-    //int i;
-
-    //i = 0;
-    printf ("nbr_pipe : %i\n", nbr_exc);
+    printf ("nbr pile d'exec : %i\n", nbr_exc);
     if (nbr_exc == 1)
-        state_command(tok[0], built, env, exp);
+        state_command(tok, shell);
     else
     {
-        //pipe implementation
-        create_fork(tok, nbr_exc, built, exp, env);
         printf ("pipe\n");
+        create_fork(tok, nbr_exc, shell);
     }
 }
 
 
-void state_command(t_token *token, t_list *built, t_env *env, t_export *exp)
+void state_command(t_token **token, t_shell *shell)
 {
     int command_id;
  
-    command_id = is_builtins(&token, built);
+    command_id = is_builtins(&token[0], shell->built);
     if(command_id != 0)
     {
-        take_all_quote(&token);
         printf("exec builtings\n");
-        exact_builtin(&token, env, exp,command_id);
-        free_token(token);
-        //free all struct + handle signals
+        take_all_quote(&token[0]);
+        exact_builtin(&token[0], shell, command_id);
+        free_exec(token);
     }
     else
     {
         printf("fork and exec with execve\n");
-        new_proc(&token, env, exp);
+        new_proc(token, shell);
         //function that reformulate all the param (quote and form of param)
         //execve and recuperate the return of $? and  handle signals
     }
