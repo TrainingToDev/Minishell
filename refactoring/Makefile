@@ -9,6 +9,7 @@ OBJ_DIR = obj
 BUILTINS_DIR = $(SRC_DIR)/builtins
 EXEC_DIR = $(SRC_DIR)/exec
 LEXER_DIR = $(SRC_DIR)/lexer
+EXPAND_DIR = $(SRC_DIR)/expand
 PARSER_DIR = $(SRC_DIR)/parser
 UTILS_DIR = $(SRC_DIR)/utils
 FREE_DIR = $(SRC_DIR)/free
@@ -30,6 +31,10 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(LEXER_DIR)/utils_word.c  \
 			$(LEXER_DIR)/free_tokens.c  \
 			$(LEXER_DIR)/print_tokens.c  \
+			$(EXPAND_DIR)/expand_status.c\
+			$(EXPAND_DIR)/expand_var.c \
+			$(EXPAND_DIR)/expand.c \
+			$(EXPAND_DIR)/utils_expand.c\
 			$(PARSER_DIR)/free_ast.c\
 			$(PARSER_DIR)/main_cmd.c\
 			$(PARSER_DIR)/main_list.c\
@@ -43,15 +48,12 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(PARSER_DIR)/utils_parser.c\
 			$(PARSER_DIR)/parse.c\
 			$(PARSER_DIR)/print_parser.c\
-
 			$(EXEC_DIR)/exec_builtins.c\
 			$(EXEC_DIR)/exec_ext_utils.c\
 			$(EXEC_DIR)/exec_external.c\
 			$(EXEC_DIR)/exec.c\
 			$(EXEC_DIR)/redir.c\
 			$(EXEC_DIR)//utils.c\
-
-
 			$(UTILS_DIR)/check_args.c \
 			$(UTILS_DIR)/content_heredoc.c \
 			$(UTILS_DIR)/environement.c \

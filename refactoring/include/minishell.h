@@ -181,7 +181,13 @@ void	add_token(t_token **tokens, t_token *new_token);
 char *extract_word_value(char *input, size_t *i, int *expand);
 
 
-
+char    *compare(char *key, t_env_var *env);
+char    *ft_strjoin_free(char *s1, char *s2, int free_flag);
+char    *ft_strjoin_char(char *s, char c);
+int		is_single_quoted(const char *str);
+void 	expand_token_list(t_token *tokens, t_minishell *shell);
+char	*expand_variables_in_str(const char *src, t_minishell *shell);
+char	*append_var_value(const char *src, size_t *i, char *result, t_minishell *shell);
 
 
 t_ast *parse_pipe(t_parser *parser, char *input);
