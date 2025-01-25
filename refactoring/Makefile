@@ -31,6 +31,8 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(LEXER_DIR)/utils_word.c  \
 			$(LEXER_DIR)/free_tokens.c  \
 			$(LEXER_DIR)/print_tokens.c  \
+
+#parser
 			
 			$(UTILS_DIR)/check_args.c  \
 			$(UTILS_DIR)/error.c  \
