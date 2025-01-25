@@ -1,16 +1,16 @@
 #include "minishell.h"
 
-int is_logical_op(t_token_type type)
+static int is_logical_op(t_token_type type)
 {
 	return (type == TOKEN_AND || type == TOKEN_OR);
 }
 
-int is_pipe_op(t_token_type type)
+static int is_pipe_op(t_token_type type)
 {
 	return (type == TOKEN_PIPE);
 }
 
-int validate_operator(t_token *prev, t_token *current)
+static int validate_operator(t_token *prev, t_token *current)
 {
 	if (is_pipe_op(current->type) || is_logical_op(current->type))
 	{

@@ -1,0 +1,13 @@
+<<', <<''  => block
+<<" => block
+<<''
+<<""
+<<"hello"
+<<'hello'
+
+export i="echo l"
+$i
+
+<<t ls|<< o ls
+<<g ls|<< o clear
+

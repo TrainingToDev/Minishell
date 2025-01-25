@@ -39,3 +39,21 @@ char	*format_prompt(void)
 		return (NULL);
 	return (prompt);
 }
+
+char    *prompt_input(char *prompt)
+{
+	char    *input;
+
+	input = NULL;
+	if (!prompt)
+		return (NULL);
+	input = readline(prompt);
+	if (!input)
+	{
+		write(1, "exit\n", 5);
+		return (NULL);
+	}
+	if (*input)
+		add_history(input);
+	return (input);
+}

@@ -1,7 +1,7 @@
 #ifndef MIN_H
 # define MIN_H
 
-# include "../test_me/libft/libft.h"
+# include "../libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -17,13 +17,11 @@
 # include <sys/stat.h>
 # include <termios.h>
 # include <limits.h>
-# include <stdbool.h>
 
 # define COLOR_RESET "\033[0m"
 # define COLOR_GREEN "\033[32m"
 # define COLOR_BLUE  "\033[34m"
 # define COLOR_RED   "\033[31m"
-
 
 #define STATUS_READ 0
 #define STATUS_WRITE 1
@@ -52,13 +50,12 @@ typedef struct s_token
 	struct s_token  *next;
 }   t_token;
 
-// content heredoc lors d'un copie coller utilisateur
+
 typedef struct s_hdc
 {
-	char	**lines; //tab line
-	size_t	count; //nbr line
+	char	**lines;
+	size_t	count;
 }			t_hdc;
-
 
 
 typedef enum e_redir_type
@@ -155,6 +152,38 @@ typedef struct s_varinfo
 }   t_varinfo;
 
 
+
+
+
+t_token *lexer(char *input);
+
+
+int check_operators(t_token *tokens);
+int check_parentheses(t_token *tokens);
+int check_redirections(t_token *tokens);
+int process_substitution(t_token *token);
+int validate_syntax(t_token *tokens);
+void    free_token(t_token *token);
+void	free_token_list(t_token *tokens);
+t_token_type invalid_redir(const char *input);
+void	print_tokens(t_token *tokens);
+t_token *lexer(char *input);
+void add_operator_token(t_token **tokens, char *input, size_t *i);
+char *extract_quoted_value(char *input, size_t *i, int *expand);
+void add_word_token(t_token **tokens, char *input, size_t *i);
+int consecutive_redir_in(const char *input);
+int	unsupported_redirs(const char *input);
+int is_disallowed(t_token *tokens);
+int	is_operator(const char *str);
+t_token *create_token(t_token_type type, const char *value, int expand);
+t_token_type get_op_token(const char *op);
+void	add_token(t_token **tokens, t_token *new_token);
+char *extract_word_value(char *input, size_t *i, int *expand);
+
+
+
+
+
 t_ast *parse_pipe(t_parser *parser, char *input);
 t_ast *parse_cmd(t_parser *parser, char *input);
 t_ast *parse_conditional(t_parser *parser, t_ast *left, char *input);
@@ -165,6 +194,23 @@ t_ast *parse(t_token *tokens, char *input);
 void free_ast(t_ast *ast);
 
 int	execute_ast(t_ast *ast, t_minishell *shell);
+
+
+int	check_args(int argc, char **argv);
+char	*format_prompt(void);
+char    *prompt_input(char *prompt);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

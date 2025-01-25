@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int valid_general_redir(t_token *token)
+static int valid_general_redir(t_token *token)
 {
 	if (!token->next)
 	{
@@ -24,7 +24,7 @@ int valid_general_redir(t_token *token)
 	return (1);
 }
 
-int validate_force_overwrite(t_token *token)
+static int validate_force_overwrite(t_token *token)
 {
 	if (ft_strncmp(token->value, ">|", 2) == 0)
 	{

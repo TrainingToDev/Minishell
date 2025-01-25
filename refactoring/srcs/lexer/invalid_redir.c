@@ -49,7 +49,7 @@ static int is_unsup_input_redir(const char *input)
 	return (0);
 }
 
-int is_unsup_descriptor_redir(const char *input)
+static int is_unsup_descriptor_redir(const char *input)
 {
 	if (is_unsup_output_redir(input))
 		return (1);

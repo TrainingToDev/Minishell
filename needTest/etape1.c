@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:21:30 by herandri          #+#    #+#             */
-/*   Updated: 2025/01/25 12:42:31 by herandri         ###   ########.fr       */
+/*   Updated: 2025/01/25 14:05:58 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1234,8 +1234,8 @@ char *compare(char *key, t_env_var *env)
     temp = env;
     while (temp)
     {
-        if (ft_strncmp(key, temp->key, ft_strlen(temp->key)) == 0 &&
-            ft_strlen(key) == ft_strlen(temp->key))
+        if (ft_strncmp(key, temp->key, ft_strlen(temp->key)) == 0
+			&& ft_strlen(key) == ft_strlen(temp->key))
         {
             value = ft_strdup(temp->value);
             // free(key);
@@ -3460,7 +3460,7 @@ static int handle_redir_out(t_redir *current)
         return (-1);
     }
     close(fd);
-    return 0;
+    return (0);
 }
 
 
@@ -3476,7 +3476,7 @@ static int handle_redir_append(t_redir *current)
         return -1;
     }
     close(fd);
-    return 0;
+    return (0);
 }
 
 
@@ -4270,7 +4270,7 @@ shell.nb_line_heredoc = 0;
         free(input);
         input = NULL;
     }
-}
+}			
 
 
 

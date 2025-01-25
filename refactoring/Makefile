@@ -15,7 +15,6 @@ FREE_DIR = $(SRC_DIR)/free
 LIBFT_DIR = libft/libft.a
 
 
-#lexer
 SRC_FILES = $(SRC_DIR)/main.c \
 			$(FREE_DIR)/lexer.c  \
 			$(FREE_DIR)/token_operator.c  \
@@ -31,13 +30,6 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(LEXER_DIR)/utils_word.c  \
 			$(LEXER_DIR)/free_tokens.c  \
 			$(LEXER_DIR)/print_tokens.c  \
-
-#expander
-
-
-
-
-#parser
 			$(PARSER_DIR)/free_ast.c\
 			$(PARSER_DIR)/main_cmd.c\
 			$(PARSER_DIR)/main_list.c\
@@ -52,31 +44,22 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(PARSER_DIR)/parse.c\
 			$(PARSER_DIR)/print_parser.c\
 
-#exec
+			$(EXEC_DIR)/exec_builtins.c\
+			$(EXEC_DIR)/exec_ext_utils.c\
+			$(EXEC_DIR)/exec_external.c\
+			$(EXEC_DIR)/exec.c\
+			$(EXEC_DIR)/redir.c\
+			$(EXEC_DIR)//utils.c\
 
 
-
-
-
-
-#utils
-
-
-
-
-
-
-
-
-
-
-
-
-
-			$(UTILS_DIR)/check_args.c  \
-			$(UTILS_DIR)/error.c  \
-			$(UTILS_DIR)/prompt.c  \
-			$(UTILS_DIR)/signal.c
+			$(UTILS_DIR)/check_args.c \
+			$(UTILS_DIR)/content_heredoc.c \
+			$(UTILS_DIR)/environement.c \
+			$(UTILS_DIR)/error.c \
+			$(UTILS_DIR)/expand.c \
+			$(UTILS_DIR)/prompt.c \
+			$(UTILS_DIR)/signal.c \
+			$(UTILS_DIR)/utils_heredoc.c
 
 OBJ_FILES = $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -91,7 +74,7 @@ $(LIBFT_DIR):
 	@echo "LIBFT success"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/lexer $(OBJ_DIR)/utils $(OBJ_DIR)/free
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/utils $(OBJ_DIR)/lexer $(OBJ_DIR)/parser $(OBJ_DIR)/exec
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
@@ -101,3 +84,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	make fclean -C libft
+
+re : fclean all
+
+.PHONY : all clean fclean re

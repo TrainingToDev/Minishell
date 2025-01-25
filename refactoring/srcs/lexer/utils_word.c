@@ -1,3 +1,5 @@
+#include "minishell.h"
+
 static char	*join_and_free(char *value, char *part)
 {
 	char	*tmp;

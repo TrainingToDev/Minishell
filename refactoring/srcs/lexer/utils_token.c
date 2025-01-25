@@ -1,3 +1,5 @@
+#include "minishell.h"
+
 int	is_operator(const char *str)
 {
 	static const char	*double_operators[] = { 
