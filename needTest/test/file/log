@@ -1,0 +1,10 @@
+2025-01-24 10:00:00 Info: Starting application
+2025-01-24 10:01:00 Error: Failed to connect to database
+2025-01-24 10:02:00 Warning: Low memory
+2025-01-24 10:03:00 Error: User authentication failed
+2025-01-24 10:04:00 Info: Scheduled task executed
+2025-01-24 10:05:00 Error: Unable to write to file
+2025-01-24 10:06:00 Warning: Disk usage at 90%
+2025-01-24 10:07:00 Error: Failed to connect to database
+2025-01-24 10:08:00 Error: User authentication failed
+2025-01-24 10:09:00 Info: Application stopped

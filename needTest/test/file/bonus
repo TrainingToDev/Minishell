@@ -1,0 +1,22 @@
+true && echo "sucess"
+false && echo "failure"
+false && echo "fallback"
+true && echo "skipped"
+true && false || echo "ALTERNATIVE"
+echo "hello" > out && cat out
+cat missing || echo "fallback"
+
+(true || false) && (false || echo "complex")
+
+invalidcmd && echo "will not exec"
+
+invalidcmd && echo "fallback execute"
+
+(true && (echo "subshell worked" && false)) || echo "recovery"
+
+VAR="Hello" && echo $VAR || echo "FALLBACK"
+
+false && echo "Will not execute" || echo "Error handled"
+
+
+
