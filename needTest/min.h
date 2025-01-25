@@ -1,7 +1,7 @@
 #ifndef MIN_H
 # define MIN_H
 
-# include "libft.h"
+# include "../libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -17,6 +17,7 @@
 # include <sys/stat.h>
 # include <termios.h>
 # include <limits.h>
+# include <stdbool.h>
 
 # define COLOR_RESET "\033[0m"
 # define COLOR_GREEN "\033[32m"
@@ -28,22 +29,22 @@
 #define STATUS_WRITE 1
 
 
-typedef enum e_token_type // ok
+typedef enum e_token_type
 {
-	TOKEN_WORD, // (cmd, args)      //0
-	TOKEN_PIPE, // |                //1
-	TOKEN_REDIRECT_IN, // <         //2
-	TOKEN_REDIRECT_OUT, // >        //3
-	TOKEN_APPEND, // >>             //4
-	TOKEN_HEREDOC, // <<            //5
-	TOKEN_AND, // &&                //6
-	TOKEN_OR, // ||                 //7
-	TOKEN_LPAREN, // '('            //8
-	TOKEN_RPAREN, // ')'            //9
-	TOKEN_UNKNOWN, // not define    //11
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIRECT_IN,
+	TOKEN_REDIRECT_OUT,
+	TOKEN_APPEND,
+	TOKEN_HEREDOC,
+	TOKEN_AND,
+	TOKEN_OR,
+	TOKEN_LPAREN,
+	TOKEN_RPAREN,
+	TOKEN_UNKNOWN,
 }   t_token_type;
 
-typedef struct s_token //ok
+typedef struct s_token
 {
 	char            *value;
 	t_token_type    type;
@@ -51,21 +52,25 @@ typedef struct s_token //ok
 	struct s_token  *next;
 }   t_token;
 
+// content heredoc lors d'un copie coller utilisateur
 typedef struct s_hdc
 {
 	char	**lines; //tab line
 	size_t	count; //nbr line
 }			t_hdc;
 
-typedef enum e_redir_type //ok
+
+
+typedef enum e_redir_type
 {
-	REDIR_IN,        // '<'   //0
-	REDIR_OUT,       // '>'   //1
-	REDIR_APPEND,    // '>>'  //2
-	REDIR_HEREDOC    // '<<'  //3
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC,
+	REDIR_INVALID
 }   t_redir_type;
 
-typedef struct s_redir //ok
+typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*filename;
@@ -73,50 +78,57 @@ typedef struct s_redir //ok
 	struct s_redir	*next;
 }   t_redir;
 
-typedef enum e_node_type //ok
+// Manage Tokens
+typedef struct s_parser
 {
-	NODE_COMMAND, // cmd 
-	NODE_PIPE, // |
-	NODE_AND,  // &&
-	NODE_OR,  // ||
-	NODE_SUBSHELL // manage ()
+    t_token *current;
+} t_parser;
+
+
+typedef enum e_node_type
+{
+	NODE_COMMAND,
+	NODE_PIPE,
+	NODE_AND,
+	NODE_OR,
+	NODE_SUBSHELL
 }   t_node_type;
 
-typedef struct s_ast //ok
+typedef struct s_ast
 {
 	t_node_type       type;
 	struct s_command  *command;
-	t_token_type      operator; // and | or
 	struct s_ast      *left;
 	struct s_ast      *right;
 }   t_ast;
 
 
-typedef struct s_command //ok
+typedef struct s_command
 {
-	char			**argv; // argument
-	int				argc;   // nb srg
-	t_redir			*redirs;  //redir ass
+	char			**argv;
+	int				argc;
+	t_redir			*redirs;
 }					t_command;
 
-typedef struct s_env_var //ok
+typedef struct s_env_var
 {
 	char                *key;
 	char                *value;
 	struct s_env_var    *next;
 }						t_env_var;
 
-typedef struct s_minishell //ok
+typedef struct s_minishell
 {
-	t_env_var   *env_list;
-	int         last_exit_status; //$?
-	int         interactive;
-	int         original_stdin;
-    int         original_stdout;
-    int         original_stderr;
-}				t_minishell;
-
-
+    t_env_var   *env_list;         // Liste chaînée des variables d'environnement
+    int         last_exit_status; // Dernier code de retour (important pour `$?`)
+    t_token     *tokens;          // Liste chaînée des tokens générés par le lexer
+    t_ast       *ast;             // Arbre syntaxique pour la commande actuelle
+    int			nb_line_heredoc;  // compteur pour heredoc
+	int         running;          // Indique si le shell est en cours d'exécution (utile pour les boucles)
+    int         fd_input;         // Descripteur d'entrée standard (utilisé pour redirections)
+    int         fd_output;        // Descripteur de sortie standard (utilisé pour redirections)
+}               t_minishell;
+										
 
 enum	e_mini_error
 {
@@ -134,16 +146,25 @@ enum	e_mini_error
 	E_WARNING = 14        // Avertissement général
 };
 
+// expand
+typedef struct s_varinfo
+{
+    const char *src;
+    size_t      start;
+    size_t      len;
+}   t_varinfo;
 
 
-t_ast *parse_subshell(t_token **tokens, const char *input);
-t_ast *parse_command(t_token **tokens, const char *input);
-t_ast *parse_pipeline(t_token **tokens, const char *input);
-t_ast *parse_logical_expression(t_token **tokens, const char *input);
-t_ast *parse_tokens(t_token **tokens, const char *input);
-int handle_redirection(t_redir **redirs, t_token **tokens, const char *input);
-int parse_args(t_command *command, t_token **tokens);
-int is_redir_token(t_token_type type);
+t_ast *parse_pipe(t_parser *parser, char *input);
+t_ast *parse_cmd(t_parser *parser, char *input);
+t_ast *parse_conditional(t_parser *parser, t_ast *left, char *input);
+t_ast *parse_subshell(t_parser *parser, char *input);
+t_command *parse_simple_cmd(t_parser *parser, char *input);
+t_redir *parse_io_redirect(t_parser *parser, char *input);
+t_ast *parse(t_token *tokens, char *input);
+void free_ast(t_ast *ast);
+
+int	execute_ast(t_ast *ast, t_minishell *shell);
 
 
 
