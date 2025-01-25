@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/25 12:04:24 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/26 00:05:24 by herandri         ###   ########.fr       */
+/*   Created: 2024/10/31 09:21:52 by miaandri          #+#    #+#             */
+/*   Updated: 2024/12/22 21:18:54 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../minishell.h"
+#include "minishell.h"
 
 static int	is_valid_identifier(const char *str)
 {
