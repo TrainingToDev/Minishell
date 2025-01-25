@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   etape1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:21:30 by herandri          #+#    #+#             */
-/*   Updated: 2025/01/25 10:00:40 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/01/25 10:25:34 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "min.h"
 
-// Gestion de l'argument du programme
+// Gestion de l'argument du programme   ok
 int	check_args(int argc, char **argv)
 {
 	if (argc > 1)
@@ -27,7 +27,7 @@ int	check_args(int argc, char **argv)
 	}
 	return (EXIT_SUCCESS);
 }
-// Gestion de prompt
+// Gestion de prompt  ok
 
 char	*format_prompt(void)
 {
@@ -57,16 +57,15 @@ char	*format_prompt(void)
 }
 
 
-
+// free token
 void    free_token(t_token *token)
 {
 	if (!token)
 		return ;
 	if (token->value)
 	{
-		// printf("LOG: Freeing token value: %s\n", token->value);
 		free(token->value);
-		token->value = NULL; // add
+		token->value = NULL;
 	}
 	free(token);
 	token = NULL;
@@ -79,17 +78,14 @@ void	free_token_list(t_token *tokens)
 	while (tokens)
 	{
 		tmp = tokens->next;
-		// printf("LOG: Freeing token with value: %s\n", tokens->value);
-		
 		free_token(tokens);
 		tokens = tmp;
 	}
-	// printf("LOG: All tokens freed.\n"); // LOG: Fin de la liste
 }
 
 
 // signal
-// Mode: read, write
+// Mode: read, write  ok
 
 int	status_manager(int new_status, int mode)
 {
@@ -102,7 +98,7 @@ int	status_manager(int new_status, int mode)
 	return (status);
 }
 
-//error message
+//error message  ok
 char *get_error_msg(int err_type)
 {
 	// Syntax errors
@@ -140,7 +136,7 @@ char *get_error_msg(int err_type)
 }
 
 
-
+//ok
 void	*print_error(int err_type, char *param, int err)
 {
 	char *error_message;
@@ -174,7 +170,7 @@ void	*print_error(int err_type, char *param, int err)
 
 
 
-// Gestion des signaux
+// Gestion des signaux ok
 
 // configuration
 static void	setup_signal(int signum, void (*signal_handler)(int))
@@ -252,22 +248,22 @@ void	main_heredoc(void)
 
 
 
-void	handle_eof(void)
-{
-	ft_putstr_fd("Exiting minishell. Goodbye!\n", 1);
-	exit(EXIT_SUCCESS);
-}
+// void	handle_eof(void)
+// {
+// 	ft_putstr_fd("Exiting minishell. Goodbye!\n", 1);
+// 	exit(EXIT_SUCCESS);
+// }
 
 
 
-void    display_error(const char *message)
-{
-	if (!message)
-		return ;
-	write(STDERR_FILENO, "Error: ", 7);
-	write(STDERR_FILENO, message, strlen(message));
-	write(STDERR_FILENO, "\n", 1);
-}
+// void    display_error(const char *message)
+// {
+// 	if (!message)
+// 		return ;
+// 	write(STDERR_FILENO, "Error: ", 7);
+// 	write(STDERR_FILENO, message, strlen(message));
+// 	write(STDERR_FILENO, "\n", 1);
+// }
 
 
 // environment utils
@@ -405,7 +401,7 @@ t_env_var *convert_envp_to_list(char **envp)
 
 
 
-t_token *create_token(t_token_type type, const char *value, int expand)
+t_token *create_token(t_token_type type, const char *value, int expand) //ok
 {
 	t_token *new_token;
 
@@ -428,7 +424,7 @@ t_token *create_token(t_token_type type, const char *value, int expand)
 }
 
 
-void	add_token(t_token **tokens, t_token *new_token)
+void	add_token(t_token **tokens, t_token *new_token) //ok
 {
 	t_token	*current;
 
@@ -458,19 +454,19 @@ void	add_token(t_token **tokens, t_token *new_token)
 }
 
 
-int	is_quote(char c)
+int	is_quote(char c) //ok
 {
 	return (c == '\'' || c == '\"');
 }
 
-int	ft_isspace(int c)
+int	ft_isspace(int c) //libft ok
 {
 	return ((c >= 9 && c <= 13) || c == ' ');
 }
 
 
 
-t_token_type get_op_token(const char *op)
+t_token_type get_op_token(const char *op) //ok
 {
 	if (ft_strncmp(op, ">|", 2) == 0)
 		return (TOKEN_REDIRECT_OUT); // Ajoute le type pour `>|`
@@ -497,7 +493,7 @@ t_token_type get_op_token(const char *op)
 }
 
 //utils
-int	is_operator(const char *str)
+int	is_operator(const char *str) //ok
 {
 	static const char	*double_operators[] = { 
 		"&&", "||", ">>", "<<", ">|", NULL
@@ -519,7 +515,7 @@ int	is_operator(const char *str)
 	return (0);
 }
 
-//* manage operator */
+//* manage operator */ ok
 
 static char *extract_operator_value(char *input, size_t *i, int *op_len)
 {
@@ -556,7 +552,7 @@ void add_operator_token(t_token **tokens, char *input, size_t *i)
 
 
 
-//manage quote
+//manage quote //ok
 char *extract_quoted_value(char *input, size_t *i, int *expand)
 {
 	size_t	start;
@@ -675,7 +671,7 @@ char	*extract_word_value(char *input, size_t *i, int *expand)
 /******* ok*/
 
 // tokenisation
-void add_word_token(t_token **tokens, char *input, size_t *i)
+void add_word_token(t_token **tokens, char *input, size_t *i) //ok
 {
 	char	*value;
 	t_token	*new_token;
@@ -711,7 +707,7 @@ void add_word_token(t_token **tokens, char *input, size_t *i)
 
 // redirection not supported!!!
 
-int consecutive_redir_in(const char *input)
+int consecutive_redir_in(const char *input) //ok
 {
     size_t	count;
 
@@ -736,7 +732,7 @@ int consecutive_redir_in(const char *input)
     return (0);
 }
 
-int	unsupported_redirs(const char *input)
+int	unsupported_redirs(const char *input) //ok
 {
     int					i;
 	int					len;
@@ -758,7 +754,7 @@ int	unsupported_redirs(const char *input)
     return (0);
 }
 
-int	is_unsup_simple_redir(const char *input)
+int	is_unsup_simple_redir(const char *input) //ok
 {
 	if (consecutive_redir_in(input))
 		return (1);
@@ -767,7 +763,7 @@ int	is_unsup_simple_redir(const char *input)
 	return (0);
 }
 
-int	is_unsup_output_redir(const char *input)
+int	is_unsup_output_redir(const char *input) //ok
 {
 	if (isdigit(input[0]) && input[1] == '>')
 	{
@@ -787,7 +783,7 @@ int	is_unsup_output_redir(const char *input)
 	return (0);
 }
 
-int is_unsup_input_redir(const char *input)
+int is_unsup_input_redir(const char *input) //ok
 {
 	if (isdigit(input[0]) && input[1] == '<')
 	{
@@ -808,7 +804,7 @@ int is_unsup_input_redir(const char *input)
 }
 
 
-int is_unsup_descriptor_redir(const char *input)
+int is_unsup_descriptor_redir(const char *input) //ok
 {
 	if (is_unsup_output_redir(input))
 		return (1);
@@ -818,7 +814,7 @@ int is_unsup_descriptor_redir(const char *input)
 }
 
 
-t_token_type invalid_redir(const char *input)
+t_token_type invalid_redir(const char *input) //ok
 {
 	if (is_unsup_simple_redir(input))
 		return (TOKEN_UNKNOWN);
@@ -830,7 +826,7 @@ t_token_type invalid_redir(const char *input)
 
 // validation
 
-int check_tokens_validity(t_token *tokens)
+int check_tokens_validity(t_token *tokens) //ok
 {
 	while (tokens)
 	{
@@ -846,17 +842,17 @@ int check_tokens_validity(t_token *tokens)
 
 // valid operator
 
-int is_logical_op(t_token_type type)
+int is_logical_op(t_token_type type) //ok
 {
 	return (type == TOKEN_AND || type == TOKEN_OR);
 }
 
-int is_pipe_op(t_token_type type)
+int is_pipe_op(t_token_type type) //ok
 {
 	return (type == TOKEN_PIPE);
 }
 
-int validate_operator(t_token *prev, t_token *current)
+int validate_operator(t_token *prev, t_token *current) //ok
 {
 	if (is_pipe_op(current->type) || is_logical_op(current->type))
 	{
@@ -877,7 +873,7 @@ int validate_operator(t_token *prev, t_token *current)
 	return (1);
 }
 
-int check_operators(t_token *tokens)
+int check_operators(t_token *tokens) //ok
 {
 	t_token *prev = NULL;
 
@@ -893,9 +889,8 @@ int check_operators(t_token *tokens)
 
 
 //valid redir
-int valid_general_redir(t_token *token)
+int valid_general_redir(t_token *token) //ok
 {
-	// printf("pppp\n");
 	if (!token->next)
 	{
 		print_error(E_SYNTAX, "newline", 2);
@@ -918,7 +913,7 @@ int valid_general_redir(t_token *token)
 	return (1);
 }
 
-int validate_force_overwrite(t_token *token)
+int validate_force_overwrite(t_token *token) //ok
 {
 	if (ft_strncmp(token->value, ">|", 2) == 0)
 	{
@@ -931,20 +926,20 @@ int validate_force_overwrite(t_token *token)
 	return (1);
 }
 
-int validate_redirect_rw(t_token *token)
-{
-    if (ft_strncmp(token->value, "<>", 2) == 0)
-	{
-		if (!token->next || token->next->type != TOKEN_WORD)
-		{
-			print_error(E_SYNTAX, "newline", 2);
-			return (0);
-		}
-	}
-    return (1);
-}
+// int validate_redirect_rw(t_token *token)
+// {
+//     if (ft_strncmp(token->value, "<>", 2) == 0)
+// 	{
+// 		if (!token->next || token->next->type != TOKEN_WORD)
+// 		{
+// 			print_error(E_SYNTAX, "newline", 2);
+// 			return (0);
+// 		}
+// 	}
+//     return (1);
+// }
 
-int check_redirections(t_token *tokens)
+int check_redirections(t_token *tokens) //ok
 {
 	while (tokens)
 	{
@@ -969,7 +964,7 @@ int check_redirections(t_token *tokens)
 
 //ok
 
-static int process_substitution(t_token *token)
+static int process_substitution(t_token *token) // ok
 {
 	if (token->type == TOKEN_WORD && token->value && 
 		token->value[0] == '$' && token->next && token->next->type == TOKEN_LPAREN)
@@ -983,7 +978,7 @@ static int process_substitution(t_token *token)
 	return (1);
 }
 
-static int open_parenthesis(t_token *token, int *count)
+static int open_parenthesis(t_token *token, int *count) //ok
 {
     (*count)++;
     if (token->next && token->next->type == TOKEN_RPAREN)
@@ -994,7 +989,7 @@ static int open_parenthesis(t_token *token, int *count)
     return (1);
 }
 
-static int close_parenthesis(t_token *token, int *count)
+static int close_parenthesis(t_token *token, int *count) //ok
 {
     (*count)--;
     if (token->next && token->next->type == TOKEN_LPAREN)
@@ -1011,7 +1006,7 @@ static int close_parenthesis(t_token *token, int *count)
 }
 
 
-static int process_parenthesis(t_token *token, int *count)
+static int process_parenthesis(t_token *token, int *count) //ok
 {
     if (!process_substitution(token))
         return (0);
@@ -1026,7 +1021,7 @@ static int process_parenthesis(t_token *token, int *count)
 }
 
 
-static int validate_parenthesis_count(t_token *tokens, int *count)
+static int validate_parenthesis_count(t_token *tokens, int *count) //ok
 {
 	while (tokens)
 	{
@@ -1043,7 +1038,7 @@ static int validate_parenthesis_count(t_token *tokens, int *count)
 }
 
 
-static t_token *find_matching_rparen(t_token *start)
+static t_token *find_matching_rparen(t_token *start) //ok
 {
     t_token *it;
 
@@ -1057,7 +1052,7 @@ static t_token *find_matching_rparen(t_token *start)
     return (NULL);
 }
 
-static t_token *get_disallowed(t_token *tokens)
+static t_token *get_disallowed(t_token *tokens) //ok
 {
     t_token	*cur;
     t_token *closing;
@@ -1083,7 +1078,7 @@ static t_token *get_disallowed(t_token *tokens)
     return (NULL);
 }
 
-static int is_disallowed(t_token *tokens)
+static int is_disallowed(t_token *tokens) //ok
 {
     t_token	*bad_token;
 
@@ -1096,7 +1091,7 @@ static int is_disallowed(t_token *tokens)
     return (0);
 }
 
-int check_parentheses(t_token *tokens)
+int check_parentheses(t_token *tokens) //ok
 {
 	int count;
 
@@ -1108,7 +1103,7 @@ int check_parentheses(t_token *tokens)
 	return (1);
 }
 
-int validate_syntax(t_token *tokens)
+int validate_syntax(t_token *tokens) //ok
 {
 	if (!tokens)
 		return (0);
@@ -1128,7 +1123,7 @@ int validate_syntax(t_token *tokens)
 //******************************* */
 //lexer
 
-static t_token	*tokenize_input(char *input)
+static t_token	*tokenize_input(char *input) //ok
 {
 	t_token	*tokens;
 	size_t	i;
@@ -1154,7 +1149,7 @@ static t_token	*tokenize_input(char *input)
 	return (tokens);
 }
 
-static int validate_tokens(t_token *tokens)
+static int validate_tokens(t_token *tokens) //ok
 {
 	if (!tokens)
 		return (0);
@@ -1163,7 +1158,7 @@ static int validate_tokens(t_token *tokens)
 	return (1);
 }
 
-static int is_double_parentheses_case(const char *input)
+static int is_double_parentheses_case(const char *input) //ok
 {
 	if (input[0] == '(' && input[1] == '(')
     {
@@ -1187,7 +1182,7 @@ static int is_double_parentheses_case(const char *input)
 	return (0);
 }
 
-static int special_cases(char *input)
+static int special_cases(char *input) //ok
 {
     while (*input && ft_isspace(*input))
         input++;
@@ -1301,9 +1296,6 @@ int is_single_quoted(const char *str)
     len = ft_strlen(str);
     return (len >= 2 && str[0] == '\'' && str[len - 1] == '\'');
 }
-
-
-
 
 
 //expander ok
@@ -1691,7 +1683,7 @@ void	process_heredoc(const t_token *tokens, const char *input)
 
 
 
-const char *get_token_type_name(t_token_type type)
+const char *get_token_type_name(t_token_type type) //ok
 {
 	if (type == TOKEN_WORD)
 		return ("TOKEN_WORD");
@@ -1721,7 +1713,7 @@ const char *get_token_type_name(t_token_type type)
 
 
 
-void	print_tokens(t_token *tokens)
+void	print_tokens(t_token *tokens) //ok
 {
 	t_token	*current;
 
@@ -3679,7 +3671,6 @@ static int check_executable_path(char *path)
 // }
 
 //no cmd
-
 static int check_cmd(t_command *command)
 {
     t_redir	*redir;
@@ -3813,6 +3804,7 @@ static int execute_external_cmd(t_command *command, t_minishell *shell)
 	result = prepare_external_command(command, shell, &path);
     if (result != 0)
         return result;
+
     result = process_extern(path, command, shell);
     free(path);
     return (result);
