@@ -6,11 +6,50 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:10:52 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 09:26:54 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/01/25 15:41:37 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../minishell.h"
+
+static int execute_subshell(t_ast *ast, t_minishell *shell)
+{
+    pid_t pid;
+
+    if (!validate_subshell_node(ast))
+        return (1);
+
+    pid = create_subshell_process(ast, shell);
+    if (pid == -1)
+        return (1);
+    return (wait_for_subshell(pid, shell));
+}
+
+static int execute_pipeline(t_ast *ast, t_minishell *shell)
+{
+	int pipefd[2];
+	pid_t pid_left;
+	pid_t pid_right;
+
+    if (!ast || ast->type != NODE_PIPE)
+        return (execute_ast(ast, shell));
+    if (init_pipe(pipefd) != 0)
+        return (1);
+    pid_left = fork_and_exec_left(ast->left, pipefd, shell);
+    if (pid_left < 0)
+	{
+        close_pipe_descriptors(pipefd);
+        return (1);
+    }
+    pid_right = fork_and_exec_right(ast->right, pipefd, shell);
+    if (pid_right < 0)
+	{
+        close_pipe_descriptors(pipefd);
+        return (1);
+    }
+    close_pipe_descriptors(pipefd);
+    return (wait_for_children(pid_left, pid_right, shell));
+}
 
 static int execute_command(t_command *command, t_minishell *shell)//execute cmd
 {

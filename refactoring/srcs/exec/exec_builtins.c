@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:03:35 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 10:22:47 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/01/25 12:51:03 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 static int execute_builtin(t_minishell *shell, char **args)
 {
 	if (ft_strcmp(args[0], "echo") == 0)
-		return builtin_echo(shell, args);
+		return echo(shell, args);
 	else if (ft_strcmp(args[0], "cd") == 0)
-		return builtin_cd(shell, args);
+		return cd(shell, args);
 	else if (ft_strcmp(args[0], "pwd") == 0)
-		return builtin_pwd(shell, args);
+		return pwd(shell, args);
 	else if (ft_strcmp(args[0], "export") == 0)
-		return builtin_export(shell, args);
+		return export(shell, args);
 	else if (ft_strcmp(args[0], "unset") == 0)
-		return builtin_unset(shell, args);
+		return unset(shell, args);
 	else if (ft_strcmp(args[0], "env") == 0)
-		return builtin_env(shell, args);
+		return env(shell, args);
 	else if (ft_strcmp(args[0], "exit") == 0)
-		return builtin_exit(shell, args);
+		return ft_exit(shell, args);
 	return (-1);
 }
 
@@ -49,7 +49,7 @@ int is_builtin(const char *cmd_name)
 		return (1);
 	return (0);
 }
-int execute_builtin_cmd(t_command *command, t_minishell *shell)
+int execute_builtin_cmd(t_command *command, t_minishell *shell)//get_off fork
 {
     pid_t	pid;
 
