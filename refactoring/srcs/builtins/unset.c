@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:35:52 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 12:47:59 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/01/26 00:01:33 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

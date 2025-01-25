@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananarivo.mg>  #+#  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024-11-04 08:15:29 by miaandri          #+#    #+#             */
-/*   Updated: 2024-11-04 08:15:29 by miaandri         ###   ########.fr       */
+/*   Created: 2024/11/04 08:15:29 by miaandri          #+#    #+#             */
+/*   Updated: 2025/01/26 00:03:51 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

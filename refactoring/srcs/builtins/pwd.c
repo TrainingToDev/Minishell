@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 19:04:20 by miaandri          #+#    #+#             */
-/*   Updated: 2024/11/03 11:34:22 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/01/26 00:04:36 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
