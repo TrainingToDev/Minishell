@@ -14,22 +14,24 @@ UTILS_DIR = $(SRC_DIR)/utils
 FREE_DIR = $(SRC_DIR)/free
 LIBFT_DIR = libft/libft.a
 
+
+#lexer
 SRC_FILES = $(SRC_DIR)/main.c \
-			$(FREE_DIR)/free_content.c  \
-			$(FREE_DIR)/free_token.c  \
-			$(LEXER_DIR)/check_token.c  \
-			$(LEXER_DIR)/check_word.c  \
-			$(LEXER_DIR)/content_multiline.c  \
-			$(LEXER_DIR)/get_multiline_heredoc.c  \
-			$(LEXER_DIR)/init_token.c  \
-			$(LEXER_DIR)/lexer.c  \
-			$(LEXER_DIR)/manage_tokens.c  \
-			$(LEXER_DIR)/print_debug.c  \
-			$(LEXER_DIR)/unsup_redir.c  \
-			$(LEXER_DIR)/valid_operator.c  \
-			$(LEXER_DIR)/valid_para.c  \
-			$(LEXER_DIR)/valid_redir.c  \
-			$(LEXER_DIR)/valid_tokens.c  \
+			$(FREE_DIR)/lexer.c  \
+			$(FREE_DIR)/token_operator.c  \
+			$(LEXER_DIR)/token_word.c  \
+			$(LEXER_DIR)/check_operators.c  \
+			$(LEXER_DIR)/check_parentheses.c  \
+			$(LEXER_DIR)/check_redirection.c  \
+			$(LEXER_DIR)/check_syntax.c  \
+			$(LEXER_DIR)/invalid_redir.c  \
+			$(LEXER_DIR)/utils_invalid.c  \
+			$(LEXER_DIR)/utils_paren.c  \
+			$(LEXER_DIR)/utils_token.c  \
+			$(LEXER_DIR)/utils_word.c  \
+			$(LEXER_DIR)/free_tokens.c  \
+			$(LEXER_DIR)/print_tokens.c  \
+			
 			$(UTILS_DIR)/check_args.c  \
 			$(UTILS_DIR)/error.c  \
 			$(UTILS_DIR)/prompt.c  \
