@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:21:30 by herandri          #+#    #+#             */
-/*   Updated: 2025/01/25 10:25:34 by herandri         ###   ########.fr       */
+/*   Updated: 2025/01/25 11:04:17 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,7 @@ void	main_heredoc(void)
 
 // environment utils
 
-void print_env_list(t_env_var *env_list)
+void print_env_list(t_env_var *env_list) //ok
 {
 	t_env_var	*current;
 
@@ -280,7 +280,7 @@ void print_env_list(t_env_var *env_list)
 	}
 }
 
-void free_env_list(t_env_var *env_list)
+void free_env_list(t_env_var *env_list) //ok
 {
 	t_env_var	*current;
 	t_env_var	*next;
@@ -300,7 +300,7 @@ void free_env_list(t_env_var *env_list)
 
 //environnement
 
-int	assign_key_value(t_env_var *env_var, const char *input_env)
+int	assign_key_value(t_env_var *env_var, const char *input_env) //ok
 {
     char	*sep;
 
@@ -326,7 +326,7 @@ int	assign_key_value(t_env_var *env_var, const char *input_env)
     return (0);
 }
 
-void	free_env_var(t_env_var *env_var)
+void	free_env_var(t_env_var *env_var) //ok
 {
     if (env_var)
     {
@@ -336,7 +336,7 @@ void	free_env_var(t_env_var *env_var)
     }
 }
 
-t_env_var	*create_env_var(const char *input_env)
+t_env_var	*create_env_var(const char *input_env) //ok
 {
     t_env_var	*env_var;
 
@@ -353,7 +353,7 @@ t_env_var	*create_env_var(const char *input_env)
 }
 
 // add_back
-void add_env_var(t_env_var **env_list, t_env_var *new_var)
+void add_env_var(t_env_var **env_list, t_env_var *new_var) //ok
 {
 	t_env_var	*current;
 
@@ -371,7 +371,7 @@ void add_env_var(t_env_var **env_list, t_env_var *new_var)
 	}
 }
 
-t_env_var *convert_envp_to_list(char **envp)
+t_env_var *convert_envp_to_list(char **envp) //ok
 {
     t_env_var   *env_list;
     t_env_var   *new_var;
@@ -579,7 +579,7 @@ char *extract_quoted_value(char *input, size_t *i, int *expand)
 
 
 /******* */
-char	*join_and_free(char *value, char *part)
+char	*join_and_free(char *value, char *part) //ok
 {
 	char	*tmp;
 
@@ -591,7 +591,7 @@ char	*join_and_free(char *value, char *part)
 	return (tmp);
 }
 
-char	*extract_part(char *input, size_t *i)
+char	*extract_part(char *input, size_t *i) //ok
 {
 	size_t	start;
 
@@ -603,7 +603,7 @@ char	*extract_part(char *input, size_t *i)
 	return (ft_substr(input, start, *i - start));
 }
 
-char	*quoted_part(char *input, size_t *i, int *expand, char *value)
+char	*quoted_part(char *input, size_t *i, int *expand, char *value) //ok
 {
 	char *part;
 	char *tmp;
@@ -621,7 +621,7 @@ char	*quoted_part(char *input, size_t *i, int *expand, char *value)
 	return (tmp);
 }
 
-char	*process_input(char *input, size_t *i, int *expand, char *value)
+char	*process_input(char *input, size_t *i, int *expand, char *value) //ok
 {
 	char	*part;
 
@@ -651,7 +651,7 @@ char	*process_input(char *input, size_t *i, int *expand, char *value)
 }
 
 
-char	*extract_word_value(char *input, size_t *i, int *expand)
+char	*extract_word_value(char *input, size_t *i, int *expand) //ok
 {
 	char	*value;
 
@@ -1481,7 +1481,7 @@ void expand_token_list(t_token *tokens, t_minishell *shell)
 
 
 
-//content heredoc
+//content heredoc  // OK
 
 
 void free_split(char **split)
