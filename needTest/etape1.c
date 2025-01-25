@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:21:30 by herandri          #+#    #+#             */
-/*   Updated: 2025/01/09 18:11:41 by herandri         ###   ########.fr       */
+/*   Updated: 2025/01/25 05:27:06 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2529,7 +2529,21 @@ void print_ast(t_ast *ast, int depth)
 
 // cd ok
 
-char	*get_env_value(const char *key, t_env_var *env_list)
+// char	*get_env_value(const char *key, t_env_var *env_list)
+// {
+// 	t_env_var	*current;
+
+// 	current = env_list;
+// 	while (current)
+// 	{
+// 		if (ft_strcmp(current->key, key) == 0)
+// 			return (ft_strdup(current->value));
+// 		current = current->next;
+// 	}
+// 	return (NULL);
+// }
+
+char	*get_env_cd(const char *key, t_env_var *env_list)
 {
 	t_env_var	*current;
 
@@ -2537,7 +2551,7 @@ char	*get_env_value(const char *key, t_env_var *env_list)
 	while (current)
 	{
 		if (ft_strcmp(current->key, key) == 0)
-			return (ft_strdup(current->value));
+			return (current->value);
 		current = current->next;
 	}
 	return (NULL);
@@ -2629,12 +2643,12 @@ static void update_env_pwd(t_minishell *shell)
     char	*oldpwd_value;
     char	*newpwd_value;
 
-	oldpwd_value = get_env_value("PWD", shell->env_list);
+	oldpwd_value = get_env_cd("PWD", shell->env_list);
 	newpwd_value = getcwd(NULL, 0);
 	if (oldpwd_value)
 	{
 		set_env_value(&shell->env_list, "OLDPWD", oldpwd_value);
-		free(oldpwd_value);
+		// free(oldpwd_value);
 	}
 	if (newpwd_value)
 	{
@@ -2653,7 +2667,7 @@ static char	*get_cd_path(t_minishell *shell, char **args)
 	home = NULL;
 	if (!args[1])
 	{
-		home = get_env_value("HOME", shell->env_list);
+		home = get_env_cd("HOME", shell->env_list);
 		if (!home)
 		{
 			fprintf(stderr, "cd: HOME not set\n");
@@ -2708,7 +2722,6 @@ int	builtin_cd(t_minishell *shell, char **args)
 	char	*path;
 	int		duplicate_path;
 
-	printf("check------------------>\n");
 	duplicate_path = !args[1];
 	path = get_cd_path(shell, args);
 	if (!path)
@@ -3150,6 +3163,19 @@ int is_builtin(const char *cmd_name)
 // utils
 
 //get_env_value
+char	*get_env_value(const char *key, t_env_var *env_list)
+{
+	t_env_var	*current;
+
+	current = env_list;
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+			return (ft_strdup(current->value));
+		current = current->next;
+	}
+	return (NULL);
+}
 
 void	free_str_array(char **array)
 {
@@ -3688,6 +3714,10 @@ static int execute_builtin_cmd(t_command *command, t_minishell *shell)
 {
     pid_t	pid;
 
+	if (is_builtin(command->argv[0]))
+	{
+		return (execute_builtin(shell, command->argv));
+	}
 	pid = fork();
     if (pid == 0)
 	{
@@ -4126,8 +4156,8 @@ int	execute_ast(t_ast *ast, t_minishell *shell)
 
 
 
-// gcc -Wall -Wextra etape1.c ../libft/libft.a -lreadline
-// gcc -g -Wall -Wextra etape1.c ../libft/libft.a -lreadline
+// gcc -Wall -Wextra etape1.c libft.a -lreadline
+// gcc -g -Wall -Wextra etape1.c libft.a -lreadline
 // valgrind --leak-check=full ./a.out
 
 
