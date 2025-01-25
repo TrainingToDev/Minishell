@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   etape1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:21:30 by herandri          #+#    #+#             */
-/*   Updated: 2025/01/25 05:27:06 by herandri         ###   ########.fr       */
+/*   Updated: 2025/01/25 10:00:40 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -3679,6 +3679,7 @@ static int check_executable_path(char *path)
 // }
 
 //no cmd
+
 static int check_cmd(t_command *command)
 {
     t_redir	*redir;
@@ -3812,7 +3813,6 @@ static int execute_external_cmd(t_command *command, t_minishell *shell)
 	result = prepare_external_command(command, shell, &path);
     if (result != 0)
         return result;
-
     result = process_extern(path, command, shell);
     free(path);
     return (result);
