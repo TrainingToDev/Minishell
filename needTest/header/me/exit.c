@@ -12,68 +12,51 @@
 
 #include "minishell.h"
 
-// first implemetation exit
-
-int is_numeric(const char *str)
+static int is_valid_integer(const char *str, long *result)
 {
-    int i = 0;
+	unsigned long	value;
+	int				sign;
 
-    if (str[0] == '-' || str[0] == '+')
-        i++;
-    while (str[i])
-    {
-        if (!ft_isdigit(str[i]))
-            return (0);
-        i++;
-    }
+	if (!is_valid_format(str, &value, &sign))
+		return (0);
+	*result = sign * (long)value;
+    if (*result > LONG_MAX || *result < LONG_MIN)
+        return (0);
     return (1);
 }
 
-void cleanup_shell(t_minishell *shell)
+static void	cleanup_shell(t_minishell *shell)
 {
-    // free list envp
-    free_env_list(shell->env_list);
-    
-    // free other ressource
-    // ...
+	// free liste var env
+	free_env_list(shell->env_list);
+	rl_clear_history();
+	// ..
 }
 
-int builtin_exit(t_minishell *shell, char **args)
+int ft_exit(t_minishell *shell, char **args)
 {
-    int exit_status;
+    long	exit_status;
 
-    ft_putendl_fd("exit", STDERR_FILENO);
-
+    ft_putendl_fd("exit", STDOUT_FILENO);
     if (!args[1])
-    {
-        // not argument : use status for prec cmd
         exit(shell->last_exit_status);
-    }
-    // not numeric Argument
-    if (!is_numeric(args[1]))
+    if (!is_valid_integer(args[1], &exit_status))
     {
         ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
         ft_putstr_fd(args[1], STDERR_FILENO);
         ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-        exit(2);
+        cleanup_shell(shell);
+        exit(255);
     }
-    // many arguments
     if (args[2])
     {
         ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
         shell->last_exit_status = 1;
         return (1);
     }
-    exit_status = ft_atoi(args[1]) % 256;
+    exit_status = exit_status % 256;
     if (exit_status < 0)
         exit_status += 256;
     cleanup_shell(shell);
-    exit(exit_status);
+    exit((unsigned char)exit_status);
 }
-// be comming for test
-
-//mini-test empty
-/* void exit_cmd(char *input)
-{
-    
-} */

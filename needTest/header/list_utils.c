@@ -12,33 +12,3 @@
 
 #include "minishell.h"
 
-static t_env *last_env(t_env *env)
-{
-    if (!env)
-        return (NULL);
-    while (env->next != NULL)
-        env = env->next;
-    return (env);
-}
-
-void	add_new_env(t_env **lst, t_env *new)
-{
-	if (!lst || !new)
-		return ;
-	if (*lst)
-		last_env(*lst)->next = new;
-	else
-		(*lst) = new;
-}
-int list_size(t_env *env)
-{
-	int i;
-
-	i = 1;
-	while (env->next != NULL)
-	{
-		env = env->next;
-		i++;
-	}
-	return (i);
-}

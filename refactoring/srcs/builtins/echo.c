@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/25 10:50:30 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 12:48:22 by miaandri         ###   ########.fr       */
+/*   Created: 2024/10/31 09:21:52 by miaandri          #+#    #+#             */
+/*   Updated: 2024/11/03 11:58:54 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 static int	print_args(char **args, int start_index, int newline)
 {

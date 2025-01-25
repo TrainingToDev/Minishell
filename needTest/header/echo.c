@@ -12,75 +12,49 @@
 
 #include "minishell.h"
 
-static void print_echo(char *string, int i)//mbola mila zaraina roa de + ilay variable ilay echo + message d'erreur @ ilay cas heredoc iny 
+static int	print_args(char **args, int start_index, int newline)
 {
-    while (string[i])
-    {
-        if (string[i] == ' ' && string[i + 1] != ' ')
-            printf(" ");
-        else if (string[i] == ' ' && string[i + 1] == ' ')
-            ;
-        else if (string[i] == '"')
-        {
-            i++;
-            while(string[i] != '"')
-            {
-                printf("%c", string[i]);
-                i++;
-            }
-        }
-        else if (string[i] == '\'')
-        {
-            i++;
-            while(string[i] != '\'')
-            {
-                printf("%c", string[i]);
-                i++;
-            }
-        }
-        else
-             printf("%c", string[i]);
-        i++;
-    }
+    int	i;
+
+	i = start_index;
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (args[i + 1])
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		i++;
+	}
+	if (newline)
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	return (0);
 }
 
-int    echo_command(t_parse *data)
+static int	parse_options(char **args, int *newline)
 {
-    if (exact_command(data->command, "echo") != 1)
-        return (0);
-    if (exact_command(data->option, "-n") != 1)  
-        return (0);
-    if (data->param == NULL)
-    {
-        free_struct(data);
-        return (1);
-    }
-    else
-    {
-        print_echo(data->param, 0);
-        free_struct(data);
-        return (1);   
-    }
-    return (0);
+	int	i;
+	int	j;
+
+	*newline = 1;
+	i = 1;
+	while (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
+	{
+		j = 2;
+		while (args[i][j] == 'n')
+			j++;
+		if (args[i][j] != '\0')
+			break ;
+		*newline = 0;
+		i++;
+	}
+	return (i);
 }
 
-int echo_without_option(t_parse *data)
+int echo(t_minishell *shell, char **args)
 {
-    if (exact_command(data->command, "echo") != 1)
-        return (0);
-    if (data->param == NULL)
-    {
-        printf("\n");
-        free_struct(data);
-        return (1);
-    }
-    else
-    {
-        print_echo(data->param, 0);
-        printf("\n");
-        free_struct(data);
-        return (1);   
-    }
-    return (0);
-}
+	int	newline;
+	int	start_index;
 
+	(void)shell;
+	start_index = parse_options(args, &newline);
+	return (print_args(args, start_index, newline));
+}

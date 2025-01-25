@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/25 12:34:24 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 12:49:22 by miaandri         ###   ########.fr       */
+/*   Created: 2024/11/02 19:04:20 by miaandri          #+#    #+#             */
+/*   Updated: 2024/11/03 11:34:22 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	pwd(t_minishell *shell, char **args)
 {

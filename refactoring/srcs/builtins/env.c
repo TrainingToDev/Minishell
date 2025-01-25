@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananarivo.mg>  #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/25 12:43:07 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 12:48:29 by miaandri         ###   ########.fr       */
+/*   Created: 2024-11-04 08:15:29 by miaandri          #+#    #+#             */
+/*   Updated: 2024-11-04 08:15:29 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int env(t_minishell *shell, char **args)
 {

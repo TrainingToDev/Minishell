@@ -10,19 +10,5 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
 
-int main(void)
-{
-    int a = 0;
 
-    if(!a)
-    {
-        perror("error");
-    }
-    else
-    {
-        printf("a\n");
-    }
-}

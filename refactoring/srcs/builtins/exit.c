@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   builtins_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/25 11:58:30 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 12:49:00 by miaandri         ###   ########.fr       */
+/*   Created: 2024/11/01 10:42:24 by herandri          #+#    #+#             */
+/*   Updated: 2024/11/12 04:13:23 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 static int is_valid_integer(const char *str, long *result)
 {
