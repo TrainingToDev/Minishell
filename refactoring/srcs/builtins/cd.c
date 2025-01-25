@@ -1,0 +1,86 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/25 12:45:12 by miaandri          #+#    #+#             */
+/*   Updated: 2025/01/25 12:48:10 by miaandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+static int execute_cd(t_minishell *shell, char *path, int duplicate_path)
+{
+	if (chdir(path) == -1)
+	{
+		perror("cd");
+		shell->last_exit_status = 1;
+		if (duplicate_path)
+			free(path);
+		return (1);
+	}
+	update_env_pwd(shell);
+	if (duplicate_path)
+		free(path);
+
+	shell->last_exit_status = 0;
+	return (0);
+}
+
+static int validate_cd_path(t_minishell *shell, char *path, int duplicate_path)
+{
+	if (!path || ft_strlen(path) == 0)
+	{
+		fprintf(stderr, "cd: Invalid path\n");
+		shell->last_exit_status = 1;
+		if (duplicate_path)
+			free(path);
+		return (1);
+	}
+	return (0);
+}
+
+static char	*get_cd_path(t_minishell *shell, char **args)
+{
+	char	*path;
+	char	*home;
+
+	path = NULL;
+	home = NULL;
+	if (!args[1])
+	{
+		home = get_env_cd("HOME", shell->env_list);
+		if (!home)
+		{
+			fprintf(stderr, "cd: HOME not set\n");
+			return (NULL);
+		}
+		path = ft_strdup(home);
+		free(home);
+		if (!path)
+		{
+			fprintf(stderr, "cd: Memory allocation failed\n");
+			return (NULL);
+		}
+	}
+	else
+		path = args[1]; 
+	return (path);
+}
+
+int	cd(t_minishell *shell, char **args)
+{
+	char	*path;
+	int		duplicate_path;
+
+	duplicate_path = !args[1];
+	path = get_cd_path(shell, args);
+	if (!path)
+		return (1);
+	if (validate_cd_path(shell, path, duplicate_path))
+		return (1);
+	return (execute_cd(shell, path, duplicate_path));
+}
