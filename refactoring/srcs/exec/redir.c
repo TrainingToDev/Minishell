@@ -6,11 +6,58 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:31:57 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 09:36:29 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:21:39 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int handle_redir_in(t_redir *current)
+{
+    int	fd;
+
+	fd = open(current->filename, O_RDONLY);
+    if (fd == -1 || dup2(fd, STDIN_FILENO) == -1)
+	{
+        perror(current->filename);
+        if (fd != -1)
+            close(fd);
+        return (-1);
+    }
+    close(fd);
+    return (0);
+}
+
+static int handle_redir_out(t_redir *current)
+{
+    int fd;
+
+	fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
+	{
+        perror(current->filename);
+        if (fd != -1)
+            close(fd);
+        return (-1);
+    }
+    close(fd);
+    return 0;
+}
+
+static int handle_redir_append(t_redir *current)
+{
+    int fd;
+
+	fd = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1) {
+        perror(current->filename);
+        if (fd != -1)
+            close(fd);
+        return -1;
+    }
+    close(fd);
+    return 0;
+}
 
 static int apply(t_redir *redirs, t_minishell *shell)
 {
