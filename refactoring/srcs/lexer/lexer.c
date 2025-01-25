@@ -1,40 +1,10 @@
 #include "minishell.h"
 
-static char	*extract_operator_value(char *input, size_t *i, int *op_len)
-{
-	*op_len = is_operator(&input[*i]);
-	if (*op_len == 0)
-	{
-		print_error(E_SYNTAX, &input[*i], 10);
-		return (NULL);
-	}
-	return (ft_substr(input, *i, *op_len));
-}
-
-static void	add_operator_token(t_token **tokens, char *input, size_t *i)
-{
-	int		op_len;
-	char	*value;
-	t_token	*new_token;
-
-	value = extract_operator_value(input, i, &op_len);
-	if (!value)
-		return ;
-	new_token = create_token(get_op_token(&input[*i]), value, 0);
-	free(value);
-	if (!new_token)
-		return ;
-	add_token(tokens, new_token);
-	*i += op_len;
-}
-
 static t_token	*tokenize_input(char *input)
 {
 	t_token	*tokens;
 	size_t	i;
 
-	if (!input)
-		return (NULL);
 	tokens = NULL;
 	i = 0;
 	while (input[i] && input[i] != '\n')
@@ -56,19 +26,61 @@ static t_token	*tokenize_input(char *input)
 	return (tokens);
 }
 
-static int	validate_tokens(t_token *tokens)
+static int validate_tokens(t_token *tokens)
 {
-	if (!validate_syntax(tokens))
-		return (0);
 	if (!tokens)
+		return (0);
+	if (!validate_syntax(tokens))
 		return (0);
 	return (1);
 }
 
-t_token	*lexer(char *input)
+static int is_double_parentheses_case(const char *input)
+{
+	if (input[0] == '(' && input[1] == '(')
+    {
+        const char	*closing;
+		const char	*content;
+    
+        closing = input + 2;
+        while (*closing && *closing != ')')
+            closing++;
+        if (*closing == ')' && *(closing + 1) == ')')
+        {
+            content = input + 2;
+            while (content < closing)
+            {
+                if (!ft_isspace(*content))
+                    return (1);
+                content++;
+            }
+        }
+    }
+	return (0);
+}
+
+static int special_cases(char *input)
+{
+    while (*input && ft_isspace(*input))
+        input++;
+    if (*input == '\0')
+        return (1);
+    if ((input[0] == ':' || input[0] == '!')
+		&& (input[1] == '\0' || input[1] == ' '))
+			return (1);
+	if (is_double_parentheses_case(input))
+        return (1);
+    return (0);
+}
+
+t_token *lexer(char *input)
 {
 	t_token	*tokens;
 
+	if (!input || *input == '\0')
+		return (NULL);
+	if (special_cases(input))
+		return (NULL);
 	tokens = tokenize_input(input);
 	if (!tokens)
 		return (NULL);
