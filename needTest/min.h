@@ -1,7 +1,7 @@
 #ifndef MIN_H
 # define MIN_H
 
-# include "../libft/libft.h"
+# include "../test_me/libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
