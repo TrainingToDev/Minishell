@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:21:30 by herandri          #+#    #+#             */
-/*   Updated: 2025/01/25 11:04:17 by herandri         ###   ########.fr       */
+/*   Updated: 2025/01/25 12:42:31 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1793,7 +1793,7 @@ void free_ast(t_ast *node)
 
 // goto token
 
-static t_token	*parser_advance(t_parser *parser)
+static t_token	*parser_advance(t_parser *parser) //ok
 {
 	t_token	*current;
 
@@ -1805,14 +1805,14 @@ static t_token	*parser_advance(t_parser *parser)
 
 // check one token
 
-static int	is_token(t_parser *parser, t_token_type type)
+static int	is_token(t_parser *parser, t_token_type type) //ok
 {
     return (parser->current && parser->current->type == type);
 }
 
 // update quote
 
-static size_t	process_quotes(const char *value, char *result, size_t i, size_t *j)
+static size_t	process_quotes(const char *value, char *result, size_t i, size_t *j) //ok
 {
     char	quote;
 
@@ -1825,7 +1825,7 @@ static size_t	process_quotes(const char *value, char *result, size_t i, size_t *
 	return (i);
 }
 
-static char	*clean_quotes(const char *value)
+static char	*clean_quotes(const char *value) //ok
 {
 	char	*result;
 	size_t	i;
@@ -1857,7 +1857,7 @@ static char	*clean_quotes(const char *value)
 
 // create node
 
-t_ast	*create_ast_node(t_node_type type)
+t_ast	*create_ast_node(t_node_type type) //ok
 {
     t_ast	*node;
 
@@ -1919,7 +1919,7 @@ void free_ast(t_ast *node)
 //1 Liste principale
 
 // refactorized [main list]
-t_ast	*parse_init_pipe(t_parser *parser, char *input)
+t_ast	*parse_init_pipe(t_parser *parser, char *input) //ok
 {
 	t_ast	*node_pipe;
 
@@ -1932,7 +1932,7 @@ t_ast	*parse_init_pipe(t_parser *parser, char *input)
 	return (node_pipe);
 }
 
-t_ast	*parse_op(t_token_type operator, t_ast *left, t_ast *right)
+t_ast	*parse_op(t_token_type operator, t_ast *left, t_ast *right) //ok
 {
 	t_ast	*logic_node;
 
@@ -1942,7 +1942,7 @@ t_ast	*parse_op(t_token_type operator, t_ast *left, t_ast *right)
 		logic_node = create_ast_node(NODE_OR);
 	if (!logic_node)
 	{
-		perror("Failed to create AST node for conditional operator");
+		perror("Failed to create AST node for conditional operator"); //ok
 		free_ast(left);
 		free_ast(right);
 		return (NULL);
@@ -1952,7 +1952,7 @@ t_ast	*parse_op(t_token_type operator, t_ast *left, t_ast *right)
 	return (logic_node);
 }
 
-t_ast	*parse_logical(t_parser *parser, char *input, t_ast *pipe_node)
+t_ast	*parse_logical(t_parser *parser, char *input, t_ast *pipe_node) //ok
 {
 	t_token_type	operator;
 	t_ast			*right;
@@ -1992,7 +1992,7 @@ t_ast	*parse_list(t_parser *parser, char *input)
 
 // 2 refactoring pipe
 
-t_ast	*create_pipe_node(t_ast *cmd, t_ast *next_pipeline)
+t_ast	*create_pipe_node(t_ast *cmd, t_ast *next_pipeline) //ok
 {
 	t_ast	*pipe_node;
 
@@ -2010,7 +2010,7 @@ t_ast	*create_pipe_node(t_ast *cmd, t_ast *next_pipeline)
 	return (pipe_node);
 }
 
-t_ast	*parse_pipe(t_parser *parser, char *input)
+t_ast	*parse_pipe(t_parser *parser, char *input) //ok
 {
 	t_ast	*cmd;
 	t_ast	*next_pipeline;
@@ -2038,7 +2038,7 @@ t_ast	*parse_pipe(t_parser *parser, char *input)
 
 
 // 3 refactory cmd
-t_ast	*create_cmd_node(void)
+t_ast	*create_cmd_node(void) //ok
 {
 	t_ast	*cmd;
 
@@ -2054,7 +2054,7 @@ t_ast	*create_cmd_node(void)
 	return (cmd);
 }
 
-t_ast	*parse_cmd(t_parser *parser, char *input)
+t_ast	*parse_cmd(t_parser *parser, char *input) //ok
 {
 	t_ast	*cmd;
 
@@ -2075,7 +2075,7 @@ t_ast	*parse_cmd(t_parser *parser, char *input)
 
 
 // 4 - refactoring: Simple Command
-static t_command *create_cmd(void)
+static t_command *create_cmd(void) //ok
 {
     t_command	*cmd;
 
@@ -2088,7 +2088,7 @@ static t_command *create_cmd(void)
     return (cmd);
 }
 
-static char **expand_argv(t_command *cmd, char *new_arg)
+static char **expand_argv(t_command *cmd, char *new_arg) //ok
 {
     char **new_argv;
     int   i;
@@ -2108,7 +2108,7 @@ static char **expand_argv(t_command *cmd, char *new_arg)
     return (new_argv);
 }
 
-static int handle_word_token(t_parser *parser, t_command *cmd)
+static int handle_word_token(t_parser *parser, t_command *cmd) //ok
 {
     char	*cleaned_value;
     char	**new_argv;
@@ -2132,7 +2132,7 @@ static int handle_word_token(t_parser *parser, t_command *cmd)
 }
 
 
-static int handle_redirection(t_parser *parser, t_command *cmd, char *input)
+static int handle_redirection(t_parser *parser, t_command *cmd, char *input) //ok
 {
     t_redir	*redir;
 
@@ -2147,7 +2147,7 @@ static int handle_redirection(t_parser *parser, t_command *cmd, char *input)
     return (0);
 }
 
-static int process_token(t_parser *parser, t_command *cmd, char *input)
+static int process_token(t_parser *parser, t_command *cmd, char *input) //ok
 {
     if (is_token(parser, TOKEN_WORD))
     {
@@ -2168,7 +2168,7 @@ static int process_token(t_parser *parser, t_command *cmd, char *input)
 }
 
 
-t_command *parse_simple_cmd(t_parser *parser, char *input)
+t_command *parse_simple_cmd(t_parser *parser, char *input) //ok
 {
     t_command *cmd;
     int        result;
@@ -2195,7 +2195,7 @@ t_command *parse_simple_cmd(t_parser *parser, char *input)
 
 // 5 Redirections [refactor]
 
-t_redir_type convert_token_to_redir_type(t_token_type token_type)
+t_redir_type convert_token_to_redir_type(t_token_type token_type) //ok
 {
 	if (token_type == TOKEN_REDIRECT_IN)
 		return REDIR_IN;
@@ -2208,7 +2208,7 @@ t_redir_type convert_token_to_redir_type(t_token_type token_type)
 	return (REDIR_INVALID);
 }
 
-static t_redir *create_redir(void)
+static t_redir *create_redir(void) //ok
 {
     t_redir	*redir;
 
@@ -2222,7 +2222,7 @@ static t_redir *create_redir(void)
     return (redir);
 }
 
-static int validate_redir_token(t_parser *parser, t_redir *redir)
+static int validate_redir_token(t_parser *parser, t_redir *redir) //ok
 {
     t_token	*redir_token;
 
@@ -2241,7 +2241,7 @@ static int validate_redir_token(t_parser *parser, t_redir *redir)
     return (0);
 }
 
-static int handle_heredoc(t_parser *parser, t_redir *redir, char *input)
+static int handle_heredoc(t_parser *parser, t_redir *redir, char *input) //ok
 {
     printf("Parsing heredoc with delim: %s\n", parser->current->value);
     redir->filename = ft_strdup(parser->current->value);
@@ -2261,7 +2261,7 @@ static int handle_heredoc(t_parser *parser, t_redir *redir, char *input)
     return (0);
 }
 
-static int process_redirection(t_parser *parser, t_redir *redir, char *input)
+static int process_redirection(t_parser *parser, t_redir *redir, char *input) //ok
 {
     if (redir->type == REDIR_HEREDOC)
     {
@@ -2280,7 +2280,7 @@ static int process_redirection(t_parser *parser, t_redir *redir, char *input)
     return (0);
 }
 
-t_redir *parse_io_redirect(t_parser *parser, char *input)
+t_redir *parse_io_redirect(t_parser *parser, char *input) //ok
 {
     t_redir *redir;
 
@@ -2303,7 +2303,7 @@ t_redir *parse_io_redirect(t_parser *parser, char *input)
 
 // 6 Subshell [refactoring]
 
-static int subshell_syntax(t_parser *parser, t_ast **subshell, char *input)
+static int subshell_syntax(t_parser *parser, t_ast **subshell, char *input) //ok
 {
     if (!is_token(parser, TOKEN_LPAREN))
         return (-1);
@@ -2329,7 +2329,7 @@ static int subshell_syntax(t_parser *parser, t_ast **subshell, char *input)
     return (0);
 }
 
-t_ast *parse_subshell(t_parser *parser, char *input)
+t_ast *parse_subshell(t_parser *parser, char *input) //ok
 {
     t_ast	*subshell;
 
@@ -2348,7 +2348,7 @@ t_ast *parse_subshell(t_parser *parser, char *input)
 
 // 7 Conditionnelle [refactoring]
 
-static t_ast *create_logic_node(t_token_type operator, t_ast *left, t_ast *right)
+static t_ast *create_logic_node(t_token_type operator, t_ast *left, t_ast *right) //ok
 {
     t_ast *logic_node;
 
@@ -2364,7 +2364,7 @@ static t_ast *create_logic_node(t_token_type operator, t_ast *left, t_ast *right
     return (logic_node);
 }
 
-t_ast *parse_conditional(t_parser *parser, t_ast *left, char *input)
+t_ast *parse_conditional(t_parser *parser, t_ast *left, char *input) //ok
 {
     t_token_type	operator;
     t_ast			*right;
@@ -2387,7 +2387,7 @@ t_ast *parse_conditional(t_parser *parser, t_ast *left, char *input)
 
 // Entrée principale pour le parsing
 
-t_ast	*parse(t_token *tokens, char *input)
+t_ast	*parse(t_token *tokens, char *input) //ok
 {
     t_parser	parser;
 	t_ast		*root;
@@ -2412,7 +2412,7 @@ t_ast	*parse(t_token *tokens, char *input)
 
 // -------PRINT-------------
 
-void print_indentation(int depth)
+void print_indentation(int depth) //ok
 {
 	int	i;
 
@@ -2424,7 +2424,7 @@ void print_indentation(int depth)
 	}
 }
 
-static void print_node_type(t_ast *ast)
+static void print_node_type(t_ast *ast) //ok
 {
     if (ast->type == NODE_COMMAND)
         printf("NODE_COMMAND: ");
@@ -2440,7 +2440,7 @@ static void print_node_type(t_ast *ast)
         printf("UNKNOWN NODE: ");
 }
 
-static void print_command_args(t_command *command)
+static void print_command_args(t_command *command) //ok
 {
     int i = 0;
 
@@ -2455,7 +2455,7 @@ static void print_command_args(t_command *command)
     printf("]\n");
 }
 
-static void heredoc_content(t_redir *redir, int depth)
+static void heredoc_content(t_redir *redir, int depth) //ok
 {
     size_t j;
 
@@ -2471,7 +2471,7 @@ static void heredoc_content(t_redir *redir, int depth)
     }
 }
 
-static void print_redirections(t_redir *redir, int depth)
+static void print_redirections(t_redir *redir, int depth) //ok
 {
     while (redir)
     {
@@ -2492,7 +2492,7 @@ static void print_redirections(t_redir *redir, int depth)
     }
 }
 
-void print_ast(t_ast *ast, int depth)
+void print_ast(t_ast *ast, int depth) //ok
 {
     if (!ast)
         return;
