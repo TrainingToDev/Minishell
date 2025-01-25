@@ -54,10 +54,14 @@ char	*clean_quotes(const char *value)
 	return (result);
 }
 
+void print_indentation(int depth)
+{
+	int	i;
 
-
-
-
-
-
-
+	i = 0;
+	while (i < depth)
+	{
+		 printf("  ");
+		 i++;
+	}
+}

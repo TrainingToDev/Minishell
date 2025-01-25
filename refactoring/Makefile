@@ -32,8 +32,47 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(LEXER_DIR)/free_tokens.c  \
 			$(LEXER_DIR)/print_tokens.c  \
 
+#expander
+
+
+
+
 #parser
-			
+			$(PARSER_DIR)/free_ast.c\
+			$(PARSER_DIR)/main_cmd.c\
+			$(PARSER_DIR)/main_list.c\
+			$(PARSER_DIR)/node_parser.c\
+			$(PARSER_DIR)/parser_pipe.c\
+			$(PARSER_DIR)/parser_cmd.c\
+			$(PARSER_DIR)/parser_cond.c\
+			$(PARSER_DIR)/parser_operation.c\
+			$(PARSER_DIR)/parser_redir.c\
+			$(PARSER_DIR)/parser_subshell.c\
+			$(PARSER_DIR)/utils_parser.c\
+			$(PARSER_DIR)/parse.c\
+			$(PARSER_DIR)/print_parser.c\
+
+#exec
+
+
+
+
+
+
+#utils
+
+
+
+
+
+
+
+
+
+
+
+
+
 			$(UTILS_DIR)/check_args.c  \
 			$(UTILS_DIR)/error.c  \
 			$(UTILS_DIR)/prompt.c  \
