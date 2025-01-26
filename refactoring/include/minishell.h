@@ -211,7 +211,9 @@ void expand_token_list(t_token *tokens, t_minishell *shell);
 
 
 //parser
+t_token	*parser_advance(t_parser *parser);
 int	is_token(t_parser *parser, t_token_type type);
+char	*clean_quotes(const char *value);
 void free_ast(t_ast *node);
 t_ast	*parse_list(t_parser *parser, char *input);
 t_ast	*create_ast_node(t_node_type type);
@@ -226,6 +228,7 @@ t_ast *parse_subshell(t_parser *parser, char *input);
 t_ast *parse_conditional(t_parser *parser, t_ast *left, char *input);
 t_ast *parse(t_token *tokens, char *input);
 void free_ast(t_ast *ast);
+void print_indentation(int depth);
 void print_ast(t_ast *ast, int depth);
 
 //execution
