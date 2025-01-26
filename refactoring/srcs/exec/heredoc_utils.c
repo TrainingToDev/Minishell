@@ -12,33 +12,6 @@
 
 #include "minishell.h"
 
-char *expand_variables_in_str(const char *src, t_minishell *shell)
-{
-    size_t	i;
-    char	*result;
-
-	i = 0;
-	result = ft_strdup("");
-	if (!result)
-		return (NULL);
-	while (src[i])
-	{
-		if (src[i] == '$')
-		{
-			result = process_dollar(src, &i, result, shell);
-			if (!result)
-				return (NULL);
-		}
-		else
-		{
-			result = process_normal_char(src, &i, result);
-			if (!result)
-				return (NULL);
-		}
-	}
-	return (result);
-}
-
 char *process_input_line(char *line, const char *delim, t_minishell *shell)
 {
     char	*expanded_line;
