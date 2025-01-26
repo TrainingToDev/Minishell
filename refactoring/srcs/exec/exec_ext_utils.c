@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	free_str_array(char **array)
+void	free_str_array(char **array)
 {
 	int		i;
 
