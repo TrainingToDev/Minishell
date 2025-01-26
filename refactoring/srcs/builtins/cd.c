@@ -26,6 +26,29 @@ static char	*get_env_cd(const char *key, t_env_var *env_list)
 	return (NULL);
 }
 
+static int update_env_value_if_exists(t_env_var *env_list, const char *key, const char *value)
+{
+    t_env_var	*current;
+
+	current = env_list;
+    while (current)
+    {
+        if (ft_strcmp(current->key, key) == 0)
+        {
+            free(current->value);
+            current->value = ft_strdup(value);
+            if (!current->value)
+            {
+                fprintf(stderr, "Error: Memory allocation failed.\n");
+                exit(EXIT_FAILURE);
+            }
+            return (1);
+        }
+        current = current->next;
+    }
+    return (0);
+}
+
 static void set_env_value(t_env_var **env_list, const char *key, const char *value)
 {
 	t_env_var	*new_node;
