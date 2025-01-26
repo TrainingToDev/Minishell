@@ -92,6 +92,7 @@ $(LIBFT_DIR):
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/utils $(OBJ_DIR)/lexer $(OBJ_DIR)/parser $(OBJ_DIR)/exec $(OBJ_DIR)/builtins $(OBJ_DIR)/expand
+	@echo "Building $@ from $<"
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
@@ -102,6 +103,7 @@ fclean: clean
 	rm -f $(NAME)
 	make fclean -C libft
 
-re : fclean all
+re: fclean all
 
-.PHONY : all clean fclean re
+.PHONY: all clean fclean re
+
