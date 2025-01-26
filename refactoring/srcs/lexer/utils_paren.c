@@ -1,3 +1,5 @@
+#include "minishell.h"
+
 static t_token *find_matching_rparen(t_token *start)
 {
     t_token *it;
