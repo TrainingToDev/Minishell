@@ -12,23 +12,6 @@
 
 #include "minishell.h"
 
-static char *process_dollar(const char *src, size_t *i, char *result, t_minishell *shell)
-{
-    if (src[*i + 1] == '?')
-    {
-		result = append_exit_status(result, shell);
-		if (!result)
-			return (NULL);
-		*i += 2; // Sauter '$?'
-	}
-	else
-	{
-		result = append_var_value(src, i, result, shell);
-		if (!result)
-			return (NULL);
-	}
-	return (result);
-}
 static char	*process_normal_char(const char *src, size_t *i, char *result)
 {
 	result = append_char_to_result(result, src[*i]);
