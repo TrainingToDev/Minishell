@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/10/31 13:54:57 by miaandri          #+#    #+#              #
+#    Updated: 2024/12/07 03:30:30 by miaandri         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 
 NAME = minishell
 CC = gcc
@@ -14,7 +26,6 @@ PARSER_DIR = $(SRC_DIR)/parser
 UTILS_DIR = $(SRC_DIR)/utils
 FREE_DIR = $(SRC_DIR)/free
 LIBFT_DIR = libft/libft.a
-
 
 SRC_FILES = $(SRC_DIR)/main.c \
 			$(FREE_DIR)/lexer.c  \

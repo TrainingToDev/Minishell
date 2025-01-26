@@ -1,7 +1,19 @@
-#ifndef MIN_H
-# define MIN_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/31 08:50:28 by miaandri          #+#    #+#             */
+/*   Updated: 2024/12/07 04:39:14 by miaandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-# include "../libft/libft.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+# include "libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -17,6 +29,7 @@
 # include <sys/stat.h>
 # include <termios.h>
 # include <limits.h>
+# include <stdbool.h>
 
 # define COLOR_RESET "\033[0m"
 # define COLOR_GREEN "\033[32m"
@@ -56,7 +69,6 @@ typedef struct s_hdc
 	char	**lines;
 	size_t	count;
 }			t_hdc;
-
 
 typedef enum e_redir_type
 {
@@ -125,7 +137,6 @@ typedef struct s_minishell
     int         fd_input;         // Descripteur d'entrée standard (utilisé pour redirections)
     int         fd_output;        // Descripteur de sortie standard (utilisé pour redirections)
 }               t_minishell;
-										
 
 enum	e_mini_error
 {
@@ -152,44 +163,6 @@ typedef struct s_varinfo
 }   t_varinfo;
 
 
-
-
-
-t_token *lexer(char *input);
-
-
-int check_operators(t_token *tokens);
-int check_parentheses(t_token *tokens);
-int check_redirections(t_token *tokens);
-int process_substitution(t_token *token);
-int validate_syntax(t_token *tokens);
-void    free_token(t_token *token);
-void	free_token_list(t_token *tokens);
-t_token_type invalid_redir(const char *input);
-void	print_tokens(t_token *tokens);
-t_token *lexer(char *input);
-void add_operator_token(t_token **tokens, char *input, size_t *i);
-char *extract_quoted_value(char *input, size_t *i, int *expand);
-void add_word_token(t_token **tokens, char *input, size_t *i);
-int consecutive_redir_in(const char *input);
-int	unsupported_redirs(const char *input);
-int is_disallowed(t_token *tokens);
-int	is_operator(const char *str);
-t_token *create_token(t_token_type type, const char *value, int expand);
-t_token_type get_op_token(const char *op);
-void	add_token(t_token **tokens, t_token *new_token);
-char *extract_word_value(char *input, size_t *i, int *expand);
-
-
-char    *compare(char *key, t_env_var *env);
-char    *ft_strjoin_free(char *s1, char *s2, int free_flag);
-char    *ft_strjoin_char(char *s, char c);
-int		is_single_quoted(const char *str);
-void 	expand_token_list(t_token *tokens, t_minishell *shell);
-char	*expand_variables_in_str(const char *src, t_minishell *shell);
-char	*append_var_value(const char *src, size_t *i, char *result, t_minishell *shell);
-
-
 t_ast *parse_pipe(t_parser *parser, char *input);
 t_ast *parse_cmd(t_parser *parser, char *input);
 t_ast *parse_conditional(t_parser *parser, t_ast *left, char *input);
@@ -201,26 +174,13 @@ void free_ast(t_ast *ast);
 
 int	execute_ast(t_ast *ast, t_minishell *shell);
 
-
-int	check_args(int argc, char **argv);
-char	*format_prompt(void);
-char    *prompt_input(char *prompt);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//execution
+int	execute_ast(t_ast *ast, t_minishell *shell);
+int is_builtin(const char *cmd_name);
+int execute_builtin_cmd(t_command *command, t_minishell *shell);
+int execute_external_cmd(t_command *command, t_minishell *shell);
+int apply_redirections(t_redir *redirs, t_minishell *shell);
+char	**convert_env_list(t_env_var *env_list);
+char	*find_command_path(char *cmd_name, t_env_var *env_list);
 
 #endif
-
-
-
