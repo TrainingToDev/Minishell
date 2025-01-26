@@ -24,12 +24,11 @@ LEXER_DIR = $(SRC_DIR)/lexer
 EXPAND_DIR = $(SRC_DIR)/expand
 PARSER_DIR = $(SRC_DIR)/parser
 UTILS_DIR = $(SRC_DIR)/utils
-FREE_DIR = $(SRC_DIR)/free
 LIBFT_DIR = libft/libft.a
 
 SRC_FILES = $(SRC_DIR)/main.c \
-			$(FREE_DIR)/lexer.c  \
-			$(FREE_DIR)/token_operator.c  \
+			$(LEXER_DIR)/lexer.c  \
+			$(LEXER_DIR)/token_operator.c  \
 			$(LEXER_DIR)/token_word.c  \
 			$(LEXER_DIR)/check_operators.c  \
 			$(LEXER_DIR)/check_parentheses.c  \
@@ -87,7 +86,7 @@ $(LIBFT_DIR):
 	@echo "LIBFT success"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/utils $(OBJ_DIR)/lexer $(OBJ_DIR)/parser $(OBJ_DIR)/exec
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/utils $(OBJ_DIR)/lexer $(OBJ_DIR)/parser $(OBJ_DIR)/exec $(OBJ_DIR)/builtins $(OBJ_DIR)/expand
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

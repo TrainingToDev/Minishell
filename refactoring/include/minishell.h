@@ -39,7 +39,6 @@
 #define STATUS_READ 0
 #define STATUS_WRITE 1
 
-
 typedef enum e_token_type
 {
 	TOKEN_WORD,
