@@ -56,7 +56,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(PARSER_DIR)/parser_redir.c\
 			$(PARSER_DIR)/parser_subshell.c\
 			$(PARSER_DIR)/utils_parser.c\
-			$(PARSER_DIR)/parse.c\
+			$(PARSER_DIR)/parser.c\
 			$(PARSER_DIR)/print_parser.c\
 			$(EXEC_DIR)/exec_builtins.c\
 			$(EXEC_DIR)/exec_ext_utils.c\
