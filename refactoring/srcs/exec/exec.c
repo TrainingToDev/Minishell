@@ -50,7 +50,7 @@ static int execute_command(t_command *command, t_minishell *shell)
 			return (result);
     if (is_builtin(command->argv[0]))
         return (execute_builtin_cmd(command, shell));
-    return (execute_external_cmd(command, shell));
+    return (execute_extern_cmd(command, shell));
 }
 
 static int execute_pipeline(t_ast *ast, t_minishell *shell)
