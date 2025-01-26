@@ -72,7 +72,7 @@ static int expand_existing_lines(t_hdc *content, t_minishell *shell)
     return (1);
 }
 
-static int check_params(t_hdc *content, const char *delim, t_minishell *shell)
+int check_params(t_hdc *content, const char *delim, t_minishell *shell)
 {
     if (!content || !delim || !shell)
 	{
