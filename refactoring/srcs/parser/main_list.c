@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 //1
-t_ast	*parse_init_pipe(t_parser *parser, char *input)
+static t_ast	*parse_init_pipe(t_parser *parser, char *input)
 {
 	t_ast	*node_pipe;
 
@@ -15,7 +15,7 @@ t_ast	*parse_init_pipe(t_parser *parser, char *input)
 }
 
 //2
-t_ast	*parse_op(t_token_type operator, t_ast *left, t_ast *right)
+static t_ast	*parse_op(t_token_type operator, t_ast *left, t_ast *right)
 {
 	t_ast	*logic_node;
 
@@ -36,7 +36,7 @@ t_ast	*parse_op(t_token_type operator, t_ast *left, t_ast *right)
 }
 
 //3
-t_ast	*parse_logical(t_parser *parser, char *input, t_ast *pipe_node)
+static t_ast	*parse_logical(t_parser *parser, char *input, t_ast *pipe_node)
 {
 	t_token_type	operator;
 	t_ast			*right;
@@ -62,18 +62,6 @@ t_ast	*parse_logical(t_parser *parser, char *input, t_ast *pipe_node)
 }
 
 //4
-t_ast	*parse_list(t_parser *parser, char *input)
-{
-	t_ast	*pipe_node;
-
-	pipe_node = parse_init_pipe(parser, input);
-	if (!pipe_node)
-		return (NULL);
-	pipe_node = parse_logical(parser, input, pipe_node);
-	return (pipe_node);
-}
-
-//5
 t_ast	*parse_list(t_parser *parser, char *input)
 {
 	t_ast	*pipe_node;

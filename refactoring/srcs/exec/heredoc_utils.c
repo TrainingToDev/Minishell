@@ -83,9 +83,3 @@ char *process_input_line(char *line, const char *delim, t_minishell *shell)
     }
     return (expanded_line);
 }
-
-void	main_heredoc(void)
-{
-	setup_signal(SIGINT, SIG_IGN);
-	setup_signal(SIGQUIT, SIG_IGN);
-}

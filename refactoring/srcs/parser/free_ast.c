@@ -29,7 +29,6 @@ void free_ast(t_ast *node)
 				free_heredoc_content(redir->content);
 				free(redir->content);
 			}
-				
             free(redir);
             redir = next;
         }

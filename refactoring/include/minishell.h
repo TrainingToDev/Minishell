@@ -161,25 +161,107 @@ typedef struct s_varinfo
     size_t      len;
 }   t_varinfo;
 
+//prompt
+int	check_args(int argc, char **argv);
+char	*format_prompt(void);
+char    *prompt_input(char *prompt);
 
+//builtins
+int	cd(t_minishell *shell, char **args);
+int echo(t_minishell *shell, char **args);
+int env(t_minishell *shell, char **args);
+int ft_exit(t_minishell *shell, char **args);
+int	export(t_minishell *shell, char **args);
+int	pwd(t_minishell *shell, char **args);
+int unset(t_minishell *shell, char **args);
+
+//lexer
+int check_operators(t_token *tokens);
+int check_parentheses(t_token *tokens);
+int check_redirections(t_token *tokens);
+int process_substitution(t_token *token);
+int validate_syntax(t_token *tokens);
+void	free_token_list(t_token *tokens);
+t_token_type invalid_redir(const char *input);
+void add_operator_token(t_token **tokens, char *input, size_t *i);
+char *extract_quoted_value(char *input, size_t *i, int *expand);
+void add_word_token(t_token **tokens, char *input, size_t *i);
+int consecutive_redir_in(const char *input);
+int	unsupported_redirs(const char *input);
+int is_disallowed(t_token *tokens);
+int	is_operator(const char *str);
+t_token *create_token(t_token_type type, const char *value, int expand);
+t_token_type get_op_token(const char *op);
+void	add_token(t_token **tokens, t_token *new_token);
+char *extract_word_value(char *input, size_t *i, int *expand);
+t_token *lexer(char *input);
+void	print_tokens(t_token *tokens);
+
+// expand
+char *process_dollar(const char *src, size_t *i, char *result, t_minishell *shell);
+char *append_var_value(const char *src, size_t *i, char *result, t_minishell *shell);
+char *expand_variables_in_str(const char *src, t_minishell *shell);
+char    *compare(char *key, t_env_var *env);
+char    *ft_strjoin_free(char *s1, char *s2, int free_flag);
+char    *ft_strjoin_char(char *s, char c);
+int is_single_quoted(const char *str);
+void expand_token_list(t_token *tokens, t_minishell *shell);
+
+
+//parser
+void free_ast(t_ast *node);
+t_ast	*parse_list(t_parser *parser, char *input);
+t_ast	*create_ast_node(t_node_type type);
+t_command *create_cmd(void);
+t_redir *create_redir(void);
 t_ast *parse_pipe(t_parser *parser, char *input);
-t_ast *parse_cmd(t_parser *parser, char *input);
-t_ast *parse_conditional(t_parser *parser, t_ast *left, char *input);
-t_ast *parse_subshell(t_parser *parser, char *input);
 t_command *parse_simple_cmd(t_parser *parser, char *input);
+t_command *parse_simple_cmd(t_parser *parser, char *input);
+t_ast *parse_cmd(t_parser *parser, char *input);
 t_redir *parse_io_redirect(t_parser *parser, char *input);
+t_ast *parse_subshell(t_parser *parser, char *input);
+t_ast *parse_conditional(t_parser *parser, t_ast *left, char *input);
 t_ast *parse(t_token *tokens, char *input);
 void free_ast(t_ast *ast);
-
-int	execute_ast(t_ast *ast, t_minishell *shell);
+void print_ast(t_ast *ast, int depth)
 
 //execution
 int	execute_ast(t_ast *ast, t_minishell *shell);
 int is_builtin(const char *cmd_name);
+
+
 int execute_builtin_cmd(t_command *command, t_minishell *shell);
 int execute_external_cmd(t_command *command, t_minishell *shell);
+
 int apply_redirections(t_redir *redirs, t_minishell *shell);
+void handle_copied_heredoc(t_hdc *content, const char *delim, t_minishell *shell);
+int handle_redir_heredoc(t_redir *current, t_minishell *shell);
+char *expand_variables_in_str(const char *src, t_minishell *shell);
+char *process_input_line(char *line, const char *delim, t_minishell *shell);
+
 char	**convert_env_list(t_env_var *env_list);
 char	*find_command_path(char *cmd_name, t_env_var *env_list);
+char *get_path(char **path, char *cmd);
+
+int init_pipe(int pipefd[2]);
+int wait_for_children(pid_t pid_left, pid_t pid_right, t_minishell *shell);
+pid_t fork_and_exec_left(t_ast *left, int pipefd[2], t_minishell *shell);
+pid_t fork_and_exec_right(t_ast *right, int pipefd[2], t_minishell *shell);
+void close_pipe_descriptors(int pipefd[2]);
+
+//utils
+char	**convert_env_list(t_env_var *env_list);
+
+//signal
+void	heredoc_signal(int sig);
+void	manage_heredoc(void);
+int append_line(t_hdc *content, char *line);
+
+
+//bonus
+int execute_conditional(t_ast *ast, t_minishell *shell);
+pid_t create_subshell_process(t_ast *ast, t_minishell *shell);
+int wait_for_subshell(pid_t pid, t_minishell *shell);
+int validate_subshell_node(t_ast *ast);
 
 #endif

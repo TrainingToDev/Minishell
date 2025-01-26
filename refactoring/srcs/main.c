@@ -10,11 +10,11 @@
 // 	shell.running = 1;
 // 	shell.fd_input = STDIN_FILENO;
 // 	shell.fd_output = STDOUT_FILENO;
-//     shell->heredoc_line_nb = 1;
+//     shell->heredoc_line_nb = 0;
 // }
 
 
-void minishell_loop(t_env_var *env_list)
+static void minishell_loop(t_env_var *env_list)
 {
     char    *prompt = NULL;
     char    *input = NULL;

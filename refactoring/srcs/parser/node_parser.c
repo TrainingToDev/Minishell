@@ -43,7 +43,3 @@ t_redir *create_redir(void)
     redir->next = NULL;
     return (redir);
 }
-
-
-
-

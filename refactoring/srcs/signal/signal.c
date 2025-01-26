@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static void	heredoc_signal(int sig)
+void	heredoc_signal(int sig)
 {
 	(void) sig;
 	ft_putendl_fd("", STDOUT_FILENO);

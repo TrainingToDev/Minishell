@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_ast	*create_pipe_node(t_ast *cmd, t_ast *next_pipeline)
+static t_ast	*create_pipe_node(t_ast *cmd, t_ast *next_pipeline)
 {
 	t_ast	*pipe_node;
 

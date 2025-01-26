@@ -9,7 +9,6 @@ static char *append_char_to_result(char *result, char c)
 	return (temp);
 }
 
-
 static char	*process_normal_char(const char *src, size_t *i, char *result)
 {
 	result = append_char_to_result(result, src[*i]);

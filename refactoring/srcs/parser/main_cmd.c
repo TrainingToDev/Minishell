@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_ast	*create_cmd_node(void)
+static t_ast	*create_cmd_node(void)
 {
 	t_ast	*cmd;
 

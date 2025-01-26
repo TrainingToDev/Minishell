@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_redir_type convert_token_to_redir_type(t_token_type token_type)
+static t_redir_type convert_token_to_redir_type(t_token_type token_type)
 {
 	if (token_type == TOKEN_REDIRECT_IN)
 		return REDIR_IN;

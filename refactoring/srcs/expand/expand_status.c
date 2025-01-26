@@ -17,7 +17,6 @@ static char	*append_exit_status(char *result, t_minishell *shell)
     return (temp);
 }
 
-
 char *process_dollar(const char *src, size_t *i, char *result, t_minishell *shell)
 {
     if (src[*i + 1] == '?')

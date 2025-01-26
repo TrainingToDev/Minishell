@@ -62,13 +62,17 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(EXEC_DIR)/exec_ext_utils.c\
 			$(EXEC_DIR)/exec_external.c\
 			$(EXEC_DIR)/exec.c\
+			$(EXEC_DIR)/heredoc_utils.c \
+			$(EXEC_DIR)/heredoc_utils_2.c\
+			$(EXEC_DIR)/part_bonus.c\
+			$(EXEC_DIR)/pipe.c\
 			$(EXEC_DIR)/redir.c\
+			$(EXEC_DIR)/redirection.c\
 			$(EXEC_DIR)//utils.c\
 			$(UTILS_DIR)/check_args.c \
 			$(UTILS_DIR)/content_heredoc.c \
 			$(UTILS_DIR)/environement.c \
 			$(UTILS_DIR)/error.c \
-			$(UTILS_DIR)/expand.c \
 			$(UTILS_DIR)/prompt.c \
 			$(UTILS_DIR)/signal.c \
 			$(UTILS_DIR)/utils_heredoc.c

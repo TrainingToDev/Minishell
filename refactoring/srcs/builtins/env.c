@@ -36,7 +36,6 @@ int env(t_minishell *shell, char **args)
             printf("%s=%s\n", current->key, current->value);
         current = current->next;
     }
-
     shell->last_exit_status = 0;
     return (0);
 }
