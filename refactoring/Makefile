@@ -33,7 +33,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(BUILTINS_DIR)/export.c \
 			$(BUILTINS_DIR)/pwd.c \
 			$(BUILTINS_DIR)/unset.c \
-			$(BUILTINS_DIR)/builtins_manager\
+			$(BUILTINS_DIR)/builtins_manager.c\
 			$(LEXER_DIR)/check_operators.c  \
 			$(LEXER_DIR)/check_parentheses.c  \
 			$(LEXER_DIR)/check_redirection.c  \
