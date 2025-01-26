@@ -190,6 +190,7 @@ int consecutive_redir_in(const char *input);
 int	unsupported_redirs(const char *input);
 int is_disallowed(t_token *tokens);
 int	is_operator(const char *str);
+int is_quote(char c);
 t_token *create_token(t_token_type type, const char *value, int expand);
 t_token_type get_op_token(const char *op);
 void	add_token(t_token **tokens, t_token *new_token);
