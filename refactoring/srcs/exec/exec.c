@@ -12,6 +12,34 @@
 
 #include"minishell.h"
 
+static int check_cmd(t_command *command)
+{
+    t_redir	*redir;
+
+    if (!command || !command->argv || command->argc == 0 
+		|| ft_strlen(command->argv[0]) == 0)
+    {
+        redir = command->redirs;
+        while (redir)
+        {
+            if (redir->type == REDIR_IN)
+            {
+                if (access(redir->filename, F_OK) != 0)
+                {
+                    ft_putstr_fd("minishell: ", STDERR_FILENO);
+                    perror(redir->filename); // No such file or directory
+                    return (1);
+                }
+                return (0);
+            }
+            redir = redir->next;
+        }
+        ft_putstr_fd("minishell: command not found\n", STDERR_FILENO);
+        return (127);
+    }
+    return (0);
+}
+
 static int execute_subshell(t_ast *ast, t_minishell *shell)
 {
     pid_t pid;
