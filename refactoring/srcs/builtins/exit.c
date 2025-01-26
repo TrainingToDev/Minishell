@@ -12,6 +12,34 @@
 
 #include "minishell.h"
 
+int is_valid_format(const char *str, unsigned long *value, int *sign)
+{
+    *sign = 1;
+    *value = 0;
+
+    if (!str || *str == '\0')
+        return (0);
+    if (*str == '+' || *str == '-')
+    {
+        if (*str == '-')
+            *sign = -1;
+        str++;
+    }
+    if (!*str)
+        return (0);
+    while (*str)
+    {
+        if (!isdigit(*str))
+            return (0);
+        if (*value > (LONG_MAX / 10) || (*value == (LONG_MAX / 10) 
+			&& (*str - '0') > (LONG_MAX % 10)))
+				return (0);
+        *value = *value * 10 + (*str - '0');
+        str++;
+    }
+    return (1);
+}
+
 static int is_valid_integer(const char *str, long *result)
 {
 	unsigned long	value;

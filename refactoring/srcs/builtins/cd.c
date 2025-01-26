@@ -92,7 +92,6 @@ static void set_env_value(t_env_var **env_list, const char *key, const char *val
 
     if (update_env_value_if_exists(*env_list, key, value))
         return ;
-    // Crée un nouveau nœud
     new_node = create_new_env_node(key, value);
     append_env_node(env_list, new_node);
 }
