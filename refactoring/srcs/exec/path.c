@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-void	free_str_array(char **array)
-{
-	int		i;
-
-	i = 0;
-	while (array && array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
-
 static char	*get_env_value(const char *key, t_env_var *env_list)
 {
 	t_env_var	*current;
@@ -38,7 +25,7 @@ static char	*get_env_value(const char *key, t_env_var *env_list)
 	}
 	return (NULL);
 }
-char *get_path(char **path, char *cmd)
+static char *get_path(char **path, char *cmd)
 {
     int i;
     char *full_path;
@@ -80,4 +67,17 @@ char	*find_command_path(char *cmd_name, t_env_var *env_list)
 	if (!paths)
 		return (NULL);
 	return (get_path(paths, cmd_name));
+}
+
+void	free_str_array(char **array)
+{
+	int		i;
+
+	i = 0;
+	while (array && array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }

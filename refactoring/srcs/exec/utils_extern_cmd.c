@@ -43,32 +43,7 @@ static int check_executable_path(char *path)
     return (0); // Le chemin est valide pour exécution
 }
 
-static int process_extern(char *path, t_command *command, t_minishell *shell)
-{
-    pid_t	pid;
-
-	pid = fork();
-    if (pid == 0)
-	{
-        if (apply_redirections(command->redirs, shell) == -1)
-		{
-            perror("Error apply redir");
-            exit(1);
-        }
-        execve(path, command->argv, convert_env_list(shell->env_list));
-        perror("execve");
-        exit(1);
-    }
-	else if (pid < 0)
-	{
-        perror("fork");
-        return (1);
-    }
-    waitpid(pid, &shell->last_exit_status, 0);
-    return (WEXITSTATUS(shell->last_exit_status));
-}
-
-static int prepare_external_command(t_command *command, t_minishell *shell, char **path)
+static int prepare_extern_cmd(t_command *command, t_minishell *shell, char **path)
 {
     int result;
 
@@ -96,12 +71,37 @@ static int prepare_external_command(t_command *command, t_minishell *shell, char
     return (0);
 }
 
-int execute_external_cmd(t_command *command, t_minishell *shell)
+static int process_extern(char *path, t_command *command, t_minishell *shell)
+{
+    pid_t	pid;
+
+	pid = fork();
+    if (pid == 0)
+	{
+        if (apply_redirections(command->redirs, shell) == -1)
+		{
+            perror("Error apply redir");
+            exit(1);
+        }
+        execve(path, command->argv, convert_env_list(shell->env_list));
+        perror("execve");
+        exit(1);
+    }
+	else if (pid < 0)
+	{
+        perror("fork");
+        return (1);
+    }
+    waitpid(pid, &shell->last_exit_status, 0);
+    return (WEXITSTATUS(shell->last_exit_status));
+}
+
+int execute_extern_cmd(t_command *command, t_minishell *shell)
 {
     char	*path;
     int		result;
 
-	result = prepare_external_command(command, shell, &path);
+	result = prepare_extern_cmd(command, shell, &path);
     if (result != 0)
         return result;
 

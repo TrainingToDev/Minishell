@@ -926,19 +926,6 @@ int validate_force_overwrite(t_token *token) //ok
 	return (1);
 }
 
-// int validate_redirect_rw(t_token *token)
-// {
-//     if (ft_strncmp(token->value, "<>", 2) == 0)
-// 	{
-// 		if (!token->next || token->next->type != TOKEN_WORD)
-// 		{
-// 			print_error(E_SYNTAX, "newline", 2);
-// 			return (0);
-// 		}
-// 	}
-//     return (1);
-// }
-
 int check_redirections(t_token *tokens) //ok
 {
 	while (tokens)

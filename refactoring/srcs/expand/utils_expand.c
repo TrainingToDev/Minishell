@@ -70,15 +70,3 @@ int is_single_quoted(const char *str)
     len = ft_strlen(str);
     return (len >= 2 && str[0] == '\'' && str[len - 1] == '\'');
 }
-
-void expand_token_list(t_token *tokens, t_minishell *shell)
-{
-	t_token *current = tokens;
-
-	while (current)
-	{
-		if (!expand_single_token(current, tokens, shell))
-			return ;
-		current = current->next;
-    }
-}

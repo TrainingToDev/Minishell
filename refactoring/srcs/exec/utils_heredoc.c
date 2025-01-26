@@ -12,6 +12,29 @@
 
 #include "minishell.h"
 
+int check_params(t_hdc *content, const char *delim, t_minishell *shell)
+{
+    if (!content || !delim || !shell)
+	{
+        fprintf(stderr, "Invalid parameters provided to handle_interactive_heredoc.\n");
+        return (0);
+    }
+    return (1);
+}
+
+char *read_user_input(const char *delim, t_minishell *shell)
+{
+    char		*line;
+
+	line = readline("\001"COLOR_BLUE"\002""heredoc> ""\001"COLOR_RESET"\002");
+   if (!line) // EOF (Ctrl+D)
+    {
+        fprintf(stderr, "minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n",
+                shell->nb_line_heredoc , delim);
+    }
+    return (line);
+}
+
 int append_line(t_hdc *content, char *line)
 {
     char	**new_lines;
@@ -35,4 +58,31 @@ int append_line(t_hdc *content, char *line)
     content->lines = new_lines;
     content->count++;
     return (1);
+}
+
+t_hdc	*get_heredoc_lines(const char *input, const char *delim)
+{
+	t_hdc	*content;
+	char				**lines;
+
+	if (!input || !delim)
+		return (NULL);
+	content = init_heredoc();
+	if (!content)
+		return (NULL);
+	lines = split_lines(input);
+	if (!lines)
+	{
+		free(content);
+		return (NULL);
+	}
+	if (get_lines(content, lines, delim) == -1)
+	{
+		free_heredoc_content(content);
+		free_split(lines);
+		free(content);
+		return (NULL);
+	}
+	free_split(lines);
+	return (content);
 }

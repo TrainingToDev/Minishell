@@ -1,5 +1,22 @@
 #include "minishell.h"
 
+static char	*append_exit_status(char *result, t_minishell *shell)
+{
+    char	*exit_status;
+    char	*temp;
+
+	exit_status = ft_itoa(shell->last_exit_status);
+    if (!exit_status)
+    {
+        free(result);
+        return (NULL);
+    }
+    temp = ft_strjoin(result, exit_status);
+    free(exit_status);
+    free(result);
+    return (temp);
+}
+
 static char *append_char_to_result(char *result, char c)
 {
     char	*temp;
@@ -8,6 +25,7 @@ static char *append_char_to_result(char *result, char c)
 	free(result);
 	return (temp);
 }
+
 
 static char	*process_normal_char(const char *src, size_t *i, char *result)
 {
@@ -18,28 +36,22 @@ static char	*process_normal_char(const char *src, size_t *i, char *result)
 	return (result);
 }
 
-int expand_single_token(t_token *token, t_token *tokens, t_minishell *shell)
+static char *process_dollar(const char *src, size_t *i, char *result, t_minishell *shell)
 {
-	char	*expanded;
-
-	if (token->type == TOKEN_WORD)
-	{
-		if (token->expand == 1 || (strchr(token->value, '$') 
-			&& !is_single_quoted(token->value)))
-		{
-			expanded = expand_variables_in_str(token->value, shell);
-			if (!expanded)
-			{
-				fprintf(stderr, "Error: Memory allocation failed during variable expansion.\n");
-				free_token_list(tokens);
-				shell->running = 0;
-				return (0);  // Erreur => on arrête
-			}
-			free(token->value);
-			token->value = expanded;
-		}
+    if (src[*i + 1] == '?')
+    {
+		result = append_exit_status(result, shell);
+		if (!result)
+			return (NULL);
+		*i += 2;
 	}
-	return (1);
+	else
+	{
+		result = append_var_value(src, i, result, shell);
+		if (!result)
+			return (NULL);
+	}
+	return (result);
 }
 
 char *expand_variables_in_str(const char *src, t_minishell *shell)
@@ -68,10 +80,3 @@ char *expand_variables_in_str(const char *src, t_minishell *shell)
 	}
 	return (result);
 }
-
-
-
-
-
-
-

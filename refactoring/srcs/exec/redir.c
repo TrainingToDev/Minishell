@@ -59,7 +59,7 @@ static int handle_redir_append(t_redir *current)
     return 0;
 }
 
-static int apply(t_redir *redirs, t_minishell *shell)
+int apply_redirections(t_redir *redirs, t_minishell *shell)
 {
     t_redir *current;
     int result;
@@ -69,35 +69,42 @@ static int apply(t_redir *redirs, t_minishell *shell)
     {
         result = 0;
         if (current->type == REDIR_IN)
-           result = handle_redir_in(current);
+        {
+            // printf("DEBUG: REDIR_IN sur %s\n", current->filename);
+            result = handle_redir_in(current);
+        }
         else if (current->type == REDIR_HEREDOC)
+        {
+            // printf("DEBUG: HEREDOC avec le délimiteur : %s\n", current->filename);
             result = handle_redir_heredoc(current, shell);
+        }
+
         if (result == -1)
             return (-1);
+
         current = current->next;
     }
-    return (0);
-}
-
-
-int apply_redirections(t_redir *redirs, t_minishell *shell)
-{
-    t_redir *current;
-    int result;
-
-    if (apply(redirs, shell) == -1)
-        return (-1);
     current = redirs;
     while (current)
     {
         result = 0;
         if (current->type == REDIR_OUT)
+        {
+            // printf("DEBUG: REDIR_OUT sur %s\n", current->filename);
             result = handle_redir_out(current);
+        }
         else if (current->type == REDIR_APPEND)
+        {
+            // printf("DEBUG: REDIR_APPEND sur %s\n", current->filename);
             result = handle_redir_append(current);
+        }
+
         if (result == -1)
             return (-1);
+
         current = current->next;
     }
+
     return (0);
 }
+

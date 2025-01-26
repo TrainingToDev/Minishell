@@ -4,7 +4,7 @@ static size_t skip_and_get_var_length(const char *src, size_t *i)
 {
     size_t  start;
 
-	(*i)++;         // Sauter le caractère '$'
+	(*i)++;
 	start = *i;     
 	while (src[*i] && (ft_isalnum(src[*i]) || src[*i] == '_'))
 		(*i)++;

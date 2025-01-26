@@ -17,19 +17,6 @@ t_ast	*create_ast_node(t_node_type type)
     return (node);
 }
 
-t_command *create_cmd(void)
-{
-    t_command	*cmd;
-
-	cmd = malloc(sizeof(t_command));
-    if (!cmd)
-        return (NULL);
-    cmd->argv = NULL;
-    cmd->argc = 0;
-    cmd->redirs = NULL;
-    return (cmd);
-}
-
 t_redir *create_redir(void)
 {
     t_redir	*redir;

@@ -22,22 +22,6 @@ int init_pipe(int pipefd[2])
     return (0);
 }
 
-int wait_for_children(pid_t pid_left, pid_t pid_right, t_minishell *shell)
-{
-    int	status_left;
-    int	status_right;
-
-	status_left = 0;
-	status_right = 0;
-    waitpid(pid_left, &status_left, 0);
-    waitpid(pid_right, &status_right, 0);
-    if (WIFEXITED(status_right))
-        shell->last_exit_status = WEXITSTATUS(status_right);
-	else
-        shell->last_exit_status = 1;
-    return shell->last_exit_status;
-}
-
 pid_t fork_and_exec_left(t_ast *left, int pipefd[2], t_minishell *shell)
 {
     pid_t	pid_left;
@@ -78,4 +62,20 @@ void close_pipe_descriptors(int pipefd[2])
 {
     close(pipefd[0]);
     close(pipefd[1]);
+}
+
+int wait_for_children(pid_t pid_left, pid_t pid_right, t_minishell *shell)
+{
+    int	status_left;
+    int	status_right;
+
+	status_left = 0;
+	status_right = 0;
+    waitpid(pid_left, &status_left, 0);
+    waitpid(pid_right, &status_right, 0);
+    if (WIFEXITED(status_right))
+        shell->last_exit_status = WEXITSTATUS(status_right);
+	else
+        shell->last_exit_status = 1;
+    return shell->last_exit_status;
 }

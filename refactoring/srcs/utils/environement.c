@@ -1,36 +1,6 @@
 #include "minishell.h"
 
-// utils
-void print_env_list(t_env_var *env_list)
-{
-	t_env_var	*current;
-
-	current = env_list;
-	while (current != NULL)
-	{
-		printf("%s=%s\n", current->key, current->value);
-		current = current->next;
-	}
-}
-
-void free_env_list(t_env_var *env_list)
-{
-	t_env_var	*current;
-	t_env_var	*next;
-
-	current = env_list;
-	while (current != NULL)
-	{
-		next = current->next;
-		free(current->key);
-		free(current->value);
-		free(current);
-		current = next;
-	}
-}
-
-
-int	assign_key_value(t_env_var *env_var, const char *input_env)
+static int	assign_key_value(t_env_var *env_var, const char *input_env)
 {
     char	*sep;
 
@@ -56,7 +26,7 @@ int	assign_key_value(t_env_var *env_var, const char *input_env)
     return (0);
 }
 
-void	free_env_var(t_env_var *env_var)
+static void	free_env_var(t_env_var *env_var)
 {
     if (env_var)
     {
@@ -66,7 +36,7 @@ void	free_env_var(t_env_var *env_var)
     }
 }
 
-t_env_var	*create_env_var(const char *input_env)
+static t_env_var	*create_env_var(const char *input_env)
 {
     t_env_var	*env_var;
 
@@ -82,7 +52,7 @@ t_env_var	*create_env_var(const char *input_env)
     return (env_var);
 }
 
-void add_env_var(t_env_var **env_list, t_env_var *new_var)
+static void add_env_var(t_env_var **env_list, t_env_var *new_var)
 {
 	t_env_var	*current;
 
@@ -97,6 +67,22 @@ void add_env_var(t_env_var **env_list, t_env_var *new_var)
 		while (current->next != NULL)
 			current = current->next;
 		current->next = new_var;
+	}
+}
+
+void free_env_list(t_env_var *env_list)
+{
+	t_env_var	*current;
+	t_env_var	*next;
+
+	current = env_list;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
+		current = next;
 	}
 }
 
@@ -120,4 +106,15 @@ t_env_var *convert_envp_to_list(char **envp)
         i++;
     }
     return (env_list);
+}
+void print_env_list(t_env_var *env_list)
+{
+	t_env_var	*current;
+
+	current = env_list;
+	while (current != NULL)
+	{
+		printf("%s=%s\n", current->key, current->value);
+		current = current->next;
+	}
 }

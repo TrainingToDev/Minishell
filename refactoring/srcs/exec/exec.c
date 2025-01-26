@@ -40,17 +40,17 @@ static int check_cmd(t_command *command)
     return (0);
 }
 
-static int execute_subshell(t_ast *ast, t_minishell *shell)
+static int execute_command(t_command *command, t_minishell *shell)
 {
-    pid_t pid;
+    int result;
 
-    if (!validate_subshell_node(ast))
-        return (1);
-
-    pid = create_subshell_process(ast, shell);
-    if (pid == -1)
-        return (1);
-    return (wait_for_subshell(pid, shell));
+    result = check_cmd(command);
+    if (result != 0 || (!command || !command->argv 
+		|| command->argc == 0))
+			return (result);
+    if (is_builtin(command->argv[0]))
+        return (execute_builtin_cmd(command, shell));
+    return (execute_external_cmd(command, shell));
 }
 
 static int execute_pipeline(t_ast *ast, t_minishell *shell)
@@ -77,19 +77,6 @@ static int execute_pipeline(t_ast *ast, t_minishell *shell)
     }
     close_pipe_descriptors(pipefd);
     return (wait_for_children(pid_left, pid_right, shell));
-}
-
-static int execute_command(t_command *command, t_minishell *shell)//execute cmd
-{
-    int result;
-
-    result = check_cmd(command);
-    if (result != 0 || (!command || !command->argv 
-		|| command->argc == 0))
-			return (result);
-    if (is_builtin(command->argv[0]))
-        return (execute_builtin_cmd(command, shell));
-    return (execute_external_cmd(command, shell));
 }
 
 int	execute_ast(t_ast *ast, t_minishell *shell)//main principal of exec

@@ -12,15 +12,25 @@
 
 #include "minishell.h"
 
-static void remove_final_delimiter(t_hdc *content, const char *delim)
+static int expand_existing_lines(t_hdc *content, t_minishell *shell)
 {
-    if (content->count > 0 
-		&& ft_strcmp(content->lines[content->count - 1], delim) == 0)
+	char	*expanded_line;
+	size_t	i;
+
+	i = 0;
+    while (i < content->count)
 	{
-        free(content->lines[content->count - 1]);
-        content->lines[content->count - 1] = NULL;
-        content->count--;
+        expanded_line = expand_variables_in_str(content->lines[i], shell);
+        if (!expanded_line)
+		{
+            perror("expand_variables_in_str");
+            return 0;
+        }
+        free(content->lines[i]);
+        content->lines[i] = expanded_line;
+		i++;
     }
+    return (1);
 }
 
 static int read_and_expand(t_hdc *content, const char *delim, t_minishell *shell)
@@ -51,35 +61,15 @@ static int read_and_expand(t_hdc *content, const char *delim, t_minishell *shell
     return (1);
 }
 
-static int expand_existing_lines(t_hdc *content, t_minishell *shell)
+static void remove_final_delimiter(t_hdc *content, const char *delim)
 {
-	char	*expanded_line;
-	size_t	i;
-
-	i = 0;
-    while (i < content->count)
+    if (content->count > 0 
+		&& ft_strcmp(content->lines[content->count - 1], delim) == 0)
 	{
-        expanded_line = expand_variables_in_str(content->lines[i], shell);
-        if (!expanded_line)
-		{
-            perror("expand_variables_in_str");
-            return 0;
-        }
-        free(content->lines[i]);
-        content->lines[i] = expanded_line;
-		i++;
+        free(content->lines[content->count - 1]);
+        content->lines[content->count - 1] = NULL;
+        content->count--;
     }
-    return (1);
-}
-
-int check_params(t_hdc *content, const char *delim, t_minishell *shell)
-{
-    if (!content || !delim || !shell)
-	{
-        fprintf(stderr, "Invalid parameters provided to handle_interactive_heredoc.\n");
-        return (0);
-    }
-    return (1);
 }
 
 void handle_copied_heredoc(t_hdc *content, const char *delim, t_minishell *shell)

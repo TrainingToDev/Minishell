@@ -52,3 +52,17 @@ int is_disallowed(t_token *tokens)
     }
     return (0);
 }
+
+int process_substitution(t_token *token)
+{
+	if (token->type == TOKEN_WORD && token->value && 
+		token->value[0] == '$' && token->next && token->next->type == TOKEN_LPAREN)
+	{
+		if (token->next->next && token->next->next->type == TOKEN_WORD)
+		{
+			print_error(E_SYNTAX, "substitution not supported", 258);
+			return (0);
+		}
+	}
+	return (1);
+}

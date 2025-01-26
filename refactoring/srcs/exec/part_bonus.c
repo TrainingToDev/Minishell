@@ -12,33 +12,17 @@
 
 #include "minishell.h"
 
-int execute_conditional(t_ast *ast, t_minishell *shell)
+static int validate_subshell_node(t_ast *ast)
 {
-    if (!ast || (ast->type != NODE_AND && ast->type != NODE_OR))
+    if (!ast || ast->type != NODE_SUBSHELL)
     {
-        fprintf(stderr, "execute_conditional: Invalid AST node type\n");
-        return (1);
+        fprintf(stderr, "Error: Invalid node type for subshell execution.\n");
+        return (0);
     }
-    int left_status = execute_ast(ast->left, shell);
-    if (ast->type == NODE_AND)
-    {
-        if (left_status == 0)
-            return (execute_ast(ast->right, shell));
-        else
-            return left_status;
-    }
-    else if (ast->type == NODE_OR)
-    {
-        if (left_status != 0)
-            return (execute_ast(ast->right, shell));
-        else
-            return (left_status);
-    }
-    fprintf(stderr, "execute_conditional: Unexpected node type\n");
     return (1);
 }
 
-pid_t create_subshell_process(t_ast *ast, t_minishell *shell)
+static pid_t create_subshell_process(t_ast *ast, t_minishell *shell)
 {
     pid_t pid = fork();
 
@@ -67,7 +51,7 @@ pid_t create_subshell_process(t_ast *ast, t_minishell *shell)
     return (pid);
 }
 
-int wait_for_subshell(pid_t pid, t_minishell *shell)
+static int wait_for_subshell(pid_t pid, t_minishell *shell)
 {
     int status;
 
@@ -83,12 +67,41 @@ int wait_for_subshell(pid_t pid, t_minishell *shell)
     return (shell->last_exit_status);
 }
 
-int validate_subshell_node(t_ast *ast)
+int execute_subshell(t_ast *ast, t_minishell *shell)
 {
-    if (!ast || ast->type != NODE_SUBSHELL)
+    pid_t pid;
+
+    if (!validate_subshell_node(ast))
+        return (1);
+
+    pid = create_subshell_process(ast, shell);
+    if (pid == -1)
+        return (1);
+    return (wait_for_subshell(pid, shell));
+}
+
+int execute_conditional(t_ast *ast, t_minishell *shell)
+{
+    if (!ast || (ast->type != NODE_AND && ast->type != NODE_OR))
     {
-        fprintf(stderr, "Error: Invalid node type for subshell execution.\n");
-        return (0);
+        fprintf(stderr, "execute_conditional: Invalid AST node type\n");
+        return (1);
     }
+    int left_status = execute_ast(ast->left, shell);
+    if (ast->type == NODE_AND)
+    {
+        if (left_status == 0)
+            return (execute_ast(ast->right, shell));
+        else
+            return left_status;
+    }
+    else if (ast->type == NODE_OR)
+    {
+        if (left_status != 0)
+            return (execute_ast(ast->right, shell));
+        else
+            return (left_status);
+    }
+    fprintf(stderr, "execute_conditional: Unexpected node type\n");
     return (1);
 }

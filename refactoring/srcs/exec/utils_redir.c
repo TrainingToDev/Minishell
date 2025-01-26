@@ -12,40 +12,6 @@
 
 #include "minishell.h"
 
-char *read_user_input(const char *delim, t_minishell *shell)
-{
-    char		*line;
-
-	line = readline("\001"COLOR_BLUE"\002""heredoc> ""\001"COLOR_RESET"\002");
-   if (!line) // EOF (Ctrl+D)
-    {
-        fprintf(stderr, "minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n",
-                shell->nb_line_heredoc , delim);
-    }
-    return (line);
-}
-
-static void handle_interactive_heredoc(const char *delim, t_hdc *content, t_minishell *shell)
-{
-	char	*line;
-	char	*expanded_line;
-
-	if (!check_params(content, delim, shell))
-		return ;
-	main_heredoc(); // Configure signals for heredoc mode
-	while (1)
-	{
-		line = read_user_input(delim, shell);
-		if (!line)
-			break;
-		expanded_line = process_input_line(line, delim, shell);
-		if (!expanded_line)
-			break;
-		if (!append_line(content, expanded_line))
-			break;
-    }
-}
-
 static int setup_heredoc_content_pipe(t_redir *current)
 {
     int		pipefd[2];

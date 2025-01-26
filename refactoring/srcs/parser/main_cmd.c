@@ -16,6 +16,19 @@ static t_ast	*create_cmd_node(void)
 	return (cmd);
 }
 
+t_command *create_cmd(void)
+{
+    t_command	*cmd;
+
+	cmd = malloc(sizeof(t_command));
+    if (!cmd)
+        return (NULL);
+    cmd->argv = NULL;
+    cmd->argc = 0;
+    cmd->redirs = NULL;
+    return (cmd);
+}
+
 t_ast	*parse_cmd(t_parser *parser, char *input)
 {
 	t_ast	*cmd;
