@@ -211,6 +211,7 @@ void expand_token_list(t_token *tokens, t_minishell *shell);
 
 
 //parser
+int	is_token(t_parser *parser, t_token_type type);
 void free_ast(t_ast *node);
 t_ast	*parse_list(t_parser *parser, char *input);
 t_ast	*create_ast_node(t_node_type type);
