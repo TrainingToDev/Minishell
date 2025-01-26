@@ -223,7 +223,7 @@ t_ast *parse_subshell(t_parser *parser, char *input);
 t_ast *parse_conditional(t_parser *parser, t_ast *left, char *input);
 t_ast *parse(t_token *tokens, char *input);
 void free_ast(t_ast *ast);
-void print_ast(t_ast *ast, int depth)
+void print_ast(t_ast *ast, int depth);
 
 //execution
 int	execute_ast(t_ast *ast, t_minishell *shell);

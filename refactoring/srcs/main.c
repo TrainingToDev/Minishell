@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 static void init_minishell(t_minishell *shell, t_env_var *env_list)
 {
     shell->env_list = env_list;
