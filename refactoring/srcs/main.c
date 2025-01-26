@@ -50,7 +50,7 @@ static void minishell_loop(t_env_var *env_list)
         printf("------>>>> TOKEN:\n");
         print_tokens(token_list);
 
-        // 4) Parse tokens into AST
+        // 4) Parse tokens
         ast_root = parse(token_list, input);
 
         free_token_list(token_list);
