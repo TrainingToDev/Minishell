@@ -91,3 +91,8 @@ void	add_token(t_token **tokens, t_token *new_token)
 		current = current->next;
 	current->next = new_token;
 }
+
+int is_quote(char c)
+{
+    return (c == '\'' || c == '\"');
+}
