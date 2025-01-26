@@ -13,14 +13,13 @@
 //     shell->heredoc_line_nb = 0;
 // }
 
-
 static void minishell_loop(t_env_var *env_list)
 {
     char    *prompt = NULL;
     char    *input = NULL;
     t_token *token_list = NULL;
     t_ast   *ast_root = NULL;
-	t_minishell shell;
+    t_minishell shell;
 
 // init shell
 shell.env_list = env_list;
