@@ -250,7 +250,7 @@ pid_t fork_and_exec_left(t_ast *left, int pipefd[2], t_minishell *shell);
 pid_t fork_and_exec_right(t_ast *right, int pipefd[2], t_minishell *shell);
 void close_pipe_descriptors(int pipefd[2]);
 int append_line(t_hdc *content, char *line);
-
+char *read_user_input(const char *delim, t_minishell *shell);
 
 //utils
 void free_split(char **split);

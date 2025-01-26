@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static char *read_user_input(const char *delim, t_minishell *shell)
+char *read_user_input(const char *delim, t_minishell *shell)
 {
     char		*line;
 
