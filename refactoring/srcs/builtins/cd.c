@@ -49,6 +49,43 @@ static int update_env_value_if_exists(t_env_var *env_list, const char *key, cons
     return (0);
 }
 
+static t_env_var *create_new_env_node(const char *key, const char *value)
+{
+    t_env_var *new_node = malloc(sizeof(t_env_var));
+    if (!new_node)
+    {
+        fprintf(stderr, "Error: Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
+    new_node->key = ft_strdup(key);
+    new_node->value = ft_strdup(value);
+    new_node->next = NULL;
+    if (!new_node->key || !new_node->value)
+    {
+        fprintf(stderr, "Error: Memory allocation failed.\n");
+        free(new_node->key);
+        free(new_node->value);
+        free(new_node);
+        exit(EXIT_FAILURE);
+    }
+    return (new_node);
+}
+
+static void append_env_node(t_env_var **env_list, t_env_var *new_node)
+{
+	 t_env_var *current;
+
+    if (!*env_list)
+	{
+        *env_list = new_node;
+        return ;
+    }
+    current = *env_list;
+    while (current->next)
+        current = current->next;
+    current->next = new_node;
+}
+
 static void set_env_value(t_env_var **env_list, const char *key, const char *value)
 {
 	t_env_var	*new_node;
