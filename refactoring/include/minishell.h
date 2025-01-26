@@ -161,8 +161,6 @@ typedef struct s_varinfo
     size_t      len;
 }   t_varinfo;
 
-
-
 //prompt
 int		check_args(int argc, char **argv);
 char	*format_prompt(void);
@@ -237,9 +235,6 @@ void free_ast(t_ast *ast);
 void print_indentation(int depth);
 void print_ast(t_ast *ast, int depth);
 
-
-
-
 //execution
 int execute_builtin_cmd(t_command *command, t_minishell *shell);
 int execute_extern_cmd(t_command *command, t_minishell *shell);
@@ -252,7 +247,6 @@ int handle_redir_heredoc(t_redir *current, t_minishell *shell);
 //env
 char	**convert_env_list(t_env_var *env_list);
 
-
 //find_path
 char	*find_command_path(char *cmd_name, t_env_var *env_list);
 void	free_str_array(char **array);
@@ -263,7 +257,6 @@ char *read_user_input(const char *delim, t_minishell *shell);
 int append_line(t_hdc *content, char *line);
 void handle_interactive_heredoc(const char *delim, t_hdc *content, t_minishell *shell);
 void handle_copied_heredoc(t_hdc *content, const char *delim, t_minishell *shell);
-
 
 // pipe
 int init_pipe(int pipefd[2]);
@@ -283,18 +276,11 @@ int		add_line(t_hdc *content, const char *line);
 int		get_lines(t_hdc *content, char **lines, const char *delim);
 void	print_heredoc_content(const t_hdc *content);
 
-
-// int			assign_key_value(t_env_var *env_var, const char *input_env);
-// void		free_env_var(t_env_var *env_var);
-// void 		add_env_var(t_env_var **env_list, t_env_var *new_var);
-
-
 //environment
 void	 	print_env_list(t_env_var *env_list);
 void 		free_env_list(t_env_var *env_list);
 t_env_var	*create_env_var(const char *input_env);
 t_env_var 	*convert_envp_to_list(char **envp);
-
 
 //signal
 int		status_manager(int new_status, int mode);
@@ -311,6 +297,6 @@ void		*print_error(int err_type, char *param, int err);
 
 //bonus
 int 	execute_conditional(t_ast *ast, t_minishell *shell);
-int		execute_subshell(t_ast *ast, t_minishell *shell)
+int		execute_subshell(t_ast *ast, t_minishell *shell);
 
 #endif
