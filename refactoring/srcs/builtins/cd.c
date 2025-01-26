@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*get_env_cd(const char *key, t_env_var *env_list)
+static char	*get_env_cd(const char *key, t_env_var *env_list)
 {
 	t_env_var	*current;
 
@@ -24,6 +24,17 @@ char	*get_env_cd(const char *key, t_env_var *env_list)
 		current = current->next;
 	}
 	return (NULL);
+}
+
+static void set_env_value(t_env_var **env_list, const char *key, const char *value)
+{
+	t_env_var	*new_node;
+
+    if (update_env_value_if_exists(*env_list, key, value))
+        return ;
+    // Crée un nouveau nœud
+    new_node = create_new_env_node(key, value);
+    append_env_node(env_list, new_node);
 }
 
 static void update_env_pwd(t_minishell *shell)
