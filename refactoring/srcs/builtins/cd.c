@@ -26,6 +26,25 @@ char	*get_env_cd(const char *key, t_env_var *env_list)
 	return (NULL);
 }
 
+static void update_env_pwd(t_minishell *shell)
+{
+    char	*oldpwd_value;
+    char	*newpwd_value;
+
+	oldpwd_value = get_env_cd("PWD", shell->env_list);
+	newpwd_value = getcwd(NULL, 0);
+	if (oldpwd_value)
+	{
+		set_env_value(&shell->env_list, "OLDPWD", oldpwd_value);
+		// free(oldpwd_value);
+	}
+	if (newpwd_value)
+	{
+		set_env_value(&shell->env_list, "PWD", newpwd_value);
+		free(newpwd_value);
+	}
+}
+
 static int execute_cd(t_minishell *shell, char *path, int duplicate_path)
 {
 	if (chdir(path) == -1)
