@@ -228,34 +228,55 @@ void print_ast(t_ast *ast, int depth)
 //execution
 int	execute_ast(t_ast *ast, t_minishell *shell);
 int is_builtin(const char *cmd_name);
-
-
 int execute_builtin_cmd(t_command *command, t_minishell *shell);
 int execute_external_cmd(t_command *command, t_minishell *shell);
-
 int apply_redirections(t_redir *redirs, t_minishell *shell);
 void handle_copied_heredoc(t_hdc *content, const char *delim, t_minishell *shell);
 int handle_redir_heredoc(t_redir *current, t_minishell *shell);
 char *expand_variables_in_str(const char *src, t_minishell *shell);
 char *process_input_line(char *line, const char *delim, t_minishell *shell);
-
 char	**convert_env_list(t_env_var *env_list);
 char	*find_command_path(char *cmd_name, t_env_var *env_list);
 char *get_path(char **path, char *cmd);
-
 int init_pipe(int pipefd[2]);
 int wait_for_children(pid_t pid_left, pid_t pid_right, t_minishell *shell);
 pid_t fork_and_exec_left(t_ast *left, int pipefd[2], t_minishell *shell);
 pid_t fork_and_exec_right(t_ast *right, int pipefd[2], t_minishell *shell);
 void close_pipe_descriptors(int pipefd[2]);
+int append_line(t_hdc *content, char *line);
+
 
 //utils
-char	**convert_env_list(t_env_var *env_list);
+void free_split(char **split);
+void free_heredoc_content(t_hdc *content);
+void	print_heredoc_content(const t_hdc *content);
+t_hdc	*init_heredoc(void);
+char	**split_lines(const char *input);
+int	add_line(t_hdc *content, const char *line);
+int	get_lines(t_hdc *content, char **lines, const char *delim);
+t_hdc	*get_heredoc_lines(const char *input, const char *delim);
+
+void print_env_list(t_env_var *env_list);
+void free_env_list(t_env_var *env_list);
+int	assign_key_value(t_env_var *env_var, const char *input_env);
+void	free_env_var(t_env_var *env_var);
+t_env_var	*create_env_var(const char *input_env);
+void add_env_var(t_env_var **env_list, t_env_var *new_var);
+t_env_var *convert_envp_to_list(char **envp);
+
+void	*print_error(int err_type, char *param, int err);
+
 
 //signal
+int		status_manager(int new_status, int mode);
+void	reset_prompt(int sig);
+void	main_signals(void);
+void	child_signal(int sig);
+void	manage_child(void);
 void	heredoc_signal(int sig);
 void	manage_heredoc(void);
-int append_line(t_hdc *content, char *line);
+void	main_heredoc(void);
+
 
 
 //bonus

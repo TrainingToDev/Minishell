@@ -12,21 +12,6 @@
 
 #include "../minishell.h"
 
-void	heredoc_signal(int sig)
-{
-	(void) sig;
-	ft_putendl_fd("", STDOUT_FILENO);
-	ft_putendl_fd("^C", STDOUT_FILENO);
-	status_manager(130, STATUS_WRITE);
-	exit(130);
-}
-
-void	manage_heredoc(void)
-{
-	setup_signal(SIGINT, heredoc_signal); // `Ctrl+C`
-	setup_signal(SIGQUIT, SIG_IGN); // `Ctrl+\`
-}
-
 int append_line(t_hdc *content, char *line)
 {
     char	**new_lines;
