@@ -12,15 +12,6 @@
 
 #include "minishell.h"
 
-static char	*process_normal_char(const char *src, size_t *i, char *result)
-{
-	result = append_char_to_result(result, src[*i]);
-	if (!result)
-		return (NULL);
-	(*i)++;
-	return (result);
-}
-
 char *expand_variables_in_str(const char *src, t_minishell *shell)
 {
     size_t	i;
