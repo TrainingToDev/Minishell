@@ -1,39 +1,31 @@
 #include "minishell.h"
 
 
-// void init_minishell(t_minishell *shell)
-// {
-//     shell.env_list = env_list;
-// 	shell.last_exit_status = 0;
-// 	shell.tokens = NULL;
-// 	shell.ast = NULL;
-// 	shell.running = 1;
-// 	shell.fd_input = STDIN_FILENO;
-// 	shell.fd_output = STDOUT_FILENO;
-//     shell->heredoc_line_nb = 0;
-// }
+static void init_minishell(t_minishell *shell, t_env_var *env_list)
+{
+    shell->env_list = env_list;
+    shell->last_exit_status = 0;
+    shell->tokens = NULL;
+    shell->ast = NULL;
+    shell->running = 1;
+    shell->fd_input = STDIN_FILENO;
+    shell->fd_output = STDOUT_FILENO;
+    shell->nb_line_heredoc = 0;
+}
 
 static void minishell_loop(t_env_var *env_list)
 {
-    char    *prompt = NULL;
-    char    *input = NULL;
-    t_token *token_list = NULL;
-    t_ast   *ast_root = NULL;
+    char        *prompt = NULL;
+    char        *input = NULL;
+    t_token     *token_list = NULL;
+    t_ast       *ast_root = NULL;
     t_minishell shell;
 
-// init shell
-shell.env_list = env_list;
-shell.last_exit_status = 0;
-shell.tokens = NULL;
-shell.ast = NULL;
-shell.running = 1;
-shell.fd_input = STDIN_FILENO;
-shell.fd_output = STDOUT_FILENO;
-shell.nb_line_heredoc = 0;
+    init_minishell(&shell, env_list);
 
-    while (1)
+    while (shell.running)
     {
-        // 1)
+        // 1) Format prompt
         prompt = format_prompt();
         if (!prompt)
         {
@@ -41,37 +33,25 @@ shell.nb_line_heredoc = 0;
             break;
         }
 
-        // 2)
+        // 2) Get user input
         input = prompt_input(prompt);
         free(prompt);
 
-        //ctrl+D
+        // Handle ctrl+D (EOF)
         if (!input)
             break;
 
-    //    3)
+        // 3) Tokenize input
         token_list = lexer(input);
         if (!token_list)
         {
             free(input);
             continue;
         }
-		printf("------>>>> TOKEN:\n");
-		print_tokens(token_list);
+        printf("------>>>> TOKEN:\n");
+        print_tokens(token_list);
 
-
-		// 4)
-
-		// expand_token_list(token_list, &shell);
-
-		// printf("------>>>> expander:\n");
-		// print_tokens(token_list);
-
-		
-
-
-
-    //  5)
+        // 4) Parse tokens into AST
         ast_root = parse(token_list, input);
 
         free_token_list(token_list);
@@ -82,18 +62,16 @@ shell.nb_line_heredoc = 0;
             free(input);
             continue;
         }
-		printf("------>>>> Parser:\n");
-		print_ast(ast_root, 0);
-       
-     
-    //  6)
+        printf("------>>>> Parser:\n");
+        print_ast(ast_root, 0);
 
-		printf("\n------------execution---------\n");
+        // 5) Execute AST
+        printf("\n------------execution---------\n");
         execute_ast(ast_root, &shell);
 
+        // Free resources
         free_ast(ast_root);
         ast_root = NULL;
-
         free(input);
         input = NULL;
     }
@@ -101,9 +79,8 @@ shell.nb_line_heredoc = 0;
 
 int main(int argc, char **argv, char **envp)
 {
-    t_env_var	*env_list; 
+    t_env_var *env_list = NULL;
 
-	env_list = NULL;
     check_args(argc, argv);
     env_list = convert_envp_to_list(envp);
     if (!env_list)
