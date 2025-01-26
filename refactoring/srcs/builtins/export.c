@@ -63,7 +63,7 @@ static t_env_var *new(char *key, char *value, t_env_var *current)
     return (new_node);
 }
 
-static void update_env(t_minishell *shell, char *key, const char *value)
+static void update_env(t_minishell *shell, char *key, char *value)
 {
     t_env_var *current = shell->env_list;
     t_env_var *previous = NULL;
