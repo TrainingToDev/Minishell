@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../minishell.h"
+#include"minishell.h"
 
 static int execute_subshell(t_ast *ast, t_minishell *shell)
 {

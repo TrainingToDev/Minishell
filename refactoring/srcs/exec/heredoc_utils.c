@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 static char *process_dollar(const char *src, size_t *i, char *result, t_minishell *shell)
 {
