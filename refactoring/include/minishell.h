@@ -206,6 +206,7 @@ char    *compare(char *key, t_env_var *env);
 char    *ft_strjoin_free(char *s1, char *s2, int free_flag);
 char    *ft_strjoin_char(char *s, char c);
 int is_single_quoted(const char *str);
+int expand_single_token(t_token *token, t_token *tokens, t_minishell *shell);
 void expand_token_list(t_token *tokens, t_minishell *shell);
 
 

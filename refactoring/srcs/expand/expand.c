@@ -18,7 +18,7 @@ static char	*process_normal_char(const char *src, size_t *i, char *result)
 	return (result);
 }
 
-static int expand_single_token(t_token *token, t_token *tokens, t_minishell *shell)
+int expand_single_token(t_token *token, t_token *tokens, t_minishell *shell)
 {
 	char	*expanded;
 
