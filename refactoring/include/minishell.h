@@ -279,7 +279,7 @@ void	print_heredoc_content(const t_hdc *content);
 //environment
 void	 	print_env_list(t_env_var *env_list);
 void 		free_env_list(t_env_var *env_list);
-t_env_var	*create_env_var(const char *input_env);
+// t_env_var	*create_env_var(const char *input_env);
 t_env_var 	*convert_envp_to_list(char **envp);
 
 //signal
