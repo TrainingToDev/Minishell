@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+char	*get_env_cd(const char *key, t_env_var *env_list)
+{
+	t_env_var	*current;
+
+	current = env_list;
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+			return (current->value);
+		current = current->next;
+	}
+	return (NULL);
+}
+
 static int execute_cd(t_minishell *shell, char *path, int duplicate_path)
 {
 	if (chdir(path) == -1)
