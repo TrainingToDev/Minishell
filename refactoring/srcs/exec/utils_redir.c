@@ -40,7 +40,7 @@ static int setup_heredoc_content_pipe(t_redir *current)
     return (0);
 }
 
-int handle_redir_heredoc(t_redir *current, t_minishell *shell)
+int heredoc_redir(t_redir *current, t_minishell *shell)
 {
     if (!current->content)
 	{
@@ -48,9 +48,9 @@ int handle_redir_heredoc(t_redir *current, t_minishell *shell)
         return (-1);
     }
     if (current->content->count > 0)
-        handle_copied_heredoc(current->content, current->filename, shell);
+        heredoc_copied(current->content, current->filename, shell);
     else
-        handle_interactive_heredoc(current->filename, current->content, shell);
+        heredoc_interactive(current->filename, current->content, shell);
     return (setup_heredoc_content_pipe(current));
 }
 
