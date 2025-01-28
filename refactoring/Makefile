@@ -78,7 +78,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(EXEC_DIR)/utils_redir.c\
 			$(EXEC_DIR)/part_bonus.c\
 			$(UTILS_DIR)/content_heredoc.c \
-			$(UTILS_DIR)/environement.c \
+			$(UTILS_DIR)/environment.c \
 			$(UTILS_DIR)/error.c \
 			$(UTILS_DIR)/prompt.c \
 			$(UTILS_DIR)/signal.c
