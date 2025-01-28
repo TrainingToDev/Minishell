@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-int check_params(t_hdc *content, const char *delim, t_minishell *shell)
+int check_params(t_hdc *cnt, char *dlim, t_minishell *shell)
 {
-    if (!content || !delim || !shell)
+    if (!cnt || !dlim || !shell)
 	{
         fprintf(stderr, "Invalid parameters provided to handle_interactive_heredoc.\n");
         return (0);
@@ -22,7 +22,7 @@ int check_params(t_hdc *content, const char *delim, t_minishell *shell)
     return (1);
 }
 
-char *read_user_input(const char *delim, t_minishell *shell)
+char *read_user_input(char *dlim, t_minishell *shell)
 {
     char		*line;
 
@@ -30,17 +30,17 @@ char *read_user_input(const char *delim, t_minishell *shell)
    if (!line) // EOF (Ctrl+D)
     {
         fprintf(stderr, "minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n",
-                shell->nb_line_heredoc , delim);
+                shell->nb_line_heredoc , dlim);
     }
     return (line);
 }
 
-int append_line(t_hdc *content, char *line)
+int	insert_line(t_hdc *cnt, char *line)
 {
     char	**new_lines;
 	size_t	i;
 
-	new_lines = malloc(sizeof(char *) * (content->count + 1));
+	new_lines = malloc(sizeof(char *) * (cnt->count + 1));
     if (!new_lines)
 	{
         perror("malloc");
@@ -48,41 +48,48 @@ int append_line(t_hdc *content, char *line)
         return (0);
     }
 	i = 0;
-    while (i < content->count)
+    while (i < cnt->count)
 	{
-        new_lines[i] = content->lines[i];
+        new_lines[i] = cnt->lines[i];
 		i++;
     }
-    new_lines[content->count] = line;
-    free(content->lines);
-    content->lines = new_lines;
-    content->count++;
+    new_lines[cnt->count] = line;
+    free(cnt->lines);
+    cnt->lines = new_lines;
+    cnt->count++;
     return (1);
 }
 
-t_hdc	*get_heredoc_lines(const char *input, const char *delim)
+char *trim_quotes(char *str)
 {
-	t_hdc	*content;
+    if (!str || (str[0] != '\'' && str[0] != '\"'))
+        return (ft_strdup(str));
+    return (ft_strtrim(str, "\"'"));
+}
+
+t_hdc	*get_heredoc_lines(char *input, char *dlim)
+{
+	t_hdc	*cnt;
 	char				**lines;
 
-	if (!input || !delim)
+	if (!input || !dlim)
 		return (NULL);
-	content = init_heredoc();
-	if (!content)
+	cnt = init_heredoc();
+	if (!cnt)
 		return (NULL);
 	lines = split_lines(input);
 	if (!lines)
 	{
-		free(content);
+		free(cnt);
 		return (NULL);
 	}
-	if (get_lines(content, lines, delim) == -1)
+	if (get_lines(cnt, lines, dlim) == -1)
 	{
-		free_heredoc_content(content);
+		free_heredoc_content(cnt);
 		free_split(lines);
-		free(content);
+		free(cnt);
 		return (NULL);
 	}
 	free_split(lines);
-	return (content);
+	return (cnt);
 }

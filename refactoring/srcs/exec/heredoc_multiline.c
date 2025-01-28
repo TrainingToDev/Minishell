@@ -1,59 +1,84 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_utils_2.c                                  :+:      :+:    :+:   */
+/*   heredoc_multiline.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/25 16:24:20 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 16:30:51 by miaandri         ###   ########.fr       */
+/*   Created: 2024/12/27 05:21:17 by miaandri          #+#    #+#             */
+/*   Updated: 2025/01/27 21:19:42 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int expand_existing_lines(t_hdc *content, t_minishell *shell)
+static int update_line(t_hdc *cnt, size_t i, int qt, t_minishell *shell)
 {
-	char	*expanded_line;
-	size_t	i;
+    char	*expanded_line;
 
-	i = 0;
-    while (i < content->count)
-	{
-        expanded_line = expand_variables_in_str(content->lines[i], shell);
-        if (!expanded_line)
-		{
-            perror("expand_variables_in_str");
-            return 0;
-        }
-        free(content->lines[i]);
-        content->lines[i] = expanded_line;
-		i++;
+    if (qt)
+        expanded_line = ft_strdup(cnt->lines[i]);
+    else
+        expanded_line = expand_variables_in_str(cnt->lines[i], shell);
+    if (!expanded_line)
+    {
+        perror("expand_variables_in_str");
+        return (0);
     }
+    free(cnt->lines[i]);
+    cnt->lines[i] = expanded_line;
     return (1);
 }
 
-static int read_and_expand(t_hdc *content, const char *delim, t_minishell *shell)
+static int expand_and_update(t_hdc *cnt, int qt, t_minishell *shell)
 {
-	char	*expanded_line;
-	char	*line;
+    char	*clean_delim;
+    size_t	i;
+
+    if (!cnt || !cnt->lines || cnt->count == 0)
+        return (0);
+    clean_delim = trim_quotes(cnt->lines[cnt->count - 1]);
+    i = 0;
+    while (i < cnt->count)
+    {
+        if (i == cnt->count - 1 
+			&& ft_strcmp(cnt->lines[i], clean_delim) == 0)
+        {
+            i++;
+            continue;
+        }
+        if (!update_line(cnt, i, qt, shell))
+        {
+            free(clean_delim);
+            return (0);
+        }
+        i++;
+    }
+    free(clean_delim);
+    return (1);
+}
+
+static int	read_expand(t_hdc *cnt, char *dlim, t_minishell *shell)
+{
+    char	*expanded_line;
+    char	*line;
 
     while (1)
-	{
-		line = read_user_input(delim, shell);
-		if (!line)
-			break ;
-        if (ft_strcmp(line, delim) == 0)
-		{
+    {
+        line = read_user_input(dlim, shell);
+        if (!line) // EOF ou Ctrl+D
+            break;
+        if (ft_strcmp(line, dlim) == 0)
+        {
             free(line);
-            break ;
+            break;
         }
         expanded_line = expand_variables_in_str(line, shell);
         free(line);
         if (!expanded_line)
             return (0);
-        if (!append_line(content, expanded_line))
-		{
+        if (!insert_line(cnt, expanded_line))
+        {
             free(expanded_line);
             return (0);
         }
@@ -61,29 +86,46 @@ static int read_and_expand(t_hdc *content, const char *delim, t_minishell *shell
     return (1);
 }
 
-static void remove_final_delimiter(t_hdc *content, const char *delim)
+static void	clean_delimiter(t_hdc *cnt, char *dlim)
 {
-    if (content->count > 0 
-		&& ft_strcmp(content->lines[content->count - 1], delim) == 0)
-	{
-        free(content->lines[content->count - 1]);
-        content->lines[content->count - 1] = NULL;
-        content->count--;
+    char	*clean_delim;
+
+    clean_delim = trim_quotes(dlim);
+    if (cnt->count > 0 
+		&& ft_strcmp(cnt->lines[cnt->count - 1], clean_delim) == 0)
+    {
+        free(cnt->lines[cnt->count - 1]);
+        cnt->lines[cnt->count - 1] = NULL;
+        cnt->count--;
     }
+    free(clean_delim);
 }
 
-void handle_copied_heredoc(t_hdc *content, const char *delim, t_minishell *shell)
+
+void heredoc_copied(t_hdc *cnt, char *dlim, t_minishell *shell)
 {
-    if (!check_params(content, delim, shell))
-		return ;
-	main_heredoc(); // Configure signals for heredoc mode
-    if (!expand_existing_lines(content, shell))
-		return ;
-    if (content->count == 0 
-		|| ft_strcmp(content->lines[content->count - 1], delim) != 0)
-		{
-			if (!read_and_expand(content, delim, shell))
-				return ;
+    char	*clean_delim;
+    int		qt;
+
+    if (!check_params(cnt, dlim, shell))
+        return;
+    qt = (dlim[0] == '\'' || dlim[0] == '\"');
+    clean_delim = trim_quotes(dlim);
+    // manage_heredoc(); // signal
+    if (!expand_and_update(cnt, qt, shell))
+    {
+        free(clean_delim);
+        return ;
     }
-    remove_final_delimiter(content, delim);
+    if (cnt->count == 0 
+		|| ft_strcmp(cnt->lines[cnt->count - 1], clean_delim) != 0)
+    {
+        if (!read_expand(cnt, clean_delim, shell))
+        {
+            free(clean_delim);
+            return;
+        }
+    }
+    clean_delimiter(cnt, clean_delim);
+    free(clean_delim);
 }
