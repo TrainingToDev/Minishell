@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   plou.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/23 01:56:35 by herandri          #+#    #+#             */
+/*   Updated: 2025/01/23 23:37:10 by herandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void free_split(char **split)
@@ -167,3 +179,4 @@ void	process_heredoc(t_token *tokens, char *input)
 		current = current->next;
 	}
 }
+

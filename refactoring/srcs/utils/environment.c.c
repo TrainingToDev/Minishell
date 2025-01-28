@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   plou.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/23 01:56:35 by herandri          #+#    #+#             */
+/*   Updated: 2025/01/23 23:37:10 by herandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	assign_key_value(t_env_var *env_var, const char *input_env)
@@ -118,3 +130,4 @@ void print_env_list(t_env_var *env_list)
 		current = current->next;
 	}
 }
+

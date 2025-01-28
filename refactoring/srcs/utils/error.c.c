@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   plou.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/23 01:56:35 by herandri          #+#    #+#             */
+/*   Updated: 2025/01/23 23:37:10 by herandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char *get_error_msg(int err_type)
@@ -49,3 +61,4 @@ void	*print_error(int err_type, char *param, int err)
 		ft_putendl_fd(param, 2);
 	return (NULL);
 }
+
