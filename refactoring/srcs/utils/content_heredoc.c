@@ -16,58 +16,58 @@ void free_split(char **split)
 	free(split);
 }
 
-void free_heredoc_content(t_hdc *content)
+void free_heredoc_content(t_hdc *cnt)
 {
 	size_t	i;
 
-	if (!content || !content->lines)
+	if (!cnt || !cnt->lines)
 		return ;
 	i = 0;
-	while (i < content->count)
+	while (i < cnt->count)
 	{
-		free(content->lines[i]);
+		free(cnt->lines[i]);
 		i++;
 	}
-	free(content->lines);
-	content->lines = NULL;
-	content->count = 0;
+	free(cnt->lines);
+	cnt->lines = NULL;
+	cnt->count = 0;
 }
 
-void	print_heredoc_content(const t_hdc *content)
+void	print_heredoc_content(t_hdc *cnt)
 {
 	size_t	i;
-	if (!content)
+	if (!cnt)
 	{
-		printf("No heredoc content to display.\n");
+		printf("No heredoc cnt to display.\n");
 		return ;
 	}
-	if (!content->lines || content->count == 0)
+	if (!cnt->lines || cnt->count == 0)
 	{
-		printf("Heredoc content is empty.\n");
+		printf("Heredoc cnt is empty.\n");
 		return ;
 	}
-	printf("Heredoc content (%zu lines):\n", content->count);
+	printf("Heredoc cnt (%zu lines):\n", cnt->count);
 	i = 0;
-	while (i < content->count)
+	while (i < cnt->count)
 	{
-		printf("Line %zu: %s\n", i + 1, content->lines[i]);
+		printf("Line %zu: %s\n", i + 1, cnt->lines[i]);
 		i++;
 	}
 }
 
 t_hdc	*init_heredoc(void)
 {
-	t_hdc	*content;
+	t_hdc	*cnt;
 
-	content = malloc(sizeof(t_hdc));
-	if (!content)
+	cnt = malloc(sizeof(t_hdc));
+	if (!cnt)
 		return (NULL);
-	content->lines = NULL;
-	content->count = 0;
-	return (content);
+	cnt->lines = NULL;
+	cnt->count = 0;
+	return (cnt);
 }
 
-char	**split_lines(const char *input)
+char	**split_lines(char *input)
 {
 	char	**lines;
 
@@ -77,23 +77,23 @@ char	**split_lines(const char *input)
 	return (lines);
 }
 
-static char **dup_lines(t_hdc *content, const char *line)
+static char **dup_lines(t_hdc *cnt, char *line)
 {
 	char	**new_lines;
 	size_t	j;
 
-	new_lines = malloc(sizeof(char *) * (content->count + 1));
+	new_lines = malloc(sizeof(char *) * (cnt->count + 1));
 	if (!new_lines)
 		return (NULL);
 	j = 0;
-	while (j < content->count)
+	while (j < cnt->count)
 	{
-		new_lines[j] = content->lines[j];
+		new_lines[j] = cnt->lines[j];
 		j++;
 	}
-	free(content->lines);
-	new_lines[content->count] = ft_strdup(line);
-	if (!new_lines[content->count])
+	free(cnt->lines);
+	new_lines[cnt->count] = ft_strdup(line);
+	if (!new_lines[cnt->count])
 	{
 		while (j-- > 0)
 			free(new_lines[j]);
@@ -103,33 +103,33 @@ static char **dup_lines(t_hdc *content, const char *line)
 	return (new_lines);
 }
 
-int	add_line(t_hdc *content, const char *line)
+int	add_line(t_hdc *cnt, char *line)
 {
 	char	**new_lines;
 
-	new_lines = dup_lines(content, line);
+	new_lines = dup_lines(cnt, line);
 	if (!new_lines)
 		return (-1);
 
-	content->lines = new_lines;
-	content->count++;
+	cnt->lines = new_lines;
+	cnt->count++;
 	return (0);
 }
 
 
-int	get_lines(t_hdc *content, char **lines, const char *delim)
+int	get_lines(t_hdc *cnt, char **lines, char *dlim)
 {
 	size_t	i;
 
 	i = 1;
 	while (lines[i])
 	{
-		if (add_line(content, lines[i]) == -1)
+		if (add_line(cnt, lines[i]) == -1)
 		{
-			free_heredoc_content(content);
+			free_heredoc_content(cnt);
 			return (-1);
 		}
-		if (ft_strcmp(lines[i], delim) == 0)
+		if (ft_strcmp(lines[i], dlim) == 0)
 			return (0);
 		i++;
 	}
@@ -137,11 +137,11 @@ int	get_lines(t_hdc *content, char **lines, const char *delim)
 }
 
 //print heredoc
-void	process_heredoc(const t_token *tokens, const char *input)
+void	process_heredoc(t_token *tokens, char *input)
 {
-	const t_token		*current;
-	t_hdc	*content;
-	char				*delim;
+	t_token	*current;
+	t_hdc	*cnt;
+	char	*dlim;
 
 	current = tokens;
 	while (current)
@@ -149,18 +149,18 @@ void	process_heredoc(const t_token *tokens, const char *input)
 		if (current->type == TOKEN_HEREDOC)
 		{
 			if (current->next)
-				delim = current->next->value;
+				dlim = current->next->value;
 			else
-				delim = NULL;
-			if (delim)
+				dlim = NULL;
+			if (dlim)
 			{
-				printf("Handling heredoc with delim: %s\n", delim);
-				content = get_heredoc_lines(input, delim);
-				if (content)
+				printf("Handling heredoc with dlim: %s\n", dlim);
+				cnt = get_heredoc_lines(input, dlim);
+				if (cnt)
 				{
-					print_heredoc_content(content);
-					free_heredoc_content(content);
-					free(content);
+					print_heredoc_content(cnt);
+					free_heredoc_content(cnt);
+					free(cnt);
 				}
 			}
 		}
