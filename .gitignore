@@ -4,3 +4,9 @@ minishell
 .vscode/
 prog
 obj
+input
+output
+in
+out
+*.a
+header
