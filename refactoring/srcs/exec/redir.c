@@ -28,20 +28,20 @@ static int handle_redir_in(t_redir *current)
     return (0);
 }
 
-static int handle_redir_out(t_redir *current)
-{
-    int fd;
+ static int handle_redir_out(t_redir *current)
+ {
+     int fd;
 
-	fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
-	{
-        perror(current->filename);
-        if (fd != -1)
-            close(fd);
-        return (-1);
-    }
-    close(fd);
-    return 0;
+ 	fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+     if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
+ 	{
+         perror("Error opening file for redirection");
+         if (fd != -1)
+             close(fd);
+         return (-1);
+     }
+     close(fd);
+     return 0;
 }
 
 static int handle_redir_append(t_redir *current)
@@ -59,52 +59,52 @@ static int handle_redir_append(t_redir *current)
     return 0;
 }
 
+
+//need refactoring
 int apply_redirections(t_redir *redirs, t_minishell *shell)
 {
     t_redir *current;
-    int result;
 
+    // Priority 1 : HEREDOCS
     current = redirs;
     while (current)
     {
-        result = 0;
-        if (current->type == REDIR_IN)
+        if (current->type == REDIR_HEREDOC)
         {
-            // printf("DEBUG: REDIR_IN sur %s\n", current->filename);
-            result = handle_redir_in(current);
+            if (heredoc_redir(current, shell) == -1)
+                return (-1);
         }
-        else if (current->type == REDIR_HEREDOC)
-        {
-            // printf("DEBUG: HEREDOC avec le délimiteur : %s\n", current->filename);
-            result = handle_redir_heredoc(current, shell);
-        }
-
-        if (result == -1)
-            return (-1);
-
         current = current->next;
     }
+
+    // Priority 2 : REDIR_IN
     current = redirs;
     while (current)
     {
-        result = 0;
+        if (current->type == REDIR_IN)
+        {
+            if (handle_redir_in(current) == -1)
+                return (-1);
+        }
+        current = current->next;
+    }
+
+    // Priority 3 : REDIR_OUT et REDIR_APPEND
+    current = redirs;
+    while (current)
+    {
         if (current->type == REDIR_OUT)
         {
-            // printf("DEBUG: REDIR_OUT sur %s\n", current->filename);
-            result = handle_redir_out(current);
+            if (handle_redir_out(current) == -1)
+                return (-1);
         }
         else if (current->type == REDIR_APPEND)
         {
-            // printf("DEBUG: REDIR_APPEND sur %s\n", current->filename);
-            result = handle_redir_append(current);
+            if (handle_redir_append(current) == -1)
+                return (-1);
         }
-
-        if (result == -1)
-            return (-1);
-
         current = current->next;
     }
-
     return (0);
 }
 
