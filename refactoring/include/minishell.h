@@ -242,7 +242,17 @@ int	execute_ast(t_ast *ast, t_minishell *shell);
 
 // redir
 int apply_redirections(t_redir *redirs, t_minishell *shell);
-int handle_redir_heredoc(t_redir *current, t_minishell *shell);
+int heredoc_redir(t_redir *current, t_minishell *shell);
+
+// heredoc
+int		check_params(t_hdc *cnt, char *dlim, t_minishell *shell);
+char	*read_user_input(char *dlim, t_minishell *shell);
+int		insert_line(t_hdc *cnt, char *line);
+char	*trim_quotes(char *str);
+void	heredoc_interactive(char *dlim, t_hdc *cnt, t_minishell *shell);
+void	heredoc_copied(t_hdc *cnt, char *dlim, t_minishell *shell);
+
+
 
 //env
 char	**convert_env_list(t_env_var *env_list);
@@ -251,12 +261,6 @@ char	**convert_env_list(t_env_var *env_list);
 char	*find_command_path(char *cmd_name, t_env_var *env_list);
 void	free_str_array(char **array);
 
-// heredoc
-int check_params(t_hdc *content, const char *delim, t_minishell *shell);
-char *read_user_input(const char *delim, t_minishell *shell);
-int append_line(t_hdc *content, char *line);
-void handle_interactive_heredoc(const char *delim, t_hdc *content, t_minishell *shell);
-void handle_copied_heredoc(t_hdc *content, const char *delim, t_minishell *shell);
 
 // pipe
 int init_pipe(int pipefd[2]);
@@ -267,14 +271,14 @@ void close_pipe_descriptors(int pipefd[2]);
 
 //utils
 void	free_split(char **split);
-void	free_heredoc_content(t_hdc *content);
-char	**split_lines(const char *input);
-void	process_heredoc(const t_token *tokens, const char *input);
+void	free_heredoc_content(t_hdc *cnt);
+char	**split_lines(char *input);
+void	process_heredoc(t_token *tokens, char *input);
 t_hdc	*init_heredoc(void);
-t_hdc	*get_heredoc_lines(const char *input, const char *delim);
-int		add_line(t_hdc *content, const char *line);
-int		get_lines(t_hdc *content, char **lines, const char *delim);
-void	print_heredoc_content(const t_hdc *content);
+t_hdc	*get_heredoc_lines(char *input, char *dlim);
+int		add_line(t_hdc *cnt, char *line);
+int		get_lines(t_hdc *cnt, char **lines, char *dlim);
+void	print_heredoc_content(t_hdc *cnt);
 
 //environment
 void	 	print_env_list(t_env_var *env_list);
