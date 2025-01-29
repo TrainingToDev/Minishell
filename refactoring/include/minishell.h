@@ -6,7 +6,7 @@
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:50:28 by miaandri          #+#    #+#             */
-/*   Updated: 2024/12/07 04:39:14 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/01/29 04:41:09 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,17 @@ enum	e_mini_error
 	E_ISDIR = 12,         // Fichier spécifié est un répertoire
 	E_NOTDIR = 13,        // Not a directory
 	E_WARNING = 14        // Avertissement général
+	/*
+	E_REDIR=2 ,//for all the error unexpected token (+unclosed quote + non closed bracets(subshell))
+	E_CTLC= 130 ,//FOR CTL+C IN TERMINAL or IN COMMAND BLOQUANTE
+	E_CTLD=0,//FOR CTL+D 
+	E_CTL\=0,//FOR CTL+\
+	E_COMMAND=127, //COMMAND NOT FOUND
+	E_COMFAILED=1,//COMMAND FAILED EXECVE ERROR MESSAGE
+	E_NODIR=127,//NO SUCH FILE OR DIRECTORY
+	E_OK=0,//FOR ALL THE RIGHT COMPORTEMENT
+	E_BONUS=1,//FOR PARSE (& otranito fotsiny)
+	*/
 };
 
 // expand struct
