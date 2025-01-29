@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 01:56:35 by herandri          #+#    #+#             */
-/*   Updated: 2025/01/28 06:52:32 by herandri         ###   ########.fr       */
+/*   Created: 2024/12/08 06:02:59 by miaandri          #+#    #+#             */
+/*   Updated: 2025/01/29 02:04:00 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	check_args(int argc, char **argv)
 	}
 	return (EXIT_SUCCESS);
 }
+
 char	*format_prompt(void)
 {
 	char	*cwd;
@@ -52,9 +53,9 @@ char	*format_prompt(void)
 	return (prompt);
 }
 
-char    *prompt_input(char *prompt)
+char	*prompt_input(char *prompt)
 {
-	char    *input;
+	char	*input;
 
 	input = NULL;
 	if (!prompt)
@@ -69,4 +70,3 @@ char    *prompt_input(char *prompt)
 		add_history(input);
 	return (input);
 }
-

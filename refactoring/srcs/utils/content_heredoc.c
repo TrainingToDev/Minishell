@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   content_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 01:56:35 by herandri          #+#    #+#             */
-/*   Updated: 2025/01/28 06:52:21 by herandri         ###   ########.fr       */
+/*   Created: 2024/12/08 06:02:59 by miaandri          #+#    #+#             */
+/*   Updated: 2025/01/29 02:03:44 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void free_split(char **split)
+void	free_split(char **split)
 {
-	size_t i;
+	size_t	i;
 
 	if (!split)
-		return;
-
+		return ;
 	i = 0;
 	while (split[i])
 	{
@@ -28,7 +27,7 @@ void free_split(char **split)
 	free(split);
 }
 
-void free_heredoc_content(t_hdc *cnt)
+void	free_heredoc_content(t_hdc *cnt)
 {
 	size_t	i;
 
@@ -48,6 +47,7 @@ void free_heredoc_content(t_hdc *cnt)
 void	print_heredoc_content(t_hdc *cnt)
 {
 	size_t	i;
+
 	if (!cnt)
 	{
 		printf("No heredoc cnt to display.\n");
@@ -89,7 +89,7 @@ char	**split_lines(char *input)
 	return (lines);
 }
 
-static char **dup_lines(t_hdc *cnt, char *line)
+static char	**dup_lines(t_hdc *cnt, char *line)
 {
 	char	**new_lines;
 	size_t	j;
@@ -122,12 +122,10 @@ int	add_line(t_hdc *cnt, char *line)
 	new_lines = dup_lines(cnt, line);
 	if (!new_lines)
 		return (-1);
-
 	cnt->lines = new_lines;
 	cnt->count++;
 	return (0);
 }
-
 
 int	get_lines(t_hdc *cnt, char **lines, char *dlim)
 {
@@ -148,7 +146,6 @@ int	get_lines(t_hdc *cnt, char **lines, char *dlim)
 	return (0);
 }
 
-//print heredoc
 void	process_heredoc(t_token *tokens, char *input)
 {
 	t_token	*current;
@@ -179,4 +176,3 @@ void	process_heredoc(t_token *tokens, char *input)
 		current = current->next;
 	}
 }
-

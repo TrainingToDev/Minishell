@@ -12,65 +12,66 @@
 
 #include "minishell.h"
 
-int check_params(t_hdc *cnt, char *dlim, t_minishell *shell)
+int	check_params(t_hdc *cnt, char *dlim, t_minishell *shell)
 {
-    if (!cnt || !dlim || !shell)
+	if (!cnt || !dlim || !shell)
 	{
-        fprintf(stderr, "Invalid parameters provided to handle_interactive_heredoc.\n");
-        return (0);
-    }
-    return (1);
+		fprintf(stderr, "Invalid parameters provided to handle_interactive_heredoc.\n");
+		return (0);
+	}
+	return (1);
 }
 
-char *read_user_input(char *dlim, t_minishell *shell)
+char	*read_user_input(char *dlim, t_minishell *shell)
 {
-    char		*line;
+	char	*line;
 
 	line = readline("\001"COLOR_BLUE"\002""heredoc> ""\001"COLOR_RESET"\002");
-   if (!line) // EOF (Ctrl+D)
-    {
-        fprintf(stderr, "minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n",
-                shell->nb_line_heredoc , dlim);
-    }
-    return (line);
+	if (!line)
+	{
+		printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n",
+		shell->nb_line_heredoc , dlim);
+		return (NULL);
+	}
+	return (line);
 }
 
 int	insert_line(t_hdc *cnt, char *line)
 {
-    char	**new_lines;
+	char	**new_lines;
 	size_t	i;
 
 	new_lines = malloc(sizeof(char *) * (cnt->count + 1));
-    if (!new_lines)
+	if (!new_lines)
 	{
-        perror("malloc");
-        free(line);
-        return (0);
-    }
+		perror("malloc");
+		free(line);
+		return (0);
+	}
 	i = 0;
-    while (i < cnt->count)
+	while (i < cnt->count)
 	{
-        new_lines[i] = cnt->lines[i];
+		new_lines[i] = cnt->lines[i];
 		i++;
-    }
-    new_lines[cnt->count] = line;
-    free(cnt->lines);
-    cnt->lines = new_lines;
-    cnt->count++;
-    return (1);
+	}
+	new_lines[cnt->count] = line;
+	free(cnt->lines);
+	cnt->lines = new_lines;
+	cnt->count++;
+	return (1);
 }
 
-char *trim_quotes(char *str)
+char	*trim_quotes(char *str)
 {
-    if (!str || (str[0] != '\'' && str[0] != '\"'))
-        return (ft_strdup(str));
-    return (ft_strtrim(str, "\"'"));
+	if (!str || (str[0] != '\'' && str[0] != '\"'))
+		return (ft_strdup(str));
+	return (ft_strtrim(str, "\"'"));
 }
 
 t_hdc	*get_heredoc_lines(char *input, char *dlim)
 {
 	t_hdc	*cnt;
-	char				**lines;
+	char	**lines;
 
 	if (!input || !dlim)
 		return (NULL);

@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_list.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/16 13:21:30 by herandri          #+#    #+#             */
+/*   Updated: 2025/01/29 00:34:41 by herandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-//1
 static t_ast	*parse_init_pipe(t_parser *parser, char *input)
 {
 	t_ast	*node_pipe;
@@ -14,7 +25,6 @@ static t_ast	*parse_init_pipe(t_parser *parser, char *input)
 	return (node_pipe);
 }
 
-//2
 static t_ast	*parse_op(t_token_type operator, t_ast *left, t_ast *right)
 {
 	t_ast	*logic_node;
@@ -35,8 +45,7 @@ static t_ast	*parse_op(t_token_type operator, t_ast *left, t_ast *right)
 	return (logic_node);
 }
 
-//3
-static t_ast	*parse_logical(t_parser *parser, char *input, t_ast *pipe_node)
+static t_ast	*parse_logic(t_parser *parser, char *input, t_ast *pipe_node)
 {
 	t_token_type	operator;
 	t_ast			*right;
@@ -61,7 +70,6 @@ static t_ast	*parse_logical(t_parser *parser, char *input, t_ast *pipe_node)
 	return (pipe_node);
 }
 
-//4
 t_ast	*parse_list(t_parser *parser, char *input)
 {
 	t_ast	*pipe_node;
@@ -69,6 +77,6 @@ t_ast	*parse_list(t_parser *parser, char *input)
 	pipe_node = parse_init_pipe(parser, input);
 	if (!pipe_node)
 		return (NULL);
-	pipe_node = parse_logical(parser, input, pipe_node);
+	pipe_node = parse_logic(parser, input, pipe_node);
 	return (pipe_node);
 }

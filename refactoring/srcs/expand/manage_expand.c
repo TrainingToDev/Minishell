@@ -1,21 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manage_expand.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/25 09:03:35 by miaandri          #+#    #+#             */
+/*   Updated: 2025/01/29 06:33:08 by miaandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static int expand_single_token(t_token *token, t_token *tokens, t_minishell *shell)
+static int	token_expand(t_token *token, t_token *tokens, t_minishell *shell)
 {
 	char	*expanded;
 
 	if (token->type == TOKEN_WORD)
 	{
-		if (token->expand == 1 || (strchr(token->value, '$') 
-			&& !is_single_quoted(token->value)))
+		if (token->expand == 1 || (strchr(token->value, '$')
+				&& !is_single_quoted(token->value)))
 		{
 			expanded = expand_variables_in_str(token->value, shell);
 			if (!expanded)
 			{
-				fprintf(stderr, "Error: Memory allocation failed during variable expansion.\n");
+				printf("Memory allocation failed\n");
 				free_token_list(tokens);
 				shell->running = 0;
-				return (0);  // Erreur => on arrête
+				return (0);
 			}
 			free(token->value);
 			token->value = expanded;
@@ -24,14 +36,15 @@ static int expand_single_token(t_token *token, t_token *tokens, t_minishell *she
 	return (1);
 }
 
-void expand_token_list(t_token *tokens, t_minishell *shell)
+void	expand_token_list(t_token *tokens, t_minishell *shell)
 {
-	t_token *current = tokens;
+	t_token	*current;
 
+	current = tokens;
 	while (current)
 	{
-		if (!expand_single_token(current, tokens, shell))
+		if (!token_expand(current, tokens, shell))
 			return ;
 		current = current->next;
-    }
+	}
 }

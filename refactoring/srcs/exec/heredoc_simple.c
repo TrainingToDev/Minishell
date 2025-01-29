@@ -12,51 +12,56 @@
 
 #include "minishell.h"
 
-static char *transform(char *line, char *dlim, int qt, t_minishell *shell)
+static char	*transform(char *line, char *dlim, int qt, t_minishell *shell)
 {
-	char *result;
+	char	*result;
 
-    if (ft_strcmp(line, dlim) == 0)
-    {
-        free(line);
-        return (NULL);
-    }
-    if (qt)
+	if (ft_strcmp(line, dlim) == 0)
+	{
+		free(line);
+		return (NULL);
+	}
+	if (qt)
 	{
 		result = ft_strdup(line);
 		free(line);
 		return (result);
 	}
-    result = expand_variables_in_str(line, shell);
-    free(line);
-    return (result);
+	result = expand_variables_in_str(line, shell);
+	free(line);
+	return (result);
 }
 
-void heredoc_interactive(char *dlim, t_hdc *cnt, t_minishell *shell)
+void	heredoc_interactive(char *dlim, t_hdc *cnt, t_minishell *shell)
 {
 	char	*line;
 	char	*expanded_line;
 	char	*clean_delim;
 	int		quoted;
 
+	is_heredoc(1);
 	quoted = (dlim[0] == '\'' || dlim[0] == '\"');
 	clean_delim = trim_quotes(dlim);
 	if (!check_params(cnt, dlim, shell))
 	{
 		free(clean_delim);
+		is_heredoc(0);
 		return ;
 	}
-	manage_heredoc(); //signal
+	manage_heredoc();
 	while (1)
 	{
+		if (status_manager(0, STATUS_READ) == 130)
+			break ;
 		line = read_user_input(clean_delim, shell);
 		if (!line)
-			break;
+			break ;
 		expanded_line = transform(line, clean_delim, quoted, shell);
 		if (!expanded_line)
-			break;
+			break ;
 		if (!insert_line(cnt, expanded_line))
-			break;
-    }
+			break ;
+	}
 	free(clean_delim);
+	is_heredoc(0);
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 01:56:35 by herandri          #+#    #+#             */
-/*   Updated: 2025/01/28 06:52:29 by herandri         ###   ########.fr       */
+/*   Created: 2024/12/08 06:02:59 by miaandri          #+#    #+#             */
+/*   Updated: 2025/01/29 02:03:55 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *get_error_msg(int err_type)
+static char	*get_error_msg(int err_type)
 {
 	if (err_type == E_QUOTE)
 		return ("minishell: syntax Unclosed quote\n");
@@ -54,11 +54,10 @@ void	*print_error(int err_type, char *param, int err)
 	if (err_type == E_SYNTAX && param)
 	{
 		ft_putstr_fd(param, 2);
-		ft_putstr_fd("'\n", 2); 
+		ft_putstr_fd("'\n", 2);
 		return (NULL);
 	}
 	if (param)
 		ft_putendl_fd(param, 2);
 	return (NULL);
 }
-

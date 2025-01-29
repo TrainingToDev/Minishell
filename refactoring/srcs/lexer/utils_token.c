@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_token.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/11 19:48:29 by herandri          #+#    #+#             */
+/*   Updated: 2025/01/29 01:09:26 by herandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_operator(const char *str)
@@ -22,7 +34,7 @@ int	is_operator(const char *str)
 	return (0);
 }
 
-t_token_type get_op_token(const char *op)
+t_token_type	get_op_token(const char *op)
 {
 	if (ft_strncmp(op, ">|", 2) == 0)
 		return (TOKEN_REDIRECT_OUT);
@@ -48,9 +60,9 @@ t_token_type get_op_token(const char *op)
 		return (TOKEN_UNKNOWN);
 }
 
-t_token *create_token(t_token_type type, const char *value, int expand)
+t_token	*create_token(t_token_type type, const char *value, int expand)
 {
-	t_token *new_token;
+	t_token	*new_token;
 
 	if (!value)
 		return (NULL);
@@ -92,7 +104,7 @@ void	add_token(t_token **tokens, t_token *new_token)
 	current->next = new_token;
 }
 
-int is_quote(char c)
+int	is_quote(char c)
 {
-    return (c == '\'' || c == '\"');
+	return (c == '\'' || c == '\"');
 }

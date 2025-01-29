@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int validate_subshell_node(t_ast *ast)
+static int	validate_subshell_node(t_ast *ast)
 {
 	if (!ast || ast->type != NODE_SUBSHELL)
 	{
@@ -22,10 +22,12 @@ static int validate_subshell_node(t_ast *ast)
 	return (1);
 }
 
-static pid_t create_subshell_process(t_ast *ast, t_minishell *shell)
+static pid_t	create_subshell_process(t_ast *ast, t_minishell *shell)
 {
-	pid_t pid = fork();
+	pid_t	pid;
+	int		subshell_exit;
 
+	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
@@ -43,7 +45,7 @@ static pid_t create_subshell_process(t_ast *ast, t_minishell *shell)
 		}
 		if (ast->left)
 		{
-			int subshell_exit = execute_ast(ast->left, shell);
+			subshell_exit = execute_ast(ast->left, shell);
 			exit(subshell_exit);
 		}
 		exit(0);
@@ -51,9 +53,9 @@ static pid_t create_subshell_process(t_ast *ast, t_minishell *shell)
 	return (pid);
 }
 
-static int wait_for_subshell(pid_t pid, t_minishell *shell)
+static int	wait_for_subshell(pid_t pid, t_minishell *shell)
 {
-	int status;
+	int	status;
 
 	if (waitpid(pid, &status, 0) == -1)
 	{
@@ -67,7 +69,7 @@ static int wait_for_subshell(pid_t pid, t_minishell *shell)
 	return (shell->last_exit_status);
 }
 
-int execute_subshell(t_ast *ast, t_minishell *shell)
+int	execute_subshell(t_ast *ast, t_minishell *shell)
 {
 	pid_t	pid;
 
@@ -79,20 +81,22 @@ int execute_subshell(t_ast *ast, t_minishell *shell)
 	return (wait_for_subshell(pid, shell));
 }
 
-int execute_conditional(t_ast *ast, t_minishell *shell)
+int	execute_conditional(t_ast *ast, t_minishell *shell)
 {
+	int	left_status;
+
 	if (!ast || (ast->type != NODE_AND && ast->type != NODE_OR))
 	{
 		fprintf(stderr, "execute_conditional: Invalid AST node type\n");
 		return (1);
 	}
-	int left_status = execute_ast(ast->left, shell);
+	left_status = execute_ast(ast->left, shell);
 	if (ast->type == NODE_AND)
 	{
 		if (left_status == 0)
 			return (execute_ast(ast->right, shell));
 		else
-			return left_status;
+			return (left_status);
 	}
 	else if (ast->type == NODE_OR)
 	{

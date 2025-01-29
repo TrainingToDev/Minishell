@@ -26,80 +26,82 @@ static char	*get_env_cd(const char *key, t_env_var *env_list)
 	return (NULL);
 }
 
-static int update_env_value_if_exists(t_env_var *env_list, const char *key, const char *value)
+static int	update_env_value_if_exists(t_env_var *env_list, const char *key, const char *value)
 {
-    t_env_var	*current;
+	t_env_var	*current;
 
 	current = env_list;
-    while (current)
-    {
-        if (ft_strcmp(current->key, key) == 0)
-        {
-            free(current->value);
-            current->value = ft_strdup(value);
-            if (!current->value)
-            {
-                fprintf(stderr, "Error: Memory allocation failed.\n");
-                exit(EXIT_FAILURE);
-            }
-            return (1);
-        }
-        current = current->next;
-    }
-    return (0);
-}
-
-static t_env_var *create_new_env_node(const char *key, const char *value)
-{
-    t_env_var *new_node = malloc(sizeof(t_env_var));
-    if (!new_node)
-    {
-        fprintf(stderr, "Error: Memory allocation failed.\n");
-        exit(EXIT_FAILURE);
-    }
-    new_node->key = ft_strdup(key);
-    new_node->value = ft_strdup(value);
-    new_node->next = NULL;
-    if (!new_node->key || !new_node->value)
-    {
-        fprintf(stderr, "Error: Memory allocation failed.\n");
-        free(new_node->key);
-        free(new_node->value);
-        free(new_node);
-        exit(EXIT_FAILURE);
-    }
-    return (new_node);
-}
-
-static void append_env_node(t_env_var **env_list, t_env_var *new_node)
-{
-	 t_env_var *current;
-
-    if (!*env_list)
+	while (current)
 	{
-        *env_list = new_node;
-        return ;
-    }
-    current = *env_list;
-    while (current->next)
-        current = current->next;
-    current->next = new_node;
+		if (ft_strcmp(current->key, key) == 0)
+		{
+			free(current->value);
+			current->value = ft_strdup(value);
+			if (!current->value)
+			{
+				fprintf(stderr, "Error: Memory allocation failed.\n");
+				exit(EXIT_FAILURE);
+			}
+			return (1);
+		}
+		current = current->next;
+	}
+	return (0);
 }
 
-static void set_env_value(t_env_var **env_list, const char *key, const char *value)
+static t_env_var	*create_new_env_node(const char *key, const char *value)
 {
 	t_env_var	*new_node;
 
-    if (update_env_value_if_exists(*env_list, key, value))
-        return ;
-    new_node = create_new_env_node(key, value);
-    append_env_node(env_list, new_node);
+	new_node = malloc(sizeof(t_env_var));
+	if (!new_node)
+	{
+		fprintf(stderr, "Error: Memory allocation failed.\n");
+		exit(EXIT_FAILURE);
+	}
+	new_node->key = ft_strdup(key);
+	new_node->value = ft_strdup(value);
+	new_node->next = NULL;
+	if (!new_node->key || !new_node->value)
+	{
+		fprintf(stderr, "Error: Memory allocation failed.\n");
+		free(new_node->key);
+		free(new_node->value);
+		free(new_node);
+		exit(EXIT_FAILURE);
+	}
+	return (new_node);
 }
 
-static void update_env_pwd(t_minishell *shell)
+static void	append_env_node(t_env_var **env_list, t_env_var *new_node)
 {
-    char	*oldpwd_value;
-    char	*newpwd_value;
+	t_env_var	*current;
+
+	if (!*env_list)
+	{
+		*env_list = new_node;
+		return ;
+	}
+	current = *env_list;
+	while (current->next)
+		current = current->next;
+	current->next = new_node;
+}
+
+static void	set_env_value(t_env_var **env_list, const char *key, const char *value)
+{
+	t_env_var	*new_node;
+
+	if (update_env_value_if_exists(*env_list, key, value))
+		return ;
+	new_node = create_new_env_node(key, value);
+	append_env_node(env_list, new_node);
+}
+
+static void	update_env_pwd(t_minishell *shell)
+{
+	char	*oldpwd_value;
+	char	*newpwd_value;
 
 	oldpwd_value = get_env_cd("PWD", shell->env_list);
 	newpwd_value = getcwd(NULL, 0);
@@ -115,7 +117,7 @@ static void update_env_pwd(t_minishell *shell)
 	}
 }
 
-static int execute_cd(t_minishell *shell, char *path, int duplicate_path)
+static int	execute_cd(t_minishell *shell, char *path, int duplicate_path)
 {
 	if (chdir(path) == -1)
 	{
@@ -128,12 +130,11 @@ static int execute_cd(t_minishell *shell, char *path, int duplicate_path)
 	update_env_pwd(shell);
 	if (duplicate_path)
 		free(path);
-
 	shell->last_exit_status = 0;
 	return (0);
 }
 
-static int validate_cd_path(t_minishell *shell, char *path, int duplicate_path)
+static int	validate_cd_path(t_minishell *shell, char *path, int duplicate_path)
 {
 	if (!path || ft_strlen(path) == 0)
 	{
@@ -170,7 +171,7 @@ static char	*get_cd_path(t_minishell *shell, char **args)
 		}
 	}
 	else
-		path = args[1]; 
+		path = args[1];
 	return (path);
 }
 

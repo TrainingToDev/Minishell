@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/29 02:05:42 by miaandri          #+#    #+#             */
+/*   Updated: 2025/01/29 02:05:43 by miaandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void init_minishell(t_minishell *shell, t_env_var *env_list)
@@ -19,6 +31,7 @@ static void minishell_loop(t_env_var *env_list)
 	t_token		*token_list;
 	t_ast		*ast_root;
 	t_minishell	shell;
+	t_hdc *test = NULL;
 
 
 	prompt = NULL;
@@ -53,6 +66,13 @@ static void minishell_loop(t_env_var *env_list)
 		}
 		printf("------>>>> TOKEN:\n");
 		print_tokens(token_list);
+
+
+		printf("heredoc conten:\n");
+		print_heredoc_content(test);
+		printf("---------------------\n");
+
+
 
 		// 4) Parse tokens
 		ast_root = parse(token_list, input);
@@ -91,7 +111,7 @@ int main(int argc, char **argv, char **envp)
 		ft_putstr_fd("minishell: Failed to initialize environment\n", 2);
 		return (1);
 	}
-	main_signals();
+	setup_signals();
 	minishell_loop(env_list);
 	free_env_list(env_list);
 	rl_clear_history();

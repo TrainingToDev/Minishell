@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_cmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/16 13:21:30 by herandri          #+#    #+#             */
+/*   Updated: 2025/01/29 07:09:59 by miaandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static t_ast	*create_cmd_node(void)
@@ -7,26 +19,24 @@ static t_ast	*create_cmd_node(void)
 	cmd = malloc(sizeof(t_ast));
 	if (!cmd)
 		return (NULL);
-
 	cmd->type = NODE_COMMAND;
 	cmd->left = NULL;
 	cmd->right = NULL;
 	cmd->command = NULL;
-
 	return (cmd);
 }
 
-t_command *create_cmd(void)
+t_command	*create_cmd(void)
 {
-    t_command	*cmd;
+	t_command	*cmd;
 
 	cmd = malloc(sizeof(t_command));
-    if (!cmd)
-        return (NULL);
-    cmd->argv = NULL;
-    cmd->argc = 0;
-    cmd->redirs = NULL;
-    return (cmd);
+	if (!cmd)
+		return (NULL);
+	cmd->argv = NULL;
+	cmd->argc = 0;
+	cmd->redirs = NULL;
+	return (cmd);
 }
 
 t_ast	*parse_cmd(t_parser *parser, char *input)

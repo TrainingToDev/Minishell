@@ -1,82 +1,93 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/25 09:03:35 by miaandri          #+#    #+#             */
+/*   Updated: 2025/01/29 06:41:12 by miaandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static char	*append_exit_status(char *result, t_minishell *shell)
+static char	*append_exit_status(char *res, t_minishell *shell)
 {
-    char	*exit_status;
-    char	*temp;
+	char	*exit_status;
+	char	*temp;
 
 	exit_status = ft_itoa(shell->last_exit_status);
-    if (!exit_status)
-    {
-        free(result);
-        return (NULL);
-    }
-    temp = ft_strjoin(result, exit_status);
-    free(exit_status);
-    free(result);
-    return (temp);
-}
-
-static char *append_char_to_result(char *result, char c)
-{
-    char	*temp;
-
-	temp = ft_strjoin_char(result, c);
-	free(result);
+	if (!exit_status)
+	{
+		free(res);
+		return (NULL);
+	}
+	temp = ft_strjoin(res, exit_status);
+	free(exit_status);
+	free(res);
 	return (temp);
 }
 
-
-static char	*process_normal_char(const char *src, size_t *i, char *result)
+static char	*append_char_to_result(char *res, char c)
 {
-	result = append_char_to_result(result, src[*i]);
-	if (!result)
-		return (NULL);
-	(*i)++;
-	return (result);
+	char	*temp;
+
+	temp = ft_strjoin_char(res, c);
+	free(res);
+	return (temp);
 }
 
-static char *process_dollar(const char *src, size_t *i, char *result, t_minishell *shell)
+static char	*process_normal_char(char *src, size_t *i, char *res)
 {
-    if (src[*i + 1] == '?')
-    {
-		result = append_exit_status(result, shell);
-		if (!result)
+	res = append_char_to_result(res, src[*i]);
+	if (!res)
+		return (NULL);
+	(*i)++;
+	return (res);
+}
+
+static char	*proc_dlr(char *src, size_t *i, char *res, t_minishell *shell)
+{
+	if (src[*i + 1] == '?')
+	{
+		res = append_exit_status(res, shell);
+		if (!res)
 			return (NULL);
 		*i += 2;
 	}
 	else
 	{
-		result = append_var_value(src, i, result, shell);
-		if (!result)
+		res = add_vval(src, i, res, shell);
+		if (!res)
 			return (NULL);
 	}
-	return (result);
+	return (res);
 }
 
-char *expand_variables_in_str(const char *src, t_minishell *shell)
+char	*expand_variables_in_str(char *src, t_minishell *shell)
 {
-    size_t	i;
-    char	*result;
+	size_t	i;
+	char	*res;
 
 	i = 0;
-	result = ft_strdup("");
-	if (!result)
+	res = ft_strdup("");
+	if (!res)
 		return (NULL);
 	while (src[i])
 	{
 		if (src[i] == '$')
 		{
-			result = process_dollar(src, &i, result, shell);
-			if (!result)
+			res = proc_dlr(src, &i, res, shell);
+			if (!res)
 				return (NULL);
 		}
 		else
 		{
-			result = process_normal_char(src, &i, result);
-			if (!result)
+			res = process_normal_char(src, &i, res);
+			if (!res)
 				return (NULL);
 		}
 	}
-	return (result);
+	return (res);
 }

@@ -12,24 +12,24 @@
 
 #include "minishell.h"
 
-static int count(t_env_var *env)
+static int	count(t_env_var *env)
 {
-	t_env_var	*current;
-    int count;
+	t_env_var	*cur;
+	int			count;
 
-    count = 0;
-    current = env;
-    while (current)
-    {
-        count++;
-        current = current->next;
-    }
-    return (count);
+	count = 0;
+	cur = env;
+	while (cur)
+	{
+		count++;
+		cur = cur->next;
+	}
+	return (count);
 }
 
 char	**convert_env_list(t_env_var *env_list)
 {
-	t_env_var	*current;
+	t_env_var	*cur;
 	char		**env_array;
 	char		*entry;
 	int			i;
@@ -38,17 +38,17 @@ char	**convert_env_list(t_env_var *env_list)
 	if (!env_array)
 		return (NULL);
 	i = 0;
-	current = env_list;
-	while (current)
+	cur = env_list;
+	while (cur)
 	{
-		entry = ft_strjoin_free(ft_strjoin(current->key, "="), current->value, 1);
+		entry = ft_strjoin_free(ft_strjoin(cur->key, "="), cur->value, 1);
 		if (!entry)
 		{
 			free_str_array(env_array);
 			return (NULL);
 		}
 		env_array[i++] = entry;
-		current = current->next;
+		cur = cur->next;
 	}
 	env_array[i] = NULL;
 	return (env_array);

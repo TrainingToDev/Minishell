@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_syntax.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/11 21:47:39 by herandri          #+#    #+#             */
+/*   Updated: 2025/01/29 01:18:49 by herandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static int check_tokens_validity(t_token *tokens)
+static int	check_tokens_validity(t_token *tokens)
 {
 	while (tokens)
 	{
@@ -14,7 +26,7 @@ static int check_tokens_validity(t_token *tokens)
 	return (1);
 }
 
-int validate_syntax(t_token *tokens)
+int	validate_syntax(t_token *tokens)
 {
 	if (!tokens)
 		return (0);

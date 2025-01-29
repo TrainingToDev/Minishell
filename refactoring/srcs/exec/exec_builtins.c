@@ -12,29 +12,29 @@
 
 #include "minishell.h"
 
-int execute_builtin_cmd(t_command *command, t_minishell *shell)//get_off fork
+int	execute_builtin_cmd(t_command *command, t_minishell *shell)
 {
-    pid_t	pid;
+	pid_t	pid;
 
 	if (is_builtin(command->argv[0]))
 	{
 		return (execute_builtin(shell, command->argv));
 	}
 	pid = fork();
-    if (pid == 0)
+	if (pid == 0)
 	{
-        if (apply_redirections(command->redirs, shell) == -1)
+		if (apply_redirections(command->redirs, shell) == -1)
 		{
-            perror("Erreur lors de l'application des redirections");
-            exit(1);
-        }
-        exit(execute_builtin(shell, command->argv));
-    }
+			perror("Erreur lors de l'application des redirections");
+			exit(1);
+		}
+		exit(execute_builtin(shell, command->argv));
+	}
 	else if (pid < 0)
 	{
-        perror("fork");
-        return (1);
-    }
-    waitpid(pid, &shell->last_exit_status, 0);
-    return (WEXITSTATUS(shell->last_exit_status));
+		perror("fork");
+		return (1);
+	}
+	waitpid(pid, &shell->last_exit_status, 0);
+	return (WEXITSTATUS(shell->last_exit_status));
 }

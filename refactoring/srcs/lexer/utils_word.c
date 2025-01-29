@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_word.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/11 21:47:39 by herandri          #+#    #+#             */
+/*   Updated: 2025/01/29 01:09:32 by herandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*join_and_free(char *value, char *part)
@@ -18,17 +30,17 @@ static char	*extract_part(char *input, size_t *i)
 
 	start = *i;
 	while (input[*i] && !ft_isspace(input[*i])
-			&& !is_operator(&input[*i])
-				&& !is_quote(input[*i]))
-					(*i)++;
+		&& !is_operator(&input[*i])
+		&& !is_quote(input[*i]))
+		(*i)++;
 	return (ft_substr(input, start, *i - start));
 }
 
 static char	*quoted_part(char *input, size_t *i, int *expand, char *value)
 {
-	char *part;
-	char *tmp;
-	int part_expand;
+	char	*part;
+	char	*tmp;
+	int		part_expand;
 
 	part = extract_quoted_value(input, i, &part_expand);
 	if (!part)
@@ -71,7 +83,7 @@ static char	*process_input(char *input, size_t *i, int *expand, char *value)
 	return (value);
 }
 
-char *extract_word_value(char *input, size_t *i, int *expand)
+char	*extract_word_value(char *input, size_t *i, int *expand)
 {
 	char	*value;
 

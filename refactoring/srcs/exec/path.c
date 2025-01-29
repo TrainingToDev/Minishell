@@ -25,14 +25,15 @@ static char	*get_env_value(const char *key, t_env_var *env_list)
 	}
 	return (NULL);
 }
-static char *get_path(char **path, char *cmd)
-{
-    int i;
-    char *full_path;
 
-    i = 0;
-    while (path[i])
-    {
+static char	*get_path(char **path, char *cmd)
+{
+	int		i;
+	char	*full_path;
+
+	i = 0;
+	while (path[i])
+	{
 		full_path = ft_strjoin_free(ft_strjoin(path[i], "/"), cmd, 1);
 		if (!full_path)
 		{
@@ -45,11 +46,11 @@ static char *get_path(char **path, char *cmd)
 			return (full_path);
 		}
 		free(full_path);
-        full_path = NULL;
-        i++;
-    }
+		full_path = NULL;
+		i++;
+	}
 	free_str_array(path);
-    return(NULL);
+	return (NULL);
 }
 
 char	*find_command_path(char *cmd_name, t_env_var *env_list)
@@ -71,7 +72,7 @@ char	*find_command_path(char *cmd_name, t_env_var *env_list)
 
 void	free_str_array(char **array)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (array && array[i])

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_parser.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/16 13:21:30 by herandri          #+#    #+#             */
+/*   Updated: 2025/01/29 00:42:26 by herandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_token	*parser_advance(t_parser *parser)
@@ -12,12 +24,12 @@ t_token	*parser_advance(t_parser *parser)
 
 int	is_token(t_parser *parser, t_token_type type)
 {
-    return (parser->current && parser->current->type == type);
+	return (parser->current && parser->current->type == type);
 }
 
 size_t	process_quotes(const char *value, char *result, size_t i, size_t *j)
 {
-    char	quote;
+	char	quote;
 
 	quote = value[i];
 	i++;
@@ -54,14 +66,14 @@ char	*clean_quotes(const char *value)
 	return (result);
 }
 
-void print_indentation(int depth)
+void	print_indentation(int depth)
 {
 	int	i;
 
 	i = 0;
 	while (i < depth)
 	{
-		 printf("  ");
-		 i++;
+		printf("  ");
+		i++;
 	}
 }

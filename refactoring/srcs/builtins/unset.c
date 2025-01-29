@@ -46,14 +46,14 @@ static void	remove_env_var(t_minishell *shell, const char *key)
 			free(current->key);
 			free(current->value);
 			free(current);
-			return;
+			return ;
 		}
 		prev = current;
 		current = current->next;
 	}
 }
 
-int unset(t_minishell *shell, char **args)
+int	unset(t_minishell *shell, char **args)
 {
 	int	i;
 	int	status;

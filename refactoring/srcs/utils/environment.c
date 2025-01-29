@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 01:56:35 by herandri          #+#    #+#             */
-/*   Updated: 2025/01/28 06:52:26 by herandri         ###   ########.fr       */
+/*   Created: 2024/12/08 06:02:59 by miaandri          #+#    #+#             */
+/*   Updated: 2025/01/29 02:03:50 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,57 +14,57 @@
 
 static int	assign_key_value(t_env_var *env_var, const char *input_env)
 {
-    char	*sep;
+	char	*sep;
 
-    sep = ft_strchr(input_env, '=');
-    if (sep)
-    {
-        env_var->key = ft_substr(input_env, 0, sep - input_env);
-        if (!env_var->key)
-            return (-1);
-        env_var->value = ft_strdup(sep + 1);
-        if (!env_var->value)
-            return (-1);
-    }
-    else
-    {
-        env_var->key = ft_strdup(input_env);
-        if (!env_var->key)
-            return (-1);
-        env_var->value = ft_strdup("");
-        if (!env_var->value)
-            return (-1);
-    }
-    return (0);
+	sep = ft_strchr(input_env, '=');
+	if (sep)
+	{
+		env_var->key = ft_substr(input_env, 0, sep - input_env);
+		if (!env_var->key)
+			return (-1);
+		env_var->value = ft_strdup(sep + 1);
+		if (!env_var->value)
+			return (-1);
+	}
+	else
+	{
+		env_var->key = ft_strdup(input_env);
+		if (!env_var->key)
+			return (-1);
+		env_var->value = ft_strdup("");
+		if (!env_var->value)
+			return (-1);
+	}
+	return (0);
 }
 
 static void	free_env_var(t_env_var *env_var)
 {
-    if (env_var)
-    {
-        free(env_var->key);
-        free(env_var->value);
-        free(env_var);
-    }
+	if (env_var)
+	{
+		free(env_var->key);
+		free(env_var->value);
+		free(env_var);
+	}
 }
 
 static t_env_var	*create_env_var(const char *input_env)
 {
-    t_env_var	*env_var;
+	t_env_var	*env_var;
 
-    env_var = malloc(sizeof(t_env_var));
-    if (!env_var)
-        return (NULL);
-    if (assign_key_value(env_var, input_env) == -1)
-    {
-        free_env_var(env_var);
-        return (NULL);
-    }
-    env_var->next = NULL;
-    return (env_var);
+	env_var = malloc(sizeof(t_env_var));
+	if (!env_var)
+		return (NULL);
+	if (assign_key_value(env_var, input_env) == -1)
+	{
+		free_env_var(env_var);
+		return (NULL);
+	}
+	env_var->next = NULL;
+	return (env_var);
 }
 
-static void add_env_var(t_env_var **env_list, t_env_var *new_var)
+static void	add_env_var(t_env_var **env_list, t_env_var *new_var)
 {
 	t_env_var	*current;
 
@@ -82,7 +82,7 @@ static void add_env_var(t_env_var **env_list, t_env_var *new_var)
 	}
 }
 
-void free_env_list(t_env_var *env_list)
+void	free_env_list(t_env_var *env_list)
 {
 	t_env_var	*current;
 	t_env_var	*next;
@@ -98,28 +98,29 @@ void free_env_list(t_env_var *env_list)
 	}
 }
 
-t_env_var *convert_envp_to_list(char **envp)
+t_env_var	*convert_envp_to_list(char **envp)
 {
-    t_env_var   *env_list;
-    t_env_var   *new_var;
-    int         i;
+	t_env_var	*env_list;
+	t_env_var	*new_var;
+	int			i;
 
 	env_list = NULL;
 	i = 0;
-    while (envp[i])
-    {
-        new_var = create_env_var(envp[i]);
-        if (!new_var)
-        {
-            free_env_list(env_list);
-            return (NULL);
-        }
+	while (envp[i])
+	{
+		new_var = create_env_var(envp[i]);
+		if (!new_var)
+		{
+			free_env_list(env_list);
+			return (NULL);
+		}
 		add_env_var(&env_list, new_var);
-        i++;
-    }
-    return (env_list);
+		i++;
+	}
+	return (env_list);
 }
-void print_env_list(t_env_var *env_list)
+
+void	print_env_list(t_env_var *env_list)
 {
 	t_env_var	*current;
 
@@ -130,4 +131,3 @@ void print_env_list(t_env_var *env_list)
 		current = current->next;
 	}
 }
-

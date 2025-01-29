@@ -1,58 +1,70 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_var.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/25 09:03:35 by miaandri          #+#    #+#             */
+/*   Updated: 2025/01/29 06:38:41 by miaandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static size_t skip_and_get_var_length(const char *src, size_t *i)
+static size_t	get_vlen(char *src, size_t *i)
 {
-    size_t  start;
+	size_t	start;
 
 	(*i)++;
-	start = *i;     
+	start = *i;
 	while (src[*i] && (ft_isalnum(src[*i]) || src[*i] == '_'))
 		(*i)++;
-	return (*i - start); 
+	return (*i - start);
 }
 
-static char	*join_var_value(t_varinfo var, char *result, t_minishell *shell)
+static char	*join_var(t_varinfo var, char *res, t_minishell *shell)
 {
-    char	*var_name;
-    char	*var_value;
-    char	*temp;
+	char	*var_name;
+	char	*var_value;
+	char	*tmp;
 
-    var_name = ft_substr(var.src, var.start, var.len);
-    if (!var_name)
-    {
-        free(result);
-        return (NULL);
-    }
-    var_value = compare(var_name, shell->env_list);
-    free(var_name);
-    if (!var_value)
-        var_value = ft_strdup("");
-    temp = ft_strjoin(result, var_value);
-    free(var_value);
-    free(result);
-    return (temp);
+	var_name = ft_substr(var.src, var.start, var.len);
+	if (!var_name)
+	{
+		free(res);
+		return (NULL);
+	}
+	var_value = compare(var_name, shell->env_list);
+	free(var_name);
+	if (!var_value)
+		var_value = ft_strdup("");
+	tmp = ft_strjoin(res, var_value);
+	free(var_value);
+	free(res);
+	return (tmp);
 }
 
-static char *handle_empty_var_name(char *result)
+static char	*handle_empty(char *res)
 {
-    char *temp;
+	char	*tmp;
 
-    temp = ft_strjoin_char(result, '$');
-    free(result);
-    return (temp);
+	tmp = ft_strjoin_char(res, '$');
+	free(res);
+	return (tmp);
 }
 
-char *append_var_value(const char *src, size_t *i, char *result, t_minishell *shell)
+char	*add_vval(char *src, size_t *i, char *res, t_minishell *shell)
 {
-	t_varinfo   var;
-	size_t      len;
+	t_varinfo	var;
+	size_t		len;
 
-	len = skip_and_get_var_length(src, i);
+	len = get_vlen(src, i);
 	var.src = src;
-	var.start = (*i) - len;  // Position du début de la variable
+	var.start = (*i) - len;
 	var.len = len;
 	if (len > 0)
-		return (join_var_value(var, result, shell));
+		return (join_var(var, res, shell));
 	else
-		return (handle_empty_var_name(result));
+		return (handle_empty(res));
 }

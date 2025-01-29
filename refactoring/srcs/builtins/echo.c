@@ -14,7 +14,7 @@
 
 static int	print_args(char **args, int start_index, int newline)
 {
-    int	i;
+	int	i;
 
 	i = start_index;
 	while (args[i])
@@ -49,7 +49,7 @@ static int	parse_options(char **args, int *newline)
 	return (i);
 }
 
-int echo(t_minishell *shell, char **args)
+int	echo(t_minishell *shell, char **args)
 {
 	int	newline;
 	int	start_index;

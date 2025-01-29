@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_operator.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/11 19:48:29 by herandri          #+#    #+#             */
+/*   Updated: 2025/01/29 01:19:22 by herandri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static char *extract_operator_value(char *input, size_t *i, int *op_len)
+static char	*extract_operator_value(char *input, size_t *i, int *op_len)
 {
 	if (!input || !i || !op_len)
 		return (NULL);
@@ -9,16 +21,15 @@ static char *extract_operator_value(char *input, size_t *i, int *op_len)
 	{
 		print_error(E_SYNTAX, &input[*i], 10);
 		return (NULL);
-
 	}
-	return ft_substr(input, *i, *op_len);
+	return (ft_substr(input, *i, *op_len));
 }
 
-void add_operator_token(t_token **tokens, char *input, size_t *i)
+void	add_operator_token(t_token **tokens, char *input, size_t *i)
 {
-	int     op_len;
-	char    *value;
-	t_token *new_token;
+	int		op_len;
+	char	*value;
+	t_token	*new_token;
 
 	value = extract_operator_value(input, i, &op_len);
 	if (!value)
@@ -26,12 +37,12 @@ void add_operator_token(t_token **tokens, char *input, size_t *i)
 	new_token = create_token(get_op_token(&input[*i]), value, 0);
 	free(value);
 	if (!new_token)
-		return ; //msg
+		return ;
 	add_token(tokens, new_token);
 	*i += op_len;
 }
 
-char *extract_quoted_value(char *input, size_t *i, int *expand)
+char	*extract_quoted_value(char *input, size_t *i, int *expand)
 {
 	size_t	start;
 	char	*value;

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int execute_builtin(t_minishell *shell, char **args)
+int	execute_builtin(t_minishell *shell, char **args)
 {
 	if (ft_strcmp(args[0], "echo") == 0)
 		return (echo(shell, args));
@@ -31,7 +31,7 @@ int execute_builtin(t_minishell *shell, char **args)
 	return (-1);
 }
 
-int is_builtin(const char *cmd_name)
+int	is_builtin(const char *cmd_name)
 {
 	if (ft_strcmp(cmd_name, "echo") == 0)
 		return (1);
