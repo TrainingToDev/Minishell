@@ -150,6 +150,21 @@ enum e_mini_error
 	E_WARNING = 14
 };
 
+/*
+E_QUOTE = 1	syntax Unclosed quote
+E_NODIR = 2	No such directory
+E_PDENIED = 3	Permission denied
+E_NOCMD = 6	Command not found
+E_DUPFD = 7	Failed to duplicate file descriptor
+E_FORK = 8	Fork error
+E_PIPE = 9	Pipe error
+E_SYNTAX = 10	syntax error near unexpected token
+E_NOMEM = 11	Out of memory
+E_ISDIR = 12	Is a directory
+E_NOTDIR = 13	Not a directory
+E_WARNING = 14	Warning message
+*/
+
 // expand struct
 typedef struct s_varinfo
 {
