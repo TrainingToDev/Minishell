@@ -12,10 +12,11 @@
 
 #include "minishell.h"
 
-static int	setup_heredoc_content_pipe(t_redir *cur)
+static int	heredoc_pipe(t_redir *cur)
 {
 	int		pipefd[2];
 	size_t	i;
+	char	*line;
 
 	if (pipe(pipefd) == -1)
 	{
@@ -25,7 +26,8 @@ static int	setup_heredoc_content_pipe(t_redir *cur)
 	i = 0;
 	while (i < cur->content->count)
 	{
-		write(pipefd[1], cur->content->lines[i], ft_strlen(cur->content->lines[i]));
+		line = cur->content->lines[i]
+		write(pipefd[1], line, ft_strlen(line));
 		write(pipefd[1], "\n", 1);
 		i++;
 	}
@@ -51,5 +53,5 @@ int	heredoc_redir(t_redir *current, t_minishell *shell)
 		heredoc_copied(current->content, current->filename, shell);
 	else
 		heredoc_interactive(current->filename, current->content, shell);
-	return (setup_heredoc_content_pipe(current));
+	return (heredoc_pipe(current));
 }

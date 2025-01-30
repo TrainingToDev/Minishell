@@ -24,26 +24,16 @@ int	status_manager(int new_status, int mode)
 	return (status);
 }
 
-int	is_heredoc(int set_mode)
-{
-	static int	heredoc_mode = 0;
-
-	if (set_mode != -1)
-		heredoc_mode = set_mode;
-	return (heredoc_mode);
-}
-
 static void	manager_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
 		ft_putendl_fd("", STDOUT_FILENO);
-		if (is_heredoc(-1) == 0)
-		{
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-		}
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		if (1)
+			return ;
+		rl_redisplay();
 		status_manager(128 + sig, STATUS_WRITE);
 	}
 }
@@ -54,13 +44,27 @@ void	setup_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+static void	quit(int sig)
+{
+	if (sig == SIGQUIT)
+	{
+		ft_putendl_fd("Quit (core dumped)", STDOUT_FILENO);
+		status_manager(131, STATUS_WRITE);
+	}	
+}
+
+void setup_child(void)
+{
+	signal(SIGQUIT, quit);
+}
+
 void	heredoc_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
 		ft_putendl_fd("", STDOUT_FILENO);
-		status_manager(130, STATUS_WRITE);
-		exit(130);
+		status_manager(128 + sig, STATUS_WRITE);
+		exit(128 + sig);
 	}
 }
 

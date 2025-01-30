@@ -75,6 +75,7 @@ static int	process_extern(char *path, t_command *cmd, t_minishell *shell)
 {
 	pid_t	pid;
 
+	setup_child();
 	pid = fork();
 	if (pid == 0)
 	{

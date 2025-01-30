@@ -110,7 +110,7 @@ void	heredoc_copied(t_hdc *cnt, char *dlim, t_minishell *shell)
 		return ;
 	qt = (dlim[0] == '\'' || dlim[0] == '\"');
 	clean_delim = trim_quotes(dlim);
-	// manage_heredoc(); // signal
+	manage_heredoc();
 	if (!expand_and_update(cnt, qt, shell))
 	{
 		free(clean_delim);

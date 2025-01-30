@@ -39,20 +39,16 @@ void	heredoc_interactive(char *dlim, t_hdc *cnt, t_minishell *shell)
 	char	*clean_delim;
 	int		quoted;
 
-	is_heredoc(1);
 	quoted = (dlim[0] == '\'' || dlim[0] == '\"');
 	clean_delim = trim_quotes(dlim);
 	if (!check_params(cnt, dlim, shell))
 	{
 		free(clean_delim);
-		is_heredoc(0);
 		return ;
 	}
 	manage_heredoc();
 	while (1)
 	{
-		if (status_manager(0, STATUS_READ) == 130)
-			break ;
 		line = read_user_input(clean_delim, shell);
 		if (!line)
 			break ;
@@ -63,5 +59,4 @@ void	heredoc_interactive(char *dlim, t_hdc *cnt, t_minishell *shell)
 			break ;
 	}
 	free(clean_delim);
-	is_heredoc(0);
 }
