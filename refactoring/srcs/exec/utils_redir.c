@@ -26,7 +26,7 @@ static int	heredoc_pipe(t_redir *cur)
 	i = 0;
 	while (i < cur->content->count)
 	{
-		line = cur->content->lines[i]
+		line = cur->content->lines[i];
 		write(pipefd[1], line, ft_strlen(line));
 		write(pipefd[1], "\n", 1);
 		i++;
