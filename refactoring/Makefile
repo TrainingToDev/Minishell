@@ -58,7 +58,6 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(PARSER_DIR)/node_parser.c\
 			$(PARSER_DIR)/parser_cmd.c\
 			$(PARSER_DIR)/parser_cond.c\
-			$(PARSER_DIR)/parser_operation.c\
 			$(PARSER_DIR)/parser_pipe.c\
 			$(PARSER_DIR)/parser_redir.c\
 			$(PARSER_DIR)/parser_subshell.c\

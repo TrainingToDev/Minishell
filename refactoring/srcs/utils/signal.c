@@ -58,7 +58,7 @@ void setup_child(void)
 	signal(SIGQUIT, quit);
 }
 
-void	heredoc_signal(int sig)
+static void	heredoc_signal(int sig)
 {
 	if (sig == SIGINT)
 	{

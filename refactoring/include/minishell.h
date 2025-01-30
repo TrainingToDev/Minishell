@@ -298,10 +298,9 @@ t_env_var		*convert_envp_to_list(char **envp);
 
 //signal
 int				status_manager(int new_status, int mode);
-int				is_heredoc(int set_mode);
 void			setup_signals(void);
 void			manage_heredoc(void);
-void			heredoc_signal(int sig);
+void			setup_child(void);
 
 //manage error
 void			*print_error(int err_type, char *param, int err);
