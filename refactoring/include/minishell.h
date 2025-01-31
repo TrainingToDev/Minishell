@@ -14,27 +14,27 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h>
-# include <signal.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <errno.h>
 # include <ctype.h>
-# include <sys/wait.h>
-# include <fcntl.h>
 # include <dirent.h>
-# include <sys/stat.h>
-# include <termios.h>
+# include <errno.h>
+# include <fcntl.h>
 # include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
 # include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <termios.h>
+# include <unistd.h>
 
 # define COLOR_RESET "\033[0m"
 # define COLOR_GREEN "\033[32m"
-# define COLOR_BLUE  "\033[34m"
-# define COLOR_RED   "\033[31m"
+# define COLOR_BLUE "\033[34m"
+# define COLOR_RED "\033[31m"
 
 # define STATUS_READ 0
 # define STATUS_WRITE 1
@@ -43,7 +43,6 @@
 # define MSG_1 "minishell: warning: here-document at line"
 # define MSG_2 "delimited by end-of-file (wanted `"
 # define MSG_3 "')\n"
-
 
 typedef enum e_token_type
 {
@@ -58,21 +57,21 @@ typedef enum e_token_type
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
 	TOKEN_UNKNOWN,
-}	t_token_type;
+}						t_token_type;
 
 typedef struct s_token
 {
-	char			*value;
-	t_token_type	type;
-	int				expand;
-	struct s_token	*next;
-}					t_token;
+	char				*value;
+	t_token_type		type;
+	int					expand;
+	struct s_token		*next;
+}						t_token;
 
 typedef struct s_hdc
 {
-	char	**lines;
-	size_t	count;
-}			t_hdc;
+	char				**lines;
+	size_t				count;
+}						t_hdc;
 
 typedef enum e_redir_type
 {
@@ -81,20 +80,20 @@ typedef enum e_redir_type
 	REDIR_APPEND,
 	REDIR_HEREDOC,
 	REDIR_INVALID
-}	t_redir_type;
+}						t_redir_type;
 
 typedef struct s_redir
 {
-	t_redir_type	type;
-	char			*filename;
-	t_hdc			*content;
-	struct s_redir	*next;
-}					t_redir;
+	t_redir_type		type;
+	char				*filename;
+	t_hdc				*content;
+	struct s_redir		*next;
+}						t_redir;
 
 typedef struct s_parser
 {
-	t_token	*current;
-}	t_parser;
+	t_token				*current;
+}						t_parser;
 
 typedef enum e_node_type
 {
@@ -103,7 +102,7 @@ typedef enum e_node_type
 	NODE_AND,
 	NODE_OR,
 	NODE_SUBSHELL
-}	t_node_type;
+}						t_node_type;
 
 typedef struct s_ast
 {
@@ -115,10 +114,10 @@ typedef struct s_ast
 
 typedef struct s_command
 {
-	char			**argv;
-	int				argc;
-	t_redir			*redirs;
-}					t_command;
+	char				**argv;
+	int					argc;
+	t_redir				*redirs;
+}						t_command;
 
 typedef struct s_env_var
 {
@@ -129,17 +128,17 @@ typedef struct s_env_var
 
 typedef struct s_minishell
 {
-	t_env_var	*env_list;
-	int			last_exit_status;
-	t_token		*tokens;
-	t_ast		*ast;
-	int			nb_line_heredoc;
-	int			running;
-	int			fd_input;
-	int			fd_output;
-}				t_minishell;
+	t_env_var			*env_list;
+	int					last_exit_status;
+	t_token				*tokens;
+	t_ast				*ast;
+	int					nb_line_heredoc;
+	int					running;
+	int					fd_input;
+	int					fd_output;
+}						t_minishell;
 
-enum e_mini_error
+enum					e_mini_error
 {
 	E_QUOTE = 1,
 	E_NODIR = 2,
@@ -173,152 +172,171 @@ E_WARNING = 14	Warning message
 // expand struct
 typedef struct s_varinfo
 {
-	const char	*src;
-	size_t		start;
-	size_t		len;
-}				t_varinfo;
+	const char			*src;
+	size_t				start;
+	size_t				len;
+}						t_varinfo;
 
-//prompt
-int				check_args(int argc, char **argv);
-char			*format_prompt(void);
-char			*prompt_input(char *prompt);
+// prompt
+int						check_args(int argc, char **argv);
+char					*format_prompt(void);
+char					*prompt_input(char *prompt);
 
-//builtins
-int				cd(t_minishell *shell, char **args);
-int				echo(t_minishell *shell, char **args);
-int				env(t_minishell *shell, char **args);
-int				exit_cmd(t_minishell *shell, char **args);
-int				export(t_minishell *shell, char **args);
-int				pwd(t_minishell *shell, char **args);
-int				unset(t_minishell *shell, char **args);
-int				is_builtin(const char *cmd_name);
-int				execute_builtin(t_minishell *shell, char **args);
+// builtins
+int						cd(t_minishell *shell, char **args);
+int						echo(t_minishell *shell, char **args);
+int						env(t_minishell *shell, char **args);
+int						exit_cmd(t_minishell *shell, char **args);
+int						export(t_minishell *shell, char **args);
+int						pwd(t_minishell *shell, char **args);
+int						unset(t_minishell *shell, char **args);
+int						is_builtin(const char *cmd_name);
+int						execute_builtin(t_minishell *shell, char **args);
 
-//cd_utils
-char		*get_env_cd(const char *key, t_env_var *env_list);
-int			update_env_value_if_exists(t_env_var *env_list, const char *key, const char *value);
-t_env_var	*create_new_env_node(const char *key, const char *value);
-void		append_env_node(t_env_var **env_list, t_env_var *new_node);
-void		set_env_value(t_env_var **env_list, const char *key, const char *value);
+// cd_utils
+char					*get_env_cd(const char *key, t_env_var *env_list);
+int						update_env_value_if_exists(t_env_var *env_list,
+							const char *key, const char *value);
+t_env_var				*create_new_env_node(const char *key,
+							const char *value);
+void					append_env_node(t_env_var **env_list,
+							t_env_var *new_node);
+void					set_env_value(t_env_var **env_list, const char *key,
+							const char *value);
 
-//lexer
-int				check_operators(t_token *tokens);
-int				check_parentheses(t_token *tokens);
-int				is_disallowed(t_token *tokens);
-int				process_substitution(t_token *token);
-int				check_redirections(t_token *tokens);
-int				validate_syntax(t_token *tokens);
-int				consecutive_redir_in(const char *input);
-int				unsupported_redirs(const char *input);
-int				is_operator(const char *str);
-int				is_quote(char c);
-void			add_operator_token(t_token **tokens, char *input, size_t *i);
-void			add_word_token(t_token **tokens, char *input, size_t *i);
-void			add_token(t_token **tokens, t_token *new_token);
-char			*extract_word_value(char *input, size_t *i, int *expand);
-char			*extract_quoted_value(char *input, size_t *i, int *expand);
-t_token_type	invalid_redir(const char *input);
-t_token_type	get_op_token(const char *op);
-t_token			*create_token(t_token_type type, const char *value, int expand);
-t_token			*lexer(char *input);
-void			free_token_list(t_token *tokens);
-void			print_tokens(t_token *tokens);
+// lexer
+int						check_operators(t_token *tokens);
+int						check_parentheses(t_token *tokens);
+int						is_disallowed(t_token *tokens);
+int						process_substitution(t_token *token);
+int						check_redirections(t_token *tokens);
+int						validate_syntax(t_token *tokens);
+int						consecutive_redir_in(const char *input);
+int						unsupported_redirs(const char *input);
+int						is_operator(const char *str);
+int						is_quote(char c);
+void					add_operator_token(t_token **tokens, char *input,
+							size_t *i);
+void					add_word_token(t_token **tokens, char *input,
+							size_t *i);
+void					add_token(t_token **tokens, t_token *new_token);
+char					*extract_word_value(char *input, size_t *i,
+							int *expand);
+char					*extract_quoted_value(char *input, size_t *i,
+							int *expand);
+t_token_type			invalid_redir(const char *input);
+t_token_type			get_op_token(const char *op);
+t_token					*create_token(t_token_type type, const char *value,
+							int expand);
+t_token					*lexer(char *input);
+void					free_token_list(t_token *tokens);
+void					print_tokens(t_token *tokens);
 
 // expander
-char	*add_vval(char *src, size_t *i, char *result, t_minishell *shell);
-char			*expand_variables_in_str(char *src, t_minishell *shell);
-void			expand_token_list(t_token *tokens, t_minishell *shell);
+char					*add_vval(char *src, size_t *i, char *result,
+							t_minishell *shell);
+char					*expand_variables_in_str(char *src, t_minishell *shell);
+void					expand_token_list(t_token *tokens, t_minishell *shell);
 
 // utils expander
-char			*compare(char *key, t_env_var *env);
-char			*ft_strjoin_free(char *s1, char *s2, int free_flag);
-char			*ft_strjoin_char(char *s, char c);
-int				is_single_quoted(const char *str);
+char					*compare(char *key, t_env_var *env);
+char					*ft_strjoin_free(char *s1, char *s2, int free_flag);
+char					*ft_strjoin_char(char *s, char c);
+int						is_single_quoted(const char *str);
 
-//parser
-t_ast			*parse_list(t_parser *parser, char *input);
-t_ast			*create_ast_node(t_node_type type);
-t_ast			*parse_pipe(t_parser *parser, char *input);
-t_ast			*parse_cmd(t_parser *parser, char *input);
-t_ast			*parse_subshell(t_parser *parser, char *input);
-t_ast			*parse_conditional(t_parser *parser, t_ast *left, char *input);
-t_ast			*parse(t_token *tokens, char *input);
+// parser
+t_ast					*parse_list(t_parser *parser, char *input);
+t_ast					*create_ast_node(t_node_type type);
+t_ast					*parse_pipe(t_parser *parser, char *input);
+t_ast					*parse_cmd(t_parser *parser, char *input);
+t_ast					*parse_subshell(t_parser *parser, char *input);
+t_ast					*parse_conditional(t_parser *parser, t_ast *left,
+							char *input);
+t_ast					*parse(t_token *tokens, char *input);
 
-t_command		*create_cmd(void);
-t_command		*parse_simple_cmd(t_parser *parser, char *input);
-t_command		*parse_simple_cmd(t_parser *parser, char *input);
+t_command				*create_cmd(void);
+t_command				*parse_simple_cmd(t_parser *parser, char *input);
+t_command				*parse_simple_cmd(t_parser *parser, char *input);
 
-t_redir			*create_redir(void);
-t_redir			*parse_io_redirect(t_parser *parser, char *input);
+t_redir					*create_redir(void);
+t_redir					*parse_io_redirect(t_parser *parser, char *input);
 
-t_token			*parser_advance(t_parser *parser);
+t_token					*parser_advance(t_parser *parser);
 
-int				is_token(t_parser *parser, t_token_type type);
-char			*clean_quotes(const char *value);
+int						is_token(t_parser *parser, t_token_type type);
+char					*clean_quotes(const char *value);
 
-void			free_ast(t_ast *ast);
-void			print_indentation(int depth);
-void			print_ast(t_ast *ast, int depth);
+void					free_ast(t_ast *ast);
+void					print_indentation(int depth);
+void					print_ast(t_ast *ast, int depth);
 
-//execution
-int				execute_builtin_cmd(t_command *command, t_minishell *shell);
-int				execute_extern_cmd(t_command *command, t_minishell *shell);
-int				execute_ast(t_ast *ast, t_minishell *shell);
+// execution
+int						execute_builtin_cmd(t_command *command,
+							t_minishell *shell);
+int						execute_extern_cmd(t_command *command,
+							t_minishell *shell);
+int						execute_ast(t_ast *ast, t_minishell *shell);
 
 // redir
-int				apply_redirections(t_redir *redirs, t_minishell *shell);
-int				heredoc_redir(t_redir *current, t_minishell *shell);
+int						apply_redirections(t_redir *redirs, t_minishell *shell);
+int						heredoc_redir(t_redir *current, t_minishell *shell);
 
 // heredoc
-int				check_params(t_hdc *cnt, char *dlim, t_minishell *shell);
-char			*read_user_input(char *dlim, t_minishell *shell);
-int				insert_line(t_hdc *cnt, char *line);
-char			*trim_quotes(char *str);
-void			heredoc_interactive(char *dlim, t_hdc *cnt, t_minishell *shell);
-void			heredoc_copied(t_hdc *cnt, char *dlim, t_minishell *shell);
+int						check_params(t_hdc *cnt, char *dlim,
+							t_minishell *shell);
+char					*read_user_input(char *dlim, t_minishell *shell);
+int						insert_line(t_hdc *cnt, char *line);
+char					*trim_quotes(char *str);
+void					heredoc_interactive(char *dlim, t_hdc *cnt,
+							t_minishell *shell);
+void					heredoc_copied(t_hdc *cnt, char *dlim,
+							t_minishell *shell);
 
-//env
-char			**convert_env_list(t_env_var *env_list);
+// env
+char					**convert_env_list(t_env_var *env_list);
 
-//find_path
-char			*find_command_path(char *cmd_name, t_env_var *env_list);
-void			free_str_array(char **array);
+// find_path
+char					*find_command_path(char *cmd_name, t_env_var *env_list);
+void					free_str_array(char **array);
 
 // pipe
-int				init_pipe(int pipefd[2]);
-int	wait_for_children(pid_t pid_left, pid_t pid_right, t_minishell *shell);
-pid_t	fork_and_exec_left(t_ast *left, int pipefd[2], t_minishell *shell);
-pid_t	fork_and_exec_right(t_ast *right, int pipefd[2], t_minishell *shell);
-void			close_pipe_descriptors(int pipefd[2]);
+int						init_pipe(int pipefd[2]);
+int						wait_for_children(pid_t pid_left, pid_t pid_right,
+							t_minishell *shell);
+pid_t					fork_and_exec_left(t_ast *left, int pipefd[2],
+							t_minishell *shell);
+pid_t					fork_and_exec_right(t_ast *right, int pipefd[2],
+							t_minishell *shell);
+void					close_pipe_descriptors(int pipefd[2]);
 
-//utils
-void			free_split(char **split);
-void			free_heredoc_content(t_hdc *cnt);
-char			**split_lines(char *input);
-void			process_heredoc(t_token *tokens, char *input);
-t_hdc			*init_heredoc(void);
-t_hdc			*get_heredoc_lines(char *input, char *dlim);
-int				add_line(t_hdc *cnt, char *line);
-int				get_lines(t_hdc *cnt, char **lines, char *dlim);
-void			print_heredoc_content(t_hdc *cnt);
+// utils
+void					free_split(char **split);
+void					free_heredoc_content(t_hdc *cnt);
+char					**split_lines(char *input);
+void					process_heredoc(t_token *tokens, char *input);
+t_hdc					*init_heredoc(void);
+t_hdc					*get_heredoc_lines(char *input, char *dlim);
+int						add_line(t_hdc *cnt, char *line);
+int						get_lines(t_hdc *cnt, char **lines, char *dlim);
+void					print_heredoc_content(t_hdc *cnt);
 
-//environment
-void			print_env_list(t_env_var *env_list);
-void			free_env_list(t_env_var *env_list);
+// environment
+void					print_env_list(t_env_var *env_list);
+void					free_env_list(t_env_var *env_list);
 // t_env_var	*create_env_var(const char *input_env);
-t_env_var		*convert_envp_to_list(char **envp);
+t_env_var				*convert_envp_to_list(char **envp);
 
-//signal
-int				status_manager(int new_status, int mode);
-void			setup_signals(void);
-void			manage_heredoc(void);
-void			setup_child(void);
+// signal
+int						status_manager(int new_status, int mode);
+void					setup_signals(void);
+void					manage_heredoc(void);
+void					setup_child(void);
 
-//manage error
-void			*print_error(int err_type, char *param, int err);
+// manage error
+void					*print_error(int err_type, char *param, int err);
 
-//bonus
-int				execute_conditional(t_ast *ast, t_minishell *shell);
-int				execute_subshell(t_ast *ast, t_minishell *shell);
+// bonus
+int						execute_conditional(t_ast *ast, t_minishell *shell);
+int						execute_subshell(t_ast *ast, t_minishell *shell);
 
 #endif

@@ -30,7 +30,10 @@ static int	execute_command(t_command *command, t_minishell *shell)
 	if (result == 0 && (!command || !command->argv || command->argc == 0))
 	{
 		if (command && command->redirs)
+		{
+			printf("HERE\n");
 			return (apply_redirections(command->redirs, shell));
+		}
 		return (0);
 	}
 	if (result != 0)

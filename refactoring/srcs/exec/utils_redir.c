@@ -50,8 +50,14 @@ int	heredoc_redir(t_redir *current, t_minishell *shell)
 		return (-1);
 	}
 	if (current->content->count > 0)
+	{
 		heredoc_copied(current->content, current->filename, shell);
+		return(0);
+	}
 	else
+	{
 		heredoc_interactive(current->filename, current->content, shell);
+		return(0);
+	}
 	return (heredoc_pipe(current));
 }
