@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:50:28 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/29 11:26:12 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:39:30 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@
 # define STATUS_READ 0
 # define STATUS_WRITE 1
 # define STATUS_QUIT 2
+
+# define MSG_1 "minishell: warning: here-document at line"
+# define MSG_2 "delimited by end-of-file (wanted `"
+# define MSG_3 "')\n"
+
 
 typedef enum e_token_type
 {
@@ -188,6 +193,13 @@ int				pwd(t_minishell *shell, char **args);
 int				unset(t_minishell *shell, char **args);
 int				is_builtin(const char *cmd_name);
 int				execute_builtin(t_minishell *shell, char **args);
+
+//cd_utils
+char		*get_env_cd(const char *key, t_env_var *env_list);
+int			update_env_value_if_exists(t_env_var *env_list, const char *key, const char *value);
+t_env_var	*create_new_env_node(const char *key, const char *value);
+void		append_env_node(t_env_var **env_list, t_env_var *new_node);
+void		set_env_value(t_env_var **env_list, const char *key, const char *value);
 
 //lexer
 int				check_operators(t_token *tokens);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+         #
+#    By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/31 13:54:57 by miaandri          #+#    #+#              #
-#    Updated: 2024/12/07 03:30:30 by miaandri         ###   ########.fr        #
+#    Updated: 2025/01/31 11:14:09 by herandri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ LIBFT_DIR = libft/libft.a
 
 SRC_FILES = $(SRC_DIR)/main.c \
 			$(BUILTINS_DIR)/cd.c \
+			$(BUILTINS_DIR)/cd_utils.c\
 			$(BUILTINS_DIR)/echo.c \
 			$(BUILTINS_DIR)/env.c \
 			$(BUILTINS_DIR)/exit.c \

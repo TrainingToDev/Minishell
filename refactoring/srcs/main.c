@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 02:05:42 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/29 02:05:43 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:25:10 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void init_minishell(t_minishell *shell, t_env_var *env_list)
+static void	init_minishell(t_minishell *shell, t_env_var *env_list)
 {
 	shell->env_list = env_list;
 	shell->last_exit_status = 0;
@@ -24,15 +24,13 @@ static void init_minishell(t_minishell *shell, t_env_var *env_list)
 	shell->nb_line_heredoc = 0;
 }
 
-static void minishell_loop(t_env_var *env_list)
+static void	minishell_loop(t_env_var *env_list)
 {
 	char		*prompt;
 	char		*input;
 	t_token		*token_list;
 	t_ast		*ast_root;
 	t_minishell	shell;
-	t_hdc *test = NULL;
-
 
 	prompt = NULL;
 	input = NULL;
@@ -46,33 +44,27 @@ static void minishell_loop(t_env_var *env_list)
 		if (!prompt)
 		{
 			ft_putstr_fd("minishell: Error creating prompt\n", 2);
-			break;
+			break ;
 		}
-
+		
 		// 2) Get user input
 		input = prompt_input(prompt);
 		free(prompt);
 
 		// Handle ctrl+D (EOF)
 		if (!input)
-			break;
-
+			break ;
+			
 		// 3) Tokenize input
 		token_list = lexer(input);
 		if (!token_list)
 		{
 			free(input);
-			continue;
+			continue ;
 		}
+		
 		printf("------>>>> TOKEN:\n");
 		print_tokens(token_list);
-
-
-		printf("heredoc conten:\n");
-		print_heredoc_content(test);
-		printf("---------------------\n");
-
-
 
 		// 4) Parse tokens
 		ast_root = parse(token_list, input);
@@ -83,7 +75,7 @@ static void minishell_loop(t_env_var *env_list)
 		if (!ast_root)
 		{
 			free(input);
-			continue;
+			continue ;
 		}
 		printf("------>>>> Parser:\n");
 		print_ast(ast_root, 0);
@@ -92,7 +84,6 @@ static void minishell_loop(t_env_var *env_list)
 		printf("\n------------execution---------\n");
 		execute_ast(ast_root, &shell);
 
-		// Free resources
 		free_ast(ast_root);
 		ast_root = NULL;
 		free(input);
@@ -100,10 +91,11 @@ static void minishell_loop(t_env_var *env_list)
 	}
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_env_var *env_list = NULL;
+	t_env_var	*env_list;
 
+	env_list = NULL;
 	check_args(argc, argv);
 	env_list = convert_envp_to_list(envp);
 	if (!env_list)
@@ -117,3 +109,4 @@ int main(int argc, char **argv, char **envp)
 	rl_clear_history();
 	return (0);
 }
+

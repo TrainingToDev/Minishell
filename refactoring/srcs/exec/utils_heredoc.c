@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_utils_3.c                                  :+:      :+:    :+:   */
+/*   utils_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 16:39:22 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 16:43:29 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:39:35 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ char	*read_user_input(char *dlim, t_minishell *shell)
 	line = readline("\001"COLOR_BLUE"\002""heredoc> ""\001"COLOR_RESET"\002");
 	if (!line)
 	{
-		printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n",
-		shell->nb_line_heredoc , dlim);
+		// printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n",
+		// shell->nb_line_heredoc , dlim);
+		printf(MSG_1 "%d" MSG_2 "%s" MSG_3, shell->nb_line_heredoc , dlim);
 		return (NULL);
 	}
 	return (line);
