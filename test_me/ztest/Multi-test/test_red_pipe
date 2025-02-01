@@ -21,7 +21,7 @@ cat numbers | tr ',' '\n' | sort -n | uniq | awk '{print $1 * 2}' | paste -sd+ |
 echo "testing for redirection" > output (OK)
 sort < input (ok)
 echo "Another line" >> output (ok)
-cat << EOF > output.txt (O.K)
+cat << EOF > output.txt (o.k)
 grep 'Pattern' < Plaintext | sort > sorted_results (ok)
 
 *******************************************
