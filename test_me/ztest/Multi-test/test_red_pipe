@@ -1,7 +1,7 @@
 List of command
 error: /, *, -, + etc...
 1)
-cat log | grep 'Error' | sort | uniq > error_triees.txt (ok)
+cat log | grep 'Error' | sort | uniq > error (ok)
 
 2) bonus
 echo "Hello World" | grep "Hello" > output.txt && cat output.txt | wc -l
