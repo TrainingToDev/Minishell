@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_external.c                                    :+:      :+:    :+:   */
+/*   utils_extern_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:24:57 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 10:05:05 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/02/01 23:43:56 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 
 	if (ft_strcmp(cmd->argv[0], ".") == 0)
 	{
-		ft_putstr_fd("minishell: .: cmd not found\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: .: filename argument required\n", STDERR_FILENO);
 		return (127);
 	}
 	if (ft_strchr(cmd->argv[0], '/'))
@@ -79,11 +79,12 @@ static int	process_extern(char *path, t_command *cmd, t_minishell *shell)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (apply_redirections(cmd->redirs, shell) == -1)
+		if (apply_redirections(cmd->redirs, shell, 1) == -1)
 		{
 			perror("Error apply redir");
 			exit(1);
 		}
+		
 		execve(path, cmd->argv, convert_env_list(shell->env_list));
 		perror("execve");
 		exit(1);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   utils_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 16:02:07 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 16:14:25 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/02/01 23:44:15 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	heredoc_pipe(t_redir *cur)
 
 	if (pipe(pipefd) == -1)
 	{
-		perror("pipe");
+		perror("pipe failed");
 		return (-1);
 	}
 	i = 0;
@@ -42,22 +42,19 @@ static int	heredoc_pipe(t_redir *cur)
 	return (0);
 }
 
-int	heredoc_redir(t_redir *current, t_minishell *shell)
+int	process_heredoc(t_redir *cur, t_minishell *shell, int mode)
 {
-	if (!current->content)
+	if (!cur->content)
 	{
-		printf("minishell: HEREDOC : contenu invalide ou NULL\n");
+		printf("minishell: HEREDOC: contenu invalide ou NULL\n");
 		return (-1);
 	}
-	if (current->content->count > 0)
-	{
-		heredoc_copied(current->content, current->filename, shell);
-		return(0);
-	}
+	if (cur->content->count > 0)
+		heredoc_copied(cur->content, cur->filename, shell);
 	else
-	{
-		heredoc_interactive(current->filename, current->content, shell);
-		return(0);
-	}
-	return (heredoc_pipe(current));
+		heredoc_interactive(cur->filename, cur->content, shell);
+	if (mode)
+		return (heredoc_pipe(cur));
+	else
+		return (0);
 }

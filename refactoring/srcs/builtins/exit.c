@@ -60,7 +60,7 @@ static void	cleanup_shell(t_minishell *shell)
 	// ..
 }
 
-int	exit_cmd(t_minishell *shell, char **args)
+int	ft_exit(t_minishell *shell, char **args)
 {
 	long	exit_status;
 

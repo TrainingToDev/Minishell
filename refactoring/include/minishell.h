@@ -30,6 +30,7 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+# include <limits.h>
 
 # define COLOR_RESET "\033[0m"
 # define COLOR_GREEN "\033[32m"
@@ -186,7 +187,7 @@ char					*prompt_input(char *prompt);
 int						cd(t_minishell *shell, char **args);
 int						echo(t_minishell *shell, char **args);
 int						env(t_minishell *shell, char **args);
-int						exit_cmd(t_minishell *shell, char **args);
+int						ft_exit(t_minishell *shell, char **args);
 int						export(t_minishell *shell, char **args);
 int						pwd(t_minishell *shell, char **args);
 int						unset(t_minishell *shell, char **args);
@@ -237,6 +238,7 @@ char					*add_vval(char *src, size_t *i, char *result,
 							t_minishell *shell);
 char					*expand_variables_in_str(char *src, t_minishell *shell);
 void					expand_token_list(t_token *tokens, t_minishell *shell);
+void					mark_heredoc_delimiters(t_token *tokens);
 
 // utils expander
 char					*compare(char *key, t_env_var *env);
@@ -271,15 +273,21 @@ void					print_indentation(int depth);
 void					print_ast(t_ast *ast, int depth);
 
 // execution
-int						execute_builtin_cmd(t_command *command,
-							t_minishell *shell);
+int						execute_builtin_cmd(t_command *command, t_minishell *shell,
+							int fork_required);
 int						execute_extern_cmd(t_command *command,
 							t_minishell *shell);
 int						execute_ast(t_ast *ast, t_minishell *shell);
+int						execute_command(t_command *command, t_minishell *shell, 
+							int fork_required)
 
 // redir
-int						apply_redirections(t_redir *redirs, t_minishell *shell);
-int						heredoc_redir(t_redir *current, t_minishell *shell);
+int 			apply_redirections(t_redir *redirs, t_minishell *shell, int mode);
+int 			apply_builtins_redir(t_redir *redirs, t_minishell *shell);
+int 			process_redir_in(t_redir *current, int mode);
+int 			process_redir_out(t_redir *current, int mode);
+int				process_redir_append(t_redir *current, int mode);
+int				process_heredoc(t_redir *cur, t_minishell *shell, int mode);
 
 // heredoc
 int						check_params(t_hdc *cnt, char *dlim,
@@ -313,17 +321,14 @@ void					close_pipe_descriptors(int pipefd[2]);
 void					free_split(char **split);
 void					free_heredoc_content(t_hdc *cnt);
 char					**split_lines(char *input);
-void					process_heredoc(t_token *tokens, char *input);
 t_hdc					*init_heredoc(void);
 t_hdc					*get_heredoc_lines(char *input, char *dlim);
 int						add_line(t_hdc *cnt, char *line);
 int						get_lines(t_hdc *cnt, char **lines, char *dlim);
-void					print_heredoc_content(t_hdc *cnt);
 
 // environment
 void					print_env_list(t_env_var *env_list);
 void					free_env_list(t_env_var *env_list);
-// t_env_var	*create_env_var(const char *input_env);
 t_env_var				*convert_envp_to_list(char **envp);
 
 // signal

@@ -27,25 +27,23 @@ int	execute_builtin(t_minishell *shell, char **args)
 	else if (ft_strcmp(args[0], "env") == 0)
 		return (env(shell, args));
 	else if (ft_strcmp(args[0], "exit") == 0)
-		return (exit_cmd(shell, args));
+		return (ft_exit(shell, args));
 	return (-1);
 }
 
 int	is_builtin(const char *cmd_name)
 {
-	if (ft_strcmp(cmd_name, "echo") == 0)
-		return (1);
-	else if (ft_strcmp(cmd_name, "cd") == 0)
-		return (1);
-	else if (ft_strcmp(cmd_name, "pwd") == 0)
-		return (1);
-	else if (ft_strcmp(cmd_name, "export") == 0)
-		return (1);
-	else if (ft_strcmp(cmd_name, "unset") == 0)
-		return (1);
-	else if (ft_strcmp(cmd_name, "env") == 0)
-		return (1);
-	else if (ft_strcmp(cmd_name, "exit") == 0)
-		return (1);
+	static const char *builtins[] = {
+		"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL
+	};
+	int	i;
+
+	i = 0;
+	while (builtins[i])
+	{
+		if (ft_strcmp(cmd_name, builtins[i]) == 0)
+			return (1);
+		i++;
+	}
 	return (0);
 }

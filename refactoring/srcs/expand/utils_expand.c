@@ -82,3 +82,24 @@ int	is_single_quoted(const char *str)
 	len = ft_strlen(str);
 	return (len >= 2 && str[0] == '\'' && str[len - 1] == '\'');
 }
+
+void	mark_heredoc_delimiters(t_token *tokens)
+{
+	t_token	*prev;
+	t_token	*cur;
+
+	prev = NULL;
+	cur = tokens;
+	while (cur)
+	{
+		if (cur->type == TOKEN_WORD)
+		{
+			if (prev && prev->type == TOKEN_HEREDOC)
+				cur->expand = 0;
+			else
+				cur->expand = 1;
+		}
+		prev = cur;
+		cur = cur->next;
+	}
+}

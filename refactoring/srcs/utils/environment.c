@@ -16,6 +16,8 @@ static int	assign_key_value(t_env_var *env_var, const char *input_env)
 {
 	char	*sep;
 
+	if(!input_env)
+		return (-1);
 	sep = ft_strchr(input_env, '=');
 	if (sep)
 	{
@@ -64,22 +66,21 @@ static t_env_var	*create_env_var(const char *input_env)
 	return (env_var);
 }
 
-static void	add_env_var(t_env_var **env_list, t_env_var *new_var)
+static void add_env_var(t_env_var **env_list, t_env_var *new_var)
 {
-	t_env_var	*current;
-
-	if (!env_list || !new_var)
-		return ;
-	new_var->next = NULL;
-	if (*env_list == NULL)
-		*env_list = new_var;
-	else
-	{
-		current = *env_list;
-		while (current->next != NULL)
-			current = current->next;
-		current->next = new_var;
-	}
+    t_env_var *current;
+    
+    if (!env_list || !new_var)
+        return;
+    if (!*env_list)
+    {
+        *env_list = new_var;
+        return ;
+    }
+    current = *env_list;
+    while (current->next)
+        current = current->next;
+    current->next = new_var;
 }
 
 void	free_env_list(t_env_var *env_list)

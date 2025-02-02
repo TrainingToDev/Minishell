@@ -14,7 +14,7 @@
 
 int	init_pipe(int pipefd[2])
 {
-	if (pipe(pipefd) == -1)
+	if (pipe(pipefd) < 0)
 	{
 		perror("pipe");
 		return (1);
@@ -22,46 +22,54 @@ int	init_pipe(int pipefd[2])
 	return (0);
 }
 
-pid_t	fork_and_exec_left(t_ast *left, int pipefd[2], t_minishell *shell)
-{
-	pid_t	pid_left;
-
-	pid_left = fork();
-	if (pid_left == 0)
-	{
-		close(pipefd[0]);
-		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-			perror("dup2");
-		close(pipefd[1]);
-		exit(execute_ast(left, shell));
-	}
-	else if (pid_left < 0)
-		perror("fork");
-	return (pid_left);
-}
-
-pid_t	fork_and_exec_right(t_ast *right, int pipefd[2], t_minishell *shell)
-{
-	pid_t	pid_right;
-
-	pid_right = fork();
-	if (pid_right == 0)
-	{
-		close(pipefd[1]);
-		if (dup2(pipefd[0], STDIN_FILENO) == -1)
-			perror("dup2");
-		close(pipefd[0]);
-		exit(execute_ast(right, shell));
-	}
-	else if (pid_right < 0)
-		perror("fork");
-	return (pid_right);
-}
-
 void	close_pipe_descriptors(int pipefd[2])
 {
 	close(pipefd[0]);
 	close(pipefd[1]);
+}
+
+pid_t fork_and_exec_left(t_ast *ast, int pipefd[2], t_minishell *shell)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork");
+		return (-1);
+	}
+	if (pid == 0)
+	{
+		dup2(pipefd[1], STDOUT_FILENO);
+		close_pipe_descriptors(pipefd);
+		if (ast->type == NODE_COMMAND)
+			exit(execute_command(ast->command, shell, 1));
+		else
+			exit(execute_ast(ast, shell));
+	}
+	return (pid);
+}
+
+pid_t	fork_and_exec_right(t_ast *ast, int pipefd[2], t_minishell *shell)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork");
+		return (-1);
+	}
+	if (pid == 0)
+	{
+		dup2(pipefd[0], STDIN_FILENO);
+		close_pipe_descriptors(pipefd);
+		if (ast->type == NODE_COMMAND)
+			exit(execute_command(ast->command, shell, 1));
+		else
+			exit(execute_ast(ast, shell));
+	}
+	return (pid);
 }
 
 int	wait_for_children(pid_t pid_left, pid_t pid_right, t_minishell *shell)

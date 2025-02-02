@@ -18,8 +18,9 @@ static int	token_expand(t_token *token, t_token *tokens, t_minishell *shell)
 
 	if (token->type == TOKEN_WORD)
 	{
-		if (token->expand == 1 || (strchr(token->value, '$')
-				&& !is_single_quoted(token->value)))
+		if (token->expand == 0)
+			return (1);
+		if (strchr(token->value, '$') && !is_single_quoted(token->value))
 		{
 			expanded = expand_variables_in_str(token->value, shell);
 			if (!expanded)

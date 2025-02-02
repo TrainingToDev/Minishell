@@ -44,29 +44,6 @@ void	free_heredoc_content(t_hdc *cnt)
 	cnt->count = 0;
 }
 
-void	print_heredoc_content(t_hdc *cnt)
-{
-	size_t	i;
-
-	if (!cnt)
-	{
-		printf("No heredoc cnt to display.\n");
-		return ;
-	}
-	if (!cnt->lines || cnt->count == 0)
-	{
-		printf("Heredoc cnt is empty.\n");
-		return ;
-	}
-	printf("Heredoc cnt (%zu lines):\n", cnt->count);
-	i = 0;
-	while (i < cnt->count)
-	{
-		printf("Line %zu: %s\n", i + 1, cnt->lines[i]);
-		i++;
-	}
-}
-
 t_hdc	*init_heredoc(void)
 {
 	t_hdc	*cnt;
@@ -144,35 +121,4 @@ int	get_lines(t_hdc *cnt, char **lines, char *dlim)
 		i++;
 	}
 	return (0);
-}
-
-void	process_heredoc(t_token *tokens, char *input)
-{
-	t_token	*current;
-	t_hdc	*cnt;
-	char	*dlim;
-
-	current = tokens;
-	while (current)
-	{
-		if (current->type == TOKEN_HEREDOC)
-		{
-			if (current->next)
-				dlim = current->next->value;
-			else
-				dlim = NULL;
-			if (dlim)
-			{
-				printf("Handling heredoc with dlim: %s\n", dlim);
-				cnt = get_heredoc_lines(input, dlim);
-				if (cnt)
-				{
-					print_heredoc_content(cnt);
-					free_heredoc_content(cnt);
-					free(cnt);
-				}
-			}
-		}
-		current = current->next;
-	}
 }

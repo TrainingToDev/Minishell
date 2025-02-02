@@ -18,20 +18,30 @@ static void	init_minishell(t_minishell *shell, t_env_var *env_list)
 	shell->last_exit_status = 0;
 	shell->tokens = NULL;
 	shell->ast = NULL;
-	shell->running = 1;
-	shell->fd_input = STDIN_FILENO;
-	shell->fd_output = STDOUT_FILENO;
 	shell->nb_line_heredoc = 0;
+	shell->running = 1;
+	shell->fd_input = dup(STDIN_FILENO);
+	if (shell->fd_input == -1)
+	{
+		perror("dup STDIN");
+		exit(1);
+	}
+	shell->fd_output = dup(STDOUT_FILENO);
+	if (shell->fd_output == -1)
+	{
+		perror("dup STDOUT");
+		exit(1);
+	}
 }
 
-static void	minishell_loop(t_env_var *env_list)
+static void minishell_loop(t_env_var *env_list)
 {
 	char		*prompt;
 	char		*input;
 	t_token		*token_list;
 	t_ast		*ast_root;
 	t_minishell	shell;
-
+	
 	prompt = NULL;
 	input = NULL;
 	token_list = NULL;
@@ -44,29 +54,34 @@ static void	minishell_loop(t_env_var *env_list)
 		if (!prompt)
 		{
 			ft_putstr_fd("minishell: Error creating prompt\n", 2);
-			break ;
+			break;
 		}
 		
 		// 2) Get user input
 		input = prompt_input(prompt);
 		free(prompt);
-
+		 
 		// Handle ctrl+D (EOF)
 		if (!input)
-			break ;
-			
+			break;
+
 		// 3) Tokenize input
 		token_list = lexer(input);
 		if (!token_list)
 		{
 			free(input);
-			continue ;
+			continue;
 		}
-		
-		printf("------>>>> TOKEN:\n");
-		print_tokens(token_list);
+		// printf("------>>>> TOKEN:\n");
+		// print_tokens(token_list);
 
-		// 4) Parse tokens
+		// 4) Expansion
+		mark_heredoc_delimiters(token_list);
+		expand_token_list(token_list, &shell);
+		// printf("------>>>> EXPAND:\n");
+		// print_tokens(token_list);
+
+		// 5) Parse tokens
 		ast_root = parse(token_list, input);
 
 		free_token_list(token_list);
@@ -75,27 +90,29 @@ static void	minishell_loop(t_env_var *env_list)
 		if (!ast_root)
 		{
 			free(input);
-			continue ;
+			continue;
 		}
-		printf("------>>>> Parser:\n");
-		print_ast(ast_root, 0);
+		// printf("------>>>> Parser:\n");
+		// print_ast(ast_root, 0);
 
-		// 5) Execute AST
-		printf("\n------------execution---------\n");
+
+		// 6) Execute AST
+		// printf("\n------------execution---------\n");
 		execute_ast(ast_root, &shell);
 
+		// Free resources
 		free_ast(ast_root);
 		ast_root = NULL;
 		free(input);
 		input = NULL;
 	}
+	cleanup_shell(&shell);
 }
 
-int	main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
-	t_env_var	*env_list;
+	t_env_var *env_list = NULL;
 
-	env_list = NULL;
 	check_args(argc, argv);
 	env_list = convert_envp_to_list(envp);
 	if (!env_list)
@@ -105,8 +122,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	setup_signals();
 	minishell_loop(env_list);
-	free_env_list(env_list);
+	// free_env_list(env_list);
 	rl_clear_history();
 	return (0);
 }
-

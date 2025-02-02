@@ -22,24 +22,21 @@ static int	check_cmd(t_command *command)
 	return (0);
 }
 
-static int	execute_command(t_command *command, t_minishell *shell)
+int	execute_command(t_command *command, t_minishell *shell, int fork_required)
 {
-	int	result;
+	int result;
 
 	result = check_cmd(command);
-	if (result == 0 && (!command || !command->argv || command->argc == 0))
+	if (result == 0 && (!command->argv || command->argc == 0))
 	{
 		if (command && command->redirs)
-		{
-			printf("HERE\n");
-			return (apply_redirections(command->redirs, shell));
-		}
+			return (apply_redirections(command->redirs, shell, 0));
 		return (0);
 	}
 	if (result != 0)
 		return (result);
 	if (is_builtin(command->argv[0]))
-		return (execute_builtin_cmd(command, shell));
+		return (execute_builtin_cmd(command, shell, fork_required));
 	return (execute_extern_cmd(command, shell));
 }
 
@@ -50,7 +47,7 @@ static int	execute_pipeline(t_ast *ast, t_minishell *shell)
 	pid_t	pid_right;
 
 	if (!ast || ast->type != NODE_PIPE)
-		return (execute_ast(ast, shell));
+		return execute_ast(ast, shell);
 	if (init_pipe(pipefd) != 0)
 		return (1);
 	pid_left = fork_and_exec_left(ast->left, pipefd, shell);
@@ -71,12 +68,16 @@ static int	execute_pipeline(t_ast *ast, t_minishell *shell)
 
 int	execute_ast(t_ast *ast, t_minishell *shell)
 {
+	int	exit_status;
+
 	if (!ast)
 		return (1);
 	if (ast->type == NODE_COMMAND)
 	{
 		shell->nb_line_heredoc++;
-		return (execute_command(ast->command, shell));
+		exit_status = execute_command(ast->command, shell, 0);
+		shell->last_exit_status = exit_status;
+		return (exit_status);
 	}
 	else if (ast->type == NODE_PIPE)
 		return (execute_pipeline(ast, shell));
