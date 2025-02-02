@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:10:52 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 15:41:37 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/02/02 15:10:41 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
