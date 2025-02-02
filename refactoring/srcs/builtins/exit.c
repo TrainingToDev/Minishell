@@ -52,12 +52,21 @@ static int	is_valid_integer(const char *str, long *result)
 	return (1);
 }
 
-static void	cleanup_shell(t_minishell *shell)
+void	cleanup_shell(t_minishell *shell)
 {
-	// free liste var env
+    if (shell->fd_input != -1)
+    {
+        if (close(shell->fd_input) == -1)
+            perror("Erreur lors de la fermeture de fd_input");
+    }
+    if (shell->fd_output != -1)
+    {
+        if (close(shell->fd_output) == -1)
+            perror("Erreur lors de la fermeture de fd_output");
+        shell->fd_output = -1;
+    }
 	free_env_list(shell->env_list);
 	rl_clear_history();
-	// ..
 }
 
 int	ft_exit(t_minishell *shell, char **args)
