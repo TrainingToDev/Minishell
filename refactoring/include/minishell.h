@@ -340,6 +340,9 @@ void					setup_child(void);
 // manage error
 void					*print_error(int err_type, char *param, int err);
 
+//clean shell
+void			cleanup_shell(t_minishell *shell);
+
 // bonus
 int						execute_conditional(t_ast *ast, t_minishell *shell);
 int						execute_subshell(t_ast *ast, t_minishell *shell);
