@@ -71,6 +71,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(EXEC_DIR)/heredoc_simple.c\
 			$(EXEC_DIR)/path.c\
 			$(EXEC_DIR)/pipe.c\
+			$(EXEC_DIR)/redir_builtins.c\
 			$(EXEC_DIR)/redir.c\
 			$(EXEC_DIR)/utils_env.c\
 			$(EXEC_DIR)/utils_extern_cmd.c\
