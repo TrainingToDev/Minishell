@@ -31,6 +31,8 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(BUILTINS_DIR)/echo.c \
 			$(BUILTINS_DIR)/env.c \
 			$(BUILTINS_DIR)/exit.c \
+			$(BUILTINS_DIR)/export_print.c \
+			$(BUILTINS_DIR)/export_utils.c \
 			$(BUILTINS_DIR)/export.c \
 			$(BUILTINS_DIR)/pwd.c \
 			$(BUILTINS_DIR)/unset.c \

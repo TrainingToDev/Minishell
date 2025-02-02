@@ -205,6 +205,15 @@ void					append_env_node(t_env_var **env_list,
 void					set_env_value(t_env_var **env_list, const char *key,
 							const char *value);
 
+//export_utils
+int						is_valid_id(const char *str);
+void					sort_array(t_env_var **env_array, int count);
+int						count_vars(t_env_var *env_list);
+t_env_var				**create_array(t_env_var *env_list, int count);
+t_env_var				*new(char *key, char *value, t_env_var *current);
+void					display_env(t_env_var **env_array, int count);
+int						export_error(char *arg);
+
 // lexer
 int						check_operators(t_token *tokens);
 int						check_parentheses(t_token *tokens);
