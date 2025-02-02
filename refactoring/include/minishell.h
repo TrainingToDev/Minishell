@@ -279,7 +279,7 @@ int						execute_extern_cmd(t_command *command,
 							t_minishell *shell);
 int						execute_ast(t_ast *ast, t_minishell *shell);
 int						execute_command(t_command *command, t_minishell *shell, 
-							int fork_required)
+							int fork_required);
 
 // redir
 int 			apply_redirections(t_redir *redirs, t_minishell *shell, int mode);
