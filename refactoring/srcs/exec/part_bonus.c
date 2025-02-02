@@ -37,7 +37,7 @@ static pid_t	create_subshell_process(t_ast *ast, t_minishell *shell)
 	{
 		if (ast->command && ast->command->redirs)
 		{
-			if (apply_redirections(ast->command->redirs, shell) == -1)
+			if (apply_redirections(ast->command->redirs, shell, 1) == -1)
 			{
 				perror("apply_redirections");
 				exit(1);
