@@ -19,25 +19,27 @@ static int	check_cmd(t_command *command)
 		ft_putstr_fd("minishell: command not found\n", STDERR_FILENO);
 		return (127);
 	}
-	return (0);
+	if (!command->argv || !command->argv[0] || command->argv[0][0] == '\0')
+		return (0);
+	return (1);
 }
 
 int	execute_command(t_command *command, t_minishell *shell, int fork_required)
 {
-	int result;
+	int	result;
 
 	result = check_cmd(command);
-	if (result == 0 && (!command->argv || command->argc == 0))
+	if (result == 127)
+		return 127;
+	if (result == 0)
 	{
 		if (command && command->redirs)
 			return (apply_redirections(command->redirs, shell, 0));
 		return (0);
 	}
-	if (result != 0)
-		return (result);
 	if (is_builtin(command->argv[0]))
-		return (execute_builtin_cmd(command, shell, fork_required));
-	return (execute_extern_cmd(command, shell));
+		return execute_builtin_cmd(command, shell, fork_required);
+	return execute_extern_cmd(command, shell);
 }
 
 static int	execute_pipeline(t_ast *ast, t_minishell *shell)
