@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-// Process REDIR_IN
+// Process REDIR_IN | REDIR_OUT | REDIR_APPEND
 // if mode == 1, check dup2(fd, STDIN_FILENO) or write in pipe for heredoc 
-// else if, open/ferme it
+// else if, open/close it
 
 int process_redir_in(t_redir *current, int mode)
 {
@@ -89,7 +89,7 @@ int apply_redirections(t_redir *redirs, t_minishell *shell, int mode)
 {
     t_redir *current;
 
-    /* Priorité 1 : HEREDOC */
+    /* Priority 1 : HEREDOC */
     current = redirs;
     while (current)
     {
@@ -101,7 +101,7 @@ int apply_redirections(t_redir *redirs, t_minishell *shell, int mode)
         current = current->next;
     }
     
-    /* Priorité 2 : REDIR_IN */
+    /* Priority 2 : REDIR_IN */
     current = redirs;
     while (current)
     {
@@ -113,7 +113,7 @@ int apply_redirections(t_redir *redirs, t_minishell *shell, int mode)
         current = current->next;
     }
     
-    /* Priorité 3 : REDIR_OUT et REDIR_APPEND */
+    /* Priority 3 : REDIR_OUT et REDIR_APPEND */
     current = redirs;
     while (current)
     {
@@ -131,146 +131,3 @@ int apply_redirections(t_redir *redirs, t_minishell *shell, int mode)
     }
     return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// static int	handle_redir_in(t_redir *current)
-// {
-// 	int	fd;
-
-// 	fd = open(current->filename, O_RDONLY);
-// 	if (fd == -1 || dup2(fd, STDIN_FILENO) == -1)
-// 	{
-// 		perror(current->filename);
-// 		if (fd != -1)
-// 			close(fd);
-// 		return (-1);
-// 	}
-// 	close(fd);
-// 	return (0);
-// }
-
-// static int handle_redir_out(t_redir *current)
-// {
-//     int fd;
-
-// 	fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-//     if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
-// 	{
-//         perror(current->filename);
-//         if (fd != -1)
-//             close(fd);
-//         return (-1);
-//     }
-//     close(fd);
-//     return 0;
-// }
-
-// static int	handle_redir_append(t_redir *current)
-// {
-// 	int	fd;
-
-// 	fd = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-// 	if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
-// 	{
-// 		perror(current->filename);
-// 		if (fd != -1)
-// 			close(fd);
-// 		return (-1);
-// 	}
-// 	close(fd);
-// 	return (0);
-// }
-
-// int	apply_redirections(t_redir *redirs, t_minishell *shell)
-// {
-// 	t_redir	*current;
-
-// 	// Priority 1 : HEREDOCS
-// 	current = redirs;
-// 	while (current)
-// 	{
-// 		if (current->type == REDIR_HEREDOC)
-// 		{
-// 			printf("HEREDOC!!!!\n");
-// 			if (heredoc_redir(current, shell) == -1)
-// 				return (-1);
-// 		}
-// 		current = current->next;
-// 	}
-// 	printf("Others_>REDIR!!!\n");
-// 	// Priority 2 : REDIR_IN
-// 	current = redirs;
-// 	while (current)
-// 	{
-// 		if (current->type == REDIR_IN)
-// 		{
-// 			if (handle_redir_in(current) == -1)
-// 				return (-1);
-// 		}
-// 		current = current->next;
-// 	}
-
-// 	// Priority 3 : REDIR_OUT et REDIR_APPEND
-// 	current = redirs;
-// 	while (current)
-// 	{
-// 		if (current->type == REDIR_OUT)
-// 		{
-// 			if (handle_redir_out(current) == -1)
-// 				return (-1);
-// 		}
-// 		else if (current->type == REDIR_APPEND)
-// 		{
-// 			if (handle_redir_append(current) == -1)
-// 				return (-1);
-// 		}
-// 		current = current->next;
-// 	}
-// 	return (0);
-// }
