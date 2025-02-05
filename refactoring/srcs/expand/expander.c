@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:03:35 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/29 06:41:12 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/02/05 04:54:37 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
