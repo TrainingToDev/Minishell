@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static char	*get_env_cd(const char *key, t_env_var *env_list)
+char	*get_env_cd(const char *key, t_env_var *env_list)
 {
 	t_env_var	*current;
 
@@ -28,7 +28,7 @@ static char	*get_env_cd(const char *key, t_env_var *env_list)
 	return (NULL);
 }
 
-static int	update_env_value_if_exists(t_env_var *env_list, const char *key, const char *value)
+int	update_env_value_if_exists(t_env_var *env_list, const char *key, const char *value)
 {
 	t_env_var	*current;
 
@@ -55,7 +55,7 @@ static int	update_env_value_if_exists(t_env_var *env_list, const char *key, cons
 	return (0);
 }
 
-static t_env_var	*create_new_env_node(const char *key, const char *value)
+t_env_var	*create_new_env_node(const char *key, const char *value)
 {
 	t_env_var	*new_node;
 
@@ -76,7 +76,7 @@ static t_env_var	*create_new_env_node(const char *key, const char *value)
 	return (new_node);
 }
 
-static void	append_env_node(t_env_var **env_list, t_env_var *new_node)
+void	append_env_node(t_env_var **env_list, t_env_var *new_node)
 {
 	t_env_var	*current;
 
@@ -93,7 +93,7 @@ static void	append_env_node(t_env_var **env_list, t_env_var *new_node)
 	current->next = new_node;
 }
 
-static void	set_env_value(t_env_var **env_list, const char *key, const char *value)
+void	set_env_value(t_env_var **env_list, const char *key, const char *value)
 {
 	t_env_var	*new_node;
 
