@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 06:02:59 by miaandri          #+#    #+#             */
-/*   Updated: 2025/02/06 17:21:07 by herandri         ###   ########.fr       */
+/*   Updated: 2025/01/29 02:04:06 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-volatile int g_check;
 
 int	status_manager(int new_status, int mode)
 {
@@ -68,14 +66,13 @@ void setup_child(void)
 }
 
 static void	heredoc_signal(int sig)
- {
- 	if (sig == SIGINT)
- 	{
- 		// ft_putendl_fd("", STDOUT_FILENO);
-		g_check = 1;
- 		status_manager(128 + sig, STATUS_WRITE);
- 		// exit(128 + sig);
- 	}
+{
+	if (sig == SIGINT)
+	{
+		ft_putendl_fd("", STDOUT_FILENO);
+		status_manager(128 + sig, STATUS_WRITE);
+		exit(128 + sig);
+	}
 
 }
 

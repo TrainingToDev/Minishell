@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 02:05:42 by miaandri          #+#    #+#             */
-/*   Updated: 2025/02/06 17:20:38 by herandri         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:25:10 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void init_minishell(t_minishell *shell, t_env_var *env_list)
 {
-    shell->check = 0;
 	shell->env_list = env_list;
 	shell->last_exit_status = 0;
 	shell->tokens = NULL;
