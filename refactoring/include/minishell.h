@@ -6,7 +6,7 @@
 /*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:50:28 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/31 11:39:30 by herandri         ###   ########.fr       */
+/*   Updated: 2025/02/06 08:20:18 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,18 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <ctype.h>
-# include <dirent.h>
-# include <errno.h>
-# include <fcntl.h>
-# include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
+# include <stdbool.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <limits.h>
+# include <signal.h>
+# include <dirent.h>
+# include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
-# include <termios.h>
 # include <unistd.h>
-# include <limits.h>
 
 # define COLOR_RESET "\033[0m"
 # define COLOR_GREEN "\033[32m"
@@ -43,7 +38,6 @@
 # define STATUS_INIT 3
 
 // exit_code
-
 # define SUCCESS 0
 # define ERR_G 1
 # define ERR_SYN 2
