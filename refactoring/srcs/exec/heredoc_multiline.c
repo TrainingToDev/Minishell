@@ -19,7 +19,7 @@ static int	update_line(t_hdc *cnt, size_t i, int qt, t_minishell *shell)
 	if (qt)
 		expanded_line = ft_strdup(cnt->lines[i]);
 	else
-		expanded_line = expand_variables_in_str(cnt->lines[i], shell);
+		expanded_line = expand_var(cnt->lines[i], shell);
 	if (!expanded_line)
 	{
 		perror("expand_variables_in_str");
@@ -73,7 +73,7 @@ static int	read_expand(t_hdc *cnt, char *dlim, t_minishell *shell)
 			free(line);
 			break ;
 		}
-		expanded_line = expand_variables_in_str(line, shell);
+		expanded_line = expand_var(line, shell);
 		free(line);
 		if (!expanded_line)
 			return (0);

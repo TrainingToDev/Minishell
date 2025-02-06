@@ -16,7 +16,7 @@ static int	validate_subshell_node(t_ast *ast)
 {
 	if (!ast || ast->type != NODE_SUBSHELL)
 	{
-		fprintf(stderr, "Error: Invalid node type for subshell execution.\n");
+		perror("Error: Invalid node type for subshell execution.\n");
 		return (0);
 	}
 	return (1);
@@ -38,10 +38,7 @@ static pid_t	create_subshell_process(t_ast *ast, t_minishell *shell)
 		if (ast->command && ast->command->redirs)
 		{
 			if (apply_redirections(ast->command->redirs, shell, 1) == -1)
-			{
-				perror("apply_redirections");
 				exit(1);
-			}
 		}
 		if (ast->left)
 		{
@@ -53,9 +50,10 @@ static pid_t	create_subshell_process(t_ast *ast, t_minishell *shell)
 	return (pid);
 }
 
-static int	wait_for_subshell(pid_t pid, t_minishell *shell)
+static int	wait_for_subshell(pid_t pid)
 {
 	int	status;
+	int	exit_status;
 
 	if (waitpid(pid, &status, 0) == -1)
 	{
@@ -63,10 +61,13 @@ static int	wait_for_subshell(pid_t pid, t_minishell *shell)
 		return (1);
 	}
 	if (WIFEXITED(status))
-		shell->last_exit_status = WEXITSTATUS(status);
+		exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		exit_status = 128 + WTERMSIG(status);
 	else
-		shell->last_exit_status = 1;
-	return (shell->last_exit_status);
+		exit_status = 1;
+	status_manager(exit_status, STATUS_WRITE);
+	return (exit_status);
 }
 
 int	execute_subshell(t_ast *ast, t_minishell *shell)
@@ -78,33 +79,33 @@ int	execute_subshell(t_ast *ast, t_minishell *shell)
 	pid = create_subshell_process(ast, shell);
 	if (pid == -1)
 		return (1);
-	return (wait_for_subshell(pid, shell));
+	return (wait_for_subshell(pid));
 }
 
 int	execute_conditional(t_ast *ast, t_minishell *shell)
 {
-	int	left_status;
+	int	exit_left;
+	int	exit_right;
+	int	exit_status;
 
 	if (!ast || (ast->type != NODE_AND && ast->type != NODE_OR))
 	{
-		fprintf(stderr, "execute_conditional: Invalid AST node type\n");
+		printf("execute_conditional: Invalid AST node type\n");
 		return (1);
 	}
-	left_status = execute_ast(ast->left, shell);
-	if (ast->type == NODE_AND)
+	exit_right = -1;
+	exit_left = execute_ast(ast->left, shell);
+	status_manager(exit_left, STATUS_WRITE);
+	if (ast->type == NODE_AND && exit_left == 0)
+		exit_right = execute_ast(ast->right, shell);
+	else if (ast->type == NODE_OR && exit_left != 0)
+		exit_right = execute_ast(ast->right, shell);
+	if (exit_right != -1)
 	{
-		if (left_status == 0)
-			return (execute_ast(ast->right, shell));
-		else
-			return (left_status);
+		status_manager(exit_right, STATUS_WRITE);
+		exit_status = exit_right;
 	}
-	else if (ast->type == NODE_OR)
-	{
-		if (left_status != 0)
-			return (execute_ast(ast->right, shell));
-		else
-			return (left_status);
-	}
-	fprintf(stderr, "execute_conditional: Unexpected node type\n");
-	return (1);
+	else
+		exit_status = exit_left;
+	return (exit_status);
 }

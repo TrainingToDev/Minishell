@@ -73,7 +73,7 @@ t_token	*create_token(t_token_type type, const char *value, int expand)
 	if (!new_token->value)
 	{
 		free(new_token);
-		print_error(E_NOMEM, "Memory allocation error", 11);
+		print_error(E_NOMEM, "Cannot allocate memory", ERR_SEGV);
 		return (NULL);
 	}
 	new_token->type = type;
@@ -90,7 +90,7 @@ void	add_token(t_token **tokens, t_token *new_token)
 		return ;
 	if (new_token->next)
 	{
-		printf("Token already linked");
+		printf("Token already linked!!!");
 		return ;
 	}
 	if (!*tokens)

@@ -16,29 +16,33 @@ static int	check_executable_path(char *path)
 {
 	struct stat	path_stat;
 
-	if (access(path, F_OK) != 0)
+	if (access(path, F_OK) != 0) //path inexist dir
 	{
-		perror(path);
-		return (127);
+		printf("{here1}\n");
+		print_error(E_DIR, path, ERR_G);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		return (ERR_G);
 	}
 	if (stat(path, &path_stat) == -1)
 	{
-		perror(path);
+		printf("{here2}\n");
+		print_error(E_CMD, path, ERR_G);
+		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 		return (126);
 	}
-	if (S_ISDIR(path_stat.st_mode))
+	if (S_ISDIR(path_stat.st_mode)) // dir exist
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(path, STDERR_FILENO);
-		ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
-		return (126);
+		printf("{here3}\n");
+		print_error(E_DIR, path, ERR_DIR);
+		ft_putendl_fd(": Is a directory", STDERR_FILENO);
+		return (ERR_DIR);
 	}
-	if (access(path, X_OK) != 0)
+	if (access(path, X_OK) != 0) // permission
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(path, STDERR_FILENO);
-		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
-		return (126);
+		printf("{here4}\n");
+		print_error(E_CMD, path, ERR_DIR);
+		ft_putendl_fd(": Permission denied", STDERR_FILENO);
+		return (ERR_DIR);
 	}
 	return (0);
 }
@@ -47,10 +51,19 @@ static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 {
 	int	result;
 
-	if (ft_strcmp(cmd->argv[0], ".") == 0)
+	if (ft_strcmp(cmd->argv[0], ".") == 0) // test .
 	{
-		ft_putstr_fd("minishell: .: filename argument required\n", STDERR_FILENO);
-		return (127);
+		print_error(E_DIR, cmd->argv[0], ERR_SYN);
+		ft_putendl_fd(": filename argument required", STDERR_FILENO);
+		printf("%s: usage: . filename [arguments]\n", cmd->argv[0]);
+		return (ERR_SYN);
+	}
+	if (ft_strcmp(cmd->argv[0], "..") == 0)
+	{
+		printf("cmd-1\n");
+		print_error(E_CMD, cmd->argv[0], ERR_CMD);
+		ft_putendl_fd(": Command not found", STDERR_FILENO);
+		return (ERR_CMD);
 	}
 	if (ft_strchr(cmd->argv[0], '/'))
 	{
@@ -63,10 +76,10 @@ static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 	*path = find_command_path(cmd->argv[0], shell->env_list);
 	if (!(*path))
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
-		ft_putstr_fd(": cmd not found\n", STDERR_FILENO);
-		return (127);
+		printf("cmd-2\n");
+		print_error(E_CMD, cmd->argv[0], ERR_CMD);
+		ft_putendl_fd(": Command not found!!", STDERR_FILENO);
+		return (ERR_CMD);
 	}
 	return (0);
 }
@@ -74,28 +87,41 @@ static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 static int	process_extern(char *path, t_command *cmd, t_minishell *shell)
 {
 	pid_t	pid;
+	char **env_array;
+	int exit_status;
 
-	setup_child();
+	setup_child();//signal
 	pid = fork();
 	if (pid == 0)
 	{
+		printf("io1\n");
 		if (apply_redirections(cmd->redirs, shell, 1) == -1)
 		{
-			perror("Error apply redir");
-			exit(1);
+			printf("REDIR>>>-1\n");
+			print_error(E_DIR,cmd->redirs->filename, ERR_G);
+			ft_putendl_fd(": No such file or directory!!!", STDERR_FILENO);
+			return (1);
 		}
-		
-		execve(path, cmd->argv, convert_env_list(shell->env_list));
-		perror("execve");
+		printf("eto\n");
+		env_array = convert_env_list(shell->env_list);
+		printf("eto->>>>\n");
+		execve(path, cmd->argv, env_array);
+		printf("eto oa!!!\n");
+		free_str_array(env_array);
+		// execve(path, cmd->argv, convert_env_list(shell->env_list));
+		perror("error: execve");
+		printf("iof2\n");
 		exit(1);
 	}
 	else if (pid < 0)
 	{
-		perror("fork");
+		print_error(E_FORK, "fork", ERR_G);
 		return (1);
 	}
 	waitpid(pid, &shell->last_exit_status, 0);
-	return (WEXITSTATUS(shell->last_exit_status));
+	exit_status = WEXITSTATUS(shell->last_exit_status);
+	status_manager(exit_status, STATUS_WRITE);
+	return (exit_status);
 }
 
 int	execute_extern_cmd(t_command *cmd, t_minishell *shell)

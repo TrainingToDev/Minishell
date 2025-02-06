@@ -34,7 +34,7 @@ static char	*get_path(char **path, char *cmd)
 	i = 0;
 	while (path[i])
 	{
-		full_path = ft_strjoin_free(ft_strjoin(path[i], "/"), cmd, 1);
+		full_path = join_free(ft_strjoin(path[i], "/"), cmd, 1);
 		if (!full_path)
 		{
 			free_str_array(path);

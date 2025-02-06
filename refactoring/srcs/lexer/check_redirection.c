@@ -16,7 +16,7 @@ static int	valid_general_redir(t_token *token)
 {
 	if (!token->next)
 	{
-		print_error(E_SYNTAX, "newline", 2);
+		print_error(E_SYNTAX, "newline", ERR_SYN);
 		return (0);
 	}
 	if (token->type == TOKEN_REDIRECT_OUT || token->type == TOKEN_APPEND
@@ -24,13 +24,13 @@ static int	valid_general_redir(t_token *token)
 	{
 		if (token->next->type == TOKEN_PIPE)
 		{
-			print_error(E_SYNTAX, "|", 2);
+			print_error(E_SYNTAX, "|", ERR_SYN);
 			return (0);
 		}
 	}
 	if (token->next->type != TOKEN_WORD && token->next->type != TOKEN_PIPE)
 	{
-		print_error(E_SYNTAX, token->next->value, 2);
+		print_error(E_SYNTAX, token->next->value, ERR_SYN);
 		return (0);
 	}
 	return (1);
@@ -42,7 +42,7 @@ static int	validate_force_overwrite(t_token *token)
 	{
 		if (!token->next || token->next->type != TOKEN_WORD)
 		{
-			print_error(E_SYNTAX, "newline", 2);
+			print_error(E_SYNTAX, "newline", ERR_SYN);
 			return (0);
 		}
 	}

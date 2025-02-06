@@ -17,9 +17,11 @@ int	pwd(t_minishell *shell, char **args)
 	char	*cwd;
 
 	(void) shell;
-	if (args[1])
+	if (args[1] && args[1][0] == '-')
 	{
-		ft_putendl_fd("pwd: too many arguments", STDERR_FILENO);
+		print_error(E_SUP, "pwd: ", ERR_SYN);
+		ft_putstr_fd(args[1], STDERR_FILENO);
+		ft_putendl_fd(": option not accepted", STDERR_FILENO);
 		return (1);
 	}
 	cwd = getcwd(NULL, 0);
@@ -27,12 +29,12 @@ int	pwd(t_minishell *shell, char **args)
 	{
 		ft_putendl_fd(cwd, STDOUT_FILENO);
 		free(cwd);
+		status_manager(SUCCESS, STATUS_WRITE);
 		return (0);
 	}
 	else
 	{
-		ft_putstr_fd("pwd: ", STDERR_FILENO);
-		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+		perror("pwd: getcwd()");
 		return (1);
 	}
 }

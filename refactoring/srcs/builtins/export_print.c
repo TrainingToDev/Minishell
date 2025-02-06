@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void display_env(t_env_var **env_array, int count)
+static void	display_env(t_env_var **env_array, int count)
 {
 	int i;
 
@@ -34,8 +34,23 @@ void display_env(t_env_var **env_array, int count)
 
 int	export_error(char *arg)
 {
-	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-	ft_putstr_fd(arg, STDERR_FILENO);
+	print_error(E_VAR, arg, ERR_G);
 	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 	return (1);
+}
+
+void	display_exported(t_minishell *shell)
+{
+	int			count;
+	t_env_var	**env_array;
+
+	count = count_vars(shell->env_list);
+	if (count == 0)
+		return ;
+	env_array = create_array(shell->env_list, count);
+	if (!env_array)
+		return ;
+	sort_array(env_array, count);
+	display_env(env_array, count);
+	free(env_array);
 }

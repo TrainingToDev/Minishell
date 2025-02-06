@@ -19,14 +19,12 @@ int	env(t_minishell *shell, char **args)
 	current = NULL;
 	if (args[1])
 	{
-		fprintf(stderr, "env: No arguments or options allowed\n");
-		shell->last_exit_status = 1;
+		print_error(E_SUP, "env: No arguments or options allowed\n", ERR_SYN);
 		return (1);
 	}
 	if (!shell->env_list)
 	{
-		fprintf(stderr, "env: Environment list is not initialized.\n");
-		shell->last_exit_status = 1;
+		perror("env: not initialized.\n");
 		return (1);
 	}
 	current = shell->env_list;
@@ -36,6 +34,6 @@ int	env(t_minishell *shell, char **args)
 			printf("%s=%s\n", current->key, current->value);
 		current = current->next;
 	}
-	shell->last_exit_status = 0;
+	status_manager(SUCCESS, STATUS_WRITE);
 	return (0);
 }

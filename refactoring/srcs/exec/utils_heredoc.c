@@ -16,7 +16,7 @@ int	check_params(t_hdc *cnt, char *dlim, t_minishell *shell)
 {
 	if (!cnt || !dlim || !shell)
 	{
-		fprintf(stderr, "Invalid parameters provided to handle_interactive_heredoc.\n");
+		perror("Invalid parameters heredoc.\n");
 		return (0);
 	}
 	return (1);

@@ -40,6 +40,17 @@
 # define STATUS_READ 0
 # define STATUS_WRITE 1
 # define STATUS_QUIT 2
+# define STATUS_INIT 3
+
+// exit_code
+
+# define SUCCESS 0
+# define ERR_G 1
+# define ERR_SYN 2
+# define ERR_DIR 126
+# define ERR_CMD 127
+# define ERR_SIGINT 130
+# define ERR_SEGV 131
 
 # define MSG_1 "minishell: warning: here-document at line"
 # define MSG_2 "delimited by end-of-file (wanted `"
@@ -139,36 +150,22 @@ typedef struct s_minishell
 	int					fd_output;
 }						t_minishell;
 
-enum					e_mini_error
+enum	e_mini_error
 {
 	E_QUOTE = 1,
-	E_NODIR = 2,
-	E_PDENIED = 3,
-	E_NOCMD = 6,
-	E_DUPFD = 7,
-	E_FORK = 8,
-	E_PIPE = 9,
-	E_SYNTAX = 10,
-	E_NOMEM = 11,
-	E_ISDIR = 12,
-	E_NOTDIR = 13,
-	E_WARNING = 14
+	E_SYNTAX = 2,
+	E_DIR = 3,
+	E_CMD = 4,
+	E_DUPFD = 5,
+	E_FORK = 6,
+	E_PIPE = 7,
+	E_NOMEM = 8,
+	E_VAR = 9,
+	E_VAR_O = 10,
+	E_SUP = 11,
+	E_EXIT = 12,
+	E_WARNING = 13
 };
-
-/*
-E_QUOTE = 1	syntax Unclosed quote
-E_NODIR = 2	No such directory
-E_PDENIED = 3	Permission denied
-E_NOCMD = 6	Command not found
-E_DUPFD = 7	Failed to duplicate file descriptor
-E_FORK = 8	Fork error
-E_PIPE = 9	Pipe error
-E_SYNTAX = 10	syntax error near unexpected token
-E_NOMEM = 11	Out of memory
-E_ISDIR = 12	Is a directory
-E_NOTDIR = 13	Not a directory
-E_WARNING = 14	Warning message
-*/
 
 // expand struct
 typedef struct s_varinfo
@@ -177,6 +174,12 @@ typedef struct s_varinfo
 	size_t				start;
 	size_t				len;
 }						t_varinfo;
+
+typedef struct s_state
+{
+	size_t	index;
+	int		single_quote;
+}			t_state;
 
 // prompt
 int						check_args(int argc, char **argv);
@@ -206,80 +209,84 @@ void					set_env_value(t_env_var **env_list, const char *key,
 							const char *value);
 
 //export_utils
-int						is_valid_id(const char *str);
-void					sort_array(t_env_var **env_array, int count);
-int						count_vars(t_env_var *env_list);
-t_env_var				**create_array(t_env_var *env_list, int count);
-t_env_var				*new(char *key, char *value, t_env_var *current);
-void					display_env(t_env_var **env_array, int count);
-int						export_error(char *arg);
+int			is_valid_id(const char *str);
+void		sort_array(t_env_var **env_array, int count);
+int			count_vars(t_env_var *env_list);
+t_env_var	**create_array(t_env_var *env_list, int count);
+t_env_var	*new(char *key, char *value, t_env_var *current);
+void		display_exported(t_minishell *shell);
+int			export_error(char *arg);
+t_env_var	*find_pos(t_env_var *env_list, char *key, t_env_var **prev);
+void		update_env(t_minishell *shell, char *key, char *value);
+int			export_arg(t_minishell *shell, char *arg);
+void		fast_export(t_token *tokens, t_minishell *shell);
+void 		fast_unset(t_token *tokens, t_minishell *shell);
+void		remove_env_var(t_minishell *shell, const char *key);
 
 // lexer
-int						check_operators(t_token *tokens);
-int						check_parentheses(t_token *tokens);
-int						is_disallowed(t_token *tokens);
-int						process_substitution(t_token *token);
-int						check_redirections(t_token *tokens);
-int						validate_syntax(t_token *tokens);
-int						consecutive_redir_in(const char *input);
-int						unsupported_redirs(const char *input);
-int						is_operator(const char *str);
-int						is_quote(char c);
-void					add_operator_token(t_token **tokens, char *input,
-							size_t *i);
-void					add_word_token(t_token **tokens, char *input,
-							size_t *i);
-void					add_token(t_token **tokens, t_token *new_token);
-char					*extract_word_value(char *input, size_t *i,
-							int *expand);
-char					*extract_quoted_value(char *input, size_t *i,
-							int *expand);
-t_token_type			invalid_redir(const char *input);
-t_token_type			get_op_token(const char *op);
-t_token					*create_token(t_token_type type, const char *value,
-							int expand);
-t_token					*lexer(char *input);
-void					free_token_list(t_token *tokens);
-void					print_tokens(t_token *tokens);
+int				check_operators(t_token *tokens);
+int				check_parentheses(t_token *tokens);
+int				is_disallowed(t_token *tokens);
+int				process_substitution(t_token *token);
+int				check_redirections(t_token *tokens);
+int				validate_syntax(t_token *tokens);
+int				consecutive_redir_in(const char *input);
+int				unsupported_redirs(const char *input);
+int				is_operator(const char *str);
+int				is_quote(char c);
+void			add_operator_token(t_token **tokens, char *input, size_t *i);
+void			add_word_token(t_token **tokens, char *input, size_t *i);
+void			add_token(t_token **tokens, t_token *new_token);
+char			*extract_word_value(char *input, size_t *i, int *expand);
+char			*extract_quoted_value(char *input, size_t *i, int *expand);
+t_token_type	invalid_redir(const char *input);
+t_token_type	get_op_token(const char *op);
+t_token			*create_token(t_token_type type, const char *value, int expand);
+t_token			*lexer(char *input);
+char			*check_close(char *input, int *open_count);
+void			free_token_list(t_token *tokens);
+void			print_tokens(t_token *tokens);
 
 // expander
-char					*add_vval(char *src, size_t *i, char *result,
-							t_minishell *shell);
-char					*expand_variables_in_str(char *src, t_minishell *shell);
-void					expand_token_list(t_token *tokens, t_minishell *shell);
-void					mark_heredoc_delimiters(t_token *tokens);
+char			*join_exit_status(char *res, t_minishell *shell);
+char			*add_char(char *src, size_t *i, char *res);
+char			*proc_dlr(char *src, size_t *i, char *res, t_minishell *shell);
+char			*add_vval(char *src, size_t *i, char *result, t_minishell *shell);
+char			*scan_token(char *src, t_state *s, char *res, t_minishell *shell);
+char			*expand_var(char *src, t_minishell *shell);
+void			expand_token_list(t_token *tokens, t_minishell *shell);
+void			mark_heredoc_delimiters(t_token *tokens);
 
 // utils expander
-char					*compare(char *key, t_env_var *env);
-char					*ft_strjoin_free(char *s1, char *s2, int free_flag);
-char					*ft_strjoin_char(char *s, char c);
-int						is_single_quoted(const char *str);
+char			*compare(char *key, t_env_var *env);
+char			*join_free(char *s1, char *s2, int free_flag);
+char			*concat_char(char *s, char c);
+int				is_single_quoted(const char *str);
 
 // parser
-t_ast					*parse_list(t_parser *parser, char *input);
-t_ast					*create_ast_node(t_node_type type);
-t_ast					*parse_pipe(t_parser *parser, char *input);
-t_ast					*parse_cmd(t_parser *parser, char *input);
-t_ast					*parse_subshell(t_parser *parser, char *input);
-t_ast					*parse_conditional(t_parser *parser, t_ast *left,
-							char *input);
-t_ast					*parse(t_token *tokens, char *input);
+t_ast			*parse_list(t_parser *parser, char *input);
+t_ast			*create_ast_node(t_node_type type);
+t_ast			*parse_pipe(t_parser *parser, char *input);
+t_ast			*parse_cmd(t_parser *parser, char *input);
+t_ast			*parse_subshell(t_parser *parser, char *input);
+t_ast			*parse_conditional(t_parser *parser, t_ast *left, char *input);
+t_ast			*parse(t_token *tokens, char *input);
 
-t_command				*create_cmd(void);
-t_command				*parse_simple_cmd(t_parser *parser, char *input);
-t_command				*parse_simple_cmd(t_parser *parser, char *input);
+t_command		*create_cmd(void);
+t_command		*parse_simple_cmd(t_parser *parser, char *input);
+t_command		*parse_simple_cmd(t_parser *parser, char *input);
 
-t_redir					*create_redir(void);
-t_redir					*parse_io_redirect(t_parser *parser, char *input);
+t_redir			*create_redir(void);
+t_redir			*parse_io_redirect(t_parser *parser, char *input);
 
-t_token					*parser_advance(t_parser *parser);
+t_token			*parser_advance(t_parser *parser);
 
-int						is_token(t_parser *parser, t_token_type type);
-char					*clean_quotes(const char *value);
+int				is_token(t_parser *parser, t_token_type type);
+char			*clean_quotes(const char *value);
 
-void					free_ast(t_ast *ast);
-void					print_indentation(int depth);
-void					print_ast(t_ast *ast, int depth);
+void			free_ast(t_ast *ast);
+void			print_indentation(int depth);
+void			print_ast(t_ast *ast, int depth);
 
 // execution
 int						execute_builtin_cmd(t_command *command, t_minishell *shell,
@@ -318,8 +325,7 @@ void					free_str_array(char **array);
 
 // pipe
 int						init_pipe(int pipefd[2]);
-int						wait_for_children(pid_t pid_left, pid_t pid_right,
-							t_minishell *shell);
+int						wait_for_children(pid_t pid_left, pid_t pid_right);
 pid_t					fork_and_exec_left(t_ast *left, int pipefd[2],
 							t_minishell *shell);
 pid_t					fork_and_exec_right(t_ast *right, int pipefd[2],
@@ -339,12 +345,14 @@ int						get_lines(t_hdc *cnt, char **lines, char *dlim);
 void					print_env_list(t_env_var *env_list);
 void					free_env_list(t_env_var *env_list);
 t_env_var				*convert_envp_to_list(char **envp);
+void	free_env_var(t_env_var *env_var);
 
 // signal
 int						status_manager(int new_status, int mode);
 void					setup_signals(void);
 void					manage_heredoc(void);
 void					setup_child(void);
+void					reset_main(void);
 
 // manage error
 void					*print_error(int err_type, char *param, int err);

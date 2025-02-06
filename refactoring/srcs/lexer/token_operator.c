@@ -18,10 +18,7 @@ static char	*extract_operator_value(char *input, size_t *i, int *op_len)
 		return (NULL);
 	*op_len = is_operator(&input[*i]);
 	if (*op_len == 0)
-	{
-		print_error(E_SYNTAX, &input[*i], 10);
 		return (NULL);
-	}
 	return (ft_substr(input, *i, *op_len));
 }
 
@@ -55,7 +52,7 @@ char	*extract_quoted_value(char *input, size_t *i, int *expand)
 		(*i)++;
 	if (!input[*i])
 	{
-		print_error(E_QUOTE, NULL, 1);
+		print_error(E_QUOTE, "Unclosed quote\n", ERR_SYN);
 		return (NULL);
 	}
 	value = ft_substr(input, start, (*i) - start + 1);

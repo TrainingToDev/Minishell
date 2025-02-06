@@ -41,7 +41,7 @@ char	**convert_env_list(t_env_var *env_list)
 	cur = env_list;
 	while (cur)
 	{
-		entry = ft_strjoin_free(ft_strjoin(cur->key, "="), cur->value, 1);
+		entry = join_free(ft_strjoin(cur->key, "="), cur->value, 1);
 		if (!entry)
 		{
 			free_str_array(env_array);

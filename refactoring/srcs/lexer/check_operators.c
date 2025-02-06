@@ -29,7 +29,7 @@ static int	validate_operator(t_token *prev, t_token *current)
 		if (!prev || prev->type == TOKEN_PIPE || prev->type == TOKEN_AND
 			|| prev->type == TOKEN_OR || prev->type == TOKEN_LPAREN)
 		{
-			print_error(E_SYNTAX, current->value, 2);
+			print_error(E_SYNTAX, current->value, ERR_SYN);
 			return (0);
 		}
 		if (!current->next || current->next->type == TOKEN_PIPE
@@ -37,7 +37,7 @@ static int	validate_operator(t_token *prev, t_token *current)
 			|| current->next->type == TOKEN_OR
 			|| current->next->type == TOKEN_RPAREN)
 		{
-			print_error(E_SYNTAX, current->value, 2);
+			print_error(E_SYNTAX, current->value, ERR_SYN);
 			return (0);
 		}
 	}

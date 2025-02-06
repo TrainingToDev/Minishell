@@ -12,85 +12,11 @@
 
 #include "minishell.h"
 
-// Process REDIR_IN | REDIR_OUT | REDIR_APPEND
-// if mode == 1, check dup2(fd, STDIN_FILENO) or write in pipe for heredoc 
-// else if, open/close it
-
-int process_redir_in(t_redir *current, int mode)
+static int heredoc_redir(t_redir *redirs, t_minishell *shell, int mode)
 {
-	int	fd;
+    t_redir	*current;
 
-	fd = open(current->filename, O_RDONLY);
-	if (fd == -1)
-	{
-		perror(current->filename);
-		return (-1);
-	}
-	if (mode)
-	{
-		if (dup2(fd, STDIN_FILENO) == -1)
-		{
-			perror(current->filename);
-			close(fd);
-			return (-1);
-		}
-	}
-	close(fd);
-	return (0);
-}
-
-int process_redir_out(t_redir *current, int mode)
-{
-	int	fd;
-
-	fd = open(current->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-	{
-		perror(current->filename);
-		return (-1);
-	}
-	if (mode)
-	{
-		if (dup2(fd, STDOUT_FILENO) == -1)
-		{
-			perror(current->filename);
-			close(fd);
-			return (-1);
-		}
-	}
-	close(fd);
-	return (0);
-}
-
-int	process_redir_append(t_redir *current, int mode)
-{
-	int	fd;
-
-	fd = open(current->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
-	{
-		perror(current->filename);
-		return (-1);
-	}
-	if (mode)
-	{
-		if (dup2(fd, STDOUT_FILENO) == -1)
-		{
-			perror(current->filename);
-			close(fd);
-			return (-1);
-		}
-	}
-	close(fd);
-	return (0);
-}
-
-int apply_redirections(t_redir *redirs, t_minishell *shell, int mode)
-{
-    t_redir *current;
-
-    /* Priority 1 : HEREDOC */
-    current = redirs;
+	current = redirs;
     while (current)
     {
         if (current->type == REDIR_HEREDOC)
@@ -100,9 +26,14 @@ int apply_redirections(t_redir *redirs, t_minishell *shell, int mode)
         }
         current = current->next;
     }
-    
-    /* Priority 2 : REDIR_IN */
-    current = redirs;
+    return (0);
+}
+
+static int input_redir(t_redir *redirs, int mode)
+{
+    t_redir	*current;
+
+	current = redirs;
     while (current)
     {
         if (current->type == REDIR_IN)
@@ -112,9 +43,14 @@ int apply_redirections(t_redir *redirs, t_minishell *shell, int mode)
         }
         current = current->next;
     }
-    
-    /* Priority 3 : REDIR_OUT et REDIR_APPEND */
-    current = redirs;
+    return (0);
+}
+
+static int output_redir(t_redir *redirs, int mode)
+{
+    t_redir	*current;
+
+	current = redirs;
     while (current)
     {
         if (current->type == REDIR_OUT)
@@ -129,5 +65,16 @@ int apply_redirections(t_redir *redirs, t_minishell *shell, int mode)
         }
         current = current->next;
     }
+    return (0);
+}
+
+int apply_redirections(t_redir *redirs, t_minishell *shell, int mode)
+{
+    if (heredoc_redir(redirs, shell, mode) == -1)
+        return (-1);
+    if (input_redir(redirs, mode) == -1)
+        return (-1);
+    if (output_redir(redirs, mode) == -1)
+        return (-1);
     return (0);
 }

@@ -57,15 +57,17 @@ void	cleanup_shell(t_minishell *shell)
     if (shell->fd_input != -1)
     {
         if (close(shell->fd_input) == -1)
-            perror("Erreur lors de la fermeture de fd_input");
+            perror("Error close fd_input");
+        shell->fd_input = -1;
     }
     if (shell->fd_output != -1)
     {
         if (close(shell->fd_output) == -1)
-            perror("Erreur lors de la fermeture de fd_output");
+            perror("Error close fd_output");
         shell->fd_output = -1;
     }
 	free_env_list(shell->env_list);
+	free_token_list(shell->tokens);
 	rl_clear_history();
 }
 
@@ -75,24 +77,23 @@ int	ft_exit(t_minishell *shell, char **args)
 
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	if (!args[1])
-		exit(shell->last_exit_status);
+		exit(status_manager(SUCCESS, STATUS_READ));
 	if (!is_valid_integer(args[1], &exit_status))
 	{
-		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-		ft_putstr_fd(args[1], STDERR_FILENO);
+		print_error(E_EXIT, args[1], ERR_SYN);
 		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 		cleanup_shell(shell);
-		exit(255);
+		exit(ERR_SYN);
 	}
 	if (args[2])
 	{
-		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
-		shell->last_exit_status = 1;
-		return (1);
+		print_error(E_EXIT, "too many arguments\n", ERR_G);
+		return (ERR_G);
 	}
 	exit_status = exit_status % 256;
 	if (exit_status < 0)
 		exit_status += 256;
+	status_manager(exit_status, STATUS_WRITE);
 	cleanup_shell(shell);
 	exit((unsigned char)exit_status);
 }

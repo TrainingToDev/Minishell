@@ -22,10 +22,10 @@ static int	token_expand(t_token *token, t_token *tokens, t_minishell *shell)
 			return (1);
 		if (ft_strchr(token->value, '$') && !is_single_quoted(token->value))
 		{
-			expanded = expand_variables_in_str(token->value, shell);
+			expanded = expand_var(token->value, shell);
 			if (!expanded)
 			{
-				printf("Memory allocation failed\n");
+				perror("Memory allocation failed\n");
 				free_token_list(tokens);
 				shell->running = 0;
 				return (0);
@@ -48,4 +48,26 @@ void	expand_token_list(t_token *tokens, t_minishell *shell)
 			return ;
 		current = current->next;
 	}
+}
+
+char	*scan_token(char *src, t_state *s, char *res, t_minishell *shell)
+{
+	if (src[s->index] == '\'')
+	{
+		s->single_quote = !s->single_quote;
+		s->index++;
+	}
+	else if (src[s->index] == '$' && !s->single_quote)
+	{
+		res = proc_dlr(src, &s->index, res, shell);
+		if (!res)
+			return (NULL);
+	}
+	else
+	{
+		res = add_char(src, &s->index, res);
+		if (!res)
+			return (NULL);
+	}
+	return (res);
 }

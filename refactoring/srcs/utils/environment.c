@@ -40,16 +40,6 @@ static int	assign_key_value(t_env_var *env_var, const char *input_env)
 	return (0);
 }
 
-static void	free_env_var(t_env_var *env_var)
-{
-	if (env_var)
-	{
-		free(env_var->key);
-		free(env_var->value);
-		free(env_var);
-	}
-}
-
 static t_env_var	*create_env_var(const char *input_env)
 {
 	t_env_var	*env_var;
@@ -68,35 +58,19 @@ static t_env_var	*create_env_var(const char *input_env)
 
 static void add_env_var(t_env_var **env_list, t_env_var *new_var)
 {
-    t_env_var *current;
-    
-    if (!env_list || !new_var)
-        return;
-    if (!*env_list)
-    {
-        *env_list = new_var;
-        return ;
-    }
-    current = *env_list;
-    while (current->next)
-        current = current->next;
-    current->next = new_var;
-}
-
-void	free_env_list(t_env_var *env_list)
-{
-	t_env_var	*current;
-	t_env_var	*next;
-
-	current = env_list;
-	while (current != NULL)
+	t_env_var *cur;
+	
+	if (!env_list || !new_var)
+		return;
+	if (!*env_list)
 	{
-		next = current->next;
-		free(current->key);
-		free(current->value);
-		free(current);
-		current = next;
+		*env_list = new_var;
+		return ;
 	}
+	cur = *env_list;
+	while (cur->next)
+		cur = cur->next;
+	cur->next = new_var;
 }
 
 t_env_var	*convert_envp_to_list(char **envp)
@@ -123,12 +97,12 @@ t_env_var	*convert_envp_to_list(char **envp)
 
 void	print_env_list(t_env_var *env_list)
 {
-	t_env_var	*current;
+	t_env_var	*cur;
 
-	current = env_list;
-	while (current != NULL)
+	cur = env_list;
+	while (cur != NULL)
 	{
-		printf("%s=%s\n", current->key, current->value);
-		current = current->next;
+		printf("%s=%s\n", cur->key, cur->value);
+		cur = cur->next;
 	}
 }

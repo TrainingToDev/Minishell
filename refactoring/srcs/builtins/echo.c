@@ -56,5 +56,7 @@ int	echo(t_minishell *shell, char **args)
 
 	(void)shell;
 	start_index = parse_options(args, &newline);
-	return (print_args(args, start_index, newline));
+	print_args(args, start_index, newline);
+	status_manager(SUCCESS, STATUS_WRITE);
+	return (0);
 }

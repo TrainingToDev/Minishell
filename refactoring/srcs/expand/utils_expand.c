@@ -23,7 +23,10 @@ char	*compare(char *key, t_env_var *env)
 		if (ft_strncmp(key, temp->key, ft_strlen(temp->key)) == 0
 			&& ft_strlen(key) == ft_strlen(temp->key))
 		{
-			value = ft_strdup(temp->value);
+			if (temp->value)
+				value = ft_strdup(temp->value);
+			else
+				value = ft_strdup("");
 			return (value);
 		}
 		temp = temp->next;
@@ -31,7 +34,7 @@ char	*compare(char *key, t_env_var *env)
 	return (ft_strdup(""));
 }
 
-char	*ft_strjoin_free(char *s1, char *s2, int free_flag)
+char	*join_free(char *s1, char *s2, int free_flag)
 {
 	char	*result;
 	size_t	len1;
@@ -58,7 +61,7 @@ char	*ft_strjoin_free(char *s1, char *s2, int free_flag)
 	return (result);
 }
 
-char	*ft_strjoin_char(char *s, char c)
+char	*concat_char(char *s, char c)
 {
 	size_t	len;
 	char	*new_str;

@@ -40,13 +40,13 @@ static int	handle_word_token(t_parser *parser, t_command *cmd)
 	cleaned_value = clean_quotes(parser->current->value);
 	if (!cleaned_value)
 	{
-		print_error(E_NOMEM, "Memory allocation failed", 1);
+		print_error(E_NOMEM, "Memory allocation failed", ERR_SEGV);
 		return (-1);
 	}
 	new_argv = expand_argv(cmd, cleaned_value);
 	if (!new_argv)
 	{
-		print_error(E_NOMEM, "Memory allocation failed", 1);
+		print_error(E_NOMEM, "Memory allocation failed", ERR_SEGV);
 		free(cleaned_value);
 		return (-1);
 	}

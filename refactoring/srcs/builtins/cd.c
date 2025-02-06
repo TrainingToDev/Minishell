@@ -17,6 +17,8 @@ static void	update_env_pwd(t_minishell *shell)
 	char	*oldpwd_value;
 	char	*newpwd_value;
 
+	if (!shell)
+		return ;
 	oldpwd_value = get_env_cd("PWD", shell->env_list);
 	newpwd_value = getcwd(NULL, 0);
 	if (oldpwd_value)
@@ -31,30 +33,36 @@ static void	update_env_pwd(t_minishell *shell)
 	}
 }
 
-static int	execute_cd(t_minishell *shell, char *path, int duplicate_path)
+static int	execute_cd(t_minishell *shell, char *path, int dup_path)
 {
+	if (!path)
+	{
+		perror("cd: path is NULL");
+		return (1);
+	}
 	if (chdir(path) == -1)
 	{
-		perror("cd");
-		shell->last_exit_status = 1;
-		if (duplicate_path)
+		print_error(E_DIR, "cd", ERR_G);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(path, STDERR_FILENO);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		if (dup_path)
 			free(path);
 		return (1);
 	}
 	update_env_pwd(shell);
-	if (duplicate_path)
+	if (dup_path)
 		free(path);
-	shell->last_exit_status = 0;
+	status_manager(SUCCESS, STATUS_WRITE);
 	return (0);
 }
 
-static int	validate_cd_path(t_minishell *shell, char *path, int duplicate_path)
+static int	validate_cd_path(char *path, int dup_path)
 {
 	if (!path || ft_strlen(path) == 0)
 	{
-		fprintf(stderr, "cd: Invalid path\n");
-		shell->last_exit_status = 1;
-		if (duplicate_path)
+		perror("cd: Invalid path");
+		if (dup_path)
 			free(path);
 		return (1);
 	}
@@ -67,22 +75,14 @@ static char	*get_cd_path(t_minishell *shell, char **args)
 	char	*home;
 
 	path = NULL;
-	home = NULL;
 	if (!args[1])
 	{
 		home = get_env_cd("HOME", shell->env_list);
 		if (!home)
-		{
-			fprintf(stderr, "cd: HOME not set\n");
 			return (NULL);
-		}
 		path = ft_strdup(home);
-		free(home);
 		if (!path)
-		{
-			fprintf(stderr, "cd: Memory allocation failed\n");
 			return (NULL);
-		}
 	}
 	else
 		path = args[1];
@@ -92,13 +92,15 @@ static char	*get_cd_path(t_minishell *shell, char **args)
 int	cd(t_minishell *shell, char **args)
 {
 	char	*path;
-	int		duplicate_path;
+	int		dup_path;
 
-	duplicate_path = !args[1];
+	if (!shell || !args)
+		return (1);
+	dup_path = !args[1];
 	path = get_cd_path(shell, args);
 	if (!path)
 		return (1);
-	if (validate_cd_path(shell, path, duplicate_path))
+	if (validate_cd_path(path, dup_path))
 		return (1);
-	return (execute_cd(shell, path, duplicate_path));
+	return (execute_cd(shell, path, dup_path));
 }

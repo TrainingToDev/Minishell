@@ -27,7 +27,7 @@ static char	*transform(char *line, char *dlim, int qt, t_minishell *shell)
 		free(line);
 		return (result);
 	}
-	result = expand_variables_in_str(line, shell);
+	result = expand_var(line, shell);
 	free(line);
 	return (result);
 }

@@ -18,7 +18,7 @@ static int	check_tokens_validity(t_token *tokens)
 	{
 		if (tokens->type == TOKEN_UNKNOWN)
 		{
-			print_error(E_SYNTAX, tokens->value, 2);
+			perror("Not Token detected!!!");
 			return (0);
 		}
 		tokens = tokens->next;

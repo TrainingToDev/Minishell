@@ -45,7 +45,7 @@ t_ast	*parse_pipe(t_parser *parser, char *input)
 		next_pipeline = parse_pipe(parser, input);
 		if (!next_pipeline)
 		{
-			print_error(E_PIPE, parser->current->value, 9);
+			print_error(E_PIPE, parser->current->value, ERR_SEGV);
 			free_ast(cmd);
 			return (NULL);
 		}

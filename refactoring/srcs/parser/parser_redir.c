@@ -32,13 +32,13 @@ static int	validate_redir_token(t_parser *parser, t_redir *redir)
 	redir_token = parser_advance(parser);
 	if (!redir_token || !is_token(parser, TOKEN_WORD))
 	{
-		perror("Redirection error: missing or invalid token");
+		perror("Redir error: missing or invalid token");
 		return (-1);
 	}
 	redir->type = convert_token_to_redir_type(redir_token->type);
 	if (redir->type == REDIR_INVALID)
 	{
-		perror("Invalid redirection type");
+		perror("Invalid redir type");
 		return (-1);
 	}
 	return (0);
@@ -46,11 +46,11 @@ static int	validate_redir_token(t_parser *parser, t_redir *redir)
 
 static int	handle_heredoc(t_parser *parser, t_redir *redir, char *input)
 {
-	printf("Parsing heredoc with delim: %s\n", parser->current->value);
+	// printf("Parsing heredoc with delim: %s\n", parser->current->value);
 	redir->filename = ft_strdup(parser->current->value);
 	if (!redir->filename)
 	{
-		perror("Failed to allocate memory for heredoc filename");
+		perror("Failed memory for heredoc filename");
 		return (-1);
 	}
 	redir->content = get_heredoc_lines(input, parser->current->value);
@@ -76,7 +76,7 @@ static int	process_redirection(t_parser *parser, t_redir *redir, char *input)
 		redir->filename = ft_strdup(parser_advance(parser)->value);
 		if (!redir->filename)
 		{
-			perror("Failed to allocate memory for filename");
+			perror("Failed memory for filename");
 			return (-1);
 		}
 	}

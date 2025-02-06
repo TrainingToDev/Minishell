@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	init_minishell(t_minishell *shell, t_env_var *env_list)
+static void init_minishell(t_minishell *shell, t_env_var *env_list)
 {
 	shell->env_list = env_list;
 	shell->last_exit_status = 0;
@@ -21,92 +21,83 @@ static void	init_minishell(t_minishell *shell, t_env_var *env_list)
 	shell->nb_line_heredoc = 0;
 	shell->running = 1;
 	shell->fd_input = dup(STDIN_FILENO);
+	status_manager(SUCCESS, STATUS_INIT);
 	if (shell->fd_input == -1)
 	{
 		perror("dup STDIN");
-		exit(1);
+		exit (1);
 	}
 	shell->fd_output = dup(STDOUT_FILENO);
 	if (shell->fd_output == -1)
 	{
-		perror("dup STDOUT");
-		exit(1);
+		perror("duo STDOUT");
+		exit (1);
 	}
+}
+
+static char *get_input(void)
+{
+    char *prompt;
+    char *input;
+
+    prompt = format_prompt();
+    if (!prompt)
+    {
+        ft_putstr_fd("minishell: Error creating prompt\n", 2);
+        return (NULL);
+    }
+    input = prompt_input(prompt);
+    free(prompt);
+    return (input);
+}
+
+static t_ast *process_input(char *input, t_minishell *shell)
+{
+    t_token *token_list;
+    t_ast *ast_root;
+
+    token_list = lexer(input);
+    if (!token_list)
+        return (NULL);
+    fast_export(token_list, shell);
+    fast_unset(token_list, shell);
+    mark_heredoc_delimiters(token_list);
+    expand_token_list(token_list, shell);
+    ast_root = parse(token_list, input);
+    free_token_list(token_list);
+    if (!ast_root)
+        return (NULL);
+    return ast_root;
+}
+
+static void execute_parsed_ast(t_ast *ast_root, t_minishell *shell)
+{
+    if (!ast_root)
+        return;
+    execute_ast(ast_root, shell);
+    free_ast(ast_root);
 }
 
 static void minishell_loop(t_env_var *env_list)
 {
-	char		*prompt;
-	char		*input;
-	t_token		*token_list;
-	t_ast		*ast_root;
-	t_minishell	shell;
-	
-	prompt = NULL;
-	input = NULL;
-	token_list = NULL;
-	ast_root = NULL;
-	init_minishell(&shell, env_list);
-	while (shell.running)
-	{
-		// 1) Format prompt
-		prompt = format_prompt();
-		if (!prompt)
-		{
-			ft_putstr_fd("minishell: Error creating prompt\n", 2);
-			break;
-		}
-		
-		// 2) Get user input
-		input = prompt_input(prompt);
-		free(prompt);
-		 
-		// Handle ctrl+D (EOF)
-		if (!input)
-			break;
+    char *input;
+    t_ast *ast_root;
+    t_minishell shell;
 
-		// 3) Tokenize input
-		token_list = lexer(input);
-		if (!token_list)
-		{
-			free(input);
-			continue;
-		}
-		// printf("------>>>> TOKEN:\n");
-		// print_tokens(token_list);
-
-		// 4) Expansion
-		mark_heredoc_delimiters(token_list);
-		expand_token_list(token_list, &shell);
-		// printf("------>>>> EXPAND:\n");
-		// print_tokens(token_list);
-
-		// 5) Parse tokens
-		ast_root = parse(token_list, input);
-
-		free_token_list(token_list);
-		token_list = NULL;
-
-		if (!ast_root)
-		{
-			free(input);
-			continue;
-		}
-		// printf("------>>>> Parser:\n");
-		// print_ast(ast_root, 0);
-
-
-		// 6) Execute AST
-		// printf("\n------------execution---------\n");
-		execute_ast(ast_root, &shell);
-
-		// Free resources
-		free_ast(ast_root);
-		ast_root = NULL;
-		free(input);
-		input = NULL;
-	}
-	cleanup_shell(&shell);
+    init_minishell(&shell, env_list);
+    while (shell.running)
+    {
+        reset_main();
+        input = get_input();
+        if (!input)
+            break;
+        ast_root = process_input(input, &shell);
+        free(input);
+        if (!ast_root)
+            continue;
+        execute_parsed_ast(ast_root, &shell);
+    }
+    cleanup_shell(&shell);
 }
 
 int main(int argc, char **argv, char **envp)

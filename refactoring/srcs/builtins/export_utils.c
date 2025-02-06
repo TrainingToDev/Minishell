@@ -98,7 +98,7 @@ t_env_var	*new(char *key, char *value, t_env_var *current)
 	if (!new_node)
 	{
 		perror("malloc");
-		exit(EXIT_FAILURE);
+		return (NULL);
 	}
 	new_node->key = ft_strdup(key);
 	if (value)

@@ -49,23 +49,27 @@ static int	validate_tokens(t_token *tokens)
 
 static int	is_double_par(char *input)
 {
-	char	*closing;
-	char	*content;
+	char	*cls;
+	char	*cnt;
+	int		empty;
+	int		open_count;
 
+	empty = 0;
+	open_count = 1;
 	if (input[0] == '(' && input[1] == '(')
 	{
-		closing = input + 2;
-		while (*closing && *closing != ')')
-			closing++;
-		if (*closing == ')' && *(closing + 1) == ')')
+		cls = check_close(input, &open_count);
+		if (*cls == ')' && *(cls + 1) == ')' && (*(cls + 2) == '\0' 
+		|| ft_isspace(*(cls + 2))) && open_count == 1)
 		{
-			content = input + 2;
-			while (content < closing)
+			cnt = input + 2;
+			while (cnt < cls)
 			{
-				if (!ft_isspace(*content))
-					return (1);
-				content++;
+				if (!ft_isspace(*cnt))
+					empty = 1;
+				cnt++;
 			}
+			return (empty || cnt == cls);
 		}
 	}
 	return (0);

@@ -15,19 +15,13 @@
 static char	*get_error_msg(int err_type)
 {
 	if (err_type == E_QUOTE)
-		return ("minishell: syntax Unclosed quote\n");
+		return ("minishell: syntax error ");
 	else if (err_type == E_SYNTAX)
 		return ("minishell: syntax error near unexpected token `");
-	else if (err_type == E_NODIR)
-		return ("minishell: No such file or directory: ");
-	else if (err_type == E_ISDIR)
-		return ("minishell: Is a directory: ");
-	else if (err_type == E_NOTDIR)
-		return ("minishell: Not a directory: ");
-	else if (err_type == E_PDENIED)
-		return ("minishell: Permission denied: ");
-	else if (err_type == E_NOCMD)
-		return ("minishell: Command not found: ");
+	else if (err_type == E_DIR)
+		return ("minishell: ");
+	else if (err_type == E_CMD)
+		return ("minishell: ");
 	else if (err_type == E_DUPFD)
 		return ("minishell: dup2 failed\n");
 	else if (err_type == E_FORK)
@@ -35,7 +29,15 @@ static char	*get_error_msg(int err_type)
 	else if (err_type == E_PIPE)
 		return ("minishell: pipe failed\n");
 	else if (err_type == E_NOMEM)
-		return ("minishell: Cannot allocate memory\n");
+		return ("minishell: error :\n");
+	else if (err_type == E_VAR)
+		return ("minishell: export: `");
+	else if (err_type == E_VAR_O)
+		return ("minishell: export: `': not a valid identifier");
+	else if (err_type == E_EXIT)
+		return ("minishell: exit: ");
+	else if (err_type == E_SUP)
+		return ("minishell: ");
 	return (NULL);
 }
 
@@ -58,6 +60,6 @@ void	*print_error(int err_type, char *param, int err)
 		return (NULL);
 	}
 	if (param)
-		ft_putendl_fd(param, 2);
+		ft_putstr_fd(param, 2);
 	return (NULL);
 }

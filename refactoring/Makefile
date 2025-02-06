@@ -84,7 +84,8 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(UTILS_DIR)/environment.c \
 			$(UTILS_DIR)/error.c \
 			$(UTILS_DIR)/prompt.c \
-			$(UTILS_DIR)/signal.c
+			$(UTILS_DIR)/signal.c \
+			$(UTILS_DIR)/utils_env.c
 
 OBJ_FILES = $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

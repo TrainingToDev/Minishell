@@ -57,7 +57,7 @@ int	is_disallowed(t_token *tokens)
 	invalid_token = get_disallowed(tokens);
 	if (invalid_token)
 	{
-		print_error(E_SYNTAX, invalid_token->value, 2);
+		print_error(E_SYNTAX, invalid_token->value, ERR_SYN);
 		return (1);
 	}
 	return (0);
@@ -71,9 +71,29 @@ int	process_substitution(t_token *token)
 	{
 		if (token->next->next && token->next->next->type == TOKEN_WORD)
 		{
-			print_error(E_SYNTAX, "substitution not supported", 258);
+			print_error(E_SUP, "substitution not supported", ERR_G);
 			return (0);
 		}
 	}
 	return (1);
+}
+
+char	*check_close(char *input, int *open_count)
+{
+	char	*cls;
+
+	cls = input + 2;
+	while (*cls)
+	{
+		if (*cls == '(')
+			(*open_count)++;
+		else if (*cls == ')')
+		{
+			if (*open_count == 1)
+				break ;
+			(*open_count)--;
+		}
+		cls++;
+	}
+	return (cls);
 }

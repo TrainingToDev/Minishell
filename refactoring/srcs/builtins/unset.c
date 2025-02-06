@@ -28,11 +28,13 @@ static int	is_valid_id_unset(const char *str)
 	return (1);
 }
 
-static void	remove_env_var(t_minishell *shell, const char *key)
+void	remove_env_var(t_minishell *shell, const char *key)
 {
 	t_env_var	*current;
 	t_env_var	*prev;
 
+	if (!shell || !key)
+		return ;
 	current = shell->env_list;
 	prev = NULL;
 	while (current)
@@ -56,23 +58,27 @@ static void	remove_env_var(t_minishell *shell, const char *key)
 int	unset(t_minishell *shell, char **args)
 {
 	int	i;
-	int	status;
 
+	if (!shell || !args)
+		return (1);
+	if (args[1] && args[1][0] == '-' && args[1][1] != '\0')
+	{
+		print_error(E_SUP, "unset: ", ERR_SYN);
+		ft_putstr_fd(args[1], STDERR_FILENO);
+		ft_putendl_fd(": option not accepted", STDERR_FILENO);
+		return (1);
+	}
 	i = 1;
-	status = 0;
 	while (args[i])
 	{
 		if (!is_valid_id_unset(args[i]))
 		{
-			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
-			ft_putstr_fd(args[i], STDERR_FILENO);
-			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
-			status = 1;
 			i++;
 			continue ;
 		}
 		remove_env_var(shell, args[i]);
 		i++;
 	}
-	return (status);
+	status_manager(SUCCESS, STATUS_WRITE);
+	return (0);
 }

@@ -20,7 +20,7 @@ static char	*join_and_free(char *value, char *part)
 	free(value);
 	free(part);
 	if (!tmp)
-		print_error(E_NOMEM, NULL, 11);
+		print_error(E_NOMEM, NULL, ERR_SEGV);
 	return (tmp);
 }
 
@@ -72,7 +72,7 @@ static char	*process_input(char *input, size_t *i, int *expand, char *value)
 			if (!part)
 			{
 				free(value);
-				print_error(E_NOMEM, NULL, 11);
+				print_error(E_NOMEM, NULL, ERR_SEGV);
 				return (NULL);
 			}
 			value = join_and_free(value, part);
@@ -92,7 +92,7 @@ char	*extract_word_value(char *input, size_t *i, int *expand)
 	value = ft_strdup("");
 	if (!value)
 	{
-		print_error(E_NOMEM, NULL, 11);
+		print_error(E_NOMEM, NULL, ERR_SEGV);
 		return (NULL);
 	}
 	value = process_input(input, i, expand, value);

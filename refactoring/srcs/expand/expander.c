@@ -12,11 +12,42 @@
 
 #include "minishell.h"
 
-static char	*append_exit_status(char *res, t_minishell *shell)
+static char	*join_char(char *res, char c)
+{
+	char	*temp;
+
+	if (!res)
+		return (NULL);
+	temp = concat_char(res, c);
+	free(res);
+	return (temp);
+}
+
+char	*expand_var(char *src, t_minishell *shell)
+{
+	t_state	s;
+	char	*res;
+
+	s.index = 0;
+	s.single_quote = 0;
+	res = ft_strdup("");
+	if (!res)
+		return (NULL);
+	while (src[s.index])
+	{
+		res = scan_token(src, &s, res, shell);
+		if (!res)
+			return (NULL);
+	}
+	return (res);
+}
+
+char	*join_exit_status(char *res, t_minishell *shell)
 {
 	char	*exit_status;
 	char	*temp;
 
+	shell->last_exit_status = status_manager(SUCCESS, STATUS_READ);
 	exit_status = ft_itoa(shell->last_exit_status);
 	if (!exit_status)
 	{
@@ -29,29 +60,22 @@ static char	*append_exit_status(char *res, t_minishell *shell)
 	return (temp);
 }
 
-static char	*append_char_to_result(char *res, char c)
+char	*add_char(char *src, size_t *i, char *res)
 {
-	char	*temp;
-
-	temp = ft_strjoin_char(res, c);
-	free(res);
-	return (temp);
-}
-
-static char	*process_normal_char(char *src, size_t *i, char *res)
-{
-	res = append_char_to_result(res, src[*i]);
+	res = join_char(res, src[*i]);
 	if (!res)
 		return (NULL);
 	(*i)++;
 	return (res);
 }
 
-static char	*proc_dlr(char *src, size_t *i, char *res, t_minishell *shell)
+char	*proc_dlr(char *src, size_t *i, char *res, t_minishell *shell)
 {
+	if (!res || !src)
+		return (NULL);
 	if (src[*i + 1] == '?')
 	{
-		res = append_exit_status(res, shell);
+		res = join_exit_status(res, shell);
 		if (!res)
 			return (NULL);
 		*i += 2;
@@ -61,33 +85,6 @@ static char	*proc_dlr(char *src, size_t *i, char *res, t_minishell *shell)
 		res = add_vval(src, i, res, shell);
 		if (!res)
 			return (NULL);
-	}
-	return (res);
-}
-
-char	*expand_variables_in_str(char *src, t_minishell *shell)
-{
-	size_t	i;
-	char	*res;
-
-	i = 0;
-	res = ft_strdup("");
-	if (!res)
-		return (NULL);
-	while (src[i])
-	{
-		if (src[i] == '$')
-		{
-			res = proc_dlr(src, &i, res, shell);
-			if (!res)
-				return (NULL);
-		}
-		else
-		{
-			res = process_normal_char(src, &i, res);
-			if (!res)
-				return (NULL);
-		}
 	}
 	return (res);
 }

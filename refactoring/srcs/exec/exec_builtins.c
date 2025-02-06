@@ -12,40 +12,53 @@
 
 #include "minishell.h"
 
-int	execute_builtin_cmd(t_command *command, t_minishell *shell, int fork_required)
+static int	execute_builtin_no_fork(t_command *cmd, t_minishell *shell)
 {
 	int	exit_status;
 
+	if (apply_builtins_redir(cmd->redirs, shell) == -1)
+		return (1);
+	exit_status = execute_builtin(shell, cmd->argv);
+	if (dup2(shell->fd_output, STDOUT_FILENO) == -1)
+	{
+		print_error(E_DUPFD, "not restore stdout", ERR_G);
+		return (1);
+	}
+	status_manager(exit_status, STATUS_WRITE);
+	return (exit_status);
+}
+
+static int	execute_builtin_with_fork(t_command *cmd, t_minishell *shell)
+{
+	int		exit_status;
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0) 
+	{
+		if (apply_redirections(cmd->redirs, shell, 1) == -1)
+			exit(1);
+		exit_status = execute_builtin(shell, cmd->argv);
+		if (exit_status == -1)
+			exit(1);
+		status_manager(exit_status, STATUS_WRITE);
+		exit(exit_status);
+	}
+	else if (pid < 0)
+	{
+		print_error(E_FORK, "fork", ERR_G);
+		return (1);
+	}
+	waitpid(pid, &exit_status, 0);
+	exit_status = WEXITSTATUS(exit_status);
+	status_manager(exit_status, STATUS_WRITE);
+	return (exit_status);
+}
+
+int	execute_builtin_cmd(t_command *cmd, t_minishell *shell, int fork_required)
+{
 	if (!fork_required)
-	{
-		if (apply_builtins_redir(command->redirs, shell) == -1)
-			return (1);
-		exit_status = execute_builtin(shell, command->argv);
-		if (dup2(shell->fd_output, STDOUT_FILENO) == -1)
-		{
-			perror("dup2 restore");
-			return (1);
-		}
-		return (exit_status);
-	}
+		return execute_builtin_no_fork(cmd, shell);
 	else
-	{
-		pid_t pid = fork();
-		if (pid == 0)
-		{
-			if (apply_redirections(command->redirs, shell, 1) == -1)
-			{
-				perror("Error apply redir!!!");
-				exit(1);
-			}
-			exit(execute_builtin(shell, command->argv));
-		}
-		else if (pid < 0)
-		{
-			perror("fork");
-			return 1;
-		}
-		waitpid(pid, &shell->last_exit_status, 0);
-		return WEXITSTATUS(shell->last_exit_status);
-	}
+		return execute_builtin_with_fork(cmd, shell);
 }

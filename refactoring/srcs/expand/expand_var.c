@@ -49,7 +49,7 @@ static char	*handle_empty(char *res)
 {
 	char	*tmp;
 
-	tmp = ft_strjoin_char(res, '$');
+	tmp = concat_char(res, '$');
 	free(res);
 	return (tmp);
 }
