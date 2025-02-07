@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-volatile sig_atomic_t g_in_heredoc = 0;
+volatile int g_in_heredoc = 0;
 
 int	status_manager(int new_status, int mode)
 {
@@ -64,7 +64,7 @@ void	setup_signals(void)
 
 void setup_child(void)
 {
-	signal(SIGINT, SIG_DFL);
+	// signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, quit);
 }
 
