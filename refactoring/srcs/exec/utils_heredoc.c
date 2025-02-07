@@ -29,7 +29,7 @@ char	*read_user_input(char *dlim, t_minishell *shell)
 	line = readline("\001"COLOR_BLUE"\002""heredoc> ""\001"COLOR_RESET"\002");
 	if (!line)
 	{
-		printf(MSG_1 "%d" MSG_2 "%s" MSG_3, shell->nb_line_heredoc , dlim);
+		printf(MSG_1 " %d " MSG_2 "%s" MSG_3, shell->nb_line_heredoc , dlim);
 		return (NULL);
 	}
 	return (line);

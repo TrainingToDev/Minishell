@@ -90,10 +90,10 @@ static int	process_extern(char *path, t_command *cmd, t_minishell *shell)
 	char **env_array;
 	int exit_status;
 
-	setup_child();//signal
 	pid = fork();
 	if (pid == 0)
 	{
+		setup_child();//signal
 		printf("io1\n");
 		if (apply_redirections(cmd->redirs, shell, 1) == -1)
 		{
@@ -108,7 +108,6 @@ static int	process_extern(char *path, t_command *cmd, t_minishell *shell)
 		execve(path, cmd->argv, env_array);
 		printf("eto oa!!!\n");
 		free_str_array(env_array);
-		// execve(path, cmd->argv, convert_env_list(shell->env_list));
 		perror("error: execve");
 		printf("iof2\n");
 		exit(1);
@@ -119,7 +118,10 @@ static int	process_extern(char *path, t_command *cmd, t_minishell *shell)
 		return (1);
 	}
 	waitpid(pid, &shell->last_exit_status, 0);
-	exit_status = WEXITSTATUS(shell->last_exit_status);
+	if (WIFSIGNALED(shell->last_exit_status))
+		exit_status = 128 + WTERMSIG(shell->last_exit_status);
+	else
+		exit_status = WEXITSTATUS(shell->last_exit_status);
 	status_manager(exit_status, STATUS_WRITE);
 	return (exit_status);
 }
