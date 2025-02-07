@@ -74,9 +74,9 @@ int process_redir_in(t_redir *current, int mode)
 	{
 		// printf("-1\n");
 		// print_error(E_NODIR, current->filename, 1); // cat <err
-		// perror(current->filename);
-		// status_manager(1, STATUS_WRITE);
-		return (-1);
+		perror(current->filename);
+		status_manager(1, STATUS_WRITE);
+		return (1);
 	}
 	if (mode)
 	{

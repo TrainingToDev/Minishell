@@ -309,7 +309,7 @@ void					heredoc_interactive(char *dlim, t_hdc *cnt,
 							t_minishell *shell);
 void					heredoc_copied(t_hdc *cnt, char *dlim,
 							t_minishell *shell);
-
+int redir(t_redir *redirs, t_minishell *shell);
 // env
 char					**convert_env_list(t_env_var *env_list);
 

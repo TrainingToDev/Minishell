@@ -38,8 +38,8 @@ static int input_redir(t_redir *redirs, int mode)
     {
         if (current->type == REDIR_IN)
         {
-            if (process_redir_in(current, mode) == -1)
-                return (-1);
+            if (process_redir_in(current, mode) == 1)
+                return (1);
         }
         current = current->next;
     }
@@ -72,8 +72,8 @@ int apply_redirections(t_redir *redirs, t_minishell *shell, int mode)
 {
     if (heredoc_redir(redirs, shell, mode) == -1)
         return (-1);
-    if (input_redir(redirs, mode) == -1)
-        return (-1);
+    if (input_redir(redirs, mode) == 1)
+        return (1);
     if (output_redir(redirs, mode) == -1)
         return (-1);
     return (0);

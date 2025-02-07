@@ -26,7 +26,6 @@ int	status_manager(int new_status, int mode)
 		return (temp);
 	}
 	else if (mode == STATUS_WRITE)
-	
 		status = new_status;
 	else if (mode == STATUS_INIT)
 		status = SUCCESS;
@@ -70,14 +69,19 @@ void setup_child(void)
 
 static void	heredoc_signal(int sig)
 {
+	int fd;
+
 	if (sig == SIGINT)
 	{
-		ft_putendl_fd("", STDOUT_FILENO);
-		status_manager(128 + sig, STATUS_WRITE);
-		g_in_heredoc = 0;
-		exit(128 + sig);
+		fd = open("herdoc_temp", O_WRONLY | O_CREAT | O_TRUNC , 0644);
+		if (fd < 0)
+		{
+			perror("open:");
+			exit (1);
+		}
+		close(fd);
+		exit (0);
 	}
-
 }
 
 void	manage_heredoc(void)
