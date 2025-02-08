@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miaandri <miaandri@student.42antananarivo.mg>  #+#  +:+       +#+        */
+/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-02-07 14:14:26 by miaandri          #+#    #+#             */
-/*   Updated: 2025-02-07 14:14:26 by miaandri         ###   ########.fr       */
+/*   Created: 2025/01/25 09:24:57 by miaandri          #+#    #+#             */
+/*   Updated: 2025/02/08 08:15:42 by herandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "minishell.h"
 
 static void	child_heredoc(t_hdc *cnt, char *dlim, t_minishell *shell, int c)
 {
