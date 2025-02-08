@@ -15,18 +15,21 @@
 static int heredoc_redir(t_redir *redirs, t_minishell *shell, int mode, int f)
 {
     t_redir	*current;
+    int ret;
 
 	current = redirs;
+    ret = 0;
     while (current)
     {
         if (current->type == REDIR_HEREDOC)
         {
-            if (process_heredoc(current, shell, mode, f) == -1)
+            ret = process_heredoc(current, shell, mode, f);
+            if (ret < 0)
                 return (-1);
         }
         current = current->next;
     }
-    return (0);
+    return (ret);
 }
 
 static int input_redir(t_redir *redirs, int mode)
@@ -70,11 +73,16 @@ static int output_redir(t_redir *redirs, int mode)
 
 int apply_redir(t_redir *redirs, t_minishell *shell, int mode, int f)
 {
-    if (heredoc_redir(redirs, shell, mode, f) == -1)
+    //loop of redir
+    int temp;
+
+    temp = 0;
+    temp = heredoc_redir(redirs, shell, 0, f);
+    if (temp == -1)
         return (-1);
     if (input_redir(redirs, mode) == -1)
         return (-1);
     if (output_redir(redirs, mode) == -1)
         return (-1);
-    return (0);
+    return (temp);
 }

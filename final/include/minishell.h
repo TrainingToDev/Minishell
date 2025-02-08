@@ -181,15 +181,6 @@ typedef struct s_state
 	int		single_quote;
 }			t_state;
 
-typedef struct s_wildcard
-{
-	DIR				*dir;
-	struct dirent	*entry;
-	t_token			*expanded;
-	t_token			*last;
-	int				count;
-}					t_wildcard;
-
 // prompt
 int						check_args(int argc, char **argv);
 char					*format_prompt(void);
@@ -378,9 +369,5 @@ void					cleanup_shell(t_minishell *shell);
 // bonus
 int						execute_conditional(t_ast *ast, t_minishell *shell);
 int						execute_subshell(t_ast *ast, t_minishell *shell);
-
-// wildcard
-t_token					*expand_wildcard(t_token *token);
-void					expand_list(t_token **tokens, t_minishell *shell);
 
 #endif

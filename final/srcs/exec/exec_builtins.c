@@ -15,9 +15,14 @@
 static int	execute_builtin_no_fork(t_command *cmd, t_minishell *shell)
 {
 	int	exit_status;
+	int temp;
 
-	if (apply_builtins_redir(cmd->redirs, shell) == -1)
+	temp = 0;
+	temp = apply_redir(cmd->redirs, shell, 1, 1);
+	if ( temp == -1)
 		return (1);
+	if (temp == 130)
+		return(130);
 	exit_status = execute_builtin(shell, cmd->argv);
 	if (dup2(shell->fd_output, STDOUT_FILENO) == -1)
 	{
@@ -36,7 +41,7 @@ static int	execute_builtin_with_fork(t_command *cmd, t_minishell *shell)
 	pid = fork();
 	if (pid == 0) 
 	{
-		if (apply_redir(cmd->redirs, shell, 1, 0) == -1)
+		if (apply_redir(cmd->redirs, shell, 1, 1) == 0)
 			exit(1);
 		exit_status = execute_builtin(shell, cmd->argv);
 		if (exit_status == -1)

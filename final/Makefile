@@ -23,7 +23,6 @@ LEXER_DIR = $(SRC_DIR)/lexer
 EXPAND_DIR = $(SRC_DIR)/expand
 PARSER_DIR = $(SRC_DIR)/parser
 UTILS_DIR = $(SRC_DIR)/utils
-WILD_DIR = $(SRC_DIR)/wildcard
 LIBFT_DIR = libft/libft.a
 
 SRC_FILES = $(SRC_DIR)/main.c \
@@ -88,8 +87,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(UTILS_DIR)/error.c \
 			$(UTILS_DIR)/prompt.c \
 			$(UTILS_DIR)/signal.c \
-			$(UTILS_DIR)/utils_env.c\
-			$(WILD_DIR)/wildcard_bonus.c
+			$(UTILS_DIR)/utils_env.c
 
 OBJ_FILES = $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -104,7 +102,7 @@ $(LIBFT_DIR):
 	@echo "LIBFT success"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/utils $(OBJ_DIR)/lexer $(OBJ_DIR)/expand $(OBJ_DIR)/parser $(OBJ_DIR)/exec $(OBJ_DIR)/builtins $(OBJ_DIR)/wildcard
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/utils $(OBJ_DIR)/lexer $(OBJ_DIR)/expand $(OBJ_DIR)/parser $(OBJ_DIR)/exec $(OBJ_DIR)/builtins
 	@echo "Building $@ from $<"
 	$(CC) $(CFLAGS) -c $< -o $@
 

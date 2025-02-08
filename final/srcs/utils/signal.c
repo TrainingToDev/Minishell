@@ -24,7 +24,6 @@ int	status_manager(int new_status, int mode)
 		return (temp);
 	}
 	else if (mode == STATUS_WRITE)
-	
 		status = new_status;
 	else if (mode == STATUS_INIT)
 		status = SUCCESS;

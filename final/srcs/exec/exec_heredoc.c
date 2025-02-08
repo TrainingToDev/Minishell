@@ -33,6 +33,7 @@ static int	parent_heredoc(pid_t pid, t_minishell *shell)
 		exit_status = 128 + WTERMSIG(shell->last_exit_status);
 	else
 		exit_status = WEXITSTATUS(shell->last_exit_status);
+	printf("exit : %i\n", exit_status);
 	status_manager(exit_status, STATUS_WRITE);
 	return (exit_status);
 }
