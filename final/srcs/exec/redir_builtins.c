@@ -31,7 +31,7 @@ static int	b_input_redir(t_redir *redirs, t_minishell *shell)
 		}
 		else if (current->type == REDIR_HEREDOC)
 		{
-			if (process_heredoc(current, shell, 0) == -1)
+			if (process_heredoc(current, shell, 0, 0) == -1)
 			{
 				printf("test2\n");
 				return (-1);
