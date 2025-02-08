@@ -48,10 +48,10 @@ static int	heredoc_pipe(t_redir *cur)
 //fork heredoc
 
 /*
- * is_copied = 1  (heredoc_copied),
- * et 0  (heredoc_interactive).
+ * c = 1  (heredoc_copied),
+ * c = 0  (heredoc_interactive).
  */
-static int forked_heredoc(t_hdc *cnt, char *dlim, t_minishell *shell, int is_copied)
+static int forked_heredoc(t_hdc *cnt, char *dlim, t_minishell *shell, int c)
 {
 	pid_t pid;
 	int exit_status;
@@ -60,7 +60,7 @@ static int forked_heredoc(t_hdc *cnt, char *dlim, t_minishell *shell, int is_cop
 	if (pid == 0)
 	{
 		manage_heredoc();
-		if (is_copied)
+		if (c)
 			heredoc_copied(cnt, dlim, shell);
 		else
 			heredoc_interactive(dlim, cnt, shell);
