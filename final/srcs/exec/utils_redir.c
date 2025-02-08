@@ -71,7 +71,9 @@ static int forked_heredoc(t_hdc *cnt, char *dlim, t_minishell *shell, int is_cop
 		perror("fork");
 		return (-1);
 	}
+	del();
 	waitpid(pid, &shell->last_exit_status, 0);
+	reset_main();
 	if (WIFSIGNALED(shell->last_exit_status))
 		exit_status = 128 + WTERMSIG(shell->last_exit_status);
 	else
