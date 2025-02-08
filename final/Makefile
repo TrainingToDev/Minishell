@@ -70,7 +70,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(EXEC_DIR)/exec_builtins.c\
 			$(EXEC_DIR)/exec_heredoc.c\
 			$(EXEC_DIR)/exec.c\
-			$(EXEC_DIR)/extern_cmd.c\ 
+			$(EXEC_DIR)/extern_cmd.c\
 			$(EXEC_DIR)/heredoc_multiline.c \
 			$(EXEC_DIR)/heredoc_simple.c\
 			$(EXEC_DIR)/path.c\
