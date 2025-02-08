@@ -63,6 +63,7 @@ static t_ast *process_input(char *input, t_minishell *shell)
     fast_unset(token_list, shell);
     mark_heredoc_delimiters(token_list);
     expand_token_list(token_list, shell);
+    expand_list(&token_list, shell);
     ast_root = parse(token_list, input);
     free_token_list(token_list);
     if (!ast_root)

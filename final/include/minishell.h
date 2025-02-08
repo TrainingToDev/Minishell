@@ -370,4 +370,8 @@ void					cleanup_shell(t_minishell *shell);
 int						execute_conditional(t_ast *ast, t_minishell *shell);
 int						execute_subshell(t_ast *ast, t_minishell *shell);
 
+// wildcard
+t_token					*expand_wildcard(t_token *token);
+void					expand_list(t_token **tokens, t_minishell *shell);
+
 #endif
