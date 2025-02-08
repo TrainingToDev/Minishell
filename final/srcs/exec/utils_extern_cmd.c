@@ -12,34 +12,40 @@
 
 #include "minishell.h"
 
-static int	check_executable_path(char *path)
+static int check_permissions(char *path, struct stat *path_stat)
 {
-	struct stat	path_stat;
-
-	if (access(path, F_OK) != 0) //path inexist dir
+	if (access(path, F_OK) != 0)
 	{
-		printf("{here1}\n");
 		print_error(E_DIR, path, ERR_G);
 		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 		return (ERR_G);
 	}
-	if (stat(path, &path_stat) == -1)
+	if (stat(path, path_stat) == -1)
 	{
-		printf("{here2}\n");
 		print_error(E_CMD, path, ERR_G);
 		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 		return (126);
 	}
-	if (S_ISDIR(path_stat.st_mode)) // dir exist
+	return (0);
+}
+
+static int check_executable_path(char *path)
+{
+	struct stat	path_stat;
+	int			result;
+
+	result = check_permissions(path, &path_stat);
+	if (result != 0)
+		return (result);
+
+	if (S_ISDIR(path_stat.st_mode))
 	{
-		printf("{here3}\n");
 		print_error(E_DIR, path, ERR_DIR);
 		ft_putendl_fd(": Is a directory", STDERR_FILENO);
 		return (ERR_DIR);
 	}
-	if (access(path, X_OK) != 0) // permission
+	if (access(path, X_OK) != 0)
 	{
-		printf("{here4}\n");
 		print_error(E_CMD, path, ERR_DIR);
 		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 		return (ERR_DIR);
@@ -47,24 +53,13 @@ static int	check_executable_path(char *path)
 	return (0);
 }
 
-static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
+static int prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 {
-	int	result;
+	int result;
 
-	if (ft_strcmp(cmd->argv[0], ".") == 0) // test .
-	{
-		print_error(E_DIR, cmd->argv[0], ERR_SYN);
-		ft_putendl_fd(": filename argument required", STDERR_FILENO);
-		printf("%s: usage: . filename [arguments]\n", cmd->argv[0]);
-		return (ERR_SYN);
-	}
-	if (ft_strcmp(cmd->argv[0], "..") == 0)
-	{
-		printf("cmd-1\n");
-		print_error(E_CMD, cmd->argv[0], ERR_CMD);
-		ft_putendl_fd(": Command not found", STDERR_FILENO);
-		return (ERR_CMD);
-	}
+	result = valid_cmd_name(cmd);
+	if (result != 0)
+		return (result);
 	if (ft_strchr(cmd->argv[0], '/'))
 	{
 		result = check_executable_path(cmd->argv[0]);
@@ -76,9 +71,8 @@ static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 	*path = find_command_path(cmd->argv[0], shell->env_list);
 	if (!(*path))
 	{
-		printf("cmd-2\n");
 		print_error(E_CMD, cmd->argv[0], ERR_CMD);
-		ft_putendl_fd(": Command not found!!", STDERR_FILENO);
+		ft_putendl_fd(": command not found!!", STDERR_FILENO);
 		return (ERR_CMD);
 	}
 	return (0);

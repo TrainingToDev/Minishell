@@ -58,3 +58,21 @@ int	exec_parent(pid_t pid, t_minishell *shell)
 	status_manager(exit_status, STATUS_WRITE);
 	return (exit_status);
 }
+
+int valid_cmd_name(t_command *cmd)
+{
+	if (ft_strcmp(cmd->argv[0], ".") == 0)
+	{
+		print_error(E_DIR, cmd->argv[0], ERR_SYN);
+		ft_putendl_fd(": filename argument required", STDERR_FILENO);
+		printf("%s: usage: . filename [arguments]\n", cmd->argv[0]);
+		return (ERR_SYN);
+	}
+	if (ft_strcmp(cmd->argv[0], "..") == 0)
+	{
+		print_error(E_CMD, cmd->argv[0], ERR_CMD);
+		ft_putendl_fd(": command not found", STDERR_FILENO);
+		return (ERR_CMD);
+	}
+	return (0);
+}

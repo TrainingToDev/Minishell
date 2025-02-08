@@ -299,6 +299,7 @@ int						execute_command(t_command *command, t_minishell *shell,
 int						dir_error(char *path);
 void					exec_child(char *path, t_command *cmd, t_minishell *shell, int f);
 int						exec_parent(pid_t pid, t_minishell *shell);
+int						valid_cmd_name(t_command *cmd);
 
 // redir
 int 			apply_redirections(t_redir *redirs, t_minishell *shell, int mode, int f);
