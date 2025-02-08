@@ -84,6 +84,15 @@ static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 	return (0);
 }
 
+static int is_dir(const char *path)
+{
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) == -1)
+		return (0);
+	return (S_ISDIR(path_stat.st_mode));
+}
+
 static int	process_extern(char *path, t_command *cmd, t_minishell *shell)
 {
 	pid_t	pid;
@@ -96,6 +105,14 @@ static int	process_extern(char *path, t_command *cmd, t_minishell *shell)
 		f = 0;
 	else
 		f = 1;
+
+	if (is_dir(path))
+    {
+        print_error(E_CMD, path, ERR_CMD);
+		ft_putendl_fd(": Command Not Found", STDERR_FILENO);
+        return (1);
+    }
+
 	pid = fork();
 	if (pid == 0)
 	{
