@@ -104,7 +104,7 @@ $(LIBFT_DIR):
 	@echo "LIBFT success"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/utils $(OBJ_DIR)/lexer $(OBJ_DIR)/expand $(OBJ_DIR)/parser $(OBJ_DIR)/exec $(OBJ_DIR)/builtins
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/utils $(OBJ_DIR)/lexer $(OBJ_DIR)/expand $(OBJ_DIR)/parser $(OBJ_DIR)/exec $(OBJ_DIR)/builtins $(OBJ_DIR)/wildcard
 	@echo "Building $@ from $<"
 	$(CC) $(CFLAGS) -c $< -o $@
 
