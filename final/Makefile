@@ -68,6 +68,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(PARSER_DIR)/parser.c\
 			$(PARSER_DIR)/print_parser.c\
 			$(EXEC_DIR)/exec_builtins.c\
+			$(EXEC_DIR)/exec_heredoc.c\
 			$(EXEC_DIR)/exec.c\
 			$(EXEC_DIR)/heredoc_multiline.c \
 			$(EXEC_DIR)/heredoc_simple.c\

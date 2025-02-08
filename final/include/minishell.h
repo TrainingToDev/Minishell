@@ -304,6 +304,7 @@ int 			process_redir_in(t_redir *current, int mode);
 int 			process_redir_out(t_redir *current, int mode);
 int				process_redir_append(t_redir *current, int mode);
 int				process_heredoc(t_redir *cur, t_minishell *shell, int mode, int f);
+int				forked_heredoc(t_hdc *cnt, char *dlim, t_minishell *shell, int c);
 
 // heredoc
 int						check_params(t_hdc *cnt, char *dlim,
