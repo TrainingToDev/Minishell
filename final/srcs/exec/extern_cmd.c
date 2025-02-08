@@ -27,7 +27,7 @@ void	exec_child(char *path, t_command *cmd, t_minishell *shell, int f)
 
 	setup_child();
 
-	if (apply_redirections(cmd->redirs, shell, 1, f) == -1)
+	if (apply_redir(cmd->redirs, shell, 1, f) == -1)
 	{
 		print_error(E_DIR, cmd->redirs->filename, ERR_G);
 		ft_putendl_fd(": No such file or directory!!!", STDERR_FILENO);

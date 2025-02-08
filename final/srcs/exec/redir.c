@@ -68,7 +68,7 @@ static int output_redir(t_redir *redirs, int mode)
     return (0);
 }
 
-int apply_redirections(t_redir *redirs, t_minishell *shell, int mode, int f)
+int apply_redir(t_redir *redirs, t_minishell *shell, int mode, int f)
 {
     if (heredoc_redir(redirs, shell, mode, f) == -1)
         return (-1);

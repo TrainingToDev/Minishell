@@ -302,7 +302,7 @@ int						exec_parent(pid_t pid, t_minishell *shell);
 int						valid_cmd_name(t_command *cmd);
 
 // redir
-int 			apply_redirections(t_redir *redirs, t_minishell *shell, int mode, int f);
+int 			apply_redir(t_redir *redirs, t_minishell *shell, int mode, int f);
 int 			apply_builtins_redir(t_redir *redirs, t_minishell *shell);
 int 			process_redir_in(t_redir *current, int mode);
 int 			process_redir_out(t_redir *current, int mode);
