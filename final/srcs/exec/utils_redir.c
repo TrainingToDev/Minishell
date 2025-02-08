@@ -19,10 +19,7 @@ static int	heredoc_pipe(t_redir *cur)
 	char	*line;
 
 	if (pipe(pipefd) == -1)
-	{
-		print_error(E_PIPE, "heredoc", ERR_G);
 		return (-1);
-	}
 	i = 0;
 	while (i < cur->content->count)
 	{
