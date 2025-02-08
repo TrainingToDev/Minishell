@@ -84,20 +84,9 @@ static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 	return (0);
 }
 
-static int is_dir(const char *path)
-{
-	struct stat	path_stat;
-
-	if (stat(path, &path_stat) == -1)
-		return (0);
-	return (S_ISDIR(path_stat.st_mode));
-}
-
 static int	process_extern(char *path, t_command *cmd, t_minishell *shell)
 {
 	pid_t	pid;
-	char	**env_array;
-	int		exit_status;
 	int		f;
 
 	f = 0;
@@ -105,48 +94,17 @@ static int	process_extern(char *path, t_command *cmd, t_minishell *shell)
 		f = 0;
 	else
 		f = 1;
-
-	if (is_dir(path))
-    {
-        print_error(E_CMD, path, ERR_CMD);
-		ft_putendl_fd(": Command Not Found", STDERR_FILENO);
-        return (1);
-    }
-
+	if (dir_error(path))
+		return (1);
 	pid = fork();
 	if (pid == 0)
-	{
-		setup_child();//signal
-		if (apply_redirections(cmd->redirs, shell, 1, f) == -1)
-		{
-			print_error(E_DIR,cmd->redirs->filename, ERR_G);
-			ft_putendl_fd(": No such file or directory!!!", STDERR_FILENO);
-			exit (1);
-		}
-		env_array = convert_env_list(shell->env_list);
-		execve(path, cmd->argv, env_array);
-		free_str_array(env_array);
-		perror("error: execve");
-		exit(1);
-	}
+		exec_child(path, cmd, shell, f);
 	else if (pid < 0)
 	{
 		print_error(E_FORK, "fork", ERR_G);
 		return (1);
 	}
-	del();
-	waitpid(pid, &shell->last_exit_status, 0);
-	if (shell->last_exit_status == 2)
-		ft_putstr_fd("\n", STDOUT_FILENO);
-	if (shell->last_exit_status == 131)
-		ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
-	reset_main();
-	if (WIFSIGNALED(shell->last_exit_status))
-		exit_status = 128 + WTERMSIG(shell->last_exit_status);
-	else
-		exit_status = WEXITSTATUS(shell->last_exit_status);
-	status_manager(exit_status, STATUS_WRITE);
-	return (exit_status);
+	return (exec_parent(pid, shell));
 }
 
 int	execute_extern_cmd(t_command *cmd, t_minishell *shell)

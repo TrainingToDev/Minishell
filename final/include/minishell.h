@@ -296,6 +296,9 @@ int						execute_extern_cmd(t_command *command,
 int						execute_ast(t_ast *ast, t_minishell *shell);
 int						execute_command(t_command *command, t_minishell *shell, 
 							int fork_required);
+int						dir_error(char *path);
+void					exec_child(char *path, t_command *cmd, t_minishell *shell, int f);
+int						exec_parent(pid_t pid, t_minishell *shell);
 
 // redir
 int 			apply_redirections(t_redir *redirs, t_minishell *shell, int mode, int f);
