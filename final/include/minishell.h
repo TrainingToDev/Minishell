@@ -181,6 +181,15 @@ typedef struct s_state
 	int		single_quote;
 }			t_state;
 
+typedef struct s_wildcard
+{
+	DIR				*dir;
+	struct dirent	*entry;
+	t_token			*expanded;
+	t_token			*last;
+	int				count;
+}					t_wildcard;
+
 // prompt
 int						check_args(int argc, char **argv);
 char					*format_prompt(void);
