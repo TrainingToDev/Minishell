@@ -116,7 +116,7 @@ int	main(int argc, char **argv, char **envp)
 	env_list = convert_envp_to_list(envp);
 	if (!env_list)
 	{
-		ft_putstr_fd("minishell: Failed to initialize environment\n", 2);
+		perror("Failed to initialize environment");
 		return (1);
 	}
 	setup_signals();
