@@ -84,6 +84,13 @@ static int	special_cases(char *input)
 	if ((input[0] == ':' || input[0] == '!')
 		&& (input[1] == '\0' || input[1] == ' '))
 		return (1);
+	if ((input[0] == '\'' && input[1] == '\'' && input[2] == '\0')
+		|| (input[0] == '"' && input[1] == '"' && input[2] == '\0'))
+	{
+		print_error(E_CMD, "'' ", ERR_CMD);
+		ft_putstr_fd(": cmd not found\n", STDERR_FILENO);
+		return (1);
+	}
 	if (is_double_par(input))
 		return (1);
 	return (0);
