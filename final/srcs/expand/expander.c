@@ -30,6 +30,7 @@ char	*expand_var(char *src, t_minishell *shell)
 
 	s.index = 0;
 	s.single_quote = 0;
+	s.double_quote = 0;
 	res = ft_strdup("");
 	if (!res)
 		return (NULL);
