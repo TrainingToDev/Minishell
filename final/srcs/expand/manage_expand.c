@@ -54,10 +54,16 @@ char	*scan_token(char *src, t_state *s, char *res, t_minishell *shell)
 {
 	if (src[s->index] == '\'')
 	{
-		s->single_quote = !s->single_quote;
-		s->index++;
+		if (!s->double_quote)
+			s->single_quote = !s->single_quote;
+		res = add_char(src, &s->index, res);
 	}
-	else if (src[s->index] == '$' && !s->single_quote)
+	else if (src[s->index] == '"')
+	{
+		s->double_quote = !s->double_quote;
+		res = add_char(src, &s->index, res);
+	}
+	else if (src[s->index] == '$' && (!s->single_quote))
 	{
 		res = proc_dlr(src, &s->index, res, shell);
 		if (!res)

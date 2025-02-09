@@ -179,6 +179,7 @@ typedef struct s_state
 {
 	size_t	index;
 	int		single_quote;
+	int		double_quote;
 }			t_state;
 
 // prompt
