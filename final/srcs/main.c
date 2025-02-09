@@ -116,8 +116,8 @@ int	main(int argc, char **argv, char **envp)
 	env_list = convert_envp_to_list(envp);
 	if (!env_list)
 	{
-		perror("Failed to initialize environment");
-		return (1);
+		printf("minishell: Failed to initialize environment\n");
+		return (ERR_G);
 	}
 	setup_signals();
 	minishell_loop(env_list);
