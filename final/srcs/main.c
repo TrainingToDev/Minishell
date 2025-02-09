@@ -89,13 +89,14 @@ static void	minishell_loop(t_env_var *env_list)
 	init_minishell(&shell, env_list);
 	while (shell.running)
 	{
-		reset_main();
 		input = get_input();
 		if (!input)
+		{
 			if (g_status == SIGINT)
 				exit(128 + SIGINT);
 			else
 				exit(0);
+		}
 		ast_root = process_input(input, &shell);
 		free(input);
 		if (!ast_root)
