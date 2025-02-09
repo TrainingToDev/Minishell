@@ -34,11 +34,12 @@ static void	manager_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_status = sig;
 		ft_putendl_fd("", STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		status_manager(128 + sig, STATUS_WRITE);
+		status_manager(128 + g_status, STATUS_WRITE);
 	}
 }
 

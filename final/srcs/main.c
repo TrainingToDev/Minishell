@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+volatile sig_atomic_t	g_status;
+
 static void	init_minishell(t_minishell *shell, t_env_var *env_list)
 {
 	shell->env_list = env_list;
@@ -90,7 +92,10 @@ static void	minishell_loop(t_env_var *env_list)
 		reset_main();
 		input = get_input();
 		if (!input)
-			break ;
+			if (g_status == SIGINT)
+				exit(128 + SIGINT);
+			else
+				exit(0);
 		ast_root = process_input(input, &shell);
 		free(input);
 		if (!ast_root)
@@ -104,6 +109,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_env_var	*env_list;
 
+	g_status = 0;
 	env_list = NULL;
 	check_args(argc, argv);
 	env_list = convert_envp_to_list(envp);
@@ -114,7 +120,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	setup_signals();
 	minishell_loop(env_list);
-	// free_env_list(env_list);
 	rl_clear_history();
 	return (0);
 }

@@ -42,8 +42,6 @@
 # define STATUS_QUIT 2
 # define STATUS_INIT 3
 
-// exit_code
-
 # define SUCCESS 0
 # define ERR_G 1
 # define ERR_SYN 2
@@ -55,6 +53,8 @@
 # define MSG_1 "minishell: warning: here-document at line"
 # define MSG_2 "delimited by end-of-file (wanted `"
 # define MSG_3 "')\n"
+
+extern volatile sig_atomic_t g_status;
 
 typedef enum e_token_type
 {
