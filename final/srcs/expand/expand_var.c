@@ -59,6 +59,9 @@ char	*add_vval(char *src, size_t *i, char *res, t_minishell *shell)
 	t_varinfo	var;
 	size_t		len;
 
+	var.src = NULL;
+	var.start = 0;
+	var.len = 0;
 	len = get_vlen(src, i);
 	var.src = src;
 	var.start = (*i) - len;
