@@ -12,27 +12,6 @@
 
 #include "minishell.h"
 
-// static int	execute_builtin_no_fork(t_command *cmd, t_minishell *shell)
-// {
-// 	int	exit_status;
-// 	int temp;
-
-// 	temp = 0;
-// 	temp = apply_redir(cmd->redirs, shell, 1, 1);
-// 	if ( temp == -1)
-// 		return (1);
-// 	if (temp == 130)
-// 		return(130);
-// 	exit_status = execute_builtin(shell, cmd->argv);
-// 	if (dup2(shell->fd_output, STDOUT_FILENO) == -1)
-// 	{
-// 		print_error(E_DUPFD, "not restore stdout", ERR_G);
-// 		return (1);
-// 	}
-// 	status_manager(exit_status, STATUS_WRITE);
-// 	return (exit_status);
-// }
-
 static int	execute_builtin_no_fork(t_command *cmd, t_minishell *shell)
 {
 	int	exit_status;

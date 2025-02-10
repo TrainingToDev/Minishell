@@ -50,8 +50,6 @@ void	update_env(t_minishell *shell, char *key, char *value)
 		}
 		return ;
 	}
-	// if (!value)
-	// 	value = "";
 	new_node = new(key, value, cur);
 	if (prev)
 		prev->next = new_node;
@@ -110,7 +108,7 @@ static int manage_args(t_minishell *shell, char **args, int *valid_args)
 	return (status);
 }
 
-int	export(t_minishell *shell, char **args)
+int	ft_export(t_minishell *shell, char **args)
 {
 	int	status;
 	int	valid_args;

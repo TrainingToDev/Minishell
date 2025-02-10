@@ -192,7 +192,7 @@ int						cd(t_minishell *shell, char **args);
 int						echo(t_minishell *shell, char **args);
 int						env(t_minishell *shell, char **args);
 int						ft_exit(t_minishell *shell, char **args);
-int						export(t_minishell *shell, char **args);
+int						ft_export(t_minishell *shell, char **args);
 int						pwd(t_minishell *shell, char **args);
 int						unset(t_minishell *shell, char **args);
 int						is_builtin(const char *cmd_name);
