@@ -29,8 +29,8 @@ void	exec_child(char *path, t_command *cmd, t_minishell *shell, int f)
 
 	if (apply_redir(cmd->redirs, shell, 1, f) == -1)
 	{
-		print_error(E_DIR, cmd->redirs->filename, ERR_G);
-		ft_putendl_fd(": No such file or directory!!!", STDERR_FILENO);
+		// print_error(E_DIR, cmd->redirs->filename, ERR_G);
+		// ft_putendl_fd(": No such file or directory!!!", STDERR_FILENO);
 		exit(1);
 	}
 	env_array = convert_env_list(shell->env_list);
