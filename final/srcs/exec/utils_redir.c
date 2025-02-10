@@ -67,14 +67,31 @@ int process_heredoc(t_redir *cur, t_minishell *shell, int mode, int f)
 	else
 		return (ret);
 }
-
+// need refactoring
 int process_redir_in(t_redir *current, int mode)
 {
 	int	fd;
 
 	fd = open(current->filename, O_RDONLY);
 	if (fd == -1)
+	{
+		if (errno == ENOENT)
+		{
+        	print_error(E_CMD, current->filename, ERR_G);
+			ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		}
+    	else if (errno == EACCES)
+		{
+        	print_error(E_CMD, current->filename, ERR_G);
+			ft_putendl_fd(": Permission denied", STDERR_FILENO);
+		}
+    	else
+		{
+        	print_error(E_CMD, current->filename, ERR_G);
+			ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		}
 		return (-1);
+	}
 	if (mode)
 	{
 		if (dup2(fd, STDIN_FILENO) == -1)
@@ -120,13 +137,14 @@ int	process_redir_append(t_redir *current, int mode)
 	if (fd == -1)
 	{
 		print_error(E_CMD, current->filename, ERR_G);
+		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 		return (-1);
 	}
 	if (mode)
 	{
 		if (dup2(fd, STDOUT_FILENO) == -1)
 		{
-			print_error(E_DUPFD, current->filename, ERR_G);
+			print_error(E_DUPFD, current->filename, ERR_G);//
 			close(fd);
 			return (-1);
 		}

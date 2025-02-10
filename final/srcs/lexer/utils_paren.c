@@ -71,7 +71,7 @@ int	process_substitution(t_token *token)
 	{
 		if (token->next->next && token->next->next->type == TOKEN_WORD)
 		{
-			print_error(E_SUP, "substitution not supported", ERR_G);
+			print_error(E_SUP, "substitution not supported\n", ERR_G);
 			return (0);
 		}
 	}

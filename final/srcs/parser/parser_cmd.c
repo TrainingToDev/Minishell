@@ -58,6 +58,7 @@ static int	handle_word_token(t_parser *parser, t_command *cmd)
 static int	handle_redirection(t_parser *parser, t_command *cmd, char *input)
 {
 	t_redir	*redir;
+	t_redir	*current;
 
 	redir = parse_io_redirect(parser, input);
 	if (!redir)
@@ -65,8 +66,15 @@ static int	handle_redirection(t_parser *parser, t_command *cmd, char *input)
 		free(cmd->argv);
 		return (-1);
 	}
-	redir->next = cmd->redirs;
-	cmd->redirs = redir;
+	if (!cmd->redirs)
+		cmd->redirs = redir;
+	else
+	{
+		current = cmd->redirs;
+		while (current->next)
+			current = current->next;
+		current->next = redir;
+	}
 	return (0);
 }
 

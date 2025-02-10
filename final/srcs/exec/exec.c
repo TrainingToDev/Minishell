@@ -16,9 +16,8 @@ static int	check_cmd(t_command *cmd)
 {
 	if (!cmd || (!cmd->argv && !cmd->redirs))
 	{
-		print_error(E_CMD, cmd->argv[0], ERR_CMD);
-		ft_putstr_fd("cmd not found\n", STDERR_FILENO);
-		return (127);
+		print_error(E_SUP, "Parsing failed!!!\n", ERR_SYN);
+		return (ERR_SYN);
 	}
 	if (!cmd->argv || !cmd->argv[0] || cmd->argv[0][0] == '\0')
 		return (0);
@@ -30,8 +29,8 @@ int	execute_command(t_command *command, t_minishell *shell, int fork_required)
 	int	result;
 
 	result = check_cmd(command);
-	if (result == 127)
-		return 127;
+	if (result == ERR_SYN)
+		return ERR_SYN;
 	if (result == 0)
 	{
 		if (command && command->redirs)
