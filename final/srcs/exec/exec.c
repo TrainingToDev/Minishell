@@ -39,10 +39,10 @@ int	execute_command(t_command *command, t_minishell *shell, int fork_required)
 	}
 	if (is_builtin(command->argv[0]))
 	{
-		printf("builTIN\n");
+		// printf("builTIN\n");
 		return (execute_builtin_cmd(command, shell, fork_required));
 	}
-	printf("EXEC_EXTERN\n");
+	// printf("EXEC_EXTERN\n");
 	return (execute_extern_cmd(command, shell));
 }
 
