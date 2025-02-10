@@ -46,7 +46,6 @@ static int	validate_redir_token(t_parser *parser, t_redir *redir)
 
 static int	handle_heredoc(t_parser *parser, t_redir *redir, char *input)
 {
-	// printf("Parsing heredoc with delim: %s\n", parser->current->value);
 	redir->filename = ft_strdup(parser->current->value);
 	if (!redir->filename)
 	{
@@ -66,6 +65,8 @@ static int	handle_heredoc(t_parser *parser, t_redir *redir, char *input)
 
 static int	process_redirection(t_parser *parser, t_redir *redir, char *input)
 {
+	char	*filename;
+
 	if (redir->type == REDIR_HEREDOC)
 	{
 		if (handle_heredoc(parser, redir, input) == -1)
@@ -73,7 +74,13 @@ static int	process_redirection(t_parser *parser, t_redir *redir, char *input)
 	}
 	else
 	{
-		redir->filename = ft_strdup(parser_advance(parser)->value);
+		filename = parser_advance(parser)->value;
+		if (!filename)
+		{
+			perror("Redir error: missing filename");
+			return (-1);
+		}
+		redir->filename = clean_quotes(filename);
 		if (!redir->filename)
 		{
 			perror("Failed memory for filename");
