@@ -123,6 +123,5 @@ int	execute_ast(t_ast *ast, t_minishell *shell)
 		ft_putstr_fd("Erreur : Type de nœud AST inconnu\n", 2);
 		exit_status = 1;
 	}
-	// status_manager(exit_status, STATUS_WRITE);
 	return (exit_status);
 }

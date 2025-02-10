@@ -43,6 +43,12 @@ static int	handle_word_token(t_parser *parser, t_command *cmd)
 		print_error(E_NOMEM, "Memory allocation failed", ERR_SEGV);
 		return (-1);
 	}
+	if (cleaned_value[0] == '\0')
+	{
+		free(cleaned_value);
+		parser_advance(parser);
+		return (0);
+	}
 	new_argv = expand_argv(cmd, cleaned_value);
 	if (!new_argv)
 	{

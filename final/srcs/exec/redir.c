@@ -29,7 +29,7 @@ static int heredoc_redir(t_redir *redirs, t_minishell *shell, int mode, int f)
 	return (0);
 }
 
-int apply_redir(t_redir *redirs, t_minishell *shell, int mode, int f)
+int	apply_redir(t_redir *redirs, t_minishell *shell, int mode, int f)
 {
 	t_redir	*current;
 
