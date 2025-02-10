@@ -72,7 +72,7 @@ static int prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 	if (!(*path))
 	{
 		print_error(E_CMD, cmd->argv[0], ERR_CMD);
-		ft_putendl_fd(": command not found!!", STDERR_FILENO);
+		ft_putendl_fd(": command not found", STDERR_FILENO);
 		return (ERR_CMD);
 	}
 	return (0);
