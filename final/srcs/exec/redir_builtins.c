@@ -64,3 +64,30 @@ int apply_builtins_redir(t_redir *redirs, t_minishell *shell)
 		return (-1);
 	return (0);
 }
+
+void	exit_output(t_redir *redirs)
+{
+	t_redir	*current;
+	int		fd;
+	int		flags;
+
+	current = redirs;
+	while (current)
+	{
+		if (current->type == REDIR_OUT)
+		{
+			flags = O_WRONLY | O_CREAT | O_TRUNC;
+			fd = open(current->filename, flags, 0644);
+			if (fd != -1)
+				close(fd);
+		}
+		else if (current->type == REDIR_APPEND)
+		{
+			flags = O_WRONLY | O_CREAT | O_APPEND;
+			fd = open(current->filename, flags, 0644);
+			if (fd != -1)
+				close(fd);
+		}
+		current = current->next;
+	}
+}
