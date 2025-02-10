@@ -130,7 +130,7 @@ int	ft_export(t_minishell *shell, char **args)
 	status = manage_args(shell, args, &valid_args);
 	if (!valid_args)
 	{
-		print_error(E_VAR_O, "\n", ERR_G);
+		// print_error(E_VAR_O, "\n", ERR_G);
 		return (1);
 	}
 	if (status == 0)

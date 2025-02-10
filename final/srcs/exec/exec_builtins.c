@@ -65,9 +65,9 @@ static int	execute_builtin_with_fork(t_command *cmd, t_minishell *shell)
 int	execute_builtin_cmd(t_command *cmd, t_minishell *shell, int fork_required)
 {
 	if (!fork_required)
-		return execute_builtin_no_fork(cmd, shell);
+		return (execute_builtin_no_fork(cmd, shell));
 	else
-		return execute_builtin_with_fork(cmd, shell);
+		return (execute_builtin_with_fork(cmd, shell));
 }
 
 static int input_error(char *filename)
