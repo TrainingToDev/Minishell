@@ -98,10 +98,11 @@ static int input_error(char *filename)
 	return (0);
 }
 
-int exit_input(t_redir *redirs)
+int	exit_input(t_redir *redirs)
 {
-	t_redir *current = redirs;
+	t_redir	*current;
 
+	current = redirs;
 	while (current)
 	{
 		if (current->type == REDIR_IN)
