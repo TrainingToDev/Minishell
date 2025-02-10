@@ -51,7 +51,6 @@ static char	*get_input(void)
 	input = prompt_input(prompt);
 	if (!input)
 	{
-		ft_putstr_fd("minishell: Error reading input\n", 2);
 		free(prompt);
 		return (NULL);
 	}
