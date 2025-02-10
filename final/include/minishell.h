@@ -14,23 +14,19 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <ctype.h>
-# include <dirent.h>
-# include <errno.h>
-# include <fcntl.h>
-# include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
+# include <stdbool.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <errno.h>
+# include <limits.h>
+# include <signal.h>
+# include <dirent.h>
+# include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
-# include <termios.h>
 # include <unistd.h>
-# include <limits.h>
 
 # define COLOR_RESET "\033[0m"
 # define COLOR_GREEN "\033[32m"
@@ -69,7 +65,7 @@ typedef enum e_token_type
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
 	TOKEN_UNKNOWN,
-}						t_token_type;
+}	t_token_type;
 
 typedef struct s_token
 {
@@ -92,7 +88,7 @@ typedef enum e_redir_type
 	REDIR_APPEND,
 	REDIR_HEREDOC,
 	REDIR_INVALID
-}						t_redir_type;
+}	t_redir_type;
 
 typedef struct s_redir
 {
@@ -114,7 +110,7 @@ typedef enum e_node_type
 	NODE_AND,
 	NODE_OR,
 	NODE_SUBSHELL
-}						t_node_type;
+}	t_node_type;
 
 typedef struct s_ast
 {
@@ -167,7 +163,6 @@ enum	e_mini_error
 	E_WARNING = 13
 };
 
-// expand struct
 typedef struct s_varinfo
 {
 	const char			*src;
@@ -224,7 +219,7 @@ void		fast_export(t_token *tokens, t_minishell *shell);
 void 		fast_unset(t_token *tokens, t_minishell *shell);
 void		remove_env_var(t_minishell *shell, const char *key);
 
-// lexer
+// lexing
 int				check_operators(t_token *tokens);
 int				check_parentheses(t_token *tokens);
 int				is_disallowed(t_token *tokens);
@@ -272,19 +267,14 @@ t_ast			*parse_cmd(t_parser *parser, char *input);
 t_ast			*parse_subshell(t_parser *parser, char *input);
 t_ast			*parse_conditional(t_parser *parser, t_ast *left, char *input);
 t_ast			*parse(t_token *tokens, char *input);
-
 t_command		*create_cmd(void);
 t_command		*parse_simple_cmd(t_parser *parser, char *input);
 t_command		*parse_simple_cmd(t_parser *parser, char *input);
-
 t_redir			*create_redir(void);
 t_redir			*parse_io_redirect(t_parser *parser, char *input);
-
 t_token			*parser_advance(t_parser *parser);
-
 int				is_token(t_parser *parser, t_token_type type);
 char			*clean_quotes(const char *value);
-
 void			free_ast(t_ast *ast);
 void			print_indentation(int depth);
 void			print_ast(t_ast *ast, int depth);
@@ -354,7 +344,7 @@ int						get_lines(t_hdc *cnt, char **lines, char *dlim);
 void					print_env_list(t_env_var *env_list);
 void					free_env_list(t_env_var *env_list);
 t_env_var				*convert_envp_to_list(char **envp);
-void	free_env_var(t_env_var *env_var);
+void					free_env_var(t_env_var *env_var);
 
 // signal
 int						status_manager(int new_status, int mode);

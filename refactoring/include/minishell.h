@@ -19,6 +19,7 @@
 # include <stdbool.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <errno.h>
 # include <limits.h>
 # include <signal.h>
 # include <dirent.h>
