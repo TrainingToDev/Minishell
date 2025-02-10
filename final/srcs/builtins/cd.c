@@ -98,6 +98,12 @@ int	cd(t_minishell *shell, char **args)
 
 	if (!shell || !args)
 		return (1);
+	if (args[1] && args[2])
+	{
+		print_error(E_SUP, args[0], ERR_G);
+		ft_putendl_fd(": too many arguments", STDERR_FILENO);
+		return (ERR_G);
+	}
 	dup_path = !args[1];
 	path = get_cd_path(shell, args);
 	if (!path)
