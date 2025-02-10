@@ -305,6 +305,7 @@ int						valid_cmd_name(t_command *cmd);
 // redir
 int 			apply_redir(t_redir *redirs, t_minishell *shell, int mode, int f);
 int 			apply_builtins_redir(t_redir *redirs, t_minishell *shell);
+int				open_input(char *filename);
 int 			process_redir_in(t_redir *current, int mode);
 int 			process_redir_out(t_redir *current, int mode);
 int				process_redir_append(t_redir *current, int mode);
