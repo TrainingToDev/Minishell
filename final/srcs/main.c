@@ -32,7 +32,7 @@ static void	init_minishell(t_minishell *shell, t_env_var *env_list)
 	shell->fd_output = dup(STDOUT_FILENO);
 	if (shell->fd_output == -1)
 	{
-		perror("duo STDOUT");
+		perror("dup STDOUT");
 		exit(1);
 	}
 }
@@ -65,6 +65,7 @@ static t_ast	*process_input(char *input, t_minishell *shell)
 	fast_unset(token_list, shell);
 	mark_heredoc_delimiters(token_list);
 	expand_token_list(token_list, shell);
+	
 	ast_root = parse(token_list, input);
 	free_token_list(token_list);
 	if (!ast_root)

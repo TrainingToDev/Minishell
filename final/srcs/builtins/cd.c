@@ -22,10 +22,7 @@ static void	update_env_pwd(t_minishell *shell)
 	oldpwd_value = get_env_cd("PWD", shell->env_list);
 	newpwd_value = getcwd(NULL, 0);
 	if (oldpwd_value)
-	{
 		set_env_value(&shell->env_list, "OLDPWD", oldpwd_value);
-		// free(oldpwd_value);
-	}
 	if (newpwd_value)
 	{
 		set_env_value(&shell->env_list, "PWD", newpwd_value);
@@ -45,7 +42,12 @@ static int	execute_cd(t_minishell *shell, char *path, int dup_path)
 		print_error(E_DIR, "cd", ERR_G);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(path, STDERR_FILENO);
-		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		if (errno == EACCES)
+			ft_putendl_fd(": Permission denied", STDERR_FILENO);
+		else if (errno == ENOENT)
+			ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		else if (errno == ENOTDIR)
+			ft_putendl_fd(": Not a directory", STDERR_FILENO);
 		if (dup_path)
 			free(path);
 		return (1);
