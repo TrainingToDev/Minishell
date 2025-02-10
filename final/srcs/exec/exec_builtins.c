@@ -42,7 +42,7 @@ static int	execute_builtin_no_fork(t_command *cmd, t_minishell *shell)
 		if (exit_input(cmd->redirs) == -1)
 			return (1);
 		exit_output(cmd->redirs);
-		return (exit_cmd(shell, cmd->argv));
+		return (ft_exit(shell, cmd->argv));
 	}
 	if (apply_builtins_redir(cmd->redirs, shell) == -1)
 		return (1);
