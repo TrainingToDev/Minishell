@@ -290,9 +290,11 @@ int						execute_command(t_command *command, t_minishell *shell,
 int						dir_error(char *path);
 void					exec_child(char *path, t_command *cmd, t_minishell *shell, int f);
 int						exec_parent(pid_t pid, t_minishell *shell);
-int						valid_cmd_name(t_command *cmd);
+int						check_dot(t_command *cmd);
+int						check_slash(t_command *cmd, char **path);
+int						find_cmd_path(t_command *cmd, t_minishell *shell, char **path);
 int						check_executable_path(char *path);
-int						direct_path(t_command *cmd, char **path);
+
 
 
 // redir
