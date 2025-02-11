@@ -29,7 +29,7 @@ static int check_permissions(char *path, struct stat *path_stat)
 	return (0);
 }
 
-static int check_executable_path(char *path)
+int check_executable_path(char *path)
 {
 	struct stat	path_stat;
 	int			result;
@@ -55,31 +55,26 @@ static int check_executable_path(char *path)
 
 static int prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 {
-	struct stat path_stat;
 	int result;
+	struct stat path_stat;
 
 	result = valid_cmd_name(cmd);
 	if (result != 0)
 		return (result);
-	if (ft_strchr(cmd->argv[0], '/'))
-	{
-		result = check_executable_path(cmd->argv[0]);
-		if (result != 0)
-			return (result);
-		*path = ft_strdup(cmd->argv[0]);
+	result = direct_path(cmd, path);
+	if (result == 0)
 		return (0);
-	}
 	if (stat(cmd->argv[0], &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
-    {
-        print_error(E_CMD, cmd->argv[0], ERR_CMD);
-        ft_putendl_fd(": command not found", STDERR_FILENO);
-        return (ERR_CMD);
-    }
+	{
+		print_error(E_CMD, cmd->argv[0], ERR_CMD);
+		ft_putendl_fd(": command not found", STDERR_FILENO);
+		return (ERR_CMD);
+	}
 	*path = find_command_path(cmd->argv[0], shell->env_list);
 	if (!(*path))
 	{
 		print_error(E_CMD, cmd->argv[0], ERR_CMD);
-		ft_putendl_fd(": command not found", STDERR_FILENO);
+		ft_putendl_fd(": Command not found!!", STDERR_FILENO);
 		return (ERR_CMD);
 	}
 	return (0);

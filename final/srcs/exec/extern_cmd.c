@@ -76,3 +76,18 @@ int valid_cmd_name(t_command *cmd)
 	}
 	return (0);
 }
+
+int direct_path(t_command *cmd, char **path)
+{
+	int result;
+
+	if (ft_strchr(cmd->argv[0], '/'))
+	{
+		result = check_executable_path(cmd->argv[0]);
+		if (result != 0)
+			return (result);
+		*path = ft_strdup(cmd->argv[0]);
+		return (0);
+	}
+	return (1);
+}
