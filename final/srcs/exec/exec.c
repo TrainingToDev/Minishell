@@ -17,8 +17,8 @@ static int	check_cmd(t_command *cmd)
 	if (!cmd || (!cmd->argv && !cmd->redirs))
 	{
 		// print_error(E_SUP, "Parsing failed!!!\n", ERR_SYN);
-		status_manager(ERR_G, STATUS_WRITE);
-		return (1);
+		// status_manager(ERR_G, STATUS_WRITE);
+		return (0);
 	}
 	if (!cmd->argv || !cmd->argv[0] || cmd->argv[0][0] == '\0')
 		return (0);
