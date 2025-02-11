@@ -66,13 +66,13 @@ static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 		print_error(E_DIR, cmd->argv[0], ERR_SYN);
 		ft_putendl_fd(": filename argument required", STDERR_FILENO);
 		printf("%s: usage: . filename [arguments]\n", cmd->argv[0]);
-		return (ERR_SYN);
+		return (1);
 	}
 	if (ft_strcmp(cmd->argv[0], "..") == 0)
 	{
 		print_error(E_CMD, cmd->argv[0], ERR_CMD);
 		ft_putendl_fd(": command not found", STDERR_FILENO);
-		return (ERR_CMD);
+		return (1);
 	}
 	if (ft_strchr(cmd->argv[0], '/'))
 	{
@@ -86,14 +86,14 @@ static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
     {
         print_error(E_CMD, cmd->argv[0], ERR_CMD);
         ft_putendl_fd(": command not found", STDERR_FILENO);
-        return (ERR_CMD);
+        return (1);
     }
 	*path = find_command_path(cmd->argv[0], shell->env_list);
 	if (!(*path))
 	{
 		print_error(E_CMD, cmd->argv[0], ERR_CMD);
 		ft_putendl_fd(": Command not found!!", STDERR_FILENO);
-		return (ERR_CMD);
+		return (1);
 	}
 	return (0);
 }
