@@ -55,6 +55,7 @@ static int check_executable_path(char *path)
 
 static int prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 {
+	struct stat path_stat;
 	int result;
 
 	result = valid_cmd_name(cmd);
