@@ -43,7 +43,7 @@ static int	execute_builtin_with_fork(t_command *cmd, t_minishell *shell)
 	pid = fork();
 	if (pid == 0) 
 	{
-		if (apply_redir(cmd->redirs, shell, 1, 1) == 0)
+		if (apply_redir(cmd->redirs, shell, 1, 1) == -1)
 			exit(1);
 		exit_status = execute_builtin(shell, cmd->argv);
 		if (exit_status == -1)
