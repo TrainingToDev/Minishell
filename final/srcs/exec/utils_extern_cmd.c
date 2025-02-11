@@ -16,9 +16,9 @@ static int check_permissions(char *path, struct stat *path_stat)
 {
 	if (access(path, F_OK) != 0)
 	{
-		print_error(E_DIR, path, ERR_G);
+		print_error(E_DIR, path, ERR_CMD);
 		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-		return (ERR_G);
+		return (ERR_CMD);
 	}
 	if (stat(path, path_stat) == -1)
 	{
