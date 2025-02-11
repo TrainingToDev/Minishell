@@ -68,7 +68,7 @@ int	find_cmd_path(t_command *cmd, t_minishell *shell, char **path)
 	if (!(*path))
 	{
 		print_error(E_CMD, cmd->argv[0], ERR_CMD);
-		ft_putendl_fd(": Command not Found!!", STDERR_FILENO);
+		ft_putendl_fd(": command not Found", STDERR_FILENO);
 		return (1);
 	}
 	return (0);
