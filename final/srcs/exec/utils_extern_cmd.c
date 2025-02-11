@@ -37,15 +37,11 @@ int check_executable_path(char *path)
 	result = check_permissions(path, &path_stat);
 	if (result != 0)
 		return (result);
-
 	if (S_ISDIR(path_stat.st_mode))
     {
-        // if (ft_strchr(path, '/'))
-        // {
-            print_error(E_DIR, path, ERR_DIR);
-            ft_putendl_fd(": Is a directory", STDERR_FILENO);
-            return (ERR_DIR);
-        // }
+        print_error(E_DIR, path, ERR_DIR);
+        ft_putendl_fd(": Is a directory", STDERR_FILENO);
+        return (ERR_DIR);
     }
 	if (access(path, X_OK) != 0)
 	{
@@ -55,48 +51,6 @@ int check_executable_path(char *path)
 	}
 	return (0);
 }
-
-// static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
-// {
-// 	int	result;
-// 	struct stat path_stat;
-
-// 	if (ft_strcmp(cmd->argv[0], ".") == 0)
-// 	{
-// 		print_error(E_DIR, cmd->argv[0], ERR_SYN);
-// 		ft_putendl_fd(": filename argument required", STDERR_FILENO);
-// 		printf("%s: usage: . filename [arguments]\n", cmd->argv[0]);
-// 		return (1);
-// 	}
-// 	if (ft_strcmp(cmd->argv[0], "..") == 0)
-// 	{
-// 		print_error(E_CMD, cmd->argv[0], ERR_CMD);
-// 		ft_putendl_fd(": command not found", STDERR_FILENO);
-// 		return (1);
-// 	}
-// 	if (ft_strchr(cmd->argv[0], '/'))
-// 	{
-// 		result = check_executable_path(cmd->argv[0]);
-// 		if (result != 0)
-// 			return (result);
-// 		*path = ft_strdup(cmd->argv[0]);
-// 		return (0);
-// 	}
-// 	if (stat(cmd->argv[0], &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
-//     {
-//         print_error(E_CMD, cmd->argv[0], ERR_CMD);
-//         ft_putendl_fd(": command not found", STDERR_FILENO);
-//         return (1);
-//     }
-// 	*path = find_command_path(cmd->argv[0], shell->env_list);
-// 	if (!(*path))
-// 	{
-// 		print_error(E_CMD, cmd->argv[0], ERR_CMD);
-// 		ft_putendl_fd(": Command not found!!", STDERR_FILENO);
-// 		return (1);
-// 	}
-// 	return (0);
-// }
 
 static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 {
@@ -110,8 +64,6 @@ static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 		return (ret);
 	return (find_cmd_path(cmd, shell, path));
 }
-
-
 
 static int	process_extern(char *path, t_command *cmd, t_minishell *shell)
 {
