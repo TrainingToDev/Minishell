@@ -84,16 +84,6 @@ static int	special_cases(char *input)
 	if ((input[0] == ':' || input[0] == '!')
 		&& (input[1] == '\0' || input[1] == ' '))
 		return (1);
-	if ((input[0] == '\'' && input[1] == '\'' && input[2] == '\0')
-		|| (input[0] == '"' && input[1] == '"' && input[2] == '\0'))
-	{
-		print_error(E_CMD, "command '' ", ERR_CMD);
-		ft_putstr_fd("not found,", STDERR_FILENO);
-		ft_putstr_fd(" it's not a valid command.", STDERR_FILENO);
-		ft_putstr_fd(" You can try:\n", STDERR_FILENO);
-		ft_putstr_fd("sudo apt install your_cmd\n", STDERR_FILENO);
-		return (1);
-	}
 	if (is_double_par(input))
 		return (1);
 	return (0);

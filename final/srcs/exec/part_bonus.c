@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus_part.c                                       :+:      :+:    :+:   */
+/*   part_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 15:28:01 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/25 15:54:48 by miaandri         ###   ########.fr       */
+/*   Updated: 2025/02/09 20:20:31 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ static pid_t	create_subshell_process(t_ast *ast, t_minishell *shell)
 	}
 	else if (pid == 0)
 	{
+		/*
 		if (ast->command && ast->command->redirs)
 		{
 			if (apply_redir(ast->command->redirs, shell, 1, 0) == -1)
 				exit(1);
 		}
+		*/
 		if (ast->left)
 		{
 			subshell_exit = execute_ast(ast->left, shell);

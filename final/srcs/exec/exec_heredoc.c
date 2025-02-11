@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:24:57 by miaandri          #+#    #+#             */
-/*   Updated: 2025/02/08 08:15:42 by herandri         ###   ########.fr       */
+/*   Updated: 2025/02/09 19:39:43 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

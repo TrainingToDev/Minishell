@@ -43,12 +43,6 @@ static int	handle_word_token(t_parser *parser, t_command *cmd)
 		print_error(E_NOMEM, "Memory allocation failed", ERR_SEGV);
 		return (-1);
 	}
-	if (cleaned_value[0] == '\0')
-	{
-		free(cleaned_value);
-		parser_advance(parser);
-		return (0);
-	}
 	new_argv = expand_argv(cmd, cleaned_value);
 	if (!new_argv)
 	{
@@ -64,7 +58,6 @@ static int	handle_word_token(t_parser *parser, t_command *cmd)
 static int	handle_redirection(t_parser *parser, t_command *cmd, char *input)
 {
 	t_redir	*redir;
-	t_redir	*current;
 
 	redir = parse_io_redirect(parser, input);
 	if (!redir)
@@ -72,15 +65,8 @@ static int	handle_redirection(t_parser *parser, t_command *cmd, char *input)
 		free(cmd->argv);
 		return (-1);
 	}
-	if (!cmd->redirs)
-		cmd->redirs = redir;
-	else
-	{
-		current = cmd->redirs;
-		while (current->next)
-			current = current->next;
-		current->next = redir;
-	}
+	redir->next = cmd->redirs;
+	cmd->redirs = redir;
 	return (0);
 }
 

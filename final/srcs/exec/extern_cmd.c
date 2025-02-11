@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extern_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 08:51:12 by herandri          #+#    #+#             */
-/*   Updated: 2025/02/08 09:39:28 by herandri         ###   ########.fr       */
+/*   Updated: 2025/02/09 20:22:27 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void	exec_child(char *path, t_command *cmd, t_minishell *shell, int f)
 	char	**env_array;
 
 	setup_child();
-
-	if (apply_redir(cmd->redirs, shell, 1, f) == -1)
+	printf(" here %i\n", f);
+	/*if (apply_redir(cmd->redirs, shell, 1, f) == -1)
 	{
-		// print_error(E_DIR, cmd->redirs->filename, ERR_G);
-		// ft_putendl_fd(": No such file or directory!!!", STDERR_FILENO);
+		print_error(E_DIR, cmd->redirs->filename, ERR_G);
+		ft_putendl_fd(": No such file or directory!!!", STDERR_FILENO);
 		exit(1);
-	}
+	}*/
 	env_array = convert_env_list(shell->env_list);
 	execve(path, cmd->argv, env_array);
 	free_str_array(env_array);
@@ -59,35 +59,20 @@ int	exec_parent(pid_t pid, t_minishell *shell)
 	return (exit_status);
 }
 
-int check_dot(t_command *cmd)
+int valid_cmd_name(t_command *cmd)
 {
 	if (ft_strcmp(cmd->argv[0], ".") == 0)
 	{
 		print_error(E_DIR, cmd->argv[0], ERR_SYN);
 		ft_putendl_fd(": filename argument required", STDERR_FILENO);
 		printf("%s: usage: . filename [arguments]\n", cmd->argv[0]);
-		return (1);
+		return (ERR_SYN);
 	}
 	if (ft_strcmp(cmd->argv[0], "..") == 0)
 	{
 		print_error(E_CMD, cmd->argv[0], ERR_CMD);
 		ft_putendl_fd(": command not found", STDERR_FILENO);
-		return (1);
+		return (ERR_CMD);
 	}
 	return (0);
-}
-
-int check_slash(t_command *cmd, char **path)
-{
-	int result;
-
-	if (ft_strchr(cmd->argv[0], '/'))
-	{
-		result = check_executable_path(cmd->argv[0]);
-		if (result != 0)
-			return (result);
-		*path = ft_strdup(cmd->argv[0]);
-		return (0);
-	}
-	return (-1);
 }

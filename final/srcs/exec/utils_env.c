@@ -53,23 +53,3 @@ char	**convert_env_list(t_env_var *env_list)
 	env_array[i] = NULL;
 	return (env_array);
 }
-
-int	find_cmd_path(t_command *cmd, t_minishell *shell, char **path)
-{
-	struct stat	path_stat;
-
-	if (stat(cmd->argv[0], &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
-	{
-		print_error(E_CMD, cmd->argv[0], ERR_CMD);
-		ft_putendl_fd(": command not found", STDERR_FILENO);
-		return (1);
-	}
-	*path = find_command_path(cmd->argv[0], shell->env_list);
-	if (!(*path))
-	{
-		print_error(E_CMD, cmd->argv[0], ERR_CMD);
-		ft_putendl_fd(": command not found", STDERR_FILENO);
-		return (1);
-	}
-	return (0);
-}

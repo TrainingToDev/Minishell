@@ -22,12 +22,20 @@ static int	b_input_redir(t_redir *redirs, t_minishell *shell)
 		if (current->type == REDIR_IN)
 		{
 			if (process_redir_in(current, 0) == -1)
+			{
+				printf("test1\n");
+				print_error(E_DIR, current->filename, ERR_G);
+				ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 				return (-1);
+			}
 		}
 		else if (current->type == REDIR_HEREDOC)
 		{
 			if (process_heredoc(current, shell, 0, 0) == -1)
+			{
+				printf("test2\n");
 				return (-1);
+			}
 		}
 		current = current->next;
 	}
@@ -44,12 +52,18 @@ static int	b_output_redir(t_redir *redirs)
 		if (current->type == REDIR_OUT)
 		{
 			if (process_redir_out(current, 1) == -1)
+			{
+				printf("test3\n");
 				return (-1);
+			}
 		}
 		else if (current->type == REDIR_APPEND)
 		{
 			if (process_redir_append(current, 1) == -1)
+			{
+				printf("test3\n");
 				return (-1);
+			}
 		}
 		current = current->next;
 	}
@@ -63,31 +77,4 @@ int apply_builtins_redir(t_redir *redirs, t_minishell *shell)
 	if (b_output_redir(redirs) == -1)
 		return (-1);
 	return (0);
-}
-
-void	exit_output(t_redir *redirs)
-{
-	t_redir	*current;
-	int		fd;
-	int		flags;
-
-	current = redirs;
-	while (current)
-	{
-		if (current->type == REDIR_OUT)
-		{
-			flags = O_WRONLY | O_CREAT | O_TRUNC;
-			fd = open(current->filename, flags, 0644);
-			if (fd != -1)
-				close(fd);
-		}
-		else if (current->type == REDIR_APPEND)
-		{
-			flags = O_WRONLY | O_CREAT | O_APPEND;
-			fd = open(current->filename, flags, 0644);
-			if (fd != -1)
-				close(fd);
-		}
-		current = current->next;
-	}
 }

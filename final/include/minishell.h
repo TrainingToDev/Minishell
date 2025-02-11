@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 08:50:28 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/31 11:39:30 by herandri         ###   ########.fr       */
+/*   Updated: 2025/02/09 20:14:09 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,23 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <stdbool.h>
+# include <ctype.h>
+# include <dirent.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <errno.h>
-# include <limits.h>
 # include <signal.h>
-# include <dirent.h>
-# include <fcntl.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <termios.h>
 # include <unistd.h>
+# include <limits.h>
 
 # define COLOR_RESET "\033[0m"
 # define COLOR_GREEN "\033[32m"
@@ -65,7 +69,7 @@ typedef enum e_token_type
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
 	TOKEN_UNKNOWN,
-}	t_token_type;
+}						t_token_type;
 
 typedef struct s_token
 {
@@ -88,7 +92,7 @@ typedef enum e_redir_type
 	REDIR_APPEND,
 	REDIR_HEREDOC,
 	REDIR_INVALID
-}	t_redir_type;
+}						t_redir_type;
 
 typedef struct s_redir
 {
@@ -110,7 +114,7 @@ typedef enum e_node_type
 	NODE_AND,
 	NODE_OR,
 	NODE_SUBSHELL
-}	t_node_type;
+}						t_node_type;
 
 typedef struct s_ast
 {
@@ -163,6 +167,7 @@ enum	e_mini_error
 	E_WARNING = 13
 };
 
+// expand struct
 typedef struct s_varinfo
 {
 	const char			*src;
@@ -187,7 +192,7 @@ int						cd(t_minishell *shell, char **args);
 int						echo(t_minishell *shell, char **args);
 int						env(t_minishell *shell, char **args);
 int						ft_exit(t_minishell *shell, char **args);
-int						ft_export(t_minishell *shell, char **args);
+int						export(t_minishell *shell, char **args);
 int						pwd(t_minishell *shell, char **args);
 int						unset(t_minishell *shell, char **args);
 int						is_builtin(const char *cmd_name);
@@ -219,7 +224,7 @@ void		fast_export(t_token *tokens, t_minishell *shell);
 void 		fast_unset(t_token *tokens, t_minishell *shell);
 void		remove_env_var(t_minishell *shell, const char *key);
 
-// lexing
+// lexer
 int				check_operators(t_token *tokens);
 int				check_parentheses(t_token *tokens);
 int				is_disallowed(t_token *tokens);
@@ -267,14 +272,19 @@ t_ast			*parse_cmd(t_parser *parser, char *input);
 t_ast			*parse_subshell(t_parser *parser, char *input);
 t_ast			*parse_conditional(t_parser *parser, t_ast *left, char *input);
 t_ast			*parse(t_token *tokens, char *input);
+
 t_command		*create_cmd(void);
 t_command		*parse_simple_cmd(t_parser *parser, char *input);
 t_command		*parse_simple_cmd(t_parser *parser, char *input);
+
 t_redir			*create_redir(void);
 t_redir			*parse_io_redirect(t_parser *parser, char *input);
+
 t_token			*parser_advance(t_parser *parser);
+
 int				is_token(t_parser *parser, t_token_type type);
 char			*clean_quotes(const char *value);
+
 void			free_ast(t_ast *ast);
 void			print_indentation(int depth);
 void			print_ast(t_ast *ast, int depth);
@@ -290,24 +300,16 @@ int						execute_command(t_command *command, t_minishell *shell,
 int						dir_error(char *path);
 void					exec_child(char *path, t_command *cmd, t_minishell *shell, int f);
 int						exec_parent(pid_t pid, t_minishell *shell);
-int						check_dot(t_command *cmd);
-int						check_slash(t_command *cmd, char **path);
-int						find_cmd_path(t_command *cmd, t_minishell *shell, char **path);
-int						check_executable_path(char *path);
-
-
+int						valid_cmd_name(t_command *cmd);
 
 // redir
 int 			apply_redir(t_redir *redirs, t_minishell *shell, int mode, int f);
 int 			apply_builtins_redir(t_redir *redirs, t_minishell *shell);
-int				open_input(char *filename);
 int 			process_redir_in(t_redir *current, int mode);
 int 			process_redir_out(t_redir *current, int mode);
 int				process_redir_append(t_redir *current, int mode);
 int				process_heredoc(t_redir *cur, t_minishell *shell, int mode, int f);
 int				forked_heredoc(t_hdc *cnt, char *dlim, t_minishell *shell, int c);
-int				exit_input(t_redir *redirs);
-void			exit_output(t_redir *redirs);
 
 // heredoc
 int						check_params(t_hdc *cnt, char *dlim,
@@ -349,7 +351,7 @@ int						get_lines(t_hdc *cnt, char **lines, char *dlim);
 void					print_env_list(t_env_var *env_list);
 void					free_env_list(t_env_var *env_list);
 t_env_var				*convert_envp_to_list(char **envp);
-void					free_env_var(t_env_var *env_var);
+void	free_env_var(t_env_var *env_var);
 
 // signal
 int						status_manager(int new_status, int mode);
@@ -368,5 +370,13 @@ void					cleanup_shell(t_minishell *shell);
 // bonus
 int						execute_conditional(t_ast *ast, t_minishell *shell);
 int						execute_subshell(t_ast *ast, t_minishell *shell);
+
+//redir lalaina
+int redir_in(t_redir *current, t_minishell *shell);
+int redir_out(t_redir *current, t_minishell *shell);
+int	redir_append(t_redir *current, t_minishell *shell);
+int heredoc(t_redir *cur, t_minishell *shell);
+int redirections(t_redir *redirs, t_minishell *shell);
+
 
 #endif

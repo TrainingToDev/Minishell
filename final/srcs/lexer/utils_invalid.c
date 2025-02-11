@@ -21,7 +21,7 @@ int	consecutive_redir_in(const char *input)
 		count++;
 	if (count == 3 || count > 5)
 	{
-		print_error(E_SUP, "Unsupported redirection\n", ERR_G);
+		print_error(E_SUP, "Unsupported redirection", ERR_G);
 		return (1);
 	}
 	if (count == 4)
@@ -51,7 +51,7 @@ int	unsupported_redirs(const char *input)
 	{
 		if (ft_strncmp(input, redirs[i], len) == 0)
 		{
-			print_error(E_SUP, "Unsupported redirection\n", ERR_G);
+			print_error(E_SUP, "Unsupported redirection", ERR_G);
 			return (1);
 		}
 		i++;

@@ -3,84 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:31:57 by miaandri          #+#    #+#             */
-/*   Updated: 2025/02/01 23:42:41 by herandri         ###   ########.fr       */
+/*   Updated: 2025/02/09 20:16:42 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int heredoc_redir(t_redir *redirs, t_minishell *shell, int mode, int f)
+static int heredoc_redir(t_redir *redirs, t_minishell *shell)
 {
-	t_redir *current;
+    t_redir	*current;
+    int ret;
 
 	current = redirs;
-	while (current)
-	{
-		if (current->type == REDIR_HEREDOC)
-		{
-			if (process_heredoc(current, shell, mode, f) == -1)
-				return (-1);
-		}
-		current = current->next;
-	}
-	return (0);
-}
-
-int	apply_redir(t_redir *redirs, t_minishell *shell, int mode, int f)
-{
-	t_redir	*current;
-
-	if (heredoc_redir(redirs, shell, mode, f) == -1)
-		return (-1);
-    current = redirs;
+    ret = 0;
     while (current)
     {
-        if (current->type == REDIR_OUT)
+        if (current->type == REDIR_HEREDOC)
         {
-            if (process_redir_out(current, mode) == -1)
-                return (-1);
-        }
-        else if (current->type == REDIR_APPEND)
-        {
-            if (process_redir_append(current, mode) == -1)
-                return (-1);
-        }
-        else if (current->type == REDIR_IN)
-        {
-            if (process_redir_in(current, mode) == -1)
+            ret = heredoc(current, shell);
+            if (ret < 0)
                 return (-1);
         }
         current = current->next;
     }
-    return (0);
+    return (ret);
 }
 
-int open_input(char *filename)
+static int output_redir(t_redir *redirs, t_minishell *shell)
 {
-	int fd;
+    if (redirs->type == REDIR_APPEND)
+    {
+        if (redir_append(redirs, shell) == -1)
+            return (-1);   
+    }
+    else
+    {
+        if (redir_out(redirs, shell) == -1)
+            return (-1);
+    }
+    return(0);
+}
 
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-	{
-		if (errno == ENOENT)
-		{
-			print_error(E_CMD, filename, ERR_G);
-			ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-		}
-		else if (errno == EACCES)
-		{
-			print_error(E_CMD, filename, ERR_G);
-			ft_putendl_fd(": Permission denied", STDERR_FILENO);
-		}
-		else
-		{
-			print_error(E_CMD, filename, ERR_G);
-			ft_putendl_fd(": error Unknown", STDERR_FILENO);
-		}
-		return (-1);
-	}
-	return (fd);
+int redirections(t_redir *redirs, t_minishell *shell)
+{
+    t_redir *current;
+    int temp;
+
+    current = redirs;
+    temp = heredoc_redir(redirs, shell);
+    if (temp != 0)
+        return(temp);
+    while(current)
+    {
+        if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
+        {
+            if (output_redir(current, shell) == -1)
+                return (-1);
+        }
+        if (current->type == REDIR_IN)
+        {
+            if (redir_in(current, shell) == -1)
+                return (-1);
+        }
+        current = current->next;
+    }
+    return(0);
 }

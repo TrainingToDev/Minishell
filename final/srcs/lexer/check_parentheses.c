@@ -28,7 +28,7 @@ static int	close_parenthesis(t_token *token, int *count)
 	(*count)--;
 	if (token->next && token->next->type == TOKEN_LPAREN)
 	{
-		print_error(E_SYNTAX, "(", ERR_SYN);
+		print_error(E_SUP, "(", ERR_G);
 		return (0);
 	}
 	if (*count < 0)
@@ -60,7 +60,7 @@ static int	validate_parenthesis_count(t_token *tokens, int *count)
 	}
 	if (*count != 0)
 	{
-		print_error(E_SYNTAX, "unmatched parenthesis", ERR_SYN);
+		print_error(E_SUP, "unmatched parenthesis", ERR_G);
 		return (0);
 	}
 	return (1);

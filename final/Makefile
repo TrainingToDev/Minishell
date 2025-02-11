@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+         #
+#    By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/31 13:54:57 by miaandri          #+#    #+#              #
-#    Updated: 2025/01/31 11:14:09 by herandri         ###   ########.fr        #
+#    Updated: 2025/02/09 20:15:03 by miaandri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(EXEC_DIR)/utils_env.c\
 			$(EXEC_DIR)/utils_extern_cmd.c\
 			$(EXEC_DIR)/utils_heredoc.c\
+			$(EXEC_DIR)/utils_redir_2.c\
 			$(EXEC_DIR)/utils_redir.c\
 			$(EXEC_DIR)/part_bonus.c\
 			$(UTILS_DIR)/content_heredoc.c \

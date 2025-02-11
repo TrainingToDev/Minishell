@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 02:05:42 by miaandri          #+#    #+#             */
-/*   Updated: 2025/01/31 11:25:10 by herandri         ###   ########.fr       */
+/*   Updated: 2025/02/09 21:08:33 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	init_minishell(t_minishell *shell, t_env_var *env_list)
 	shell->fd_output = dup(STDOUT_FILENO);
 	if (shell->fd_output == -1)
 	{
-		perror("dup STDOUT");
+		perror("duo STDOUT");
 		exit(1);
 	}
 }
@@ -49,11 +49,6 @@ static char	*get_input(void)
 		return (NULL);
 	}
 	input = prompt_input(prompt);
-	if (!input)
-	{
-		free(prompt);
-		return (NULL);
-	}
 	free(prompt);
 	return (input);
 }
@@ -70,7 +65,6 @@ static t_ast	*process_input(char *input, t_minishell *shell)
 	fast_unset(token_list, shell);
 	mark_heredoc_delimiters(token_list);
 	expand_token_list(token_list, shell);
-	
 	ast_root = parse(token_list, input);
 	free_token_list(token_list);
 	if (!ast_root)
@@ -83,6 +77,7 @@ static void	execute_parsed_ast(t_ast *ast_root, t_minishell *shell)
 	if (!ast_root)
 		return ;
 	execute_ast(ast_root, shell);
+	//printf("here xd \n");
 	free_ast(ast_root);
 }
 
@@ -108,8 +103,10 @@ static void	minishell_loop(t_env_var *env_list)
 		if (!ast_root)
 			continue ;
 		execute_parsed_ast(ast_root, &shell);
+		printf("here xd \n");
 	}
 	cleanup_shell(&shell);
+	//printf("here xd \n");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -122,8 +119,8 @@ int	main(int argc, char **argv, char **envp)
 	env_list = convert_envp_to_list(envp);
 	if (!env_list)
 	{
-		printf("minishell: Failed to initialize environment\n");
-		return (ERR_G);
+		perror("Failed to initialize environment");
+		return (1);
 	}
 	setup_signals();
 	minishell_loop(env_list);

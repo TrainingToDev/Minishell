@@ -21,7 +21,7 @@ int	execute_builtin(t_minishell *shell, char **args)
 	else if (ft_strcmp(args[0], "pwd") == 0)
 		return (pwd(shell, args));
 	else if (ft_strcmp(args[0], "export") == 0)
-		return (ft_export(shell, args));
+		return (export(shell, args));
 	else if (ft_strcmp(args[0], "unset") == 0)
 		return (unset(shell, args));
 	else if (ft_strcmp(args[0], "env") == 0)

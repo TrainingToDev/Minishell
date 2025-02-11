@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 16:02:07 by miaandri          #+#    #+#             */
-/*   Updated: 2025/02/01 23:44:15 by herandri         ###   ########.fr       */
+/*   Updated: 2025/02/09 19:40:55 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ int process_heredoc(t_redir *cur, t_minishell *shell, int mode, int f)
 		return (ret);
 }
 
-int	process_redir_in(t_redir *current, int mode)
+int process_redir_in(t_redir *current, int mode)
 {
 	int	fd;
 
-	fd = open_input(current->filename);
+	fd = open(current->filename, O_RDONLY);
 	if (fd == -1)
 		return (-1);
 	if (mode)
@@ -120,7 +120,6 @@ int	process_redir_append(t_redir *current, int mode)
 	if (fd == -1)
 	{
 		print_error(E_CMD, current->filename, ERR_G);
-		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 		return (-1);
 	}
 	if (mode)

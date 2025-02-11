@@ -27,15 +27,15 @@ static int	is_unsup_output_redir(const char *input)
 	{
 		if (input[2] == '&' && (isdigit(input[3]) || input[3] == '-'))
 		{
-			print_error(E_SUP, "Unsupported redirection\n", ERR_G);
+			print_error(E_SUP, "Unsupported redirection", ERR_G);
 			return (1);
 		}
 		if (input[2] == '&')
 		{
-			print_error(E_SUP, "Unsupported redirection\n", ERR_G);
+			print_error(E_SUP, "Unsupported redirection", ERR_G);
 			return (1);
 		}
-		print_error(E_SUP, "Unsupported redirection\n", ERR_G);
+		print_error(E_SUP, "Unsupported redirection", ERR_G);
 		return (TOKEN_UNKNOWN);
 	}
 	return (0);
@@ -47,15 +47,15 @@ static int	is_unsup_input_redir(const char *input)
 	{
 		if (input[2] == '&' && (isdigit(input[3]) || input[3] == '-'))
 		{
-			print_error(E_SUP, "Unsupported redirection\n", ERR_G);
+			print_error(E_SUP, "Unsupported redirection", ERR_G);
 			return (1);
 		}
-		print_error(E_SUP, "Unsupported redirection\n", ERR_G);
+		print_error(E_SUP, "Unsupported redirection", ERR_G);
 		return (TOKEN_UNKNOWN);
 	}
 	if (input[0] == '<' && input[1] == '&' && isdigit(input[2]))
 	{
-		print_error(E_SUP, "Unsupported redirection\n", ERR_G);
+		print_error(E_SUP, "Unsupported redirection", ERR_G);
 		return (1);
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herandri <herandri@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: miaandri <miaandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:10:52 by miaandri          #+#    #+#             */
-/*   Updated: 2025/02/02 15:10:41 by herandri         ###   ########.fr       */
+/*   Updated: 2025/02/09 21:05:31 by miaandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static int	check_cmd(t_command *cmd)
 {
 	if (!cmd || (!cmd->argv && !cmd->redirs))
 	{
-		// print_error(E_SUP, "Parsing failed!!!\n", ERR_SYN);
-		// status_manager(ERR_G, STATUS_WRITE);
-		return (0);
+		print_error(E_CMD, cmd->argv[0], ERR_CMD);
+		ft_putstr_fd("cmd not found\n", STDERR_FILENO);
+		return (127);
 	}
 	if (!cmd->argv || !cmd->argv[0] || cmd->argv[0][0] == '\0')
 		return (0);
@@ -30,20 +30,20 @@ int	execute_command(t_command *command, t_minishell *shell, int fork_required)
 	int	result;
 
 	result = check_cmd(command);
-	if (result == ERR_SYN)
-		return ERR_SYN;
+	if (result == 127)
+		return 127;
 	if (result == 0)
 	{
 		if (command && command->redirs)
-			return (apply_redir(command->redirs, shell, 0, 1));
+			return (redirections(command->redirs, shell));
 		return (0);
 	}
 	if (is_builtin(command->argv[0]))
 	{
-		// printf("builTIN\n");
+		printf("builTIN\n");
 		return (execute_builtin_cmd(command, shell, fork_required));
 	}
-	// printf("EXEC_EXTERN\n");
+	printf("EXEC_EXTERN\n");
 	return (execute_extern_cmd(command, shell));
 }
 
@@ -73,35 +73,6 @@ static int	execute_pipeline(t_ast *ast, t_minishell *shell)
 	return (wait_for_children(pid_left, pid_right));
 }
 
-
-// static int execute_pipeline(t_ast *ast, t_minishell *shell)
-// {
-// 	int pipefd[2];
-// 	pid_t pid;
-
-// 	if (!ast || ast->type != NODE_PIPE)
-// 		return (execute_ast(ast, shell));
-// 	if (pipe(pipefd) == -1)
-// 		return (1);
-// 	pid = fork();
-// 	if (pid == -1)
-// 	{
-// 		perror("fork");
-// 		close_pipe_descriptors(pipefd);
-// 		return (1);
-// 	}
-// 	if (pid == 0)
-// 	{
-// 		dup2(pipefd[1], STDOUT_FILENO);
-// 		close_pipe_descriptors(pipefd);
-// 		exit(execute_ast(ast->left, shell));
-// 	}
-// 	close(pipefd[1]);
-// 	dup2(pipefd[0], STDIN_FILENO);
-// 	close(pipefd[0]);
-// 	return (execute_ast(ast->right, shell));
-// }
-
 int	execute_ast(t_ast *ast, t_minishell *shell)
 {
 	int	exit_status;
@@ -124,5 +95,7 @@ int	execute_ast(t_ast *ast, t_minishell *shell)
 		ft_putstr_fd("Erreur : Type de nœud AST inconnu\n", 2);
 		exit_status = 1;
 	}
+	//printf("here xd \n");
+	// status_manager(exit_status, STATUS_WRITE);
 	return (exit_status);
 }
