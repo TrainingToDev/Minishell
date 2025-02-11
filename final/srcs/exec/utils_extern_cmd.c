@@ -65,6 +65,8 @@ static int prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 	if (result != 0)
 		return (result);
 	result = direct_path(cmd, path);
+	if (result != 0)
+		return (result);
 	if (result == 0)
 		return (0);
 	if (stat(cmd->argv[0], &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
