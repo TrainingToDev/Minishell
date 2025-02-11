@@ -291,7 +291,8 @@ int						dir_error(char *path);
 void					exec_child(char *path, t_command *cmd, t_minishell *shell, int f);
 int						exec_parent(pid_t pid, t_minishell *shell);
 int						valid_cmd_name(t_command *cmd);
-int check_executable_path(char *path);
+int						check_executable_path(char *path);
+int						direct_path(t_command *cmd, char **path);
 
 
 // redir
