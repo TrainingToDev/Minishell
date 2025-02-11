@@ -61,6 +61,8 @@ int	exec_parent(pid_t pid, t_minishell *shell)
 
 int valid_cmd_name(t_command *cmd)
 {
+	struct stat	path_stat;
+
 	if (ft_strcmp(cmd->argv[0], ".") == 0)
 	{
 		print_error(E_DIR, cmd->argv[0], ERR_SYN);
