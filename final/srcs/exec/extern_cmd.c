@@ -61,8 +61,6 @@ int	exec_parent(pid_t pid, t_minishell *shell)
 
 int valid_cmd_name(t_command *cmd)
 {
-	struct stat	path_stat;
-
 	if (ft_strcmp(cmd->argv[0], ".") == 0)
 	{
 		print_error(E_DIR, cmd->argv[0], ERR_SYN);
@@ -74,12 +72,6 @@ int valid_cmd_name(t_command *cmd)
 	{
 		print_error(E_CMD, cmd->argv[0], ERR_CMD);
 		ft_putendl_fd(": command not found", STDERR_FILENO);
-		return (ERR_CMD);
-	}
-	if (stat(cmd->argv[0], &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
-	{
-		print_error(E_CMD, cmd->argv[0], ERR_CMD);
-		ft_putendl_fd(": Command not found", STDERR_FILENO);
 		return (ERR_CMD);
 	}
 	return (0);

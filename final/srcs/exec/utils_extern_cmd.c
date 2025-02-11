@@ -68,6 +68,12 @@ static int prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 		*path = ft_strdup(cmd->argv[0]);
 		return (0);
 	}
+	if (stat(cmd->argv[0], &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
+    {
+        print_error(E_CMD, cmd->argv[0], ERR_CMD);
+        ft_putendl_fd(": Command not found", STDERR_FILENO);
+        return (ERR_CMD);
+    }
 	*path = find_command_path(cmd->argv[0], shell->env_list);
 	if (!(*path))
 	{
