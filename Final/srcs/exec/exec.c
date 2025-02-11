@@ -35,7 +35,7 @@ int	execute_command(t_command *command, t_minishell *shell, int fork_required)
 	if (result == 0)
 	{
 		if (command && command->redirs)
-			return (apply_redir(command->redirs, shell, 0, 1));
+			return (redirection(command->redirs, shell));
 		return (0);
 	}
 	if (is_builtin(command->argv[0]))

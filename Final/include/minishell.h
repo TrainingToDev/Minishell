@@ -288,7 +288,7 @@ int						execute_ast(t_ast *ast, t_minishell *shell);
 int						execute_command(t_command *command, t_minishell *shell, 
 							int fork_required);
 int						dir_error(char *path);
-void					exec_child(char *path, t_command *cmd, t_minishell *shell, int f);
+void					exec_child(char *path, t_command *cmd, t_minishell *shells);
 int						exec_parent(pid_t pid, t_minishell *shell);
 int						check_dot(t_command *cmd);
 int						check_slash(t_command *cmd, char **path);
@@ -368,5 +368,13 @@ void					cleanup_shell(t_minishell *shell);
 // bonus
 int						execute_conditional(t_ast *ast, t_minishell *shell);
 int						execute_subshell(t_ast *ast, t_minishell *shell);
+
+//lalaina redirection
+int redirections(t_redir *redirs, t_minishell *shell);
+int redirection(t_redir *redirs, t_minishell *shell);
+int heredoc(t_redir *cur, t_minishell *shell);
+int	redir_append(t_redir *current);
+int redir_out(t_redir *current);
+int redir_in(t_redir *current);
 
 #endif

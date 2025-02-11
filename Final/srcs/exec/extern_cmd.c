@@ -21,13 +21,13 @@ int	dir_error(char *path)
 	return (S_ISDIR(path_stat.st_mode));
 }
 
-void	exec_child(char *path, t_command *cmd, t_minishell *shell, int f)
+void	exec_child(char *path, t_command *cmd, t_minishell *shell)
 {
 	char	**env_array;
 
 	setup_child();
 
-	if (apply_redir(cmd->redirs, shell, 1, f) == -1)
+	if (redirections(cmd->redirs, shell) == -1)
 	{
 		// print_error(E_DIR, cmd->redirs->filename, ERR_G);
 		// ft_putendl_fd(": No such file or directory!!!", STDERR_FILENO);

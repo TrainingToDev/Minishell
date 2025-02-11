@@ -72,7 +72,7 @@ int	process_redir_in(t_redir *current, int mode)
 {
 	int	fd;
 
-	fd = open_input(current->filename);
+	fd = open(current->filename, O_RDONLY);
 	if (fd == -1)
 		return (-1);
 	if (mode)

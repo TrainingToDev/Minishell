@@ -68,18 +68,18 @@ static int	prepare_extern_cmd(t_command *cmd, t_minishell *shell, char **path)
 static int	process_extern(char *path, t_command *cmd, t_minishell *shell)
 {
 	pid_t	pid;
-	int		f;
+	//int		f;
 
-	f = 0;
-	if (cmd && cmd->argv && cmd->argv[0] != NULL)
-		f = 0;
-	else
-		f = 1;
+	//f = 0;
+	// if (cmd && cmd->argv && cmd->argv[0] != NULL)
+	// 	f = 0;
+	// else
+	// 	f = 1;
 	if (dir_error(path))
 		return (1);
 	pid = fork();
 	if (pid == 0)
-		exec_child(path, cmd, shell, f);
+		exec_child(path, cmd, shell);
 	else if (pid < 0)
 	{
 		print_error(E_FORK, "fork", ERR_G);

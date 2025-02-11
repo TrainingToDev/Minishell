@@ -75,12 +75,12 @@ SRC_FILES = $(SRC_DIR)/main.c \
 			$(EXEC_DIR)/heredoc_simple.c\
 			$(EXEC_DIR)/path.c\
 			$(EXEC_DIR)/pipe.c\
-			$(EXEC_DIR)/redir_builtins.c\
 			$(EXEC_DIR)/redir.c\
 			$(EXEC_DIR)/utils_env.c\
 			$(EXEC_DIR)/utils_extern_cmd.c\
 			$(EXEC_DIR)/utils_heredoc.c\
 			$(EXEC_DIR)/utils_redir.c\
+			$(EXEC_DIR)/utils_redir_2.c\
 			$(EXEC_DIR)/part_bonus.c\
 			$(UTILS_DIR)/content_heredoc.c \
 			$(UTILS_DIR)/environment.c \

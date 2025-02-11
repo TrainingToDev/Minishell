@@ -16,17 +16,12 @@ static int	execute_builtin_no_fork(t_command *cmd, t_minishell *shell)
 {
 	int	exit_status;
 
-	if (ft_strcmp(cmd->argv[0], "exit") == 0)
-	{
-		if (exit_input(cmd->redirs) == -1)
-			return (1);
-		exit_output(cmd->redirs);
-		return (ft_exit(shell, cmd->argv));
-	}
-	if (apply_builtins_redir(cmd->redirs, shell) == -1)
+	// if (ft_strcmp(cmd->argv[0], "exit") == 0)
+	// 	return (ft_exit(shell, cmd->argv));
+	if (redirections(cmd->redirs, shell) == -1)
 		return (1);
 	exit_status = execute_builtin(shell, cmd->argv);
-	if (dup2(shell->fd_output, STDOUT_FILENO) == -1)
+	if (dup2(shell->fd_output, STDOUT_FILENO) == -1 || dup2(shell->fd_input, STDIN_FILENO) == -1)
 	{
 		print_error(E_DUPFD, "not restore stdout", ERR_G);
 		return (1);
@@ -43,12 +38,17 @@ static int	execute_builtin_with_fork(t_command *cmd, t_minishell *shell)
 	pid = fork();
 	if (pid == 0) 
 	{
-		if (apply_redir(cmd->redirs, shell, 1, 1) == -1)
+		if (redirections(cmd->redirs, shell) == -1)
 			exit(1);
 		exit_status = execute_builtin(shell, cmd->argv);
 		if (exit_status == -1)
 			exit(1);
 		status_manager(exit_status, STATUS_WRITE);
+		if (dup2(shell->fd_output, STDOUT_FILENO) == -1 || dup2(shell->fd_input, STDIN_FILENO) == -1)
+		{
+			print_error(E_DUPFD, "not restore stdout", ERR_G);
+			return (1);
+		}
 		exit(exit_status);
 	}
 	else if (pid < 0)
@@ -70,6 +70,7 @@ int	execute_builtin_cmd(t_command *cmd, t_minishell *shell, int fork_required)
 		return (execute_builtin_with_fork(cmd, shell));
 }
 
+/*
 static int input_error(char *filename)
 {
 	int fd;
@@ -97,7 +98,6 @@ static int input_error(char *filename)
 	close(fd);
 	return (0);
 }
-
 int	exit_input(t_redir *redirs)
 {
 	t_redir	*current;
@@ -114,3 +114,4 @@ int	exit_input(t_redir *redirs)
 	}
 	return (0);
 }
+*/

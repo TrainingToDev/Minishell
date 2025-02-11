@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int redir_in(t_redir *current, t_minishell *shell)
+int redir_in(t_redir *current)
 {
 	int	fd;
 
@@ -23,7 +23,7 @@ int redir_in(t_redir *current, t_minishell *shell)
 		status_manager(1, STATUS_WRITE);
 		return (-1);
 	}
-    if (dup2(STDIN_FILENO, shell->fd_input) == -1 || dup2(fd, STDIN_FILENO) == -1)
+    if (dup2(fd ,STDIN_FILENO) == -1)
     {
         print_error(E_DUPFD, current->filename, ERR_G);
         close(fd);
@@ -33,7 +33,7 @@ int redir_in(t_redir *current, t_minishell *shell)
 	return (0);
 }
 
-int redir_out(t_redir *current, t_minishell *shell)
+int redir_out(t_redir *current)
 {
 	int	fd;
 
@@ -44,7 +44,7 @@ int redir_out(t_redir *current, t_minishell *shell)
 		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 		return (-1);
 	}
-    if (dup2(STDOUT_FILENO,shell->fd_output) == -1 && dup2(fd, STDOUT_FILENO) == -1)
+    if (dup2(fd, STDOUT_FILENO) == -1)
     {
         print_error(E_DUPFD, current->filename, ERR_G);
         close(fd);
@@ -54,7 +54,7 @@ int redir_out(t_redir *current, t_minishell *shell)
 	return (0);
 }
 
-int	redir_append(t_redir *current, t_minishell *shell)
+int	redir_append(t_redir *current)
 {
 	int	fd;
 
@@ -64,7 +64,7 @@ int	redir_append(t_redir *current, t_minishell *shell)
 		print_error(E_CMD, current->filename, ERR_G);
 		return (-1);
 	}
-    if (dup2(STDOUT_FILENO, shell->fd_output) == -1 || dup2(fd, STDOUT_FILENO) == -1)
+    if (dup2(fd, STDOUT_FILENO) == -1)
     {
         print_error(E_DUPFD, current->filename, ERR_G);
         close(fd);
